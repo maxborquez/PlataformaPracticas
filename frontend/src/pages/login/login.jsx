@@ -1,5 +1,4 @@
-import { Grid, Typography } from "@mui/material";
-import React from "react";
+import { Grid} from "@mui/material";
 import Header from "../../components/headers/header";
 import FormularioLogin from "../../components/logincomponents/formularioLogin";
 
@@ -9,7 +8,7 @@ const Login = ()=>{
         <Grid
             sx={{width:"100%"}}
         >
-            <Header/>     
+            <Header/>
             <FormularioLogin/>
 
         </Grid>

@@ -22,7 +22,7 @@ const LoginForm = () => {
     };
 
     return (
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "40vh" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
             <Card sx={{ maxWidth: "400px", width: "90%" }}>
                 <CardContent sx={{ padding: "20px 10px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <Typography sx={{ fontSize: "20px", textAlign: "center", marginBottom: "15px" }}>

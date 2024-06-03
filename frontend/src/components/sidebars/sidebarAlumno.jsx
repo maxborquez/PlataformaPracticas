@@ -87,7 +87,7 @@ const SidebarAlumno = () => {
         },
       }}
     >
-      <ListItemText primary="- Bitácora" />
+      <ListItemText primary="-       Bitácoras semanales" />
     </ListItem>
     <ListItem
       button
@@ -101,7 +101,7 @@ const SidebarAlumno = () => {
         },
       }}
     >
-      <ListItemText primary="- Informe" />
+      <ListItemText primary="-Informe de practica" />
     </ListItem>
     <ListItem
       button
@@ -115,7 +115,7 @@ const SidebarAlumno = () => {
         },
       }}
     >
-      <ListItemText primary="- Evaluación de Empresa" />
+      <ListItemText primary="- Evaluación de Empresa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
     </ListItem>
   </List>
 </Collapse>

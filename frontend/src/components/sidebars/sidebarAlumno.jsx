@@ -50,79 +50,96 @@ const SidebarAlumno = () => {
         position: "fixed",
       }}
     >
-      <ListItem button onClick={() => navigate("/alumno")}>
-        <ListItemText sx={{ textAlign: "center" }} primary="Ofertas de practica" />
-      </ListItem>
       <ListItem button onClick={() => navigate("/perfil")}>
         <ListItemText sx={{ textAlign: "center" }} primary="Perfil" />
       </ListItem>
+      <ListItem button onClick={() => navigate("/alumno")}>
+        <ListItemText
+          sx={{ textAlign: "center" }}
+          primary="Ofertas de practica"
+        />
+      </ListItem>
 
-    <ListItem
-  button
-  onClick={handleDropdown}
-  sx={{
-    textAlign: "center", // Mantener la alineación centrada
-    "&:hover": {
-      backgroundColor: open ? "#425063" : "", // Cambiar el color de fondo en hover si está abierto
-      color: open ? "white" : "", // Cambiar el color del texto en hover si está abierto
-    },
-  }}
->
-  <ListItemText primary="Práctica" />
-  <ArrowDropDown />
-</ListItem>
-<Collapse in={open} timeout="auto" unmountOnExit>
-  <List component="div" disablePadding>
-    <ListItem
-      button
-      onClick={() =>
-        navigate(`/showbitalumno/${comprobar.data.id_inscripcion}`)
-      }
-      sx={{
-        textAlign: "center",
-        backgroundColor: "#495970", // Cambiar color de fondo a gris claro
-        color: "white", // Cambiar color de texto a negro
-        "&:hover": {
-          backgroundColor: "#425063", // Mantener el color de fondo constante en hover
-        },
-      }}
-    >
-      <ListItemText primary="-       Bitácoras semanales" />
-    </ListItem>
-    <ListItem
-      button
-      onClick={() => navigate("/informe")}
-      sx={{
-        textAlign: "center",
-        backgroundColor: "#495970", // Cambiar color de fondo a gris claro
-        color: "white", // Cambiar color de texto a negro
-        "&:hover": {
-          backgroundColor: "#425063", // Mantener el color de fondo constante en hover
-        },
-      }}
-    >
-      <ListItemText primary="-Informe de practica" />
-    </ListItem>
-    <ListItem
-      button
-      onClick={() => navigate("/evaluacion")}
-      sx={{
-        textAlign: "center",
-        backgroundColor: "#495970", // Cambiar color de fondo a gris claro
-        color: "white", // Cambiar color de texto a negro
-        "&:hover": {
-          backgroundColor: "#425063", // Mantener el color de fondo constante en hover
-        },
-      }}
-    >
-      <ListItemText primary="- Evaluación de Empresa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
-    </ListItem>
-  </List>
-</Collapse>
+      <ListItem button onClick={() => navigate("/inscribir_empresa")}>
+        <ListItemText
+          sx={{ textAlign: "center" }}
+          primary="Inscribir empresa"
+        />
+      </ListItem>
+      <ListItem button onClick={() => navigate("/inscribir")}>
+        <ListItemText
+          sx={{ textAlign: "center" }}
+          primary="Inscribir práctica"
+        />
+      </ListItem>
 
       <ListItem button onClick={() => navigate("/aptitudes")}>
         <ListItemText sx={{ textAlign: "center" }} primary="Aptitudes" />
       </ListItem>
+
+      <ListItem
+        button
+        onClick={handleDropdown}
+        sx={{
+          textAlign: "center", // Mantener la alineación centrada
+          "&:hover": {
+            backgroundColor: open ? "#425063" : "", // Cambiar el color de fondo en hover si está abierto
+            color: open ? "white" : "", // Cambiar el color del texto en hover si está abierto
+          },
+        }}
+      >
+        <ListItemText primary="&nbsp;&nbsp;&nbsp;&nbsp;Documentos" />
+        <ArrowDropDown />
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem
+            button
+            onClick={() =>
+              navigate(`/showbitalumno/${comprobar.data.id_inscripcion}`)
+            }
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#495970", // Cambiar color de fondo a gris claro
+              color: "white", // Cambiar color de texto a negro
+              "&:hover": {
+                backgroundColor: "#425063", // Mantener el color de fondo constante en hover
+              },
+            }}
+          >
+            <ListItemText primary="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bitácoras semanales&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
+          </ListItem>
+          <ListItem
+            button
+            onClick={() => navigate("/informe")}
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#495970", // Cambiar color de fondo a gris claro
+              color: "white", // Cambiar color de texto a negro
+              "&:hover": {
+                backgroundColor: "#425063", // Mantener el color de fondo constante en hover
+              },
+            }}
+          >
+            <ListItemText primary="Informe de practica" />
+          </ListItem>
+          <ListItem
+            button
+            onClick={() => navigate("/evaluacion")}
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#495970", // Cambiar color de fondo a gris claro
+              color: "white", // Cambiar color de texto a negro
+              "&:hover": {
+                backgroundColor: "#425063", // Mantener el color de fondo constante en hover
+              },
+            }}
+          >
+            <ListItemText primary="Evaluación de Empresa" />
+          </ListItem>
+        </List>
+      </Collapse>
+
       <ListItem button onClick={logout}>
         <ListItemText
           sx={{

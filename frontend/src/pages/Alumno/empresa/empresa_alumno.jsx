@@ -13,8 +13,7 @@ const EmpresaAlumno = () => {
 
       {/* Contenido principal */}
       <Grid container item xs={12} sx={{ marginTop: '-90px' }}>
-        {/* Sidebar */}
-        <Grid item xs={3} sx={{ position: "sticky", top: 0, zIndex: 1, overflowY: "auto", marginTop: '-45px' }}>
+        <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1000 }}>
           <SidebarProfesional />
         </Grid>
 

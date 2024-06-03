@@ -1,3 +1,4 @@
+// DashboardProfesional.js
 import {
   Button,
   Card,
@@ -29,12 +30,6 @@ const DashboardProfesional = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    /*
-        queryclient.refetchQueries("lpractica1ieci")
-        queryclient.refetchQueries("lpractica2ieci")
-        queryclient.refetchQueries("lpractica1icinf")
-        queryclient.refetchQueries("lpractica2icinf")
-        */
     getListadoPractica1ICINF.refetch();
     getListadoPractica2ICINF.refetch();
     getListadoPractica1IECI.refetch();
@@ -50,7 +45,7 @@ const DashboardProfesional = () => {
         id_asignatura: 620509,
       }
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       if (!response.data.alumnos_ieci) {
         Swal.fire({
           title: "Error",
@@ -71,7 +66,7 @@ const DashboardProfesional = () => {
         id_periodo: periodo_academico,
       }
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       return response.data;
     }
   });
@@ -84,10 +79,11 @@ const DashboardProfesional = () => {
         id_periodo: periodo_academico,
       }
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       return response.data;
     }
   });
+
   const getListadoPractica2ICINF = useQuery("lpractica2icinf", async () => {
     const response = await clienteAxios.post(
       "/inscripcion/listadopractica2icinf",
@@ -96,7 +92,7 @@ const DashboardProfesional = () => {
         id_periodo: periodo_academico,
       }
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       return response.data;
     }
   });
@@ -104,16 +100,13 @@ const DashboardProfesional = () => {
   return (
     <Grid container direction="column">
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-        {/* Header */}
         <HeaderProfesional />
       </Grid>
-      <Grid container item>
-        {/* Sidebar a la izquierda */}
-        <Grid item xs={3} sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+      <Grid container item sx={{ marginTop: '64px' }}>
+        <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1000 }}>
           <SidebarProfesional />
         </Grid>
-        {/* Contenido a la derecha */}
-        <Grid item xs={9}>
+        <Grid item xs={9} sx={{ marginLeft: '250px' }}>
           <Typography
             variant="h6"
             sx={{
@@ -231,13 +224,13 @@ const DashboardProfesional = () => {
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
                   Práctica profesional 1
                 </Typography>
-                {getListadoPractica1IECI.status == "success" && (
+                {getListadoPractica1IECI.status === "success" && (
                   <Typography variant="h6" sx={{ textAlign: "center" }}>
                     Alumnos inscritos:{" "}
                     {getListadoPractica1IECI.data.cantidad_alumnos}{" "}
                   </Typography>
                 )}
-                {getListadoPractica1IECI.status == "success" && (
+                {getListadoPractica1IECI.status === "success" && (
                   <Button
                     onClick={() => {
                       navigate(
@@ -266,17 +259,17 @@ const DashboardProfesional = () => {
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
                   Práctica profesional 2
                 </Typography>
-                {getListadoPractica2IECI.status == "success" && (
+                {getListadoPractica2IECI.status === "success" && (
                   <Typography variant="h6" sx={{ textAlign: "center" }}>
                     Alumnos inscritos:{" "}
-                    {getListadoPractica2IECI.data.cantidad_alumnos}{" "}
+                    {getListadoPractica2IECI.data.cantidad_alumnos}
                   </Typography>
                 )}
-                {getListadoPractica2IECI.status == "success" && (
+                {getListadoPractica2IECI.status === "success" && (
                   <Button
                     onClick={() => {
                       navigate(
-                        `/estadopracticas/${anio}/${periodo_academico}/620520/${getListadoPractica2IECI.data.carrera}`
+                        `/estadopracticas/${anio}/${periodo_academico}/620512/${getListadoPractica2IECI.data.carrera}`
                       );
                     }}
                     variant="contained"
@@ -288,14 +281,14 @@ const DashboardProfesional = () => {
             </Grid>
           </Grid>
           <Typography
-            variant="h5"
+            variant="h6"
             sx={{
               textAlign: "center",
               marginTop: "10px",
               fontSize: { xs: "1.3rem", sm: "1.4rem" },
             }}
           >
-            Ingeniería Civil en Informática{" "}
+            Ingeniería Civil en Informática
           </Typography>
           <Grid
             container
@@ -304,15 +297,14 @@ const DashboardProfesional = () => {
               display: "flex",
               justifyContent: "center",
               marginTop: "10px",
-              marginBottom: "20px",
             }}
           >
             <Grid item xs={11} xl={5} lg={5} md={5} sm={10}>
               <Card
                 sx={{
                   paddingTop: "20px",
-                  paddingBottom: "40px",
                   backgroundColor: "#f4f5f7",
+                  paddingBottom: "40px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -322,17 +314,17 @@ const DashboardProfesional = () => {
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
                   Práctica profesional 1
                 </Typography>
-                {getListadoPractica1ICINF.status == "success" && (
+                {getListadoPractica1ICINF.status === "success" && (
                   <Typography variant="h6" sx={{ textAlign: "center" }}>
                     Alumnos inscritos:{" "}
                     {getListadoPractica1ICINF.data.cantidad_alumnos}{" "}
                   </Typography>
                 )}
-                {getListadoPractica1ICINF.status == "success" && (
+                {getListadoPractica1ICINF.status === "success" && (
                   <Button
                     onClick={() => {
                       navigate(
-                        `/estadopracticas/${anio}/${periodo_academico}/620509/${getListadoPractica1ICINF.data.carrera}`
+                        `/estadopracticas/${anio}/${periodo_academico}/620510/${getListadoPractica1ICINF.data.carrera}`
                       );
                     }}
                     variant="contained"
@@ -357,17 +349,17 @@ const DashboardProfesional = () => {
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
                   Práctica profesional 2
                 </Typography>
-                {getListadoPractica2ICINF.status == "success" && (
+                {getListadoPractica2ICINF.status === "success" && (
                   <Typography variant="h6" sx={{ textAlign: "center" }}>
                     Alumnos inscritos:{" "}
-                    {getListadoPractica2ICINF.data.cantidad_alumnos}{" "}
+                    {getListadoPractica2ICINF.data.cantidad_alumnos}
                   </Typography>
                 )}
-                {getListadoPractica2ICINF.status == "success" && (
+                {getListadoPractica2ICINF.status === "success" && (
                   <Button
                     onClick={() => {
                       navigate(
-                        `/estadopracticas/${anio}/${periodo_academico}/620520/${getListadoPractica2ICINF.data.carrera}`
+                        `/estadopracticas/${anio}/${periodo_academico}/620511/${getListadoPractica2ICINF.data.carrera}`
                       );
                     }}
                     variant="contained"

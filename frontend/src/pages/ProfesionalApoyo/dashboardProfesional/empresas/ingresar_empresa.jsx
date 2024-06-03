@@ -38,7 +38,7 @@ const IngresarEmpresa = () => {
         <HeaderProfesional />
       </Grid>
 
-      <Grid item xs={3} sx={{ position: 'sticky', top: '64px', maxHeight: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+      <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1000 }}>
         <SidebarProfesional />
       </Grid>
 

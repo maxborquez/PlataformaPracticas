@@ -18,8 +18,7 @@ const InscripcionesPendientes = () => {
 
       {/* Contenido principal */}
       <Grid container item xs={12} sx={{ marginTop: '-110px' }}>
-        {/* Sidebar */}
-        <Grid item xs={3} sx={{ position: "sticky", top: 0, zIndex: 1, maxHeight: "100", overflowY: "auto", marginTop: '-198px' }}>
+        <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1000 }}>
           <SidebarProfesional />
         </Grid>
 

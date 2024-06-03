@@ -35,7 +35,27 @@ const SidebarProfesional = () => {
       }}
     >
       <ListItem button onClick={() => navigate("/dashboard")}>
-        <ListItemText sx={{ textAlign: "center" }} primary="Inicio" />
+        <ListItemText sx={{ textAlign: "center" }} primary="Prácticas" />
+      </ListItem>
+
+      <ListItem button onClick={() => navigate("/ofertapracticas")}>
+        <ListItemText
+          primary="Ofertas de Práctica"
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            flexWrap: "nowrap",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        ></ListItemText>
+      </ListItem>
+
+      <ListItem button onClick={() => navigate("/ins_pendientes")}>
+        <ListItemText
+          sx={{ textAlign: "center" }}
+          primary="Inscripciones pendientes"
+        />
       </ListItem>
 
       <ListItem
@@ -57,13 +77,13 @@ const SidebarProfesional = () => {
               textAlign: "center",
               backgroundColor: "#495970", // Cambiar color de fondo a gris claro
               color: "white", // Cambiar color de texto a negro
-              '&:hover': {
-                backgroundColor: '#425063',
-                color: "white" // Mantener el color de fondo constante en hover
+              "&:hover": {
+                backgroundColor: "#425063",
+                color: "white", // Mantener el color de fondo constante en hover
               },
             }}
           >
-            <ListItemText primary="- Centros de práctica" />
+            <ListItemText primary="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Centros de práctica&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
           </ListItem>
           <ListItem
             button
@@ -72,35 +92,17 @@ const SidebarProfesional = () => {
               textAlign: "center",
               backgroundColor: "#495970", // Cambiar color de fondo a gris claro
               color: "white", // Cambiar color de texto a negro
-              '&:hover': {
-                backgroundColor: '#425063',
-                color: "white" // Mantener el color de fondo constante en hover
+              "&:hover": {
+                backgroundColor: "#425063",
+                color: "white", // Mantener el color de fondo constante en hover
               },
             }}
           >
-            <ListItemText primary="- Recomendaciones alumnos" />
+            <ListItemText primary="Recomendaciones" />
           </ListItem>
         </List>
       </Collapse>
 
-      <ListItem button onClick={() => navigate("/ofertapracticas")}>
-        <ListItemText
-          primary="Oferta Prácticas"
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            flexWrap: "nowrap",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        ></ListItemText>
-      </ListItem>
-      <ListItem button onClick={() => navigate("/ins_pendientes")}>
-        <ListItemText
-          sx={{ textAlign: "center" }}
-          primary="Inscripciones pendientes"
-        />
-      </ListItem>
       <ListItem button onClick={logout}>
         <ListItemText
           sx={{

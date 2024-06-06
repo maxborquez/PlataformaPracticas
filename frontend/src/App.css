@@ -6,3 +6,21 @@
 .sweetalert_container{
   z-index: 9999;
 }
+
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
+}
+
+@media (min-width: 901px) {
+  .sidebar {
+    display: block;
+  }
+  .menu-button {
+    display: none;
+  }
+}

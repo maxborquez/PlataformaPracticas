@@ -34,7 +34,7 @@ const SidebarProfesional = () => {
         position: "fixed",
       }}
     >
-      <ListItem button onClick={() => navigate("/dashboard")}>
+      <ListItem button onClick={() => navigate("/practicas")}>
         <ListItemText sx={{ textAlign: "center" }} primary="Prácticas" />
       </ListItem>
 
@@ -62,7 +62,7 @@ const SidebarProfesional = () => {
         button
         onClick={handleEmpresaDropdown}
         sx={{
-          textAlign: "center", // Cambiar color de texto a azul claro si está abierto
+          textAlign: "center", 
         }}
       >
         <ListItemText primary="Empresas" />
@@ -75,11 +75,11 @@ const SidebarProfesional = () => {
             onClick={() => navigate("/empresas")}
             sx={{
               textAlign: "center",
-              backgroundColor: "#495970", // Cambiar color de fondo a gris claro
-              color: "white", // Cambiar color de texto a negro
+              backgroundColor: "#495970", 
+              color: "white", 
               "&:hover": {
                 backgroundColor: "#425063",
-                color: "white", // Mantener el color de fondo constante en hover
+                color: "white", 
               },
             }}
           >
@@ -90,11 +90,11 @@ const SidebarProfesional = () => {
             onClick={() => navigate("/empresa_alumno")}
             sx={{
               textAlign: "center",
-              backgroundColor: "#495970", // Cambiar color de fondo a gris claro
-              color: "white", // Cambiar color de texto a negro
+              backgroundColor: "#495970", 
+              color: "white", 
               "&:hover": {
                 backgroundColor: "#425063",
-                color: "white", // Mantener el color de fondo constante en hover
+                color: "white", 
               },
             }}
           >

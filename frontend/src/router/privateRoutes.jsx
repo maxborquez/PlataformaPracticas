@@ -25,6 +25,7 @@ import BitAlumnoRender from "../pages/Alumno/BitacoraAlumno/CreateBitacoAlumno/B
 import RenderBitaAlumno from "../pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderBitaAlumno";
 import RenderDetailsAlumno from "../pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno";
 import EditingBitAlumno from "../pages/Alumno/BitacoraAlumno/ModificarAlumno/EditingBitAlumno";
+import Practicas from "../pages/ProfesionalApoyo/dashboardProfesional/practicas/practicas";
 
 import AptitudesAlumno from "../pages/ProfesionalApoyo/dashboardProfesional/aptitudes_alumno/AptitudesAlumno";
 import BitacorasAlumno from "../pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/bitacorasAlumno";
@@ -49,7 +50,7 @@ const PrivateRoutes = ()=>{
             <Routes>
 
                 <Route element={<ProtectedRoute user={user} />}>
-                    <Route path="/dashboard" element={<DashboardAlumno/>} />  
+                    <Route path="/dashboard" element={<DashboardAlumno/>} /> 
                     <Route path="/perfil" element={<PerfilAlumno/>} />
                     <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica/>} />
                     <Route path="/detalleinscripcion/:id" element={<DetalleInscripcion/>}/>
@@ -90,6 +91,7 @@ const PrivateRoutes = ()=>{
                 <Route path="/aptitudes/:id" element={<AptitudesAlumno/>} />
                 <Route path="/bitacoras/:id" element={<BitacorasAlumno/>} />
                 <Route path="/detallebitacora/:id" element={<DetalleBitacora/>} />
+                <Route path="/practicas" element={<Practicas/>} />
             </Routes>
         )
     }

@@ -88,7 +88,7 @@ const FormularioModificar = ({ id }) => {
                 },
             });
             setTimeout(() => {
-                navigate("/empresas");
+                navigate("/centros_practicas");
                 Swal.close();
             }, 2000);
         }

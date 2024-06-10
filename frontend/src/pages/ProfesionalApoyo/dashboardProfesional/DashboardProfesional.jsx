@@ -46,14 +46,13 @@ const DashboardProfesional = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: 'calc(100vh - 64px)',
             transition: 'margin-left 0.3s',
           }}
         >
           <img
             src="/logo-color.png"
             alt="Logo"
-            style={{ opacity: 0.25, maxWidth: '100%', maxHeight: '100%' }}
+            style={{ opacity: 0.25, maxWidth: '50%', maxHeight: '80%' }} // Aquí se ajusta el tamaño de la imagen
           />
         </Grid>
       </Grid>

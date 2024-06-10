@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Button } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import HeaderProfesional from "../../../../components/headers/headerProfesional";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
-import { useParams } from "react-router-dom";
 import FormularioModificar from "./components/formularioModificar";
 
 const ModificarEmpresa = () => {
   const { id } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -30,15 +31,19 @@ const ModificarEmpresa = () => {
     };
   }, []);
 
+  const handleBack = () => {
+    navigate('/centros_practicas');
+  };
+
   return (
-    <Grid container sx={{ height: "100vh" }}>
+    <Grid container sx={{ position: 'relative' }}>
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000, width: '100%' }}>
         <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
       </Grid>
 
-      <Grid container item sx={{ marginTop: '80px', height: 'calc(100vh - 80px)' }}>
+      <Grid container item sx={{ marginTop: '80px'}}>
         {sidebarOpen && (
-          <Grid item sx={{ position: 'fixed', top: '80px', left: 0, width: '250px', zIndex: 1200, height: 'calc(100vh - 80px)', backgroundColor: '#36465d' }}>
+          <Grid item sx={{ position: 'fixed', top: '80px', left: 0, width: '250px', zIndex: 1200, backgroundColor: '#36465d' }}>
             <SidebarProfesional />
           </Grid>
         )}
@@ -50,7 +55,10 @@ const ModificarEmpresa = () => {
           justifyContent="center"
           sx={{ transition: 'margin-left 0.3s', marginLeft: isWideScreen ? '250px' : '0px' }}
         >
-          <Grid item sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+          <Grid item sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-end", mb: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleBack} sx={{ mb: 2, mr: 10 }}>
+              Volver
+            </Button>
             <FormularioModificar id={id} />
           </Grid>
         </Grid>

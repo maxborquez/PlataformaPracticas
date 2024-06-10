@@ -1,5 +1,6 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import HeaderProfesional from "../../../../../components/headers/headerProfesional";
 import FormularioIngresar from "./FormularioIngresar";
 import { Work } from "@mui/icons-material";
@@ -8,6 +9,7 @@ import SidebarProfesional from "../../../../../components/sidebars/sidebarProfes
 const CrearOferta = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -28,6 +30,10 @@ const CrearOferta = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleBack = () => {
+    navigate('/ofertapracticas');
+  };
 
   return (
     <Grid container sx={{ width: "100%", position: "relative" }}>
@@ -67,6 +73,11 @@ const CrearOferta = () => {
           Crear Oferta Práctica Profesional{" "}
           <Work style={{ marginTop: "2px", marginLeft: "5px" }} />
         </Typography>
+        <Grid container justifyContent="flex-end" sx={{ paddingRight: 2, mb: 2 }}>
+          <Button variant="contained" color="primary" onClick={handleBack} sx={{ paddingRight: 2, mr: 14 }}>
+            Volver
+          </Button>
+        </Grid>
         <FormularioIngresar />
       </Grid>
     </Grid>

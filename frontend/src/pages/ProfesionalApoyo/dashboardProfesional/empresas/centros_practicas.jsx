@@ -31,14 +31,14 @@ const CentrosPracticas = () => {
   }, []);
 
   return (
-    <Grid container sx={{ height: "100vh" }}>
+    <Grid container sx={{ height: "100vh", overflowY: "auto"  }}>
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000, width: '100%' }}>
         <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
       </Grid>
 
-      <Grid container item sx={{ marginTop: '80px', height: 'calc(100vh - 80px)' }}>
+      <Grid container item sx={{ marginTop: '0' }}>
         {sidebarOpen && (
-          <Grid item sx={{ position: 'fixed', top: '80px', left: 0, width: '250px', zIndex: 1200, height: 'calc(100vh - 80px)', backgroundColor: '#36465d' }}>
+          <Grid item sx={{ position: 'fixed', top: '80px', left: 0, width: '250px', zIndex: 1200, backgroundColor: '#36465d' }}>
             <SidebarProfesional />
           </Grid>
         )}
@@ -48,11 +48,11 @@ const CentrosPracticas = () => {
           xs={12}
           container
           justifyContent="center"
-          sx={{ transition: 'margin-left 0.3s', marginLeft: isWideScreen ? '250px' : '0px'}}
+          sx={{ transition: 'margin-left 0.3s', marginLeft: isWideScreen ? '250px' : '0px', paddingTop: '0px' }}
         >
-          <Grid item>
-            <Button sx={{ marginLeft: "10px", marginTop: "10px" }} variant="contained" onClick={() => navigate("/ingresar_empresa")}>
-              Ingresa empresa page
+          <Grid item sx={{ marginBottom: "20px", marginTop: "10px" }}>
+            <Button variant="contained" onClick={() => navigate("/ingresar_empresa")}>
+              Ingresar nueva empresa
             </Button>
           </Grid>
           <TableEmpresa sx={{ width: '100%', overflowX: 'hidden' }} />

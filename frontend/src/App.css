@@ -1,15 +1,22 @@
-*{
+/* App.css */
+* {
   margin: 0px;
   padding: 0px;
 }
 
-.sweetalert_container{
+.sweetalert_container {
   z-index: 9999;
 }
 
 @media (max-width: 900px) {
   .sidebar {
-    display: none;
+    display: block;
+    width: 250px;
+    position: fixed;
+    top: 80px;
+    height: calc(100vh - 80px);
+    z-index: 1200;
+    background-color: #36465d;
   }
   .menu-button {
     display: block;
@@ -23,4 +30,10 @@
   .menu-button {
     display: none;
   }
+}
+
+/* Add a semi-transparent background to the sidebar when it's open */
+.sidebar-open {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1200; /* Ensure the sidebar is above other content */
 }

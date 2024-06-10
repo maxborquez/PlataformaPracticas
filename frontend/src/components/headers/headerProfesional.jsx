@@ -5,12 +5,6 @@ import logoubb from "../../assets/logoubb.png";
 import { useNavigate } from "react-router-dom";
 
 const HeaderProfesional = ({ toggleSidebar, isWideScreen }) => {
-  const navigate = useNavigate();
-
-  const handleGoBack = () => {
-    navigate(-1);
-  };
-
   return (
     <Grid container sx={{ zIndex: 10 }}>
       <Grid
@@ -44,13 +38,6 @@ const HeaderProfesional = ({ toggleSidebar, isWideScreen }) => {
           src={logoubb}
           alt="Logo"
         />
-        <IconButton
-          onClick={handleGoBack}
-          color="inherit"
-          sx={{ backgroundColor: "white", borderRadius: 0, padding: 1 }}
-        >
-          <ArrowBackIcon />
-        </IconButton>
       </Grid>
     </Grid>
   );

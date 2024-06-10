@@ -21,7 +21,7 @@ import { Checklist } from "@mui/icons-material";
 const Practicas = () => {
   const [anio, setanio] = useState(2023);
   const [periodo_academico, setPeriodo] = useState(1);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const navigate = useNavigate();
   const queryclient = useQueryClient();
@@ -32,14 +32,14 @@ const Practicas = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const zoomThreshold = 900; // User-defined value for zoom threshold
+      const zoomThreshold = 900;
       setIsWideScreen(window.innerWidth >= zoomThreshold);
       setSidebarOpen(window.innerWidth < zoomThreshold ? false : true);
     };
 
     window.addEventListener("resize", handleResize);
 
-    handleResize(); // Check the screen size on mount
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -120,13 +120,21 @@ const Practicas = () => {
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
       </Grid>
-      <Grid container item sx={{ marginTop: '64px' }}>
+      <Grid container item>
         {sidebarOpen && (
-          <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1000 }}>
+          <Grid item sx={{ position: 'fixed', top: '80px', zIndex: 1200 }}>
             <SidebarProfesional />
           </Grid>
         )}
-        <Grid item xs={sidebarOpen ? 9 : 12} sx={{ marginLeft: sidebarOpen ? '250px' : '0px' }}>
+        <Grid
+          item
+          xs
+          sx={{
+            marginLeft: sidebarOpen && isWideScreen ? '250px' : '0px',
+            transition: 'margin-left 0.3s',
+            padding: '20px',
+          }}
+        >
           <Typography
             variant="h6"
             sx={{

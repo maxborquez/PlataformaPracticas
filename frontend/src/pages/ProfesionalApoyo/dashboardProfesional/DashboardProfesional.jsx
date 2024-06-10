@@ -4,7 +4,7 @@ import HeaderProfesional from "../../../components/headers/headerProfesional";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 
 const DashboardProfesional = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
 
   const toggleSidebar = () => {
@@ -13,15 +13,14 @@ const DashboardProfesional = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      // Assuming 175% zoom means window.innerWidth < 1150 for typical 1920px wide screen
-      const zoomThreshold = 900; 
+      const zoomThreshold = 900;
       setIsWideScreen(window.innerWidth >= zoomThreshold);
       setSidebarOpen(window.innerWidth < zoomThreshold ? false : true);
     };
 
     window.addEventListener("resize", handleResize);
 
-    handleResize(); // Check the screen size on mount
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -35,19 +34,20 @@ const DashboardProfesional = () => {
       </Grid>
       <Grid container item sx={{ marginTop: '64px' }}>
         {sidebarOpen && (
-          <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1000 }}>
+          <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1200 }}>
             <SidebarProfesional />
           </Grid>
         )}
         <Grid
           item
-          xs={sidebarOpen ? 9 : 12}
+          xs={12}
           sx={{
-            marginLeft: sidebarOpen ? '250px' : '0px',
+            marginLeft: isWideScreen ? '250px' : '0px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             height: 'calc(100vh - 64px)',
+            transition: 'margin-left 0.3s',
           }}
         >
           <img

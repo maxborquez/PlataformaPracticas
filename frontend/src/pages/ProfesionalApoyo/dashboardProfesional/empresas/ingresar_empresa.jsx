@@ -1,63 +1,51 @@
-import React, { useState } from 'react';
-import { Grid, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid } from '@mui/material';
 import HeaderProfesional from '../../../../components/headers/headerProfesional';
 import SidebarProfesional from '../../../../components/sidebars/sidebarProfesional';
-import { useNavigate } from 'react-router-dom';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import clienteAxios from "../../../../helpers/clienteaxios";
+import FormularioEmpresa from './components/formulario_empresa';
 
 const IngresarEmpresa = () => {
-  const [rutEmpresa, setRutEmpresa] = useState('');
-  const [razonSocial, setRazonSocial] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [centroPractica, setCentroPractica] = useState('Si');
-  const [correo, setCorreo] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [comuna, setComuna] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isWideScreen, setIsWideScreen] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Datos enviados:', {
-      rutEmpresa,
-      razonSocial,
-      direccion,
-      centroPractica,
-      correo,
-      telefono,
-      comuna,
-    });
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const zoomThreshold = 900;
+      setIsWideScreen(window.innerWidth >= zoomThreshold);
+      setSidebarOpen(window.innerWidth < zoomThreshold ? false : true);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Grid container sx={{ height: '100vh', position: 'relative' }}>
-      <Grid item xs={12}>
-        <HeaderProfesional />
+      <Grid item xs={12} sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
+        <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
       </Grid>
 
-      <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1000 }}>
-        <SidebarProfesional />
-      </Grid>
+      {/* Sidebar */}
+      {sidebarOpen && (
+        <Grid item sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
+          <SidebarProfesional />
+        </Grid>
+      )}
 
-      <Grid item xs={9} sx={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px', overflowX: 'hidden' }}>
-          <TextField label="Rut Empresa" value={rutEmpresa} onChange={(e) => setRutEmpresa(e.target.value)} fullWidth margin="normal" />
-          <TextField label="Razón Social" value={razonSocial} onChange={(e) => setRazonSocial(e.target.value)} fullWidth margin="normal" />
-          <TextField label="Dirección" value={direccion} onChange={(e) => setDireccion(e.target.value)} fullWidth margin="normal" />
-          <Select label="Centro de Práctica" value={centroPractica} onChange={(e) => setCentroPractica(e.target.value)} fullWidth margin="normal">
-            <MenuItem value="Si">Sí</MenuItem>
-            <MenuItem value="No">No</MenuItem>
-          </Select>
-          <TextField label="Correo" type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} fullWidth margin="normal" />
-          <TextField label="Teléfono" type="tel" value={telefono} onChange={(e) => setTelefono(e.target.value)} fullWidth margin="normal" />
-          <TextField label="Comuna" value={comuna} onChange={(e) => setComuna(e.target.value)} fullWidth margin="normal" />
-          <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px' }}>
-            Enviar
-          </Button>
-        </form>
+      {/* Contenido principal */}
+      <Grid container item xs={12} justifyContent="center" alignItems="flex-start" sx={{ padding: 3, marginTop: 0 }}>
+        <Grid item xs={12} sm={10} md={6} lg={4}>
+          <FormularioEmpresa />
+        </Grid>
       </Grid>
     </Grid>
   );

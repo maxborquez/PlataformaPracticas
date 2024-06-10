@@ -16,7 +16,7 @@ import ModificarOferta from "../pages/ProfesionalApoyo/dashboardProfesional/ofer
 import ArchivosBitacoras from "../pages/Alumno/archivos_bitacora/Archivos_bitacoras";
 import ImagenesBitacoras from "../pages/Alumno/imagenesBitacora/imageneBitacoras";
 import Aptitudes from "../pages/Alumno/aptitudes/aptitudes";
-import Empresas from "../pages/ProfesionalApoyo/dashboardProfesional/empresas";
+import CentrosPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/centros_practicas";
 import EstadoPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/estado_practicas";
 import InformacionGeneral from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/informacion_general_practica";
 import VerDocumentosInscripcion from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/verdocumentosinscripcion";
@@ -78,7 +78,7 @@ const PrivateRoutes = ()=>{
                 <Route path="/dashboard" element={<DashboardProfesional/>} />
                 <Route path="/ins_pendientes" element={<InscripcionesPendientes/>} />
                 <Route path="/empresa_alumno" element={<EmpresaAlumno/>} />
-                <Route path="/empresas" element={<Empresas/>} />
+                <Route path="/centros_practicas" element={<CentrosPracticas/>} />
                 <Route path="/ingresar_empresa" element={<IngresarEmpresa/>} />
                 <Route path="/modificarEmpresa/:id" element={<ModificarEmpresa/>} />
                 <Route path="/ofertapracticas" element={<OfertaPractica/>} />

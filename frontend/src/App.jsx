@@ -25,7 +25,7 @@ import RenderBitaAlumno from './pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderB
 import RenderDetailsAlumno from './pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno'
 import EditingBitAlumno from './pages/Alumno/BitacoraAlumno/ModificarAlumno/EditingBitAlumno'
 import InscripcionPractica from './pages/Alumno/inscripcion_practica/inscripcionPractica'
-import Empresas from './pages/ProfesionalApoyo/dashboardProfesional/empresas'
+import CentrosPracticas from './pages/ProfesionalApoyo/dashboardProfesional/empresas/centros_practicas'
 import ModificarEmpresa from './pages/ProfesionalApoyo/dashboardProfesional/empresas/modificar_empresa'
 import OfertaPractica from './pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/ofertapractica'
 import CrearOferta from './pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/crear_oferta'
@@ -46,6 +46,7 @@ import IngresarEmpresa from "./pages/ProfesionalApoyo/dashboardProfesional/empre
 import EmpresaAlumno from "./pages/Alumno/empresa/empresa_alumno";
 import InscripcionesPendientes from "./pages/ProfesionalApoyo/dashboardProfesional/inscripciones_pendientes/ins_pendientes";
 import Practicas from './pages/ProfesionalApoyo/dashboardProfesional/practicas/practicas'
+import EmpresasPendientes from './pages/ProfesionalApoyo/dashboardProfesional/empresas/emp_pendientes'
 
 const queryClient = new QueryClient();
 
@@ -84,8 +85,8 @@ function App() {
                                 <Route path="/dashboard" element={<DashboardProfesional/>} />
                                 <Route path="/practicas" element={<Practicas/>} />
                                 <Route path="/ins_pendientes" element={<InscripcionesPendientes/>} />
-                                <Route path="/empresa_alumno" element={<EmpresaAlumno/>} />
-                                <Route path="/empresas" element={<Empresas/>} />
+                                <Route path="/empresas_pendientes" element={<EmpresasPendientes/>} />
+                                <Route path="/centros_practicas" element={<CentrosPracticas/>} />
                                 <Route path="/ingresar_empresa" element={<IngresarEmpresa/>} />
                                 <Route path="/modificarEmpresa/:id" element={<ModificarEmpresa/>} />
                                 <Route path="/ofertapracticas" element={<OfertaPractica/>} />

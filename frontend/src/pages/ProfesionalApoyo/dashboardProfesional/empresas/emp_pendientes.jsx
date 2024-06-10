@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import HeaderProfesional from "../../../../components/headers/headerProfesional";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 
-const InscripcionesPendientes = () => {
+const EmpresasPendientes = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
 
@@ -87,4 +87,4 @@ const InscripcionesPendientes = () => {
   );
 };
 
-export default InscripcionesPendientes;
+export default EmpresasPendientes;

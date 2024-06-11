@@ -139,7 +139,7 @@ const FormularioIngresar = () => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={11} xl={6} lg={12} md={6} sm={10} sx={{ display: "flex", justifyContent: "center" }}>
-                        <Button type="submit" variant="contained" disabled={remainingChars === -1}>Enviar datos</Button>
+                        <Button type="submit" variant="contained" disabled={remainingChars === -1}>Publicar oferta</Button>
                     </Grid>
                 </Grid>
             </Card>

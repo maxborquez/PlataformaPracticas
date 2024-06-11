@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
 
             setTimeout(() => {
               Swal.close();
-              navigate("/alumno");
+              navigate("/dashboard_alumno");
             }, 3000);
             break;
           }
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
 
             setTimeout(() => {
               Swal.close();
-              navigate("/dashboard");
+              navigate("/dashboard_encargado");
             }, 3000);
             break;
           }

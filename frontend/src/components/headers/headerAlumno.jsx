@@ -34,17 +34,6 @@ const HeaderAlumno = () => {
           src={logoubb}
           alt="Logo"
         />
-     
-        <IconButton
-          onClick={handleGoBack}
-          color="inherit"
-          sx={{ backgroundColor: "white",
-          borderRadius: 0, 
-          padding: 1
-        }}
-        >
-          <ArrowBackIcon />
-        </IconButton>
       </Grid>
     </Grid>
   );

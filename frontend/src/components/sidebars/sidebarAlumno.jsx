@@ -53,7 +53,10 @@ const SidebarAlumno = () => {
       <ListItem button onClick={() => navigate("/perfil")}>
         <ListItemText sx={{ textAlign: "center" }} primary="Perfil" />
       </ListItem>
-      <ListItem button onClick={() => navigate("/alumno")}>
+      <ListItem button onClick={() => navigate("/mi_practica")}>
+        <ListItemText sx={{ textAlign: "center" }} primary="Mi práctica" />
+      </ListItem>
+      <ListItem button onClick={() => navigate("/ofertas_publicas")}>
         <ListItemText
           sx={{ textAlign: "center" }}
           primary="Ofertas de practica"

@@ -483,10 +483,11 @@ CREATE TABLE `Periodo_academico` (
 --
 -- Volcado de datos para la tabla `Periodo_academico`
 --
-
 INSERT INTO `Periodo_academico` (`id_periodo_academico`, `anio`, `periodo`) VALUES
 (1, 2023, 1),
 (2, 2023, 2);
+(3, 2024, 1);
+(4, 2024, 2);
 
 -- --------------------------------------------------------
 

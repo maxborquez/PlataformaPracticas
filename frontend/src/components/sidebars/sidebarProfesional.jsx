@@ -62,7 +62,7 @@ const SidebarProfesional = () => {
         button
         onClick={handleEmpresaDropdown}
         sx={{
-          textAlign: "center", 
+          textAlign: "center",
         }}
       >
         <ListItemText primary="Empresas" />
@@ -75,11 +75,11 @@ const SidebarProfesional = () => {
             onClick={() => navigate("/centros_practicas")}
             sx={{
               textAlign: "center",
-              backgroundColor: "#495970", 
-              color: "white", 
+              backgroundColor: "#495970",
+              color: "white",
               "&:hover": {
                 backgroundColor: "#425063",
-                color: "white", 
+                color: "white",
               },
             }}
           >
@@ -90,15 +90,15 @@ const SidebarProfesional = () => {
             onClick={() => navigate("/empresas_pendientes")}
             sx={{
               textAlign: "center",
-              backgroundColor: "#495970", 
-              color: "white", 
+              backgroundColor: "#495970",
+              color: "white",
               "&:hover": {
                 backgroundColor: "#425063",
-                color: "white", 
+                color: "white",
               },
             }}
           >
-            <ListItemText primary="Recomendaciones" />
+            <ListItemText primary="Pendientes de alumnos" />
           </ListItem>
         </List>
       </Collapse>

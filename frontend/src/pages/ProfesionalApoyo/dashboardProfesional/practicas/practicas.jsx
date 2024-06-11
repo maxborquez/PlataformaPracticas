@@ -117,12 +117,15 @@ const Practicas = () => {
 
   return (
     <Grid container direction="column">
-      <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-        <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
+        <HeaderProfesional
+          toggleSidebar={toggleSidebar}
+          isWideScreen={isWideScreen}
+        />
       </Grid>
       <Grid container item>
         {sidebarOpen && (
-          <Grid item sx={{ position: 'fixed', top: '80px', zIndex: 1200 }}>
+          <Grid item sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
             <SidebarProfesional />
           </Grid>
         )}
@@ -130,9 +133,9 @@ const Practicas = () => {
           item
           xs
           sx={{
-            marginLeft: sidebarOpen && isWideScreen ? '250px' : '0px',
-            transition: 'margin-left 0.3s',
-            padding: '20px',
+            marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
+            transition: "margin-left 0.3s",
+            padding: "20px",
           }}
         >
           <Typography
@@ -210,7 +213,11 @@ const Practicas = () => {
                 lg={2}
                 md={3}
                 sm={4}
-                sx={{ display: "flex", alignItems: "center" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
                 <Button type="submit" variant="contained">
                   Buscar
@@ -237,16 +244,17 @@ const Practicas = () => {
               marginTop: "10px",
             }}
           >
-            <Grid item xs={11} xl={5} lg={5} md={5} sm={10}>
+            <Grid item xs={11} md={6} lg={4}>
               <Card
                 sx={{
-                  paddingTop: "20px",
+                  padding: "20px",
                   backgroundColor: "#f4f5f7",
-                  paddingBottom: "40px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  width: "70%",
+                  maxWidth: "600px",
                 }}
               >
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
@@ -267,21 +275,22 @@ const Practicas = () => {
                     }}
                     variant="contained"
                   >
-                    Ver situación estudiantes
+                    Ver estudiantes
                   </Button>
                 )}
               </Card>
             </Grid>
-            <Grid item xs={11} xl={5} lg={5} md={5} sm={10}>
+            <Grid item xs={11} md={6} lg={4}>
               <Card
                 sx={{
-                  paddingTop: "20px",
-                  paddingBottom: "40px",
+                  padding: "20px",
                   backgroundColor: "#f4f5f7",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  width: "70%",
+                  maxWidth: "600px",
                 }}
               >
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
@@ -302,7 +311,7 @@ const Practicas = () => {
                     }}
                     variant="contained"
                   >
-                    Ver situación estudiantes
+                    Ver estudiantes
                   </Button>
                 )}
               </Card>
@@ -327,16 +336,17 @@ const Practicas = () => {
               marginTop: "10px",
             }}
           >
-            <Grid item xs={11} xl={5} lg={5} md={5} sm={10}>
+            <Grid item xs={11} md={6} lg={4}>
               <Card
                 sx={{
-                  paddingTop: "20px",
+                  padding: "20px",
                   backgroundColor: "#f4f5f7",
-                  paddingBottom: "40px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  width: "70%",
+                  maxWidth: "600px",
                 }}
               >
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
@@ -357,21 +367,22 @@ const Practicas = () => {
                     }}
                     variant="contained"
                   >
-                    Ver situación estudiantes
+                    Ver estudiantes
                   </Button>
                 )}
               </Card>
             </Grid>
-            <Grid item xs={11} xl={5} lg={5} md={5} sm={10}>
+            <Grid item xs={11} md={6} lg={4}>
               <Card
                 sx={{
-                  paddingTop: "20px",
-                  paddingBottom: "40px",
+                  padding: "20px",
                   backgroundColor: "#f4f5f7",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  width: "70%",
+                  maxWidth: "600px",
                 }}
               >
                 <Typography variant="h5" sx={{ textAlign: "center" }}>
@@ -392,7 +403,7 @@ const Practicas = () => {
                     }}
                     variant="contained"
                   >
-                    Ver situación estudiantes
+                    Ver estudiantes
                   </Button>
                 )}
               </Card>

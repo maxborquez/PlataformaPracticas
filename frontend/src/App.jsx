@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes, useRoutes } from 'react-router-dom'
 import { AuthContext, AuthProvider } from './context/AuthContext'
 import Login from './pages/login/login'
 import DashboardAlumno from './pages/Alumno/Dashboard'
+import OfertasPublicas from "./pages/Alumno/ofertas_publicas/ofertas_publicas";
 import PublicRoutes from './router/publicRoutes'
 import PrivateRoutes from './router/privateRoutes'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -63,7 +64,8 @@ function App() {
                              <Route path='/visualizadorbitacora/:id' element={<VisualizadorDocumentoBitacora/>} />
                              <Route path='/visualizador/:id' element={<VisualizadorDocumento/>}/>
                              <Route element={<ProtectedRoute />}>
-                                <Route path="/alumno" element={<DashboardAlumno/>} /> 
+                                <Route path="/dashboard_alumno" element={<DashboardAlumno/>} />
+                                <Route path="/ofertas_publicas" element={<OfertasPublicas/>} />
                                 <Route path="/perfil" element={<PerfilAlumno/>} />
                                 <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica/>} />
                                 <Route path="/detalleinscripcion/:id" element={<DetalleInscripcion/>}/>
@@ -82,7 +84,7 @@ function App() {
                             </Route>  
                             <Route element={<ProtectedRouteProfesional/>}>
                           
-                                <Route path="/dashboard" element={<DashboardProfesional/>} />
+                                <Route path="/dashboard_encargado" element={<DashboardProfesional/>} />
                                 <Route path="/practicas" element={<Practicas/>} />
                                 <Route path="/ins_pendientes" element={<InscripcionesPendientes/>} />
                                 <Route path="/empresas_pendientes" element={<EmpresasPendientes/>} />

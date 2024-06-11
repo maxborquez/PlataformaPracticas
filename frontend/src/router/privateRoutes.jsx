@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import DashboardAlumno from "../pages/Alumno/Dashboard";
+import OfertasPublicas from "../pages/Alumno/ofertas_publicas/ofertas_publicas";
 import DashboardProfesional from "../pages/ProfesionalApoyo/dashboardProfesional/DashboardProfesional";
 import ModificarEmpresa from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/modificar_empresa";
 import PerfilAlumno from "../pages/Alumno/perfil-alumno/PerfilAlumno";
@@ -43,14 +44,14 @@ const PrivateRoutes = ()=>{
     const {user} = useContext(AuthContext)
 
     const rol = localStorage.getItem("rol");
- 
-    
+
     if(rol && rol == 1 ){
         return (
             <Routes>
 
                 <Route element={<ProtectedRoute user={user} />}>
-                    <Route path="/dashboard" element={<DashboardAlumno/>} /> 
+                    <Route path="/dashboard_alumno" element={<DashboardAlumno/>} />
+                    <Route path="/ofertas_publicas" element={<OfertasPublicas/>} />
                     <Route path="/perfil" element={<PerfilAlumno/>} />
                     <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica/>} />
                     <Route path="/detalleinscripcion/:id" element={<DetalleInscripcion/>}/>
@@ -66,8 +67,6 @@ const PrivateRoutes = ()=>{
                     <Route path="/modificarbitacoralumno/:id" element={<EditingBitAlumno/>} />
 
                 </Route>
-
-          
             </Routes>
         )
     }
@@ -75,7 +74,7 @@ const PrivateRoutes = ()=>{
     if(rol && rol == 3){
         return (
             <Routes>
-                <Route path="/dashboard" element={<DashboardProfesional/>} />
+                <Route path="/dashboard_encargado" element={<DashboardProfesional/>} />
                 <Route path="/ins_pendientes" element={<InscripcionesPendientes/>} />
                 <Route path="/empresa_alumno" element={<EmpresaAlumno/>} />
                 <Route path="/centros_practicas" element={<CentrosPracticas/>} />
@@ -95,9 +94,6 @@ const PrivateRoutes = ()=>{
             </Routes>
         )
     }
-    
-   
-
 };
 
 

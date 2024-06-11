@@ -1,53 +1,59 @@
+import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import SidebarAlumno from "../../../src/components/sidebars/sidebarAlumno";
 import HeaderAlumno from "../../components/headers/headerAlumno";
-import OfertasPracticas from "./components/OfertaPracticas";
-import ComprobarInscripcion from "./components/comprobarInscripcion";
+import SidebarAlumno from "../../components/sidebars/sidebarAlumno";
 
 const DashboardAlumno = () => {
-  return (
-    <Grid
-      container
-      sx={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Grid item sx={{ zIndex: 1000, position: "fixed", width: "100%" }}>
-        <HeaderAlumno />
-      </Grid>
-      <Grid
-        container
-        item
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexGrow: 1,
-          marginTop: "80px", 
-        }}
-      >
-        <Grid item sx={{ flex: "0 0 auto", position: "fixed", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto" }}>
-          <SidebarAlumno />
-        </Grid>
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isWideScreen, setIsWideScreen] = useState(false);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const zoomThreshold = 900;
+      setIsWideScreen(window.innerWidth >= zoomThreshold);
+      setSidebarOpen(window.innerWidth < zoomThreshold ? false : true);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (
+    <Grid container direction="column">
+      <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+        <HeaderAlumno toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+      </Grid>
+      <Grid container item sx={{ marginTop: '64px' }}>
+        {sidebarOpen && (
+          <Grid item xs={3} sx={{ position: 'fixed', top: '80px', zIndex: 1200 }}>
+            <SidebarAlumno />
+          </Grid>
+        )}
         <Grid
-          container
           item
+          xs={12}
           sx={{
-            flexDirection: "column",
-            justifyContent: "center", 
-            textAlign: "center", 
-            flexGrow: 1,
-            marginLeft: "250px", 
+            marginLeft: isWideScreen ? '250px' : '0px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            transition: 'margin-left 0.3s',
           }}
         >
-          <Grid item sx={{ marginBottom: "20px" }}>
-            <ComprobarInscripcion />
-          </Grid>
-          <Grid item>
-            <OfertasPracticas />
-          </Grid>
+          <img
+            src="/logo-color.png"
+            alt="Logo"
+            style={{ opacity: 0.25, maxWidth: '50%', maxHeight: '80%' }} // Aquí se ajusta el tamaño de la imagen
+          />
         </Grid>
       </Grid>
     </Grid>

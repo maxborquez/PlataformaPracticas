@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import HeaderProfesional from "../../../components/headers/headerProfesional";
+import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 
 const DashboardProfesional = () => {
@@ -30,7 +30,7 @@ const DashboardProfesional = () => {
   return (
     <Grid container direction="column">
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-        <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
       </Grid>
       <Grid container item sx={{ marginTop: '64px' }}>
         {sidebarOpen && (

@@ -1,5 +1,5 @@
 import { Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
-import HeaderProfesional from "../../../../../components/headers/headerProfesional"
+import Header from "../../../../../components/headers/header"
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../../../helpers/clienteaxios";
@@ -93,7 +93,7 @@ const ModificarOferta = () => {
     if (!loading) {
         return (
             <Grid sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
-                <HeaderProfesional />
+                <Header />
                 <Typography variant="h6" sx={{ textAlign: "center", marginTop: "10px", marginBottom: "10px",display:"flex",justifyContent:"center",alignItems:"center" }}>Modificar Oferta Práctica Profesional <Work style={{marginLeft:"5px"}}/> </Typography>
                 <form style={{ width: "85%", margin: "0px auto" }} onSubmit={onSubmit}>
                     <Card sx={{ padding: "15px", marginBottom: "10px" }}>

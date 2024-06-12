@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Grid, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import FormularioModificar from "./components/formularioModificar";
 
@@ -38,7 +38,7 @@ const ModificarEmpresa = () => {
   return (
     <Grid container sx={{ position: 'relative' }}>
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000, width: '100%' }}>
-        <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
       </Grid>
 
       <Grid container item sx={{ marginTop: '80px'}}>

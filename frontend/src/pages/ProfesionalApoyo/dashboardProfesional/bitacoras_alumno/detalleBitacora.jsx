@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import DetailsBitaAlumno from "../../../Alumno/BitacoraAlumno/DetailsAlumno/DetailsBitaAlumno";
 
 
@@ -8,7 +8,7 @@ import DetailsBitaAlumno from "../../../Alumno/BitacoraAlumno/DetailsAlumno/Deta
 const DetalleBitacora = () =>{
     return (
         <Grid sx={{width:"100%",display:"flex",flexDirection:"column"}}>
-            <HeaderProfesional/>
+            <Header/>
             <DetailsBitaAlumno/>
         </Grid>
     )

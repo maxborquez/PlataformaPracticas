@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import DetalleInscripcion from "./components/detalleInscripcion";
 import { useParams } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const InformacionGeneral = ()=>{
     const {inscribe} = useParams();
     return (
         <Grid sx={{width:"100%",display:"flex",flexDirection:"column"}}>
-            <HeaderProfesional/>
+            <Header/>
             <DetalleInscripcion id = {inscribe} />
         </Grid>
     )

@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -118,9 +118,10 @@ const Practicas = () => {
   return (
     <Grid container direction="column">
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <HeaderProfesional
+        <Header
           toggleSidebar={toggleSidebar}
           isWideScreen={isWideScreen}
+          showSidebarButton={true}
         />
       </Grid>
       <Grid container item>

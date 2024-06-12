@@ -12,7 +12,11 @@ const TableEmpresa = () => {
   const navigate = useNavigate();
   const { data, status, refetch } = useQuery("empresas", async () => {
     const response = await clienteAxios.get("/empresa/getall");
-    return response.data;
+    if (response.data && Array.isArray(response.data.empresas)) {
+      return response.data;
+    } else {
+      return { empresas: [] };
+    }
   });
 
   const eliminarEmpresa = async (id) => {
@@ -52,26 +56,116 @@ const TableEmpresa = () => {
   };
 
   const columns = [
-    { name: "id_empresa", label: "ID Empresa" },
-    { name: "rut_empresa", label: "Rut" },
-    { name: "razon_social", label: "Razón Social" },
-    { name: "direccion", label: "Dirección" },
+    { 
+      name: "id_empresa", 
+      label: "ID Empresa", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
+    { 
+      name: "rut_empresa", 
+      label: "Rut", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
+    { 
+      name: "razon_social", 
+      label: "Razón Social", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
+    { 
+      name: "direccion", 
+      label: "Dirección", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
     {
       name: "centro_practica",
       label: "Centro Práctica",
-      options: { customBodyRender: (value) => (value ? "Sí" : "No") },
+      options: {
+        customBodyRender: (value) => (value ? "Sí" : "No"),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      },
     },
-    { name: "correo", label: "Correo" },
-    { name: "telefono", label: "Teléfono" },
+    { 
+      name: "correo", 
+      label: "Correo", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
+    { 
+      name: "telefono", 
+      label: "Teléfono", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
     {
       name: "comuna",
       label: "Comuna",
-      options: { customBodyRender: (value) => value.nombre },
+      options: {
+        customBodyRender: (value) => value.nombre,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      },
     },
     {
       name: "estado_empresa",
       label: "Estado",
-      options: { customBodyRender: (value) => value.nombre_estado_empresa },
+      options: {
+        customBodyRender: (value) => value.nombre_estado_empresa,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      },
     },
     {
       name: "acciones",
@@ -92,6 +186,12 @@ const TableEmpresa = () => {
             </>
           );
         },
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
       },
     },
   ];
@@ -120,7 +220,7 @@ const TableEmpresa = () => {
     );
   }
 
-  if (status === "success" && data.empresas.length === 0) {
+  if (status === "success" && data && data.empresas && data.empresas.length === 0) {
     return (
       <Grid
         container
@@ -133,10 +233,9 @@ const TableEmpresa = () => {
     );
   }
 
-  if (status === "success" && data.empresas.length > 0) {
+  if (status === "success" && data && data.empresas && data.empresas.length > 0) {
     return (
       <MUIDataTable
-        title={"Lista de Empresas"}
         data={data.empresas}
         columns={columns}
         options={options}

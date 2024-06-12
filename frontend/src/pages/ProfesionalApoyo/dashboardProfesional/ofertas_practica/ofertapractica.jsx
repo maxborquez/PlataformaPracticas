@@ -81,7 +81,15 @@ const OfertaPractica = () => {
     {
       name: "descripcion",
       label: "Descripción",
-      options: { setCellProps: () => ({ style: { width: "150px" } }) },
+      options: {
+        setCellProps: () => ({ style: { width: "150px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      },
     },
     {
       name: "experiencia_laboral",
@@ -89,17 +97,39 @@ const OfertaPractica = () => {
       options: {
         customBodyRender: (value) => (value ? "Si" : "No"),
         setCellProps: () => ({ style: { width: "100px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
       },
     },
     {
       name: "cupos",
       label: "Cupos",
-      options: { setCellProps: () => ({ style: { width: "50px" } }) },
+      options: {
+        setCellProps: () => ({ style: { width: "50px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      },
     },
     {
       name: "modalidad.nombre_modalidad",
       label: "Modalidad",
-      options: { setCellProps: () => ({ style: { width: "100px" } }) },
+      options: {
+        setCellProps: () => ({ style: { width: "100px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      },
     },
     {
       name: "periodo_academico",
@@ -107,6 +137,12 @@ const OfertaPractica = () => {
       options: {
         customBodyRender: (value) => `${value.anio} - ${value.periodo}`,
         setCellProps: () => ({ style: { width: "150px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
       },
     },
     {
@@ -116,6 +152,12 @@ const OfertaPractica = () => {
         customBodyRender: (value) =>
           value ? value.razon_social : "No hay una empresa asociada",
         setCellProps: () => ({ style: { width: "200px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
       },
     },
     {
@@ -140,6 +182,12 @@ const OfertaPractica = () => {
           );
         },
         setCellProps: () => ({ style: { width: "100px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
       },
     },
   ];
@@ -229,7 +277,6 @@ const OfertaPractica = () => {
                 </Grid>
                 <Grid item sx={{ width: "100%" }}>
                   <MUIDataTable
-                    title={"Ofertas de Prácticas"}
                     data={getOfertas.data.ofertas}
                     columns={columns}
                     options={options}
@@ -258,7 +305,6 @@ const OfertaPractica = () => {
                 </Grid>
                 <Grid item sx={{ width: "100%" }}>
                   <MUIDataTable
-                    title={"Ofertas de Prácticas"}
                     data={[]}
                     columns={columns}
                     options={options}

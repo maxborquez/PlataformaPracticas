@@ -109,9 +109,9 @@ const CentrosPracticas = () => {
               <Button
                 sx={{ marginLeft: "10px" }}
                 variant="contained"
-                onClick={() => navigate("/crearoferta")}
+                onClick={() => navigate("/ingresar_empresa")}
               >
-                Añadir oferta
+                Añadir empresa
               </Button>
             </Grid>
             <Grid item sx={{ width: "100%", overflowX: "hidden" }}>

@@ -71,13 +71,15 @@ const ListadoAlumnos = ({ anio, periodo, asignatura, carrera }) => {
       : [];
 
       const options = {
-        filter: true,
-        search: true,
+        search: false,
+        download: false,
+        print: false,
+        viewColumns: false,
+        filter: false,
+        pagination: false,
         selectableRows: "none",
         responsive: "standard",
         rowsPerPage: 10,
-        download: false,
-        print: false,
         rowsPerPageOptions: [10, 25, 50],
         textLabels: {
           body: {

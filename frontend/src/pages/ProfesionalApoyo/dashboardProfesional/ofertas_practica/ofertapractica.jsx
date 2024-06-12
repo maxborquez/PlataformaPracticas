@@ -44,8 +44,16 @@ const OfertaPractica = () => {
 
     if (response.status === 200) {
       return response.data;
+    } else {
+      throw new Error("Error al obtener ofertas");
     }
   });
+
+  useEffect(() => {
+    if (getOfertas.data) {
+      console.log("Ofertas data:", getOfertas.data);
+    }
+  }, [getOfertas.data]);
 
   const navigate = useNavigate();
 
@@ -119,9 +127,10 @@ const OfertaPractica = () => {
       },
     },
     {
-      name: "modalidad.nombre_modalidad",
+      name: "modalidad",
       label: "Modalidad",
       options: {
+        customBodyRender: (value) => value.nombre_modalidad,
         setCellProps: () => ({ style: { width: "100px" } }),
         setCellHeaderProps: () => ({
           style: {

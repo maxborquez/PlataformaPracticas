@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Grid, Paper } from '@mui/material';
 import Header from '../../../../components/headers/header';
 import SidebarProfesional from '../../../../components/sidebars/sidebarProfesional';
 import FormularioEmpresa from './components/formulario_empresa';
@@ -8,7 +7,6 @@ import FormularioEmpresa from './components/formulario_empresa';
 const IngresarEmpresa = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
-  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -30,30 +28,43 @@ const IngresarEmpresa = () => {
     };
   }, []);
 
-  const handleBack = () => {
-    navigate('/centros_practicas');
-  };
-
   return (
-    <Grid container sx={{ position: 'relative' }}>
-      <Grid item xs={12} sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
+    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
+      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
         <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
       </Grid>
-
-      {sidebarOpen && (
-        <Grid item sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
-          <SidebarProfesional />
-        </Grid>
-      )}
-
-      <Grid container item xs={12} justifyContent="center" alignItems="flex-start" sx={{ padding: 3, marginTop: 0 }}>
-        <Grid item xs={12} sm={10} md={8} lg={6}>
-          <Grid container justifyContent="flex-end" sx={{ mb: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleBack} sx={{ mr: 1 }}>
-              Volver
-            </Button>
+      <Grid container>
+        {sidebarOpen && (
+          <Grid item xs={3} sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
+            <SidebarProfesional />
           </Grid>
-          <FormularioEmpresa />
+        )}
+
+        <Grid
+          item
+          xs
+          sx={{
+            marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
+            transition: "margin-left 0.3s",
+            overflowY: "auto",
+            paddingRight: "16px",
+            overflowX: "auto",
+            marginTop: "35px",
+          }}
+        >
+          <Paper
+            elevation={3}
+            sx={{
+              padding: "16px",
+              backgroundColor: "#fff",
+              maxWidth: "1200px", // Adjust the width as needed
+              margin: "auto",
+            }}
+          >
+            <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+              <FormularioEmpresa />
+            </Grid>
+          </Paper>
         </Grid>
       </Grid>
     </Grid>

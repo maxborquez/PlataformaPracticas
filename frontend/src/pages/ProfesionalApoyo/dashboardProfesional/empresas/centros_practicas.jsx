@@ -4,6 +4,7 @@ import Header from "../../../../components/headers/header";
 import TableEmpresa from "./components/tableEmpresa";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import { useNavigate } from "react-router-dom";
+import { Business } from "@mui/icons-material";
 
 const CentrosPracticas = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -102,7 +103,7 @@ const CentrosPracticas = () => {
                   alignItems: "center",
                 }}
               >
-                Centros de práctica
+                Centros de práctica <Business style={{ marginLeft: "5px" }}/>
               </Typography>
             </Grid>
             <Grid item>

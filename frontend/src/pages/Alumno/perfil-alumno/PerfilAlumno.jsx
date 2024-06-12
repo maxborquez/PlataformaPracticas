@@ -1,9 +1,33 @@
 import { Grid } from "@mui/material";
-import HeaderAlumno from "../../../components/headers/headerAlumno";
+import { useState, useEffect } from "react";
+import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import DataAlumno from "./components/data_alumno";
 
 const PerfilAlumno = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isWideScreen, setIsWideScreen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const zoomThreshold = 900;
+      setIsWideScreen(window.innerWidth >= zoomThreshold);
+      setSidebarOpen(window.innerWidth < zoomThreshold ? false : true);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <Grid
       container
@@ -11,34 +35,48 @@ const PerfilAlumno = () => {
         width: "100%",
         display: "flex",
         flexDirection: "column",
-        position: "relative", 
+        position: "relative",
       }}
     >
-      <Grid item sx={{ zIndex: 1000, position: "fixed", width: "100%" }}>
-        <HeaderAlumno />
+      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
+        <Header
+          toggleSidebar={toggleSidebar}
+          isWideScreen={isWideScreen}
+          showSidebarButton={true}
+        />
       </Grid>
-      <Grid
-        container
-        item
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexGrow: 1,
-          marginTop: "80px", 
-        }}
-      >
-        <Grid item sx={{ flex: "0 0 auto", position: "fixed", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto" }}>
-          <SidebarAlumno />
-        </Grid>
+      <Grid container item sx={{ marginTop: "64px" }}>
+        {sidebarOpen && (
+          <Grid
+            item
+            sx={{
+              position: "fixed",
+              top: "80px",
+              left: 0,
+              zIndex: 1200,
+              width: "250px",
+              height: "100vh",
+              backgroundColor: "white",
+            }}
+          >
+            <SidebarAlumno />
+          </Grid>
+        )}
         <Grid
           item
           sx={{
-            flexGrow: 1,
-            marginLeft: "250px",
-            paddingLeft: "20px", 
+            marginLeft: isWideScreen && sidebarOpen ? "250px" : "0px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transition: "margin-left 0.3s",
+            width: "100%",
+            maxWidth: "1000px",
+            margin: "0 auto", // Añadir esta línea para centrar horizontalmente
+            padding: "0 50px", // Añadir un padding opcional para mejor presentación
           }}
         >
-          <DataAlumno />
+          <DataAlumno isWideScreen={isWideScreen} />
         </Grid>
       </Grid>
     </Grid>

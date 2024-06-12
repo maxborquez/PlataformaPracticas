@@ -1,5 +1,5 @@
 import { Card, CircularProgress, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
-import HeaderAlumno from "../../../components/headers/headerAlumno";
+import Header from "../../../components/headers/header";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../helpers/clienteaxios";
 import { useParams } from "react-router-dom";
@@ -23,7 +23,7 @@ const DetalleOfertaPractica = () => {
         }}
       >
         <Grid item sx={{ zIndex: 1000, position: "fixed", width: "100%" }}>
-          <HeaderAlumno />
+          <Header />
         </Grid>
 
         <Grid item sx={{ zIndex: 999, position: "fixed", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto" }}>

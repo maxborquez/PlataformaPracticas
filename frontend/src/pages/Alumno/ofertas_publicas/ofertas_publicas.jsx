@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
-import HeaderAlumno from "../../../components/headers/headerAlumno";
+import Header from "../../../components/headers/header";
 import OfertasPracticas from "../components/OfertaPracticas";
 import ComprobarInscripcion from "../components/comprobarInscripcion";
 
@@ -15,7 +15,7 @@ const OfertasPublicas = () => {
       }}
     >
       <Grid item sx={{ zIndex: 1000, position: "fixed", width: "100%" }}>
-        <HeaderAlumno />
+        <Header />
       </Grid>
       <Grid
         container

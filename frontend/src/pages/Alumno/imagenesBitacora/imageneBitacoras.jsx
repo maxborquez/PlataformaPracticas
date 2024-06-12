@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import HeaderAlumno from '../../../components/headers/headerAlumno';
+import Header from '../../../components/headers/header';
 import MostrarImagenes from './components/mostrar_imagenes';
 import SubirImagenes from './components/subir_imagenes';
 import SidebarAlumno from '../../../components/sidebars/sidebarAlumno';
@@ -13,7 +13,7 @@ const ImagenesBitacoras = () => {
         <Grid container sx={{ width: '100%', minHeight: '100vh', flexDirection: 'column' }}>
             {/* Header */}
             <Grid item>
-                <HeaderAlumno />
+                <Header />
             </Grid>
 
             {/* Main content area */}

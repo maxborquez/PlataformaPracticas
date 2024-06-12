@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import HeaderAlumno from "../../../components/headers/headerAlumno";
+import Header from "../../../components/headers/header";
 import MisAptitudes from "../perfil-alumno/components/misApitudes";
 import ModalAptitudes from "../perfil-alumno/components/ModalAptitudes";
 import { PsychologyAltRounded } from "@mui/icons-material";
@@ -22,7 +22,7 @@ const Aptitudes = () => {
           zIndex: 1000,
         }}
       >
-        <HeaderAlumno />
+        <Header />
       </Grid>
       <Grid
         item

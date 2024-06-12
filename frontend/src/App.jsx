@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter, Route, Routes, useRoutes } from 'react-router-dom'
 import { AuthContext, AuthProvider } from './context/AuthContext'
 import Login from './pages/login/login'
-import DashboardAlumno from './pages/Alumno/Dashboard'
+import DashboardAlumno from './pages/Alumno/DashboardAlumno'
 import OfertasPublicas from "./pages/Alumno/ofertas_publicas/ofertas_publicas";
 import PublicRoutes from './router/publicRoutes'
 import PrivateRoutes from './router/privateRoutes'

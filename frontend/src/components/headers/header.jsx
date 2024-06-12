@@ -30,9 +30,9 @@ const Header = ({ toggleSidebar, isWideScreen, showSidebarButton }) => {
         )}
         <img
           style={{
-            display: "block",
-            marginLeft: "auto",
-            marginRight: "auto",
+            display: showSidebarButton && !isWideScreen ? "block" : "inline-block",
+            marginLeft: showSidebarButton && !isWideScreen ? "auto" : "50px",
+            marginRight: showSidebarButton && !isWideScreen ? "auto" : "0",
             width: "130px",
           }}
           src={logoubb}

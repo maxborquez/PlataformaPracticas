@@ -1,5 +1,5 @@
 import { Grid, Button } from "@mui/material";
-import HeaderProfesional from "../../../components/headers/headerProfesional";
+import Header from "../../../components/headers/header";
 import TableEmpresa from "../../../../src/components/tableEmpresas/tableEmpresa";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 

@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import HeaderAlumno from "../../../components/headers/headerAlumno";
+import Header from "../../../components/headers/header";
 import { useParams } from "react-router-dom";
 import MostrarArchivos from "./components/mostrar_archivos";
 import SubirConvenios from "./components/subir_convenios";
@@ -20,7 +20,7 @@ const DocumentosInscripcion = () => {
       }}
     >
       <Grid item sx={{ zIndex: 1000, position: "fixed", width: "100%" }}>
-        <HeaderAlumno />
+        <Header />
       </Grid>
       <Grid
         container

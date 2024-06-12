@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import HeaderAlumno from "../../components/headers/headerAlumno";
+import Header from "../../components/headers/header";
 import SidebarAlumno from "../../components/sidebars/sidebarAlumno";
 
 const DashboardAlumno = () => {
@@ -30,7 +30,7 @@ const DashboardAlumno = () => {
   return (
     <Grid container direction="column">
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-        <HeaderAlumno toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
       </Grid>
       <Grid container item sx={{ marginTop: '64px' }}>
         {sidebarOpen && (

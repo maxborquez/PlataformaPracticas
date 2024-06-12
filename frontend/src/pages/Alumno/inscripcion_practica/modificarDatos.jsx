@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import HeaderAlumno from '../../../components/headers/headerAlumno';
+import Header from '../../../components/headers/header';
 import FormularioModificarInscripcion from './components/formularioModificarInscripcion';
 import SidebarAlumno from '../../../components/sidebars/sidebarAlumno';
 
@@ -9,7 +9,7 @@ const ModificarDatos = () => {
         <Grid container sx={{ width: '100%', minHeight: '100vh', flexDirection: 'column' }}>
             {/* Header */}
             <Grid item>
-                <HeaderAlumno />
+                <Header />
             </Grid>
 
             {/* Main content area */}

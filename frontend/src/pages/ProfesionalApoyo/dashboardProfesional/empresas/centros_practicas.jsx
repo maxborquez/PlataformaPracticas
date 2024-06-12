@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid, Button } from "@mui/material";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import TableEmpresa from "../../../../components/tableEmpresas/tableEmpresa";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ const CentrosPracticas = () => {
   return (
     <Grid container sx={{ overflowY: "auto" }}>
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000, width: '100%' }}>
-        <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
       </Grid>
 
       <Grid container item >

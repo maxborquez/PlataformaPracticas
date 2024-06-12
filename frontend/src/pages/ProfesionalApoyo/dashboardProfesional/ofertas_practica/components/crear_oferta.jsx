@@ -1,7 +1,7 @@
 import { Grid, Typography, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderProfesional from "../../../../../components/headers/headerProfesional";
+import Header from "../../../../../components/headers/header";
 import FormularioIngresar from "./FormularioIngresar";
 import { Work } from "@mui/icons-material";
 import SidebarProfesional from "../../../../../components/sidebars/sidebarProfesional";
@@ -39,7 +39,7 @@ const CrearOferta = () => {
     <Grid container sx={{ width: "100%", position: "relative" }}>
       {/* Encabezado fijo */}
       <Grid item xs={12} sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true} />
       </Grid>
 
       {/* Barra lateral debajo del encabezado */}

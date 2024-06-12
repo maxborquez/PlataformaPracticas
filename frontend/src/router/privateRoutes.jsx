@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import DashboardAlumno from "../pages/Alumno/Dashboard";
+import DashboardAlumno from "../pages/Alumno/DashboardAlumno";
 import OfertasPublicas from "../pages/Alumno/ofertas_publicas/ofertas_publicas";
 import DashboardProfesional from "../pages/ProfesionalApoyo/dashboardProfesional/DashboardProfesional";
 import ModificarEmpresa from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/modificar_empresa";

@@ -1,6 +1,6 @@
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { useState, useEffect } from "react";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 
 const InscripcionesPendientes = () => {
@@ -37,7 +37,7 @@ const InscripcionesPendientes = () => {
   return (
     <Grid container sx={{ height: "100vh" }}>
       <Grid item xs={12} sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
       </Grid>
 
       {/* Sidebar */}

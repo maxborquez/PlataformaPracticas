@@ -10,7 +10,8 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
+import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
@@ -123,9 +124,10 @@ const Practicas = () => {
       sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
     >
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <HeaderProfesional
+        <Header
           toggleSidebar={toggleSidebar}
           isWideScreen={isWideScreen}
+          showSidebarButton={true}
         />
       </Grid>
       <Grid container>

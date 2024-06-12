@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import HeaderAlumno from '../../../../components/headers/headerAlumno';
+import Header from '../../../../components/headers/header';
 import CreateBitaAlumno from './CreateBitaAlumno';
 import SidebarAlumno from '../../../../components/sidebars/sidebarAlumno';
 
@@ -9,7 +9,7 @@ const BitAlumnoRender = () => {
         <Grid container sx={{ width: '100%', minHeight: '100vh', flexDirection: 'column' }}>
             {/* Header */}
             <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-                <HeaderAlumno />
+                <Header />
             </Grid>
 
             {/* Main content area */}

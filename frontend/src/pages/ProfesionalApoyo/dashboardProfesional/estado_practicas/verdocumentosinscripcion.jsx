@@ -1,5 +1,5 @@
 import { Alert, CircularProgress, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import FileSaver from "file-saver";
@@ -50,7 +50,7 @@ const VerDocumentosInscripcion = ()=>{
         return (
             <Grid sx={{width:"100%",display:"flex", flexDirection:"column"}}>
 
-                <HeaderProfesional/>
+                <Header/>
                 <Typography variant="h5" sx={{textAlign:"center",marginTop:"15px"}}>Listado de archivos <FileCopyOutlined/> </Typography>
                 <TableContainer component={Paper} sx={{width:"90%",margin:"0px auto",marginTop:"10px"}}>
                 <Table stickyHeader sx={{ minWidth: 650,maxHeight:300 }} aria-label="simple table">
@@ -72,7 +72,7 @@ const VerDocumentosInscripcion = ()=>{
     if(getArchivos.status == "success" && getArchivos.data.archivos){
         return (
             <Grid sx={{width:"100%",display:"flex", flexDirection:"column"}}>
-                <HeaderProfesional/>
+                <Header/>
                 <Typography variant="h5" sx={{margin:"0px auto",marginTop:"15px",display:"flex",alignItems:"center"}}>Listado de archivos <FileCopyOutlined style={{fontSize:30}}/> </Typography>
                 <TableContainer component={Paper} sx={{width:"85%",margin:"0px auto",marginTop:"10px"}}>
                 <Table stickyHeader sx={{ minWidth: 500,maxHeight:300 }} aria-label="simple table">
@@ -112,7 +112,7 @@ const VerDocumentosInscripcion = ()=>{
     if(getArchivos.status == "loading"){
         return (
             <Grid sx={{width:"100%",display:"flex", flexDirection:"column"}}>
-                <HeaderProfesional/>
+                <Header/>
                  <Grid sx={{width:"35%",margin:"0px auto",marginTop:"20px",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
                     Cargando datos.........
                     <CircularProgress/>

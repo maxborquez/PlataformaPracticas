@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import HeaderAlumno from "../../../components/headers/headerAlumno";
+import Header from "../../../components/headers/header";
 import Detalle from "./components/Detalle";
 import { useParams } from "react-router-dom";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
@@ -17,7 +17,7 @@ const DetalleInscripcion = () => {
       }}
     >
       <Grid item sx={{ zIndex: 1000, position: "fixed", width: "100%" }}>
-        <HeaderAlumno />
+        <Header />
       </Grid>
 
       <Grid item sx={{ flex: "0 0 auto", position: "fixed", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto" }}>

@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import clienteAxios from "../../../helpers/clienteaxios";
-import HeaderAlumno from "../../../components/headers/headerAlumno";
+import Header from "../../../components/headers/header";
 
 
 

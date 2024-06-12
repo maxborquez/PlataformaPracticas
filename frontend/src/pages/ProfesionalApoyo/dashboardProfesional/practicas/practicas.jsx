@@ -18,7 +18,6 @@ import clienteAxios from "../../../../helpers/clienteaxios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Checklist } from "@mui/icons-material";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 
 const Practicas = () => {
   const [anio, setanio] = useState(2023);

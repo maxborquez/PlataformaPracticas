@@ -1,6 +1,6 @@
 import { Grid, Button } from "@mui/material";
 import Header from "../../../components/headers/header";
-import TableEmpresa from "../../../../src/components/tableEmpresas/tableEmpresa";
+import TableEmpresa from "../../ProfesionalApoyo/dashboardProfesional/empresas/components/tableEmpresa";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 
 const EmpresaAlumno = () => {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Grid, Button } from "@mui/material";
+import { Grid, Button, Typography } from "@mui/material";
 import Header from "../../../../components/headers/header";
-import TableEmpresa from "../../../../components/tableEmpresas/tableEmpresa";
+import TableEmpresa from "./components/tableEmpresa";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import { useNavigate } from "react-router-dom";
 
@@ -31,32 +31,92 @@ const CentrosPracticas = () => {
   }, []);
 
   return (
-    <Grid container sx={{ overflowY: "auto" }}>
-      <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000, width: '100%' }}>
-        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
+    <Grid
+      container
+      direction="column"
+      sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
+    >
+      <Grid
+        item
+        sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}
+      >
+        <Header
+          toggleSidebar={toggleSidebar}
+          isWideScreen={isWideScreen}
+          showSidebarButton={true}
+        />
       </Grid>
 
-      <Grid container item >
+      <Grid container item>
         {sidebarOpen && (
-          <Grid item sx={{ position: 'fixed', top: '80px', left: 0, width: '250px', zIndex: 1200, backgroundColor: '#36465d' }}>
+          <Grid
+            item
+            sx={{
+              position: "fixed",
+              top: "80px",
+              left: 0,
+              width: "250px",
+              zIndex: 1200,
+              backgroundColor: "#36465d",
+            }}
+          >
             <SidebarProfesional />
           </Grid>
         )}
 
         <Grid
           item
-          xs={12}
-          container
-          justifyContent="center"
-          sx={{ transition: 'margin-left 0.3s', marginLeft: isWideScreen ? '250px' : '0px'}}
+          xs
+          sx={{
+            marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
+            transition: "margin-left 0.3s",
+            overflowY: "auto",
+            paddingRight: "16px",
+            overflowX: "auto",
+            marginTop: "35px",
+            display: "flex",
+            justifyContent: "center",
+          }}
         >
-          <Grid item>
-            <Button variant="contained" onClick={() => navigate("/ingresar_empresa")} sx={{mt:"40px", mb:"50px"}}>
-              Ingresar nueva empresa
-            </Button>
-          </Grid>
-          <Grid item sx={{ width: '100%', overflowX: 'hidden' }}>
-            <TableEmpresa />
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "15px",
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+              maxWidth: "80%",
+              margin: "0 auto",
+            }}
+          >
+            <Grid item>
+              <Typography
+                variant="h5"
+                sx={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                Centros de práctica
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button
+                sx={{ marginLeft: "10px" }}
+                variant="contained"
+                onClick={() => navigate("/crearoferta")}
+              >
+                Añadir oferta
+              </Button>
+            </Grid>
+            <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
+              <TableEmpresa />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "react-query";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../../../helpers/clienteaxios";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useNavigate } from 'react-router-dom';
 
 const FormularioEmpresa = () => {
     const [selectedValue, setSelectedValue] = useState('');
@@ -15,6 +16,7 @@ const FormularioEmpresa = () => {
     const [comuna, setComuna] = useState("");
     const queryClient = useQueryClient();
     const formRef = useRef(null);
+    const navigate = useNavigate();
 
     const handleComuna = (event) => {
         setComuna(event.target.value);
@@ -23,6 +25,10 @@ const FormularioEmpresa = () => {
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
+
+    const handleBack = () => {
+        navigate('/centros_practicas');
+      };
 
     const onSubmit = async (data) => {
         Swal.fire({
@@ -82,6 +88,11 @@ const FormularioEmpresa = () => {
             <Grid item xs={12}>
                 <Typography variant="h5" sx={{ textAlign: "center", display: "flex", justifyContent: "center", alignItems: "center" }}>Registro de empresa <Business style={{ marginLeft: "5px" }} /> </Typography>
             </Grid>
+            <Grid container justifyContent="flex-end">
+                  <Button variant="contained" color="primary" onClick={handleBack} sx={{ mr: 1 }}>
+                    Volver
+                  </Button>
+                </Grid>
             <Grid item xs={12}>
                 <form method="POST" ref={formRef} onSubmit={handleSubmit(onSubmit)} >
                     <Grid container spacing={2}>

@@ -1,6 +1,6 @@
 import { Grid, Box } from "@mui/material";
 import { useState, useEffect } from "react";
-import HeaderProfesional from "../../../../components/headers/headerProfesional";
+import Header from "../../../../components/headers/header";
 import MostrarOfertas from "./components/mostrar_ofertas";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 
@@ -32,7 +32,7 @@ const OfertaPractica = () => {
     <Box sx={{ height: "100vh", overflowY: "auto" }}>
       <Grid container>
         <Grid item xs={12} sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-          <HeaderProfesional toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} />
+          <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
         </Grid>
 
         {sidebarOpen && (

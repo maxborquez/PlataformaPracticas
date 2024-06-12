@@ -8,16 +8,16 @@ import {
   Select,
   TextField,
   Typography,
-  Divider,
 } from "@mui/material";
 import Header from "../../../../components/headers/header";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import { useState, useEffect } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Checklist } from "@mui/icons-material";
+import MUIDataTable from "mui-datatables";
 
 const Practicas = () => {
   const [anio, setanio] = useState(2023);
@@ -25,7 +25,6 @@ const Practicas = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const navigate = useNavigate();
-  const queryclient = useQueryClient();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -116,26 +115,147 @@ const Practicas = () => {
     }
   });
 
+  const columns = [
+    { 
+      name: "Practica", 
+      label: "Práctica profesional", 
+      options: { 
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "Alumnos", 
+      label: "Alumnos inscritos", 
+      options: { 
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    {
+      name: "Accion",
+      label: "Acción",
+      options: {
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        }),
+        customBodyRender: (value, tableMeta, updateValue) => {
+          const practica = tableMeta.rowData[0];
+          const carrera = value.carrera;
+          const id_asignatura = value.id_asignatura;
+          return (
+            <Button
+              onClick={() => {
+                navigate(
+                  `/estadopracticas/${anio}/${periodo_academico}/${id_asignatura}/${carrera}`
+                );
+              }}
+              variant="contained"
+              sx={{ padding: "5px 10px" }}
+            >
+              Ver estudiantes
+            </Button>
+          );
+        },
+      },
+    },
+  ];
+
+  const options = {
+    responsive: "standard",
+    search: false,
+    download: false,
+    print: false,
+    viewColumns: false,
+    filter: false,
+    pagination: false,
+    selectableRows: "none", // Desactiva la selección múltiple
+  }
+
+  const dataIECI = [
+    {
+      Practica: 1,
+      Alumnos:
+        getListadoPractica1IECI.status === "success"
+          ? getListadoPractica1IECI.data.cantidad_alumnos
+          : 0,
+      Accion: {
+        carrera:
+          getListadoPractica1IECI.status === "success"
+            ? getListadoPractica1IECI.data.carrera
+            : "",
+        id_asignatura: 620509,
+      },
+    },
+    {
+      Practica: 2,
+      Alumnos:
+        getListadoPractica2IECI.status === "success"
+          ? getListadoPractica2IECI.data.cantidad_alumnos
+          : 0,
+      Accion: {
+        carrera:
+          getListadoPractica2IECI.status === "success"
+            ? getListadoPractica2IECI.data.carrera
+            : "",
+        id_asignatura: 620520,
+      },
+    },
+  ];
+
+  const dataICINF = [
+    {
+      Practica: 1,
+      Alumnos:
+        getListadoPractica1ICINF.status === "success"
+          ? getListadoPractica1ICINF.data.cantidad_alumnos
+          : 0,
+      Accion: {
+        carrera:
+          getListadoPractica1ICINF.status === "success"
+            ? getListadoPractica1ICINF.data.carrera
+            : "",
+        id_asignatura: 620509,
+      },
+    },
+    {
+      Practica: 2,
+      Alumnos:
+        getListadoPractica2ICINF.status === "success"
+          ? getListadoPractica2ICINF.data.cantidad_alumnos
+          : 0,
+      Accion: {
+        carrera:
+          getListadoPractica2ICINF.status === "success"
+            ? getListadoPractica2ICINF.data.carrera
+            : "",
+        id_asignatura: 620520,
+      },
+    },
+  ];
+
   return (
-    <Grid
-      container
-      direction="column"
-      sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
-    >
+    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <Header
-          toggleSidebar={toggleSidebar}
-          isWideScreen={isWideScreen}
-          showSidebarButton={true}
-        />
+        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true} />
       </Grid>
       <Grid container>
         {sidebarOpen && (
-          <Grid
-            item
-            xs={3}
-            sx={{ position: "fixed", top: "80px", zIndex: 1200 }}
-          >
+          <Grid item xs={3} sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
             <SidebarProfesional />
           </Grid>
         )}
@@ -151,33 +271,33 @@ const Practicas = () => {
             alignItems: "center",
           }}
         >
-          <Grid
-            container
-            spacing={1}
-            direction="column"
-            alignItems="center"
-            sx={{ bgcolor: "#e8e9eb", width: "100%" ,marginBottom: "10px", marginRight:"12px"}}
+          <Card
+            sx={{
+              padding: "20px",
+              backgroundColor: "white",
+              width: "100%",
+              maxWidth: "1120px",
+              marginTop: "15px",
+              marginBottom: "15px",
+            }}
           >
-          
-            
-             
-          
             <Typography
-                  variant="h5"
-                  sx={{
-                    marginTop:"10px",
-                    marginBottom: "10px",
-                    fontSize: { xs: "1.3rem", sm: "1.4rem" },
-                  }}
-                >
-                   Ingrese el semestre y período <Checklist style={{ marginLeft: "5px" }} />
-                </Typography>
+              variant="h5"
+              sx={{
+                marginTop: "10px",
+                marginBottom: "10px",
+                fontSize: { xs: "1.3rem", sm: "1.4rem" },
+                textAlign: "center"
+              }}
+            >
+              Ingrese el semestre y período <Checklist style={{ marginLeft: "5px" }} />
+            </Typography>
 
             <form
               onSubmit={onSubmit}
               style={{
                 width: "100%",
-                maxWidth: "1120px", // Ajuste para asegurar el tamaño
+                maxWidth: "1120px",
                 borderRadius: "5px",
                 backgroundColor: "white",
                 padding: "10px",
@@ -194,9 +314,7 @@ const Practicas = () => {
                   alignItems: "center",
                   bgcolor: "white",
                   borderRadius: "5px",
-                 
                   padding: "1px",
-                  
                 }}
               >
                 <Grid
@@ -204,11 +322,10 @@ const Practicas = () => {
                   xs={12}
                   sm={4}
                   sx={{
-                    bgcolor:"white",
+                    bgcolor: "white",
                     borderRadius: "5px",
-                    marginTop:"10px",
-                    padding:"10px"
-                    
+                    marginTop: "10px",
+                    padding: "10px",
                   }}
                 >
                   <TextField
@@ -226,16 +343,17 @@ const Practicas = () => {
                     fullWidth
                   />
                 </Grid>
-                <Grid item
+                <Grid
+                  item
                   xs={12}
                   sm={4}
                   sx={{
-                    bgcolor:"white",
+                    bgcolor: "white",
                     borderRadius: "5px",
-                    marginTop:"10px",
-                    padding:"10px"
-                    
-                  }}>
+                    marginTop: "10px",
+                    padding: "10px",
+                  }}
+                >
                   <FormControl fullWidth>
                     <InputLabel>Seleccione Período</InputLabel>
                     <Select
@@ -259,7 +377,7 @@ const Practicas = () => {
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "flex-end",
+                    justifyContent: "center",
                     bgcolor: "white",
                   }}
                 >
@@ -270,187 +388,24 @@ const Practicas = () => {
               </Grid>
             </form>
 
-          
-            <Typography
-                  variant="h5"
-                  sx={{
-                    marginTop:"10px",
-                    marginBottom: "10px",
-                    fontSize: { xs: "1.3rem", sm: "1.4rem" },
-                  }}
-                >
-                  Ingeniería de Ejecución en Computación e Informática
-                </Typography>
+            <Typography variant="h6" sx={{ marginBottom: "10px", textAlign: "center" }}>
+              Prácticas Profesionales IECI
+            </Typography>
+            <MUIDataTable
+              data={dataIECI}
+              columns={columns}
+              options={options}
+            />
 
-
-              <Card
-                sx={{
-                  padding: "10px",
-                  backgroundColor: "white",
-                  textAlign: "center",
-                  width: "100%",
-                  marginBottom: "10px",
-                  
-                }}
-              >
-                
-                <Grid container spacing={1}>
-                  <Grid item xs={4}>
-                    <Typography variant="h6">Práctica profesional</Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="h6">Alumnos inscritos</Typography>
-                  </Grid>
-                  <Grid item xs={4} />
-                </Grid>
-                <Divider sx={{ backgroundColor: "grey", my: 1 }} />
-                <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={4}>
-                    <Typography variant="h6">1</Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica1IECI.status === "success" && (
-                      <Typography variant="h6">
-                        {getListadoPractica1IECI.data.cantidad_alumnos}
-                      </Typography>
-                    )}
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica1IECI.status === "success" && (
-                      <Button
-                        onClick={() => {
-                          navigate(
-                            `/estadopracticas/${anio}/${periodo_academico}/620509/${getListadoPractica1IECI.data.carrera}`
-                          );
-                        }}
-                        variant="contained"
-                        sx={{ padding: "5px 10px" }}
-                      >
-                        Ver situación estudiantes
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-                <Divider sx={{ backgroundColor: "grey", my: 1 }} />
-                <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={4}>
-                    <Typography variant="h6">2</Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica2IECI.status === "success" && (
-                      <Typography variant="h6">
-                        {getListadoPractica2IECI.data.cantidad_alumnos}
-                      </Typography>
-                    )}
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica2IECI.status === "success" && (
-                      <Button
-                        onClick={() => {
-                          navigate(
-                            `/estadopracticas/${anio}/${periodo_academico}/620520/${getListadoPractica2IECI.data.carrera}`
-                          );
-                        }}
-                        variant="contained"
-                        sx={{ padding: "5px 10px" }}
-                      >
-                        Ver situación estudiantes
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-              </Card>
-           
-              <Typography
-                  variant="h5"
-                  sx={{
-                    marginTop:"10px",
-                    marginBottom: "10px",
-                    fontSize: { xs: "1.3rem", sm: "1.4rem" },
-                  }}
-                >
-                  Ingeniería Civil en Informática
-                </Typography>
-           
-              <Card
-                sx={{
-                  padding: "10px",
-                  backgroundColor: "white",
-                  textAlign: "center",
-                  width: "100%",
-                
-                  marginBottom: "10px",
-                }}
-              >
-                
-                <Grid container spacing={1}>
-                  <Grid item xs={4}>
-                    <Typography variant="h6">Práctica profesional</Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="h6">Alumnos inscritos</Typography>
-                  </Grid>
-                  <Grid item xs={4} />
-                </Grid>
-                <Divider sx={{ backgroundColor: "grey", my: 1 }} />
-                <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={4}>
-                    <Typography variant="h6">1</Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica1ICINF.status === "success" && (
-                      <Typography variant="h6">
-                        {getListadoPractica1ICINF.data.cantidad_alumnos}
-                      </Typography>
-                    )}
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica1ICINF.status === "success" && (
-                      <Button
-                        onClick={() => {
-                          navigate(
-                            `/estadopracticas/${anio}/${periodo_academico}/620509/${getListadoPractica1ICINF.data.carrera}`
-                          );
-                        }}
-                        variant="contained"
-                        sx={{ padding: "5px 10px" }}
-                      >
-                        Ver situación estudiantes
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-                <Divider sx={{ backgroundColor: "grey", my: 1 }} />
-                <Grid container spacing={1} alignItems="center">
-                  <Grid item xs={4}>
-                    <Typography variant="h6">2</Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica2ICINF.status === "success" && (
-                      <Typography variant="h6">
-                        {getListadoPractica2ICINF.data.cantidad_alumnos}
-                      </Typography>
-                    )}
-                  </Grid>
-                  <Grid item xs={4}>
-                    {getListadoPractica2ICINF.status === "success" && (
-                      <Button
-                        onClick={() => {
-                          navigate(
-                            `/estadopracticas/${anio}/${periodo_academico}/620520/${getListadoPractica2ICINF.data.carrera}`
-                          );
-                        }}
-                        variant="contained"
-                        sx={{ padding: "5px 10px" }}
-                      >
-                        Ver situación estudiantes
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-              </Card>
-          
-          </Grid>
+            <Typography variant="h6" sx={{ marginBottom: "10px", marginTop: "20px", textAlign: "center" }}>
+              Prácticas Profesionales ICINF
+            </Typography>
+            <MUIDataTable
+              data={dataICINF}
+              columns={columns}
+              options={options}
+            />
+          </Card>
         </Grid>
       </Grid>
     </Grid>

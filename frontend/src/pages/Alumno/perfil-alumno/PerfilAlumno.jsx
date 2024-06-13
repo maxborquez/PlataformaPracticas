@@ -66,14 +66,13 @@ const PerfilAlumno = () => {
           item
           sx={{
             marginLeft: isWideScreen && sidebarOpen ? "250px" : "0px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
             transition: "margin-left 0.3s",
-            width: "100%",
-            maxWidth: "1000px",
-            margin: "0 auto", // Añadir esta línea para centrar horizontalmente
-            padding: "0 50px", // Añadir un padding opcional para mejor presentación
+            flexGrow: 1, // Permitir que el contenido crezca para llenar el espacio disponible
+            padding: "0 20px", // Añadir un padding opcional para mejor presentación
+            display: "flex",
+            justifyContent: "center", // Centrar horizontalmente
+            alignItems: "center", // Centrar verticalmente si es necesario
+            textAlign: "center", // Centrar el texto dentro del contenedor
           }}
         >
           <DataAlumno isWideScreen={isWideScreen} />

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "mui-datatables": "^4.3.0"
+    "mui-datatables": "^4.3.0",
+    "prop-types": "^15.8.1"
   }
 }

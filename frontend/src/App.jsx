@@ -20,7 +20,6 @@ import ModificarDatos from './pages/Alumno/inscripcion_practica/modificarDatos'
 import DocumentosInscripcion from './pages/Alumno/documentos/documentosInscripcion'
 import ArchivosBitacoras from './pages/Alumno/archivos_bitacora/Archivos_bitacoras'
 import ImagenesBitacoras from './pages/Alumno/imagenesBitacora/imageneBitacoras'
-import Aptitudes from './pages/Alumno/aptitudes/aptitudes'
 import BitAlumnoRender from './pages/Alumno/BitacoraAlumno/CreateBitacoAlumno/BitaAlumnoRender'
 import RenderBitaAlumno from './pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderBitaAlumno'
 import RenderDetailsAlumno from './pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno'
@@ -74,7 +73,6 @@ function App() {
                                 <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />
                                 <Route path="/archivosbitacora/:id" element ={<ArchivosBitacoras/>} />
                                 <Route path="/imagenesbitacora/:id" element={<ImagenesBitacoras/>} />
-                                <Route path="/aptitudes" element={<Aptitudes/>} />
                                 <Route path="/bitacoralumno" element={<BitAlumnoRender />} />
                                 <Route path="/showbitalumno/:id" element={<RenderBitaAlumno/>} />
                                 <Route path="/detailsbitacoralumno/:id" element={<RenderDetailsAlumno/>} />

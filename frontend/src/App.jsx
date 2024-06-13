@@ -35,7 +35,6 @@ import EstadoPracticas from './pages/ProfesionalApoyo/dashboardProfesional/estad
 import InformacionGeneral from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/informacion_general_practica'
 import VerDocumentosInscripcion from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/verdocumentosinscripcion'
 import EvaluarPractica from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/evaluarPractica'
-import AptitudesAlumno from './pages/ProfesionalApoyo/dashboardProfesional/aptitudes_alumno/AptitudesAlumno'
 import BitacorasAlumno from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/bitacorasAlumno'
 import DetalleBitacora from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/detalleBitacora'
 import VerArchivos from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/verArchivos'
@@ -99,7 +98,6 @@ function App() {
                                 <Route path="/documentosinscripcionpractica/:id" element={<VerDocumentosInscripcion/>} />
 
                                 <Route path="/evaluarinscripcion/:id" element={<EvaluarPractica/>} />
-                                <Route path="/aptitudes/:id" element={<AptitudesAlumno/>} />
                                 <Route path="/bitacoras/:id" element={<BitacorasAlumno/>} />
                                 <Route path="/detallebitacora/:id" element={<DetalleBitacora/>} />
                                 <Route path='/verarchivobitacoras/:id' element={<VerArchivos/>} />

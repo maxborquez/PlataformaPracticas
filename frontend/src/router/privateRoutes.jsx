@@ -16,7 +16,6 @@ import CrearOferta from "../pages/ProfesionalApoyo/dashboardProfesional/ofertas_
 import ModificarOferta from "../pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/modificarOferta";
 import ArchivosBitacoras from "../pages/Alumno/archivos_bitacora/Archivos_bitacoras";
 import ImagenesBitacoras from "../pages/Alumno/imagenesBitacora/imageneBitacoras";
-import Aptitudes from "../pages/Alumno/aptitudes/aptitudes";
 import CentrosPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/centros_practicas";
 import EstadoPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/estado_practicas";
 import InformacionGeneral from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/informacion_general_practica";
@@ -59,7 +58,6 @@ const PrivateRoutes = ()=>{
                     <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />
                     <Route path="/archivosbitacora/:id" element ={<ArchivosBitacoras/>} />
                     <Route path="/imagenesbitacora/:id" element={<ImagenesBitacoras/>} />
-                    <Route path="/aptitudes" element={<Aptitudes/>} />
                     <Route path="/bitacoralumno" element={<BitAlumnoRender />} />
                     <Route path="/showbitalumno" element={<RenderBitaAlumno/>} />
                     <Route path="/detailsbitacoralumno/:id" element={<RenderDetailsAlumno/>} />

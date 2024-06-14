@@ -5,7 +5,7 @@ const AutenticacionToken = async(req,res, next)=>{
     const token = authHeader && authHeader.split(' ')[1];
     const rol = req.headers.rol;
 
-    if(rol != 1 &&  rol !=3){
+    if(rol != 1 &&  rol !=2){
         return res.status(401).json({
             mensaje:"No tienes autorización por tu rol"
         })

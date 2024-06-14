@@ -91,15 +91,7 @@ const PerfilAlumno = () => {
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-      }}
-    >
+    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
         <Header
           toggleSidebar={toggleSidebar}
@@ -160,11 +152,12 @@ const PerfilAlumno = () => {
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                     width: "70%",
-                    bgcolor: "background.paper",
+                
                     maxHeight: "80vh",
                     boxShadow: 24,
                     overflow: "auto",
                     p: 4,
+                    bgcolor:"green"
                   }}
                 >
                   <Typography variant="h5" sx={{ textAlign: "center" }}>

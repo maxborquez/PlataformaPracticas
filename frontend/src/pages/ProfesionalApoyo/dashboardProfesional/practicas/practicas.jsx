@@ -165,7 +165,7 @@ const Practicas = () => {
                 );
               }}
               variant="contained"
-              sx={{ padding: "5px 10px" }}
+              sx={{ padding: "5px 10px", bgcolor: "#326fa6" }}
             >
               Ver estudiantes
             </Button>
@@ -381,7 +381,7 @@ const Practicas = () => {
                     bgcolor: "white",
                   }}
                 >
-                  <Button type="submit" variant="contained">
+                  <Button type="submit" variant="contained" sx={{ bgcolor: "#326fa6" }}>
                     Buscar
                   </Button>
                 </Grid>

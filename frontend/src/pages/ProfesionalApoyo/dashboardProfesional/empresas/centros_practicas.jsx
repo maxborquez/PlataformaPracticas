@@ -108,7 +108,7 @@ const CentrosPracticas = () => {
             </Grid>
             <Grid item>
               <Button
-                sx={{ marginLeft: "10px" }}
+                sx={{ marginLeft: "10px", bgcolor: "#326fa6" }}
                 variant="contained"
                 onClick={() => navigate("/ingresar_empresa")}
               >

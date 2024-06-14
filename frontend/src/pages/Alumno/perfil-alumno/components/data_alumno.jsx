@@ -27,10 +27,10 @@ const DataAlumno = () => {
             <Grid sx={{ width: "100%" }}>
                 <TableContainer component={Paper} sx={{ maxWidth: '90%', margin: "0px auto", marginTop: "15px", boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)' }}>
                     <Table>
-                        <TableHead sx={{ width: "100%", textAlign: "center" }}>
+                        <TableHead sx={{ width: "100%", textAlign: "center", backgroundColor:"#326fa6" }}>
                             <TableRow>
                                 <TableCell colSpan={2}>
-                                    <Typography variant="subtitle1" sx={{ textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", color: "black", transition: "all 1000ms", ':hover': { color: "black" } }}>
+                                    <Typography variant="subtitle1" sx={{ textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", color: "white", transition: "all 1000ms"}}>
                                         Datos Personales <Person style={{ marginLeft: "5px" }} />
                                     </Typography>
                                 </TableCell>

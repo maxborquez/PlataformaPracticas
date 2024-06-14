@@ -1,11 +1,10 @@
 import {
-  Box,
   Button,
   Typography,
-  Modal,
   Grid,
   Select,
   MenuItem,
+  Paper,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -42,7 +41,7 @@ const PerfilAlumno = () => {
     };
   }, []);
 
-  // ModalAptitudes code
+  // Código de aptitudes
   const { handleSubmit, register, control } = useForm();
   const { data, status, refetch } = useQuery("aptitudes", async () => {
     const response = await clienteAxios.get("/aptitud/getall");
@@ -61,13 +60,6 @@ const PerfilAlumno = () => {
 
     return optionsNotRegistered;
   });
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
   const queryClient = useQueryClient();
   const onSubmit = async (data) => {
     const response = await clienteAxios.post("/conocimiento/create", {
@@ -76,14 +68,13 @@ const PerfilAlumno = () => {
     });
     if (response.status == 200) {
       Swal.fire({
-        title: "Regitrado",
-        text: "Conocimento registrado correctamente",
+        title: "Registrado",
+        text: "Conocimiento registrado correctamente",
         icon: "success",
         confirmButtonText: "Aceptar",
       });
       setTimeout(() => {
         Swal.close();
-        setOpen(false);
         refetch();
         queryClient.refetchQueries("misapitudes");
       }, 2000);
@@ -91,7 +82,11 @@ const PerfilAlumno = () => {
   };
 
   return (
-   <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
+    <Grid
+      container
+      direction="column"
+      sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
+    >
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
         <Header
           toggleSidebar={toggleSidebar}
@@ -99,78 +94,60 @@ const PerfilAlumno = () => {
           showSidebarButton={true}
         />
       </Grid>
-      <Grid container item sx={{ marginTop: "64px" }}>
+      <Grid container>
         {sidebarOpen && (
           <Grid
             item
-            sx={{
-              position: "fixed",
-              top: "80px",
-              left: 0,
-              zIndex: 1200,
-              width: "250px",
-              height: "100vh",
-              backgroundColor: "white",
-            }}
+            xs={3}
+            sx={{ position: "fixed", top: "80px", zIndex: 1200 }}
           >
             <SidebarAlumno />
           </Grid>
         )}
+
         <Grid
           item
+          xs
           sx={{
-            marginLeft: isWideScreen && sidebarOpen ? "250px" : "0px",
+            marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
-            flexGrow: 1,
-            padding: "0 20px",
-            display: "flex",
-            flexDirection: "column", // Cambiado a columna para apilar verticalmente
-            alignItems: "center",
-            textAlign: "center",
+            overflowY: "auto",
+            paddingRight: "16px",
+            marginTop: "35px",
           }}
         >
-          <DataAlumno isWideScreen={isWideScreen} />
-          {status === "success" && (
-            <>
-              <Button
-                variant="contained"
-                onClick={handleOpen}
-                sx={{
-                  width: "250px",
-                  margin: "0px auto",
-                  marginBottom: "15px",
-                  marginTop: "10px",
-                }}
-              >
-                Ingresar conocimiento
-              </Button>
-              <Modal sx={{ zIndex: 2 }} open={open} onClose={handleClose}>
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: "70%",
-                    bgcolor: "background.paper",
-                    maxHeight: "80vh",
-                    boxShadow: 24,
-                    overflow: "auto",
-                    p: 4,
-                  
-                  }}
-                >
-                  <Typography variant="h5" sx={{ textAlign: "center" }}>
-                    Añadir conocimientos{" "}
+          <Paper
+            elevation={3}
+            sx={{
+              padding: "16px",
+              backgroundColor: "#fff",
+              maxWidth: "1200px", // Adjust the width as needed
+              margin: "auto",
+              marginBottom: "16px",
+            }}
+          >
+            <Grid
+              container
+              spacing={2}
+              sx={{ flexDirection: "column", alignItems: "center" }}
+            >
+              <Grid item sx={{ width: "100%" }}>
+                <DataAlumno isWideScreen={isWideScreen} />
+              </Grid>
+              {status === "success" && (
+                <Grid item sx={{ width: "100%" }}>
+                  <Typography variant="h5" sx={{ textAlign: "center", marginBottom: "10px" }}>
+                    Agregar conocimientos
                   </Typography>
 
                   <form
                     onSubmit={handleSubmit(onSubmit)}
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      flexDirection: "row",
                       alignItems: "center",
+                      width: "100%",
+                      justifyContent: "center",
                     }}
                   >
                     <Controller
@@ -179,7 +156,12 @@ const PerfilAlumno = () => {
                       defaultValue=""
                       rules={{ required: "Este campo es obligatorio" }}
                       render={({ field, fieldState }) => (
-                        <Select {...field} displayEmpty fullWidth required>
+                        <Select
+                          {...field}
+                          displayEmpty
+                          required
+                          sx={{ marginRight: "10px", width: "300px" }}
+                        >
                           <MenuItem value="" disabled>
                             Selecciona una opción
                           </MenuItem>
@@ -194,17 +176,19 @@ const PerfilAlumno = () => {
                     />
                     <Button
                       variant="contained"
-                      sx={{ width: "40%", marginTop: "10px" }}
+                      sx={{ width: "100px", height: "50px", bgcolor: "#326fa6" }}
                       type="submit"
                     >
-                      Enviar datos
+                      Agregar
                     </Button>
                   </form>
-                </Box>
-              </Modal>
-            </>
-          )}
-          <MisAptitudes id_alumno={id_alumno} />
+                </Grid>
+              )}
+              <Grid item sx={{ width: "100%" }}>
+                <MisAptitudes id_alumno={id_alumno} />
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
       </Grid>
     </Grid>

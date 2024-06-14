@@ -15,10 +15,9 @@ import {
 } from "@mui/material";
 import { useQuery, useQueryClient } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
-import PsychologyAltRoundedIcon from "@mui/icons-material/PsychologyAltRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const MisAptitudes = ({ id_alumno }) => {
   const [data, setData] = useState([]);
@@ -71,16 +70,15 @@ const MisAptitudes = ({ id_alumno }) => {
             }}
           >
             <Table>
-              <TableHead sx={{ width: "100%", textAlign: "center" }}>
+              <TableHead sx={{ width: "100%", textAlign: "center", backgroundColor:"#326fa6" }}>
                 <TableRow>
                   <TableCell colSpan={2}>
                     <Typography
                       variant="subtitle1"
                       sx={{
                         textAlign: "center",
-                        color: "black",
+                        color: "white",
                         transition: "all 1000ms",
-                        ":hover": { color: "black" },
                       }}
                     >
                       {" "}

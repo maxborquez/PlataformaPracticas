@@ -36,10 +36,10 @@ const OfertasPracticas = () => {
             <Grid sx={{ width: "90%", margin: "0px auto", display: "flex", flexDirection: "column" }}>
                 <TableContainer component={Paper} sx={{ maxWidth: '90%', margin: "0px auto", marginTop: "10px", boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)' }}>
                     <Table>
-                        <TableHead sx={{ width: "100%", textAlign: "center" }}>
+                        <TableHead sx={{ width: "100%", textAlign: "center", backgroundColor: "#326fa6" }}>
                             <TableRow>
                                 <TableCell colSpan={2}>
-                                    <Typography variant="subtitle1" sx={{ textAlign: "center", color: "black", transition: "all 1000ms", ':hover': { color: "black" } }}>
+                                    <Typography variant="subtitle1" sx={{ textAlign: "center", color: "white", transition: "all 1000ms" }}>
                                         <strong>Listado Ofertas de Prácticas Profesionales</strong>
                                     </Typography>
                                 </TableCell>
@@ -53,7 +53,7 @@ const OfertasPracticas = () => {
                                             {oferta.descripcion}
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="contained" onClick={() => navigate(`/detalleoferta/${oferta.id_oferta_practica}`)}>Ver detalle</Button>
+                                            <Button variant="contained" sx= {{ backgroundColor:"#326fa6" }} onClick={() => navigate(`/detalleoferta/${oferta.id_oferta_practica}`)}>Ver detalle</Button>
                                         </TableCell>
                                     </TableRow>
                                 ))

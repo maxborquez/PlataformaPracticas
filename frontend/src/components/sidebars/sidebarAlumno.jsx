@@ -76,10 +76,6 @@ const SidebarAlumno = () => {
         />
       </ListItem>
 
-      <ListItem button onClick={() => navigate("/aptitudes")}>
-        <ListItemText sx={{ textAlign: "center" }} primary="Aptitudes" />
-      </ListItem>
-
       <ListItem
         button
         onClick={handleDropdown}

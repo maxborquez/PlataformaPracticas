@@ -27,7 +27,7 @@ const ComprobarInscripcion = ()=>{
                     <Alert >Práctica inscrita en el sistema</Alert>
                 </Grid>
                 <Grid sx={{display:"flex"}} item>
-                    <Button  sx={{marginLeft:"5px"}} variant="contained" onClick={()=>navigate(`/detalleinscripcion/${id_inscribe}`)} >Ver Inscripción</Button>
+                    <Button  sx={{marginLeft:"5px", backgroundColor:"#326fa6" }} variant="contained" onClick={()=>navigate(`/detalleinscripcion/${id_inscribe}`)} >Ver Inscripción</Button>
                 </Grid>
             </Grid>
         )

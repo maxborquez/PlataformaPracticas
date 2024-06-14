@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
             }, 3000);
             break;
           }
-          case 3: {
+          case 2: {
             const userData = response.data;
             setToken(response.data.token);
             localStorage.setItem("user", response.data);

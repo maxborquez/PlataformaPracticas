@@ -3,7 +3,7 @@ import {
   Button,
   CircularProgress,
   Typography,
-  Paper,
+  Card,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
@@ -218,7 +218,7 @@ const OfertaPractica = () => {
       direction="column"
       sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
     >
-      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
+      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000,  }}>
         <Header
           toggleSidebar={toggleSidebar}
           isWideScreen={isWideScreen}
@@ -238,23 +238,29 @@ const OfertaPractica = () => {
 
         <Grid
           item
-          xs
+          xs={12}
           sx={{
             marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
-            overflowY: "auto",
-            paddingRight: "16px",
-            overflowX: "auto",
-            marginTop: "35px",
+            padding: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          
+
+          
           }}
         >
-          <Paper
+          <Card
             elevation={3}
             sx={{
-              padding: "16px",
-              backgroundColor: "#fff",
-              maxWidth: "1200px", // Adjust the width as needed
-              margin: "auto",
+              padding: "20px",
+              backgroundColor: "white",
+              width: "100%",
+              maxWidth: "1120px",
+              marginTop: "15px",
+              marginBottom: "15px",
+            
             }}
           >
             {getOfertas.status === "success" && getOfertas.data.ofertas ? (
@@ -332,7 +338,7 @@ const OfertaPractica = () => {
                 </Grid>
               </Grid>
             ) : null}
-          </Paper>
+          </Card>
         </Grid>
       </Grid>
     </Grid>

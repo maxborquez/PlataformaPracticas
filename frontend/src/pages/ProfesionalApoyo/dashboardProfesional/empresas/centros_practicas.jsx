@@ -87,11 +87,11 @@ const CentrosPracticas = () => {
               alignItems: "center",
               marginTop: "15px",
               backgroundColor: "white",
-              padding: "20px",
+              padding: "16px",
               borderRadius: "8px",
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              maxWidth: "80%",
-              margin: "0 auto",
+              margin: "auto",
+              marginLeft:"16px",
             }}
           >
             <Grid item>

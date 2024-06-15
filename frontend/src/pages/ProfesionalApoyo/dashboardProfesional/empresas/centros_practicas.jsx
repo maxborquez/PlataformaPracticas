@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Button, Typography , Card} from "@mui/material";
 import Header from "../../../../components/headers/header";
 import TableEmpresa from "./components/tableEmpresa";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
@@ -79,21 +79,18 @@ const CentrosPracticas = () => {
             justifyContent: "center",
           }}
         >
-          <Grid
-            container
-            spacing={2}
+          <Card
+            
             sx={{
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "15px",
+              padding: "20px",
               backgroundColor: "white",
-              padding: "16px",
-              borderRadius: "8px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              margin: "auto",
-              marginLeft:"16px",
+              width: "100%",
+              marginTop: "15px",
+              marginBottom: "15px",
+              marginLeft:"16px"
             }}
           >
+            <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
             <Grid item>
               <Typography
                 variant="h5"
@@ -103,7 +100,8 @@ const CentrosPracticas = () => {
                   alignItems: "center",
                 }}
               >
-                Centros de práctica <Business style={{ marginLeft: "5px" }}/>
+                Centros de práctica 
+                <Business style={{ marginLeft: "5px" }}/>
               </Typography>
             </Grid>
             <Grid item>
@@ -118,7 +116,8 @@ const CentrosPracticas = () => {
             <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
               <TableEmpresa />
             </Grid>
-          </Grid>
+            </Grid>
+          </Card>
         </Grid>
       </Grid>
     </Grid>

@@ -57,8 +57,8 @@ const IngresarEmpresa = () => {
             sx={{
               padding: "16px",
               backgroundColor: "#fff",
-              maxWidth: "1200px", // Adjust the width as needed
               margin: "auto",
+              marginLeft:"16px"
             }}
           >
             <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>

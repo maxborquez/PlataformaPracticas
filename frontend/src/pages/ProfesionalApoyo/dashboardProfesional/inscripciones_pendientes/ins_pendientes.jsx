@@ -142,7 +142,6 @@ const InscripcionesPendientes = () => {
               padding: "20px",
               backgroundColor: "white",
               width: "100%",
-              maxWidth: "1120px",
               marginTop: "15px",
               marginBottom: "15px",
             }}

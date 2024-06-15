@@ -253,8 +253,8 @@ const OfertaPractica = () => {
             sx={{
               padding: "16px",
               backgroundColor: "#fff",
-              maxWidth: "1200px", // Adjust the width as needed
               margin: "auto",
+              marginLeft: "16px",
             }}
           >
             {getOfertas.status === "success" && getOfertas.data.ofertas ? (

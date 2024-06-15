@@ -121,9 +121,10 @@ const PerfilAlumno = () => {
             sx={{
               padding: "16px",
               backgroundColor: "#fff",
-              maxWidth: "1200px", // Adjust the width as needed
+               // Adjust the width as needed
               margin: "auto",
               marginBottom: "16px",
+              marginLeft:"16px"
             }}
           >
             <Grid

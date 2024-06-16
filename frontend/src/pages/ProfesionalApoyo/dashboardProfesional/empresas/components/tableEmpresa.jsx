@@ -104,19 +104,6 @@ const TableEmpresa = () => {
         })
       }
     },
-    {
-      name: "centro_practica",
-      label: "Centro Práctica",
-      options: {
-        customBodyRender: (value) => (value ? "Sí" : "No"),
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      },
-    },
     { 
       name: "correo", 
       label: "Correo", 

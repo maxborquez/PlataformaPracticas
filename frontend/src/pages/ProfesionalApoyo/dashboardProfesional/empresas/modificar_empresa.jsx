@@ -36,12 +36,12 @@ const ModificarEmpresa = () => {
   };
 
   return (
-    <Grid container sx={{ position: 'relative' }}>
+    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
       <Grid item sx={{ position: 'sticky', top: 0, zIndex: 1000, width: '100%' }}>
         <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
       </Grid>
 
-      <Grid container item sx={{ marginTop: '80px'}}>
+      <Grid container item sx={{ marginTop: '15px' }}>
         {sidebarOpen && (
           <Grid item sx={{ position: 'fixed', top: '80px', left: 0, width: '250px', zIndex: 1200, backgroundColor: '#36465d' }}>
             <SidebarProfesional />

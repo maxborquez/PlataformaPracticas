@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Grid, Button, TextField, Typography, Alert} from "@mui/material";
+import { Grid, Button, TextField, Typography, Alert, Card } from "@mui/material";
 import { useRef, useState } from "react";
 import { Business } from "@mui/icons-material";
 import { useQuery, useQueryClient } from "react-query";
@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 const FormularioEmpresa = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [comunas, setComunas] = useState([]);
     const [comuna, setComuna] = useState("");
     const queryClient = useQueryClient();
     const formRef = useRef(null);
@@ -22,7 +21,7 @@ const FormularioEmpresa = () => {
 
     const handleBack = () => {
         navigate('/centros_practicas');
-      };
+    };
 
     const onSubmit = async (data) => {
         Swal.fire({
@@ -76,51 +75,56 @@ const FormularioEmpresa = () => {
     });
 
     return (
-        <Grid container spacing={2} sx={{ width: "100%", marginTop: "15px" }}>
-            <Grid item xs={12}>
-                <Typography variant="h5" sx={{ textAlign: "center", display: "flex", justifyContent: "center", alignItems: "center" }}>Registro de empresa <Business style={{ marginLeft: "5px" }} /> </Typography>
-            </Grid>
-            <Grid container justifyContent="flex-end">
-                  <Button variant="contained" color="primary" onClick={handleBack} sx={{ mr: 1 }}>
-                    Volver
-                  </Button>
-                </Grid>
-            <Grid item xs={12}>
-                <form method="POST" ref={formRef} onSubmit={handleSubmit(onSubmit)} >
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
+        <Grid container sx={{ width: "90%", margin: "0px auto" }}>
+            <Card sx={{ padding: "20px", marginTop: "15px", backgroundColor: "white" }}>
+                <Typography
+                    variant="h5"
+                    sx={{
+                        textAlign: "center",
+                        marginTop: "10px",
+                        marginBottom: "10px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
+                >
+                    Registro de empresa <Business style={{ marginLeft: "5px" }} />
+                </Typography>
+                <form method="POST" ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+                    <Grid container spacing={2} sx={{ marginTop: "10px" }}>
+                        <Grid item xs={12} md={6}>
                             <TextField label="Rut empresa" fullWidth
                                 {...register("rut_empresa", { required: true })}
                             />
-                            {errors.rut_empresa && <Alert sx={{ marginTop: "5px" }} severity="error" >Este campo es requerido</Alert>}
+                            {errors.rut_empresa && <Alert sx={{ marginTop: "5px" }} severity="error">Este campo es requerido</Alert>}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                             <TextField label="Razón social"
                                 {...register("razon_social", { required: true })}
                                 fullWidth />
-                            {errors.rut_empresa && <Alert sx={{ marginTop: "5px" }} severity="error" >Este campo es requerido</Alert>}
+                            {errors.razon_social && <Alert sx={{ marginTop: "5px" }} severity="error">Este campo es requerido</Alert>}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                             <TextField label="Dirección"
                                 {...register("direccion", { required: true })}
                                 fullWidth />
-                            {errors.direccion && <Alert sx={{ marginTop: "5px" }} severity="error" >Este campo es requerido</Alert>}
+                            {errors.direccion && <Alert sx={{ marginTop: "5px" }} severity="error">Este campo es requerido</Alert>}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                             <TextField label="Correo" fullWidth type="email"
                                 {...register("correo", { required: true })}
                             />
-                            {errors.correo && <Alert sx={{ marginTop: "5px" }} severity="error" >Este campo es requerido</Alert>}
+                            {errors.correo && <Alert sx={{ marginTop: "5px" }} severity="error">Este campo es requerido</Alert>}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                             <TextField label="Teléfono" fullWidth
                                 type="number"
                                 placeholder="9xxxxxxxx"
                                 {...register("telefono", { required: true })}
                             />
-                            {errors.telefono && <Alert sx={{ marginTop: "5px" }} severity="error" >Este campo es requerido</Alert>}
+                            {errors.telefono && <Alert sx={{ marginTop: "5px" }} severity="error">Este campo es requerido</Alert>}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={6}>
                             <Autocomplete
                                 options={getcomunas.data || []}
                                 getOptionLabel={(option) => option.nombre || ""}
@@ -130,16 +134,17 @@ const FormularioEmpresa = () => {
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Comuna" fullWidth />}
                                 noOptionsText="Sin coincidencias"
+                                sx={{ marginTop: "15px", backgroundColor: 'white' }}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button variant="contained" type="submit" fullWidth>
+                        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <Button variant="contained" type="submit" fullWidth sx={{ width: "50%", margin: "0px auto" }}>
                                 Registrar Empresa
                             </Button>
                         </Grid>
                     </Grid>
                 </form>
-            </Grid>
+            </Card>
         </Grid>
     );
 }

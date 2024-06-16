@@ -20,7 +20,7 @@ import { Checklist } from "@mui/icons-material";
 import MUIDataTable from "mui-datatables";
 
 const Practicas = () => {
-  const [anio, setanio] = useState(2023);
+  const [anio, setanio] = useState(new Date().getFullYear());
   const [periodo_academico, setPeriodo] = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);

@@ -7,14 +7,13 @@ const { body, param } = require("express-validator");
 const {AutenticacionProfesional} = require("../middlewares/VerifyRolProfesional");
 const {AutenticacionToken} = require("../middlewares/verifyToken");
 
-//rut_empresa,razon_social,direccion,centro_practica,id_comuna, id_estado_empresa
+//rut_empresa,razon_social,direccion,id_comuna, id_estado_empresa
 routerEmpresa.post("/create",
 [
     AutenticacionProfesional,
 body("rut_empresa").notEmpty().withMessage("El campo rut_empresa es requerido").isString().withMessage("El campo rut debe ser un string"),
 body("razon_social").notEmpty().withMessage("el campo razon_social es requerido").isString().withMessage("El campo razon social debe ser un string"),
 body("direccion").notEmpty().withMessage().isString().withMessage("El campo direccion ser un string"),
-body("centro_practica").notEmpty().withMessage("El campo centro_practica es requerido").isBoolean().withMessage("el campo centro_practica debe ser un booleano"),
 body("correo").notEmpty().withMessage("El campo email ser requerido").isEmail().withMessage("El campo correo debe ser email"),
 body("telefono").notEmpty().withMessage("El campo telefono es requerido").isString().withMessage("El campo telefono debe ser email"),
 body("id_comuna").notEmpty().withMessage("El campo id_comuna es requerido").isInt().withMessage("El campo id_comuna debe ser un entero"),
@@ -26,7 +25,7 @@ routerEmpresa.get("/getall",[AutenticacionToken],empresaController.obtener_empre
 
 routerEmpresa.delete("/delete/:id",[
    AutenticacionProfesional, 
-   param("id").notEmpty().withMessage("El campo id es requerido").isInt().withMessage("El campo id debe ser un entero") 
+   param("id").notEmpty().withMessage("El campo id es requerido").isInt().withMessage("El campo id debe ser un entero")
 ],empresaController.eliminar_empresa);
 
 routerEmpresa.get("/show/:id",[
@@ -40,7 +39,6 @@ AutenticacionToken,
 body("rut_empresa").notEmpty().withMessage("El campo rut_empresa es requerido").isString().withMessage("El campo rut debe ser un string"),
 body("razon_social").notEmpty().withMessage("el campo razon_social es requerido").isString().withMessage("El campo razon social debe ser un string"),
 body("direccion").notEmpty().withMessage().isString().withMessage("El campo direccion ser un string"),
-body("centro_practica").notEmpty().withMessage("El campo centro_practica es requerido").isBoolean().withMessage("el campo centro_practica debe ser un booleano"),
 body("correo").notEmpty().withMessage("El campo email ser requerido").isEmail().withMessage("El campo correo debe ser email"),
 body("telefono").notEmpty().withMessage("El campo telefono es requerido").isString().withMessage("El campo telefono debe ser email"),
 body("id_comuna").notEmpty().withMessage("El campo id_comuna es requerido").isInt().withMessage("El campo id_comuna debe ser un entero"),

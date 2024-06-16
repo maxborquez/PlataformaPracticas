@@ -13,10 +13,10 @@ const crear_empresa = async(req,res)=>{
                 errors:errors.array()
             })
         }
-        const {rut_empresa,razon_social,direccion,centro_practica,correo,telefono,id_comuna, id_estado_empresa} = req.body;
+        const {rut_empresa,razon_social,direccion,correo,telefono,id_comuna, id_estado_empresa} = req.body;
 
         const empresa = await prisma.empresa.create({
-            data:{rut_empresa,razon_social,direccion,centro_practica,correo,telefono,id_comuna,id_estado_empresa}
+            data:{rut_empresa,razon_social,direccion,correo,telefono,id_comuna,id_estado_empresa}
         })
         if(!empresa){
             return res.status(400).json({
@@ -145,13 +145,13 @@ const actualizar_empresa = async(req,res) =>{
             })
         }
         const {id} = req.params;
-        const {rut_empresa,razon_social,direccion,centro_practica,correo,telefono,id_comuna, id_estado_empresa} = req.body;
+        const {rut_empresa,razon_social,direccion,correo,telefono,id_comuna, id_estado_empresa} = req.body;
         
         const empresa = await prisma.empresa.update({
             where:{
                 id_empresa:Number(id)
             },
-            data:{rut_empresa,razon_social,direccion,centro_practica,correo,telefono,id_comuna,id_estado_empresa}
+            data:{rut_empresa,razon_social,direccion,correo,telefono,id_comuna,id_estado_empresa}
         })
         if(!empresa){
             return res.status(400).json({

@@ -65,7 +65,7 @@ const ListadoAlumnos = ({ anio, periodo, asignatura, carrera }) => {
           alumno.alumno.primer_nombre,
           alumno.alumno.apellido_paterno,
           alumno.alumno.correo_institucional,
-          `${alumno.periodo_academico.anio} - ${alumno.periodo_academico.id_periodo_academico}`,
+          `${alumno.periodo_academico.anio} - ${alumno.periodo_academico.periodo}`,
           "",
         ])
       : [];

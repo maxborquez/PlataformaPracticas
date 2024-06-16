@@ -31,7 +31,6 @@ import BitacorasAlumno from "../pages/ProfesionalApoyo/dashboardProfesional/bita
 import DetalleBitacora from "../pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/detalleBitacora";
 
 import IngresarEmpresa from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/ingresar_empresa";
-import EmpresaAlumno from "../pages/Alumno/empresa/empresa_alumno";
 import InscripcionesPendientes from "../pages/ProfesionalApoyo/dashboardProfesional/inscripciones_pendientes/ins_pendientes";
 
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -68,7 +67,7 @@ const PrivateRoutes = ()=>{
         )
     }
 
-    if(rol && rol == 3){
+    if(rol && rol == 2){
         return (
             <Routes>
                 <Route path="/dashboard_encargado" element={<DashboardProfesional/>} />

@@ -167,7 +167,7 @@ model inscripcion_practica {
   fecha_inscripcion_practica DateTime              @db.Date
   fecha_inicio               DateTime              @db.Date
   fecha_fin                  DateTime              @db.Date
-  observaciones              String                @db.VarChar(1300)
+  observaciones              String?               @db.VarChar(1300)
   id_representante           Int?
   id_oferta                  Int?
   id_estado_inscripcion      Int

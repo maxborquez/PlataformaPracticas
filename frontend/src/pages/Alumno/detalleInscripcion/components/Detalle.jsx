@@ -44,7 +44,7 @@ const Detalle = ({id})=>{
                 setTimeout(() => {
                     Swal.close();
                     queryClient.refetchQueries("update_inscripcion")
-                    navigate("/alumno");
+                    navigate("/ofertas_publicas");
                 }, 2000)
               } else {
                 Swal.fire({

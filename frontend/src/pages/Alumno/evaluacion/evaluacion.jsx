@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Grid, Typography, Card} from "@mui/material";
-import Header from "../../../../components/headers/header";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import Header from "../../../components/headers/header";
+import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
 
-const EmpresasPendientes = () => {
+const EvaluacionPractica = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
 
@@ -58,7 +58,7 @@ const EmpresasPendientes = () => {
               backgroundColor: "#36465d",
             }}
           >
-            <SidebarProfesional />
+            <SidebarAlumno />
           </Grid>
         )}
 
@@ -108,4 +108,4 @@ const EmpresasPendientes = () => {
   );
 };
 
-export default EmpresasPendientes;
+export default EvaluacionPractica;

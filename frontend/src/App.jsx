@@ -42,10 +42,13 @@ import VisualizadorDocumento from './pages/Alumno/documentos/visualizadorDocumen
 import VisualizadorDocumentosInscripcion from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/visualizadorDocumentos'
 import VisualizadorDocumentoBitacora from './pages/Alumno/archivos_bitacora/visualizador_archivo_bitacora'
 import IngresarEmpresa from "./pages/ProfesionalApoyo/dashboardProfesional/empresas/ingresar_empresa";
-import EmpresaAlumno from "./pages/Alumno/empresa/empresa_alumno";
+import InscribirEmpresaAlumno from "./pages/Alumno/empresa/inscribir_empresa";
 import InscripcionesPendientes from "./pages/ProfesionalApoyo/dashboardProfesional/inscripciones_pendientes/ins_pendientes";
 import Practicas from './pages/ProfesionalApoyo/dashboardProfesional/practicas/practicas'
 import EmpresasPendientes from './pages/ProfesionalApoyo/dashboardProfesional/empresas/emp_pendientes'
+import MiPractica from './pages/Alumno/mi_practica/mi_practica'
+import InformePractica from './pages/Alumno/informe/informe'
+import EvaluacionPractica from './pages/Alumno/evaluacion/evaluacion'
 
 const queryClient = new QueryClient();
 
@@ -65,11 +68,14 @@ function App() {
                                 <Route path="/dashboard_alumno" element={<DashboardAlumno/>} />
                                 <Route path="/ofertas_publicas" element={<OfertasPublicas/>} />
                                 <Route path="/perfil" element={<PerfilAlumno/>} />
+                                <Route path="/mi_practica" element={<MiPractica/>} />
                                 <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica/>} />
                                 <Route path="/detalleinscripcion/:id" element={<DetalleInscripcion/>}/>
                                 <Route path="/inscripcionpractica/:id" element={<InscripcionPractica/>} />
-                            
                                 <Route path="/modificarinscripcion/:id" element={<ModificarDatos/>} />
+                                <Route path="/inscribir_empresa" element={<InscribirEmpresaAlumno/>} />
+                                <Route path="/informe" element={<InformePractica/>} />
+                                <Route path="/evaluacion" element={<EvaluacionPractica/>} />
                                 <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />
                                 <Route path="/archivosbitacora/:id" element ={<ArchivosBitacoras/>} />
                                 <Route path="/imagenesbitacora/:id" element={<ImagenesBitacoras/>} />
@@ -77,10 +83,8 @@ function App() {
                                 <Route path="/showbitalumno/:id" element={<RenderBitaAlumno/>} />
                                 <Route path="/detailsbitacoralumno/:id" element={<RenderDetailsAlumno/>} />
                                 <Route path="/modificarbitacoralumno/:id" element={<EditingBitAlumno/>} />
-                                
-                            </Route>  
+                            </Route>
                             <Route element={<ProtectedRouteProfesional/>}>
-                          
                                 <Route path="/dashboard_encargado" element={<DashboardProfesional/>} />
                                 <Route path="/practicas" element={<Practicas/>} />
                                 <Route path="/ins_pendientes" element={<InscripcionesPendientes/>} />

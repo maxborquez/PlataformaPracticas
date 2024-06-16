@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
-import { Grid, Paper } from '@mui/material';
-import Header from '../../../../components/headers/header';
-import SidebarProfesional from '../../../../components/sidebars/sidebarProfesional';
-import FormularioEmpresa from './components/formulario_empresa';
+import { useState, useEffect } from "react";
+import { Grid, Paper, Button } from "@mui/material";
+import Header from "../../../../components/headers/header";
+import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import FormularioEmpresa from "./components/formulario_empresa";
+import { useNavigate } from "react-router-dom";
 
 const IngresarEmpresa = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -28,14 +30,30 @@ const IngresarEmpresa = () => {
     };
   }, []);
 
+  const handleBack = () => {
+    navigate("/centros_practicas");
+  };
+
   return (
-    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
+    <Grid
+      container
+      direction="column"
+      sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
+    >
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
+        <Header
+          toggleSidebar={toggleSidebar}
+          isWideScreen={isWideScreen}
+          showSidebarButton={true}
+        />
       </Grid>
       <Grid container>
         {sidebarOpen && (
-          <Grid item xs={3} sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
+          <Grid
+            item
+            xs={3}
+            sx={{ position: "fixed", top: "80px", zIndex: 1200 }}
+          >
             <SidebarProfesional />
           </Grid>
         )}
@@ -52,19 +70,26 @@ const IngresarEmpresa = () => {
             marginTop: "35px",
           }}
         >
-          <Paper
-            elevation={3}
-            sx={{
-              padding: "16px",
-              backgroundColor: "#fff",
-              margin: "auto",
-              marginLeft:"16px"
-            }}
-          >
-            <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+            <Grid
+              item
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                mb: 2,
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleBack}
+                sx={{ mb: 2, mr: 10 }}
+              >
+                Volver
+              </Button>
               <FormularioEmpresa />
             </Grid>
-          </Paper>
         </Grid>
       </Grid>
     </Grid>

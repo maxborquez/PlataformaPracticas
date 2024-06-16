@@ -90,12 +90,12 @@ const FormularioModificar = ({ id }) => {
     };
     if (!loading) {
         return (
-            <Grid sx={{ width: "90%", margin: "0px auto" }}>
+            <Grid sx={{ width: "90%", margin: "0px auto"}}>
                 <Card
                     sx={{
                         padding: "20px",
                         marginTop: "15px",
-                        backgroundColor: "#f4f5f7",
+                        backgroundColor: "white",
                     }}
                 >
                     <Typography

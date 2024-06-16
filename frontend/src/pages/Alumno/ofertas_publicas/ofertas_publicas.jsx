@@ -3,7 +3,6 @@ import { Grid, Typography } from "@mui/material";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import Header from "../../../components/headers/header";
 import OfertasPracticas from "../components/OfertaPracticas";
-import ComprobarInscripcion from "../components/comprobarInscripcion";
 
 const OfertasPublicas = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -103,9 +102,6 @@ const OfertasPublicas = () => {
               >
                 Ofertas de Práctica
               </Typography>
-            </Grid>
-            <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
-              <ComprobarInscripcion />
             </Grid>
             <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
               <OfertasPracticas />

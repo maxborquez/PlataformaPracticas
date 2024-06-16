@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Grid, Button, TextField, Typography, MenuItem, InputLabel, Alert, FormControl } from "@mui/material";
-import Select from "@mui/material/Select"
+import { Grid, Button, TextField, Typography, Alert} from "@mui/material";
 import { useRef, useState } from "react";
 import { Business } from "@mui/icons-material";
 import { useQuery, useQueryClient } from "react-query";
@@ -10,7 +9,6 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useNavigate } from 'react-router-dom';
 
 const FormularioEmpresa = () => {
-    const [selectedValue, setSelectedValue] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [comunas, setComunas] = useState([]);
     const [comuna, setComuna] = useState("");
@@ -20,10 +18,6 @@ const FormularioEmpresa = () => {
 
     const handleComuna = (event) => {
         setComuna(event.target.value);
-    };
-
-    const handleChange = (event) => {
-        setSelectedValue(event.target.value);
     };
 
     const handleBack = () => {
@@ -48,14 +42,12 @@ const FormularioEmpresa = () => {
                     rut_empresa: data.rut_empresa,
                     razon_social: data.razon_social,
                     direccion: data.direccion,
-                    centro_practica: selectedValue == 1 ? true : false,
                     correo: data.correo,
                     telefono: data.telefono,
                     id_comuna: comuna.id_comuna,
                     id_estado_empresa: 1
                 };
                 console.log(data_oficial);
-                
                 const response = await clienteAxios.post("/empresa/create", data_oficial);
 
                 if (response.status === 200) {
@@ -113,21 +105,6 @@ const FormularioEmpresa = () => {
                                 {...register("direccion", { required: true })}
                                 fullWidth />
                             {errors.direccion && <Alert sx={{ marginTop: "5px" }} severity="error" >Este campo es requerido</Alert>}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControl fullWidth>
-                                <InputLabel id="yes-no-select-label">Centro de práctica</InputLabel>
-                                <Select labelId="yes-no-select-label"
-                                    id="yes-no-select"
-                                    value={selectedValue}
-                                    label="Centro de práctica"
-                                    required
-                                    onChange={handleChange}
-                                    fullWidth >
-                                    <MenuItem value={1}>Si</MenuItem>
-                                    <MenuItem value={0}>No</MenuItem>
-                                </Select>
-                            </FormControl>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField label="Correo" fullWidth type="email"

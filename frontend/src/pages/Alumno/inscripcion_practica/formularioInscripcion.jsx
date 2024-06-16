@@ -222,7 +222,7 @@ const FormularioInscripcion = () => {
                     setTimeout(() => {
                         Swal.close();
 
-                        navigate("/ofertas_publicas");
+                        navigate("/mi_practica");
                     }, 2000);
                 }
             }
@@ -251,7 +251,7 @@ const FormularioInscripcion = () => {
                 });
                 setTimeout(() => {
                     Swal.close();
-                    navigate("/ofertas_publicas");
+                    navigate("/mi_practica");
                 }, 2000);
             }
             //Hago una peticion solamente
@@ -294,7 +294,7 @@ const FormularioInscripcion = () => {
                     });
                     setTimeout(() => {
                         Swal.close();
-                        navigate("/ofertas_publicas");
+                        navigate("/mi_practica");
                     }, 2000);
                 }
             }
@@ -323,7 +323,7 @@ const FormularioInscripcion = () => {
                 });
                 setTimeout(() => {
                     Swal.close();
-                    navigate("/ofertas_publicas");
+                    navigate("/mi_practica");
                 }, 2000);
             }
         }

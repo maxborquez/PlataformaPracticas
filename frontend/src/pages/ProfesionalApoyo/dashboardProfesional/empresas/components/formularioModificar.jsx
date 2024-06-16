@@ -14,7 +14,6 @@ const FormularioModificar = ({ id }) => {
     const [rut_empresa, setRut] = useState("");
     const [razon_social, setRazonSocial] = useState("");
     const [direccion, setDireccion] = useState("");
-    const [centro_practica, setCentroPractica] = useState("");
     const [correo, setCorreo] = useState("");
     const [telefono, setTelefono] = useState("");
     const [comuna, setComuna] = useState({});
@@ -36,8 +35,6 @@ const FormularioModificar = ({ id }) => {
             setRut(response.data.empresa.rut_empresa);
             setRazonSocial(response.data.empresa.razon_social);
             setDireccion(response.data.empresa.direccion);
-            const is_centro = response.data.empresa.centro_practica == true ? 1 : 0;
-            setCentroPractica(is_centro);
             setCorreo(response.data.empresa.correo);
             setTelefono(response.data.empresa.telefono);
             console.log(response.data);
@@ -66,7 +63,6 @@ const FormularioModificar = ({ id }) => {
             rut_empresa: rut_empresa,
             razon_social: razon_social,
             direccion: direccion,
-            centro_practica: centro_practica == 1 ? true : false,
             correo: correo,
             telefono: telefono,
             id_comuna: comuna.id_comuna,
@@ -147,24 +143,6 @@ const FormularioModificar = ({ id }) => {
                                     }}
                                     fullWidth
                                 />
-                            </Grid>
-                            <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                                <FormControl fullWidth>
-                                    <InputLabel>Centro de práctica</InputLabel>
-                                    <Select
-                                        sx={{ backgroundColor: "white" }}
-                                        label="Centro de práctica"
-                                        required
-                                        fullWidth
-                                        value={centro_practica}
-                                        onChange={(e) => {
-                                            setCentroPractica(e.target.value);
-                                        }}
-                                    >
-                                        <MenuItem value={1}>Si</MenuItem>
-                                        <MenuItem value={0}>No</MenuItem>
-                                    </Select>
-                                </FormControl>
                             </Grid>
 
                             <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>

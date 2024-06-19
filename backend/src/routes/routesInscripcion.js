@@ -75,4 +75,6 @@ routerInscripcion.put("/actualizaralumno/:id",
 ,
 inscripcionPracticaController.actualizar_inscripcion_alumno);
 
+routerInscripcion.get('/estado/:id_estado_inscripcion',[AutenticacionProfesional], inscripcionPracticaController.getInscripcionesEnProceso);
+
 module.exports=routerInscripcion;

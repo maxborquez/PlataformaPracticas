@@ -1,17 +1,16 @@
-import {
-  Grid,
-  Button,
-  Typography,
-  Card,
-} from "@mui/material";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Grid, IconButton, Typography, Card } from "@mui/material";
+import { Check, Block } from "@mui/icons-material";
 import Header from "../../../../components/headers/header";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import MUIDataTable from "mui-datatables";
+import Swal from "sweetalert2";
+import clienteAxios from "../../../../helpers/clienteaxios"; // Ajusta el path según tu estructura de proyecto
 
 const InscripcionesPendientes = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [data, setData] = useState([]); // Estado para almacenar los datos de la API
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -33,25 +32,81 @@ const InscripcionesPendientes = () => {
     };
   }, []);
 
-  // Supongamos que tienes datos de ejemplo
-  const data = [
-    { alumno: 'Juan Perez', rut: '20.356.893-9', oferta: 'Oferta A' },
-    { alumno: 'María González', rut: '19.40.587-1', oferta: 'Oferta B' },
-    // ... más datos
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await clienteAxios.get("/inscripcion/estado/1");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching inscripciones:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const updateEstadoInscripcion = async (
+    id_inscripcion_practica,
+    id_estado_inscripcion
+  ) => {
+    try {
+      const response = await clienteAxios.post("/inscripcion/updatestado", {
+        id_inscripcion: id_inscripcion_practica,
+        id_estado_inscripcion: id_estado_inscripcion,
+      });
+      if (response.status === 200) {
+        Swal.fire("Éxito", response.data.mensaje, "success");
+        // Actualizar la tabla después del cambio
+        const updatedResponse = await clienteAxios.get("/inscripcion/estado/1");
+        setData(updatedResponse.data);
+      } else {
+        Swal.fire(
+          "Error",
+          "Hubo un problema al actualizar la inscripción",
+          "error"
+        );
+      }
+    } catch (error) {
+      console.error("Error updating inscripcion estado:", error);
+      Swal.fire(
+        "Error",
+        "Hubo un problema al actualizar la inscripción",
+        "error"
+      );
+    }
+  };
 
   const columns = [
     {
-      name: "alumno",
-      label: "Alumno",
+      name: "id_inscripcion",
+      label: "ID",
+      options: {
+        display: "excluded",
+      },
+    },
+    {
+      name: "primer_nombre",
+      label: "Nombre",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: 'white'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
+    },
+    {
+      name: "primer_apellido",
+      label: "Apellido",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
     },
     {
       name: "rut",
@@ -59,11 +114,23 @@ const InscripcionesPendientes = () => {
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: 'white'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
+    },
+    {
+      name: "carrera",
+      label: "Carrera",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
     },
     {
       name: "oferta",
@@ -71,33 +138,58 @@ const InscripcionesPendientes = () => {
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: 'white'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
+    },
+    {
+      name: "periodo_academico",
+      label: "Periodo Académico",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
     },
     {
       name: "accion",
       label: "Acción",
       options: {
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <>
-            <Button variant="contained" color="primary" sx={{ marginRight: 1 }}>
-              Aprobar
-            </Button>
-            <Button variant="contained" color="secondary">
-              Rechazar
-            </Button>
-          </>
-        ),
+        customBodyRender: (value, tableMeta, updateValue) => {
+          const id_inscripcion_practica = tableMeta.rowData[0]; // Usar la primera columna oculta como ID
+          return (
+            <>
+              <IconButton
+                onClick={() =>
+                  updateEstadoInscripcion(id_inscripcion_practica, 2)
+                }
+                style={{ color: "green" }}
+              >
+                <Check />
+              </IconButton>
+              <IconButton
+                onClick={() =>
+                  updateEstadoInscripcion(id_inscripcion_practica, 3)
+                }
+                style={{ color: "red" }}
+              >
+                <Block />
+              </IconButton>
+            </>
+          );
+        },
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: 'white'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
     },
   ];
 
@@ -112,14 +204,26 @@ const InscripcionesPendientes = () => {
   };
 
   return (
-    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
+    <Grid
+      container
+      direction="column"
+      sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
+    >
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true} />
+        <Header
+          toggleSidebar={toggleSidebar}
+          isWideScreen={isWideScreen}
+          showSidebarButton={true}
+        />
       </Grid>
 
       <Grid container>
         {sidebarOpen && (
-          <Grid item xs={3} sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
+          <Grid
+            item
+            xs={3}
+            sx={{ position: "fixed", top: "80px", zIndex: 1200 }}
+          >
             <SidebarProfesional />
           </Grid>
         )}
@@ -146,7 +250,11 @@ const InscripcionesPendientes = () => {
               marginBottom: "15px",
             }}
           >
-            <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+            <Grid
+              container
+              spacing={2}
+              sx={{ flexDirection: "column", alignItems: "center" }}
+            >
               <Grid item>
                 <Typography
                   variant="h5"
@@ -160,11 +268,7 @@ const InscripcionesPendientes = () => {
                 </Typography>
               </Grid>
               <Grid item sx={{ width: "100%" }}>
-                <MUIDataTable
-                  data={data}
-                  columns={columns}
-                  options={options}
-                />
+                <MUIDataTable data={data} columns={columns} options={options} />
               </Grid>
             </Grid>
           </Card>

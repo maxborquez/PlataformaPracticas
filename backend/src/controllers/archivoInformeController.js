@@ -1,0 +1,158 @@
+const { PrismaClient } = require("@prisma/client");
+const { validationResult } = require("express-validator");
+const prisma = new PrismaClient();
+
+const subirArchivo = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        mensaje: "Se han encontrado errores",
+        errors: errors.array(),
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        mensaje: "No se ha proporcionado un archivo",
+      });
+    }
+
+    const { originalname, buffer } = req.file;
+    const { tipo_archivo, id_inscripcion, tipo_documento } = req.body;
+
+    const archivo = await prisma.archivo_informe.create({
+      data: {
+        nombre: originalname,
+        tipo_archivo: tipo_archivo,
+        id_inscripcion: Number(id_inscripcion),
+        archivo: buffer,
+        tipo_documento: tipo_documento,
+        id_estado_informe: 1,
+      },
+    });
+
+    return res.status(200).json({
+      mensaje: "Archivo subido correctamente",
+      archivo: archivo,
+    });
+  } catch (error) {
+    console.log(error.stack);
+    return res.status(400).json({
+      mensaje: "Error al subir el archivo",
+      error: error.message,
+    });
+  }
+};
+
+const mostrar_archivos = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        mensaje: "Se han encontrado errores",
+        errors: errors.array(),
+      });
+    }
+
+    const { id_inscripcion } = req.body;
+    const archivos = await prisma.archivo_informe.findMany({
+      where: {
+        id_inscripcion: Number(id_inscripcion),
+      },
+    });
+
+    if (archivos.length === 0) {
+      return res.status(200).json({
+        mensaje: "No hay registros de archivos",
+      });
+    }
+
+    return res.status(200).json({
+      mensaje: "Se han encontrado archivos",
+      archivos: archivos.reverse(),
+    });
+  } catch (error) {
+    console.log(error.stack);
+    return res.status(400).json({
+      mensaje: "Error al mostrar archivos",
+      error: error.message,
+    });
+  }
+};
+
+const mostrar_archivo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const archivo = await prisma.archivo_informe.findFirst({
+      where: {
+        id_archivo_informe: Number(id),
+      },
+    });
+
+    if (!archivo) {
+      return res.status(404).json({
+        mensaje: "No se ha encontrado el documento",
+      });
+    }
+
+    return res.status(200).json({
+      mensaje: "Se ha encontrado el documento",
+      archivo: archivo,
+    });
+  } catch (error) {
+    console.log(error.stack);
+    return res.status(400).json({
+      mensaje: "Error al mostrar archivo",
+      error: error.message,
+    });
+  }
+};
+
+const eliminar_archivo = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        mensaje: "Se han encontrado errores",
+        errors: errors.array(),
+      });
+    }
+
+    const { id } = req.params;
+    const archivo = await prisma.archivo_informe.findFirst({
+      where: {
+        id_archivo_informe: Number(id),
+      },
+    });
+
+    if (!archivo) {
+      return res.status(404).json({
+        mensaje: "No se ha encontrado un archivo con ese id",
+      });
+    }
+
+    await prisma.archivo_informe.delete({
+      where: {
+        id_archivo_informe: Number(id),
+      },
+    });
+
+    return res.status(200).json({
+      mensaje: "El archivo ha sido eliminado correctamente",
+    });
+  } catch (error) {
+    console.log(error.stack);
+    return res.status(400).json({
+      mensaje: "Error al eliminar el archivo",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = {
+  subirArchivo,
+  mostrar_archivos,
+  eliminar_archivo,
+  mostrar_archivo,
+};

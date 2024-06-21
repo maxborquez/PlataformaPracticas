@@ -18,8 +18,6 @@ import DetalleOfertaPractica from './pages/Alumno/detalleofertapractica/detalleo
 import DetalleInscripcion from './pages/Alumno/detalleInscripcion/DetalleInscripcion'
 import ModificarDatos from './pages/Alumno/inscripcion_practica/modificarDatos'
 import DocumentosInscripcion from './pages/Alumno/documentos/documentosInscripcion'
-import ArchivosBitacoras from './pages/Alumno/archivos_bitacora/Archivos_bitacoras'
-import ImagenesBitacoras from './pages/Alumno/imagenesBitacora/imageneBitacoras'
 import BitAlumnoRender from './pages/Alumno/BitacoraAlumno/CreateBitacoAlumno/BitaAlumnoRender'
 import RenderBitaAlumno from './pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderBitaAlumno'
 import RenderDetailsAlumno from './pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno'
@@ -36,11 +34,8 @@ import VerDocumentosInscripcion from './pages/ProfesionalApoyo/dashboardProfesio
 import EvaluarPractica from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/evaluarPractica'
 import BitacorasAlumno from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/bitacorasAlumno'
 import DetalleBitacora from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/detalleBitacora'
-import VerArchivos from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/verArchivos'
-import VerImagenes from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/verImagenes'
 import VisualizadorDocumento from './pages/Alumno/documentos/visualizadorDocumento'
 import VisualizadorDocumentosInscripcion from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/visualizadorDocumentos'
-import VisualizadorDocumentoBitacora from './pages/Alumno/archivos_bitacora/visualizador_archivo_bitacora'
 import IngresarEmpresa from "./pages/ProfesionalApoyo/dashboardProfesional/empresas/ingresar_empresa";
 import InscribirEmpresaAlumno from "./pages/Alumno/empresa/inscribir_empresa";
 import InscripcionesPendientes from "./pages/ProfesionalApoyo/dashboardProfesional/inscripciones_pendientes/ins_pendientes";
@@ -62,7 +57,6 @@ function App() {
               <AuthProvider>
                      <Routes>
                             <Route path='/' index element={<Login/>} />
-                             <Route path='/visualizadorbitacora/:id' element={<VisualizadorDocumentoBitacora/>} />
                              <Route path='/visualizador/:id' element={<VisualizadorDocumento/>}/>
                              <Route element={<ProtectedRoute />}>
                                 <Route path="/dashboard_alumno" element={<DashboardAlumno/>} />
@@ -74,11 +68,9 @@ function App() {
                                 <Route path="/inscripcionpractica/:id" element={<InscripcionPractica/>} />
                                 <Route path="/modificarinscripcion/:id" element={<ModificarDatos/>} />
                                 <Route path="/inscribir_empresa" element={<InscribirEmpresaAlumno/>} />
-                                <Route path="/informe" element={<InformePractica/>} />
-                                <Route path="/evaluacion" element={<EvaluacionPractica/>} />
+                                <Route path="/informe/:id" element={<InformePractica/>} />
+                                <Route path="/evaluacion/:id" element={<EvaluacionPractica/>} />
                                 <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />
-                                <Route path="/archivosbitacora/:id" element ={<ArchivosBitacoras/>} />
-                                <Route path="/imagenesbitacora/:id" element={<ImagenesBitacoras/>} />
                                 <Route path="/bitacoralumno" element={<BitAlumnoRender />} />
                                 <Route path="/showbitalumno/:id" element={<RenderBitaAlumno/>} />
                                 <Route path="/detailsbitacoralumno/:id" element={<RenderDetailsAlumno/>} />
@@ -102,8 +94,6 @@ function App() {
                                 <Route path="/evaluarinscripcion/:id" element={<EvaluarPractica/>} />
                                 <Route path="/bitacoras/:id" element={<BitacorasAlumno/>} />
                                 <Route path="/detallebitacora/:id" element={<DetalleBitacora/>} />
-                                <Route path='/verarchivobitacoras/:id' element={<VerArchivos/>} />
-                                <Route path='/verimagenesbitacoras/:id' element={<VerImagenes/>} />
                                 <Route path='/visualizadordocumento/:id' element={<VisualizadorDocumentosInscripcion/>} />
                             </Route>
                         

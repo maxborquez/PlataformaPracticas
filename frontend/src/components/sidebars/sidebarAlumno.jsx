@@ -111,7 +111,7 @@ const SidebarAlumno = () => {
           </ListItem>
           <ListItem
             button
-            onClick={() => navigate("/informe")}
+            onClick={() => navigate(`/informe/${comprobar.data.id_inscripcion}`)}
             sx={{
               textAlign: "center",
               backgroundColor: "#495970", // Cambiar color de fondo a gris claro
@@ -125,7 +125,7 @@ const SidebarAlumno = () => {
           </ListItem>
           <ListItem
             button
-            onClick={() => navigate("/evaluacion")}
+            onClick={() => navigate(`/evaluacion/${comprobar.data.id_inscripcion}`)}
             sx={{
               textAlign: "center",
               backgroundColor: "#495970", // Cambiar color de fondo a gris claro

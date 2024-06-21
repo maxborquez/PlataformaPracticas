@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography, Card} from "@mui/material";
+import { Grid, Typography, Card } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
+import SubirEvaluacion from "./subir_evaluacion";
+import { useParams } from "react-router-dom";
 
 const EvaluacionPractica = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const { id } = useParams();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -87,19 +90,20 @@ const EvaluacionPractica = () => {
             }}
           >
             <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
-            <Grid item>
-              <Typography
-                variant="h5"
-                sx={{
-                  textAlign: "center",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                En construccion
-                <Construction style={{ marginLeft: "5px" }}/>
-              </Typography>
-            </Grid>
+              <Grid item>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    textAlign: "center",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  Subir informe de practica
+                  <Construction style={{ marginLeft: "5px" }}/>
+                </Typography>
+                <SubirEvaluacion id={id} />
+              </Grid>
             </Grid>
           </Card>
         </Grid>

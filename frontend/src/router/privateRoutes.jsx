@@ -14,8 +14,6 @@ import DocumentosInscripcion from "../pages/Alumno/documentos/documentosInscripc
 import OfertaPractica from "../pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/ofertapractica";
 import CrearOferta from "../pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/crear_oferta";
 import ModificarOferta from "../pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/modificarOferta";
-import ArchivosBitacoras from "../pages/Alumno/archivos_bitacora/Archivos_bitacoras";
-import ImagenesBitacoras from "../pages/Alumno/imagenesBitacora/imageneBitacoras";
 import CentrosPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/centros_practicas";
 import EstadoPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/estado_practicas";
 import InformacionGeneral from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/informacion_general_practica";
@@ -32,6 +30,8 @@ import DetalleBitacora from "../pages/ProfesionalApoyo/dashboardProfesional/bita
 
 import IngresarEmpresa from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/ingresar_empresa";
 import InscripcionesPendientes from "../pages/ProfesionalApoyo/dashboardProfesional/inscripciones_pendientes/ins_pendientes";
+import InformePractica from "../pages/Alumno/informe/informe";
+import EvaluacionPractica from "../pages/Alumno/evaluacion/evaluacion";
 
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -55,12 +55,12 @@ const PrivateRoutes = ()=>{
                     <Route path="/inscripcionpractica/:id" element={<InscripcionPractica/>} />
                     <Route path="/modificarinscripcion/:id" element={<ModificarDatos/>} />
                     <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />
-                    <Route path="/archivosbitacora/:id" element ={<ArchivosBitacoras/>} />
-                    <Route path="/imagenesbitacora/:id" element={<ImagenesBitacoras/>} />
                     <Route path="/bitacoralumno" element={<BitAlumnoRender />} />
                     <Route path="/showbitalumno" element={<RenderBitaAlumno/>} />
                     <Route path="/detailsbitacoralumno/:id" element={<RenderDetailsAlumno/>} />
                     <Route path="/modificarbitacoralumno/:id" element={<EditingBitAlumno/>} />
+                    <Route path="/informe/:id" element={<InformePractica/>} />
+                    <Route path="/evaluacion/:id" element={<EvaluacionPractica/>} />
 
                 </Route>
             </Routes>

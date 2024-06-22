@@ -23,256 +23,19 @@ model alumno {
   id_carrera           Int
   id_usuario           Int
   usuario              usuario           @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "alumno_ibfk_1")
-  carrera              carrera           @relation(fields: [id_carrera], references: [id_carrera], onDelete: Cascade, map: "Alumno_id_carrera_fkey")
+  carrera              carrera           @relation(fields: [id_carrera], references: [id_carrera], onDelete: Cascade)
   bitacora_alumno      bitacora_alumno[]
   conocimiento         conocimiento[]
   inscribe             inscribe[]
 
-  @@index([id_usuario], map: "id_usuario")
   @@index([id_carrera], map: "alumno_id_carrera_fkey")
+  @@index([id_usuario], map: "id_usuario")
 }
 
 model aptitud {
   id_aptitud     Int            @id @default(autoincrement())
   nombre_aptitud String         @db.VarChar(50)
   conocimiento   conocimiento[]
-}
-
-model archivo_inscripcion {
-  id_archivo           Int                  @id @default(autoincrement())
-  nombre               String               @db.VarChar(200)
-  tipo_archivo         String               @db.VarChar(100)
-  archivo              Bytes
-  id_inscripcion       Int
-  tipo_documento       String               @db.VarChar(50)
-  inscripcion_practica inscripcion_practica @relation(fields: [id_inscripcion], references: [id_inscripcion_practica], onDelete: Cascade, map: "Archivo_inscripcion_id_inscripcion_fkey")
-
-  @@index([id_inscripcion], map: "archivo_inscripcion_id_inscripcion_fkey")
-}
-
-model asignatura {
-  id_asignatura     Int       @id @default(autoincrement())
-  nombre_asignatura String    @db.VarChar(100)
-  seccion           seccion[]
-}
-
-model bitacora_alumno {
-  id_bitacora             Int                  @id @default(autoincrement())
-  titulo                  String               @db.VarChar(200)
-  descripcion             String               @db.VarChar(1300)
-  fecha_creacion          DateTime             @db.Date
-  hora_inicio             DateTime             @db.Time(0)
-  hora_fin                DateTime             @db.Time(0)
-  id_estado_bitacora      Int
-  id_inscripcion_practica Int
-  id_alumno               Int
-  alumno                  alumno               @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction, onUpdate: NoAction, map: "Bitacora_alumno_id_alumno_fkey")
-  estado_bitacora         estado_bitacora      @relation(fields: [id_estado_bitacora], references: [id_estado_bitacora], map: "Bitacora_alumno_id_estado_bitacora_fkey")
-  inscripcion_practica    inscripcion_practica @relation(fields: [id_inscripcion_practica], references: [id_inscripcion_practica], onDelete: Cascade, map: "Bitacora_alumno_id_inscripcion_practica_fkey")
-
-  @@index([id_alumno], map: "bitacora_alumno_id_alumno_fkey")
-  @@index([id_estado_bitacora], map: "bitacora_alumno_id_estado_bitacora_fkey")
-  @@index([id_inscripcion_practica], map: "bitacora_alumno_id_inscripcion_practica_fkey")
-}
-
-model carrera {
-  id_carrera     Int      @id @default(autoincrement())
-  nombre_carrera String
-  alumno         alumno[]
-}
-
-model comuna {
-  id_comuna Int       @id @default(autoincrement())
-  nombre    String    @db.VarChar(50)
-  empresa   empresa[]
-}
-
-model conocimiento {
-  id_conocimiento Int     @id @default(autoincrement())
-  id_alumno       Int
-  id_aptitud      Int
-  alumno          alumno  @relation(fields: [id_alumno], references: [id_alumno], onDelete: Cascade, map: "Conocimiento_id_alumno_fkey")
-  aptitud         aptitud @relation(fields: [id_aptitud], references: [id_aptitud], onDelete: Cascade, map: "Conocimiento_id_aptitud_fkey")
-
-  @@index([id_alumno], map: "conocimiento_id_alumno_fkey")
-  @@index([id_aptitud], map: "conocimiento_id_aptitud_fkey")
-}
-
-model empresa {
-  id_empresa        Int               @id @default(autoincrement())
-  rut_empresa       String            @db.VarChar(15)
-  razon_social      String            @db.VarChar(50)
-  direccion         String            @db.VarChar(100)
-  centro_practica   Boolean
-  correo            String            @db.VarChar(70)
-  telefono          String            @db.VarChar(18)
-  id_comuna         Int
-  id_estado_empresa Int
-  comuna            comuna            @relation(fields: [id_comuna], references: [id_comuna], onDelete: Cascade, map: "Empresa_id_comuna_fkey")
-  estado_empresa    estado_empresa    @relation(fields: [id_estado_empresa], references: [id_estado_empresa], onDelete: Cascade, map: "Empresa_id_estado_empresa_fkey")
-  oferta_practica   oferta_practica[]
-  representante     representante[]
-
-  @@index([id_comuna], map: "empresa_id_comuna_fkey")
-  @@index([id_estado_empresa], map: "empresa_id_estado_empresa_fkey")
-}
-
-model estado_bitacora {
-  id_estado_bitacora     Int               @id @default(autoincrement())
-  nombre_estado_bitacora String
-  bitacora_alumno        bitacora_alumno[]
-}
-
-model estado_empresa {
-  id_estado_empresa     Int       @id @default(autoincrement())
-  nombre_estado_empresa String    @db.VarChar(60)
-  empresa               empresa[]
-}
-
-model estado_inscripcion {
-  id_estado_inscripcion     Int                    @id @default(autoincrement())
-  nombre_estado_inscripcion String
-  inscripcion_practica      inscripcion_practica[]
-}
-
-model inscribe {
-  id_inscripcion       Int                    @id @default(autoincrement())
-  id_periodo_academico Int
-  id_alumno            Int
-  id_seccion           Int
-  alumno               alumno                 @relation(fields: [id_alumno], references: [id_alumno], onDelete: Cascade, map: "Inscribe_id_alumno_fkey")
-  periodo_academico    periodo_academico      @relation(fields: [id_periodo_academico], references: [id_periodo_academico], onDelete: Cascade, map: "Inscribe_id_periodo_academico_fkey")
-  seccion              seccion                @relation(fields: [id_seccion], references: [id_seccion], onDelete: Cascade, map: "Inscribe_id_seccion_fkey")
-  inscripcion_practica inscripcion_practica[]
-
-  @@index([id_alumno], map: "inscribe_id_alumno_fkey")
-  @@index([id_periodo_academico], map: "inscribe_id_periodo_academico_fkey")
-  @@index([id_seccion], map: "inscribe_id_seccion_fkey")
-}
-
-model inscripcion_practica {
-  id_inscripcion_practica    Int                   @id @default(autoincrement())
-  fecha_inscripcion_practica DateTime              @db.Date
-  fecha_inicio               DateTime              @db.Date
-  fecha_fin                  DateTime              @db.Date
-  observaciones              String?               @db.VarChar(1300)
-  id_representante           Int?
-  id_oferta                  Int?
-  id_estado_inscripcion      Int
-  id_modalidad               Int
-  id_inscribe                Int
-  nota_empresa               Int
-  nota_encargado             Int
-  archivo_evaluacion         archivo_evaluacion[]
-  archivo_informe            archivo_informe[]
-  archivo_inscripcion        archivo_inscripcion[]
-  bitacora_alumno            bitacora_alumno[]
-  estado_inscripcion         estado_inscripcion    @relation(fields: [id_estado_inscripcion], references: [id_estado_inscripcion], onDelete: Cascade, map: "Inscripcion_practica_id_estado_inscripcion_fkey")
-  inscribe                   inscribe              @relation(fields: [id_inscribe], references: [id_inscripcion], onDelete: Cascade, map: "Inscripcion_practica_id_inscribe_fkey")
-  modalidad                  modalidad             @relation(fields: [id_modalidad], references: [id_modalidad], onDelete: NoAction, onUpdate: NoAction, map: "Inscripcion_practica_id_modalidad_fkey")
-  oferta_practica            oferta_practica?      @relation(fields: [id_oferta], references: [id_oferta_practica], map: "Inscripcion_practica_id_oferta_fkey")
-  representante              representante?        @relation(fields: [id_representante], references: [id_representante], onDelete: Cascade, map: "Inscripcion_practica_id_representante_fkey")
-
-  @@index([id_estado_inscripcion], map: "inscripcion_practica_id_estado_inscripcion_fkey")
-  @@index([id_inscribe], map: "inscripcion_practica_id_inscribe_fkey")
-  @@index([id_modalidad], map: "inscripcion_practica_id_modalidad_fkey")
-  @@index([id_oferta], map: "inscripcion_practica_id_oferta_fkey")
-  @@index([id_representante], map: "inscripcion_practica_id_representante_fkey")
-}
-
-model modalidad {
-  id_modalidad         Int                    @id @default(autoincrement())
-  nombre_modalidad     String
-  inscripcion_practica inscripcion_practica[]
-  oferta_practica      oferta_practica[]
-}
-
-model oferta_practica {
-  id_oferta_practica   Int                    @id @default(autoincrement())
-  descripcion          String                 @db.VarChar(15000)
-  experiencia_laboral  Boolean
-  cupos                Int
-  id_modalidad         Int
-  id_periodo_academico Int
-  id_empresa           Int?
-  inscripcion_practica inscripcion_practica[]
-  empresa              empresa?               @relation(fields: [id_empresa], references: [id_empresa], map: "Oferta_practica_id_empresa_fkey")
-  modalidad            modalidad              @relation(fields: [id_modalidad], references: [id_modalidad], onDelete: Cascade, map: "Oferta_practica_id_modalidad_fkey")
-  periodo_academico    periodo_academico      @relation(fields: [id_periodo_academico], references: [id_periodo_academico], onDelete: Cascade, map: "Oferta_practica_id_periodo_academico_fkey")
-
-  @@index([id_empresa], map: "oferta_practica_id_empresa_fkey")
-  @@index([id_modalidad], map: "oferta_practica_id_modalidad_fkey")
-  @@index([id_periodo_academico], map: "oferta_practica_id_periodo_academico_fkey")
-}
-
-model periodo_academico {
-  id_periodo_academico Int               @id @default(autoincrement())
-  anio                 Int
-  periodo              Int
-  inscribe             inscribe[]
-  oferta_practica      oferta_practica[]
-}
-
-model profesional {
-  id_profesional       Int     @id @default(autoincrement())
-  rut                  String  @unique(map: "uk_rut") @db.VarChar(15)
-  primer_nombre        String  @db.VarChar(50)
-  segundo_nombre       String? @db.VarChar(50)
-  primer_apellido      String  @db.VarChar(50)
-  segundo_apellido     String? @db.VarChar(50)
-  telefono             String  @db.VarChar(20)
-  correo_institucional String  @unique(map: "uk_correo_institucional") @db.VarChar(100)
-  id_usuario           Int
-  usuario              usuario @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "profesional_ibfk_1")
-
-  @@index([id_usuario], map: "id_usuario")
-}
-
-model representante {
-  id_representante     Int                    @id @default(autoincrement())
-  nombre               String                 @db.VarChar(30)
-  apellido             String                 @db.VarChar(30)
-  telefono             String                 @db.VarChar(15)
-  correo               String                 @db.VarChar(100)
-  cargo                String                 @db.VarChar(50)
-  id_empresa           Int
-  inscripcion_practica inscripcion_practica[]
-  empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_representante")
-
-  @@index([id_empresa], map: "fk_empresa_representante")
-}
-
-model seccion {
-  id_seccion     Int        @id @default(autoincrement())
-  numero_seccion Int
-  id_asignatura  Int
-  inscribe       inscribe[]
-  asignatura     asignatura @relation(fields: [id_asignatura], references: [id_asignatura], onDelete: Cascade, map: "Seccion_id_asignatura_fkey")
-
-  @@index([id_asignatura], map: "seccion_id_asignatura_fkey")
-}
-
-model tipo_bitacora {
-  id_tipo_bitacora     Int    @id
-  nombre_tipo_bitacora String @db.VarChar(50)
-}
-
-model tipo_usuario {
-  id_tipo_usuario     Int       @id @default(autoincrement())
-  nombre_tipo_usuario String    @db.VarChar(70)
-  usuario             usuario[]
-}
-
-model usuario {
-  id_usuario      Int           @id @default(autoincrement())
-  rut             String        @unique(map: "rut") @db.VarChar(15)
-  contrasena      String        @db.VarChar(255)
-  id_tipo_usuario Int
-  alumno          alumno[]
-  profesional     profesional[]
-  tipo_usuario    tipo_usuario  @relation(fields: [id_tipo_usuario], references: [id_tipo_usuario], onDelete: NoAction, onUpdate: NoAction, map: "Usuario_id_tipo_usuario_fkey")
-
-  @@index([id_tipo_usuario], map: "usuario_id_tipo_usuario_fkey")
 }
 
 model archivo_evaluacion {
@@ -305,6 +68,102 @@ model archivo_informe {
   @@index([id_inscripcion], map: "archivo_informe_id_inscripcion_fkey")
 }
 
+model archivo_inscripcion {
+  id_archivo           Int                  @id @default(autoincrement())
+  nombre               String               @db.VarChar(200)
+  tipo_archivo         String               @db.VarChar(100)
+  archivo              Bytes
+  id_inscripcion       Int
+  tipo_documento       String               @db.VarChar(50)
+  inscripcion_practica inscripcion_practica @relation(fields: [id_inscripcion], references: [id_inscripcion_practica], onDelete: Cascade)
+
+  @@index([id_inscripcion], map: "archivo_inscripcion_id_inscripcion_fkey")
+}
+
+model asignatura {
+  id_asignatura        Int               @id @default(autoincrement())
+  nombre_asignatura    String            @db.VarChar(100)
+  seccion              Int
+  id_periodo_academico Int
+  periodo_academico    periodo_academico @relation(fields: [id_periodo_academico], references: [id_periodo_academico], onDelete: Cascade)
+  inscribe             inscribe[]
+
+  @@index([id_periodo_academico], map: "asignatura_id_periodo_academico_fkey")
+}
+
+model bitacora_alumno {
+  id_bitacora             Int                  @id @default(autoincrement())
+  titulo                  String               @db.VarChar(200)
+  descripcion             String               @db.VarChar(1300)
+  fecha_creacion          DateTime             @db.Date
+  hora_inicio             DateTime             @db.Time(0)
+  hora_fin                DateTime             @db.Time(0)
+  id_estado_bitacora      Int
+  id_inscripcion_practica Int
+  id_alumno               Int
+  alumno                  alumno               @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction, onUpdate: NoAction, map: "bitacora_alumno_ibfk_1")
+  estado_bitacora         estado_bitacora      @relation(fields: [id_estado_bitacora], references: [id_estado_bitacora])
+  inscripcion_practica    inscripcion_practica @relation(fields: [id_inscripcion_practica], references: [id_inscripcion_practica], onDelete: Cascade)
+
+  @@index([id_alumno], map: "bitacora_alumno_id_alumno_fkey")
+  @@index([id_estado_bitacora], map: "bitacora_alumno_id_estado_bitacora_fkey")
+  @@index([id_inscripcion_practica], map: "bitacora_alumno_id_inscripcion_practica_fkey")
+}
+
+model carrera {
+  id_carrera     Int      @id @default(autoincrement())
+  nombre_carrera String
+  alumno         alumno[]
+}
+
+model comuna {
+  id_comuna Int       @id @default(autoincrement())
+  nombre    String    @db.VarChar(50)
+  empresa   empresa[]
+}
+
+model conocimiento {
+  id_conocimiento Int     @id @default(autoincrement())
+  id_alumno       Int
+  id_aptitud      Int
+  alumno          alumno  @relation(fields: [id_alumno], references: [id_alumno], onDelete: Cascade)
+  aptitud         aptitud @relation(fields: [id_aptitud], references: [id_aptitud], onDelete: Cascade)
+
+  @@index([id_alumno], map: "conocimiento_id_alumno_fkey")
+  @@index([id_aptitud], map: "conocimiento_id_aptitud_fkey")
+}
+
+model empresa {
+  id_empresa        Int               @id @default(autoincrement())
+  rut_empresa       String            @db.VarChar(15)
+  razon_social      String            @db.VarChar(50)
+  direccion         String            @db.VarChar(100)
+  centro_practica   Boolean
+  correo            String            @db.VarChar(70)
+  telefono          String            @db.VarChar(18)
+  id_comuna         Int
+  id_estado_empresa Int
+  comuna            comuna            @relation(fields: [id_comuna], references: [id_comuna], onDelete: Cascade)
+  estado_empresa    estado_empresa    @relation(fields: [id_estado_empresa], references: [id_estado_empresa], onDelete: Cascade)
+  oferta_practica   oferta_practica[]
+  representante     representante[]
+
+  @@index([id_comuna], map: "empresa_id_comuna_fkey")
+  @@index([id_estado_empresa], map: "empresa_id_estado_empresa_fkey")
+}
+
+model estado_bitacora {
+  id_estado_bitacora     Int               @id @default(autoincrement())
+  nombre_estado_bitacora String
+  bitacora_alumno        bitacora_alumno[]
+}
+
+model estado_empresa {
+  id_estado_empresa     Int       @id @default(autoincrement())
+  nombre_estado_empresa String    @db.VarChar(60)
+  empresa               empresa[]
+}
+
 model estado_evaluacion {
   id_estado_evaluacion     Int                  @id @default(autoincrement())
   nombre_estado_evaluacion String
@@ -315,4 +174,146 @@ model estado_informe {
   id_estado_informe     Int               @id @default(autoincrement())
   nombre_estado_informe String
   archivo_informe       archivo_informe[]
+}
+
+model estado_inscripcion {
+  id_estado_inscripcion     Int                    @id @default(autoincrement())
+  nombre_estado_inscripcion String
+  inscripcion_practica      inscripcion_practica[]
+}
+
+model estado_practica {
+  id_estado_practica     Int        @id @default(autoincrement())
+  nombre_estado_practica String
+  inscribe               inscribe[]
+}
+
+model inscribe {
+  id_inscripcion       Int                    @id @default(autoincrement())
+  id_alumno            Int
+  id_asignatura        Int
+  id_estado_practica   Int
+  alumno               alumno                 @relation(fields: [id_alumno], references: [id_alumno], onDelete: Cascade)
+  asignatura           asignatura             @relation(fields: [id_asignatura], references: [id_asignatura], onDelete: Cascade)
+  estado_practica      estado_practica        @relation(fields: [id_estado_practica], references: [id_estado_practica], onDelete: Cascade)
+  inscripcion_practica inscripcion_practica[]
+
+  @@index([id_alumno], map: "inscribe_id_alumno_fkey")
+  @@index([id_asignatura], map: "inscribe_id_asignatura_fkey")
+  @@index([id_estado_practica], map: "inscribe_id_estado_practica_fkey")
+}
+
+model inscripcion_practica {
+  id_inscripcion_practica    Int                   @id @default(autoincrement())
+  fecha_inscripcion_practica DateTime              @db.Date
+  fecha_inicio               DateTime              @db.Date
+  fecha_fin                  DateTime              @db.Date
+  observaciones              String?               @db.VarChar(1300)
+  id_representante           Int?
+  id_oferta                  Int?
+  id_estado_inscripcion      Int
+  id_modalidad               Int
+  id_inscribe                Int
+  nota_empresa               Int
+  nota_encargado             Int
+  archivo_evaluacion         archivo_evaluacion[]
+  archivo_informe            archivo_informe[]
+  archivo_inscripcion        archivo_inscripcion[]
+  bitacora_alumno            bitacora_alumno[]
+  estado_inscripcion         estado_inscripcion    @relation(fields: [id_estado_inscripcion], references: [id_estado_inscripcion], onDelete: Cascade)
+  inscribe                   inscribe              @relation(fields: [id_inscribe], references: [id_inscripcion], onDelete: Cascade)
+  modalidad                  modalidad             @relation(fields: [id_modalidad], references: [id_modalidad], onDelete: NoAction, onUpdate: NoAction)
+  oferta_practica            oferta_practica?      @relation(fields: [id_oferta], references: [id_oferta_practica])
+  representante              representante?        @relation(fields: [id_representante], references: [id_representante], onDelete: Cascade)
+
+  @@index([id_estado_inscripcion], map: "inscripcion_practica_id_estado_inscripcion_fkey")
+  @@index([id_inscribe], map: "inscripcion_practica_id_inscribe_fkey")
+  @@index([id_modalidad], map: "inscripcion_practica_id_modalidad_fkey")
+  @@index([id_oferta], map: "inscripcion_practica_id_oferta_fkey")
+  @@index([id_representante], map: "inscripcion_practica_id_representante_fkey")
+}
+
+model modalidad {
+  id_modalidad         Int                    @id @default(autoincrement())
+  nombre_modalidad     String
+  inscripcion_practica inscripcion_practica[]
+  oferta_practica      oferta_practica[]
+}
+
+model oferta_practica {
+  id_oferta_practica   Int                    @id @default(autoincrement())
+  descripcion          String                 @db.VarChar(15000)
+  experiencia_laboral  Boolean
+  cupos                Int
+  id_modalidad         Int
+  id_periodo_academico Int
+  id_empresa           Int?
+  inscripcion_practica inscripcion_practica[]
+  empresa              empresa?               @relation(fields: [id_empresa], references: [id_empresa])
+  modalidad            modalidad              @relation(fields: [id_modalidad], references: [id_modalidad], onDelete: Cascade)
+  periodo_academico    periodo_academico      @relation(fields: [id_periodo_academico], references: [id_periodo_academico], onDelete: Cascade)
+
+  @@index([id_empresa], map: "oferta_practica_id_empresa_fkey")
+  @@index([id_modalidad], map: "oferta_practica_id_modalidad_fkey")
+  @@index([id_periodo_academico], map: "oferta_practica_id_periodo_academico_fkey")
+}
+
+model periodo_academico {
+  id_periodo_academico Int               @id @default(autoincrement())
+  anio                 Int
+  periodo              Int
+  asignatura           asignatura[]
+  oferta_practica      oferta_practica[]
+}
+
+model profesional {
+  id_profesional       Int     @id @default(autoincrement())
+  rut                  String  @unique(map: "uk_rut") @db.VarChar(15)
+  primer_nombre        String  @db.VarChar(50)
+  segundo_nombre       String? @db.VarChar(50)
+  primer_apellido      String  @db.VarChar(50)
+  segundo_apellido     String? @db.VarChar(50)
+  telefono             String  @db.VarChar(20)
+  correo_institucional String  @unique(map: "uk_correo_institucional") @db.VarChar(100)
+  id_usuario           Int
+  usuario              usuario @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "profesional_ibfk_1")
+
+  @@index([id_usuario], map: "id_usuario")
+}
+
+model representante {
+  id_representante     Int                    @id @default(autoincrement())
+  nombre               String                 @db.VarChar(30)
+  apellido             String                 @db.VarChar(30)
+  telefono             String                 @db.VarChar(15)
+  correo               String                 @db.VarChar(100)
+  cargo                String                 @db.VarChar(50)
+  id_empresa           Int
+  inscripcion_practica inscripcion_practica[]
+  empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_representante")
+
+  @@index([id_empresa], map: "fk_empresa_representante")
+}
+
+model tipo_bitacora {
+  id_tipo_bitacora     Int    @id
+  nombre_tipo_bitacora String @db.VarChar(50)
+}
+
+model tipo_usuario {
+  id_tipo_usuario     Int       @id @default(autoincrement())
+  nombre_tipo_usuario String    @db.VarChar(70)
+  usuario             usuario[]
+}
+
+model usuario {
+  id_usuario      Int           @id @default(autoincrement())
+  rut             String        @unique(map: "rut") @db.VarChar(15)
+  contrasena      String        @db.VarChar(255)
+  id_tipo_usuario Int
+  alumno          alumno[]
+  profesional     profesional[]
+  tipo_usuario    tipo_usuario  @relation(fields: [id_tipo_usuario], references: [id_tipo_usuario], onDelete: NoAction, onUpdate: NoAction, map: "usuario_ibfk_1")
+
+  @@index([id_tipo_usuario], map: "usuario_id_tipo_usuario_fkey")
 }

@@ -15,10 +15,6 @@ import OfertaPractica from "../pages/ProfesionalApoyo/dashboardProfesional/ofert
 import CrearOferta from "../pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/crear_oferta";
 import ModificarOferta from "../pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/modificarOferta";
 import CentrosPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/centros_practicas";
-import EstadoPracticas from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/estado_practicas";
-import InformacionGeneral from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/informacion_general_practica";
-import VerDocumentosInscripcion from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/verdocumentosinscripcion";
-import EvaluarPractica from "../pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/evaluarPractica";
 import BitAlumnoRender from "../pages/Alumno/BitacoraAlumno/CreateBitacoAlumno/BitaAlumnoRender";
 import RenderBitaAlumno from "../pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderBitaAlumno";
 import RenderDetailsAlumno from "../pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno";
@@ -79,10 +75,6 @@ const PrivateRoutes = ()=>{
                 <Route path="/ofertapracticas" element={<OfertaPractica/>} />
                 <Route path="/crearoferta" element={<CrearOferta/>} />
                 <Route path="/modificaroferta/:id" element={<ModificarOferta/>} />
-                <Route path="/estadopracticas/:anio/:periodo/:asignatura/:carrera" element={<EstadoPracticas/>}/>
-                <Route path="/informaciongeneral/:inscribe" element={<InformacionGeneral/>} />
-                <Route path="/documentosinscripcion/:id" element={<VerDocumentosInscripcion/>} />
-                <Route path="/evaluarinscripcion/:id" element={<EvaluarPractica/>} />
                 <Route path="/bitacoras/:id" element={<BitacorasAlumno/>} />
                 <Route path="/detallebitacora/:id" element={<DetalleBitacora/>} />
                 <Route path="/practicas" element={<Practicas/>} />

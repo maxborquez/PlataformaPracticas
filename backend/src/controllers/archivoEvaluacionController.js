@@ -56,6 +56,12 @@ const mostrar_archivos = async (req, res) => {
     }
 
     const { id_inscripcion } = req.body;
+    if (!id_inscripcion) {
+      return res.status(400).json({
+        mensaje: "El campo id_inscripcion es requerido",
+      });
+    }
+
     const archivos = await prisma.archivo_evaluacion.findMany({
       where: {
         id_inscripcion: Number(id_inscripcion),

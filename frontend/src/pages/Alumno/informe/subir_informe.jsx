@@ -11,10 +11,25 @@ const SubirInforme = ({ id }) => {
   const [extension, setExtension] = useState(null);
   const [archivo, setArchivo] = useState(null);
   const [isPdf, setPdf] = useState(true);
+  const [archivoExistente, setArchivoExistente] = useState(false);
   const inputFileRef = useRef(null);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    // Verificar si ya existe un archivo subido
+    const verificarArchivoExistente = async () => {
+      try {
+        const response = await clienteAxios.get("/archivoinforme/tabla_vacia");
+        setArchivoExistente(!response.data.isEmpty);
+      } catch (error) {
+        console.error("Error al verificar archivo existente:", error);
+      }
+    };
+
+    verificarArchivoExistente();
+  }, []);
 
   useEffect(() => {
     if (archivo) {
@@ -67,7 +82,7 @@ const SubirInforme = ({ id }) => {
         confirmButtonText: "Aceptar",
       });
       queryClient.invalidateQueries("archivos");
-      navigate("/mi_practica");
+      window.location.reload();
     } catch (error) {
       Swal.fire({
         title: "Error",
@@ -91,6 +106,7 @@ const SubirInforme = ({ id }) => {
             variant="contained"
             component="label"
             startIcon={<CopyAllOutlined />}
+            disabled={archivoExistente} // Desactivar botón si ya existe un archivo
           >
             Seleccionar Archivo
             <input
@@ -98,6 +114,7 @@ const SubirInforme = ({ id }) => {
               hidden
               ref={inputFileRef}
               onChange={handleArchivoSeleccionado}
+              disabled={archivoExistente} // Desactivar input si ya existe un archivo
             />
           </Button>
         </Grid>
@@ -106,12 +123,17 @@ const SubirInforme = ({ id }) => {
             <Alert severity="success">Archivo PDF seleccionado: {archivo?.name}</Alert>
           </Grid>
         )}
+        {archivoExistente && (
+          <Grid item>
+            <Alert severity="warning">Ya existe un archivo subido. Elimine el archivo existente antes de subir uno nuevo.</Alert>
+          </Grid>
+        )}
         <Grid item>
           <Button
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            disabled={isPdf}
+            disabled={isPdf || archivoExistente}
           >
             Subir Archivo
           </Button>

@@ -4,6 +4,7 @@ import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
 import SubirInforme from "./subir_informe";
+import MostrarArchivoInforme from "./mostrar_archivo_informe";
 import { useParams } from "react-router-dom";
 
 const InformePractica = () => {
@@ -103,6 +104,7 @@ const InformePractica = () => {
                   <Construction style={{ marginLeft: "5px" }}/>
                 </Typography>
                 <SubirInforme id={id} />
+                <MostrarArchivoInforme id={id} />
               </Grid>
             </Grid>
           </Card>

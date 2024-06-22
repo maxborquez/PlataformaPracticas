@@ -47,7 +47,7 @@ const Login = async(req,res) =>{
                     id_alumno:Number(alumno.id_alumno)
                 },
                 include:{
-                    seccion:true
+                    asignatura:true
                 }
             })
 
@@ -59,7 +59,7 @@ const Login = async(req,res) =>{
             
             const asignatura = await prisma.asignatura.findFirst({
                 where:{
-                    id_asignatura:Number(inscribe.seccion.id_asignatura)
+                    id_asignatura:Number(inscribe.asignatura.id_asignatura)
                 }
             })
             if(!asignatura){

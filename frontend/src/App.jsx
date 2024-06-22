@@ -28,14 +28,9 @@ import ModificarEmpresa from './pages/ProfesionalApoyo/dashboardProfesional/empr
 import OfertaPractica from './pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/ofertapractica'
 import CrearOferta from './pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/crear_oferta'
 import ModificarOferta from './pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/modificarOferta'
-import EstadoPracticas from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/estado_practicas'
-import InformacionGeneral from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/informacion_general_practica'
-import VerDocumentosInscripcion from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/verdocumentosinscripcion'
-import EvaluarPractica from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/evaluarPractica'
 import BitacorasAlumno from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/bitacorasAlumno'
 import DetalleBitacora from './pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/detalleBitacora'
 import VisualizadorDocumento from './pages/Alumno/documentos/visualizadorDocumento'
-import VisualizadorDocumentosInscripcion from './pages/ProfesionalApoyo/dashboardProfesional/estado_practicas/visualizadorDocumentos'
 import IngresarEmpresa from "./pages/ProfesionalApoyo/dashboardProfesional/empresas/ingresar_empresa";
 import InscribirEmpresaAlumno from "./pages/Alumno/empresa/inscribir_empresa";
 import InscripcionesPendientes from "./pages/ProfesionalApoyo/dashboardProfesional/inscripciones_pendientes/ins_pendientes";
@@ -87,14 +82,9 @@ function App() {
                                 <Route path="/ofertapracticas" element={<OfertaPractica/>} />
                                 <Route path="/crearoferta" element={<CrearOferta/>} />
                                 <Route path="/modificaroferta/:id" element={<ModificarOferta/>} />
-                                <Route path="/estadopracticas/:anio/:periodo/:asignatura/:carrera" element={<EstadoPracticas/>}/>
-                                <Route path="/informaciongeneral/:inscribe" element={<InformacionGeneral/>} />
-                                <Route path="/documentosinscripcionpractica/:id" element={<VerDocumentosInscripcion/>} />
 
-                                <Route path="/evaluarinscripcion/:id" element={<EvaluarPractica/>} />
                                 <Route path="/bitacoras/:id" element={<BitacorasAlumno/>} />
                                 <Route path="/detallebitacora/:id" element={<DetalleBitacora/>} />
-                                <Route path='/visualizadordocumento/:id' element={<VisualizadorDocumentosInscripcion/>} />
                             </Route>
                         
                      </Routes>

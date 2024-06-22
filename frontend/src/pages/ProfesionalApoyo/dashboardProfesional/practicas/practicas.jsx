@@ -46,135 +46,6 @@ const Practicas = () => {
     };
   }, []);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    getListadoPractica1ICINF.refetch();
-    getListadoPractica2ICINF.refetch();
-    getListadoPractica1IECI.refetch();
-    getListadoPractica2IECI.refetch();
-  };
-
-  const getListadoPractica1IECI = useQuery("lpractica1ieci", async () => {
-    const response = await clienteAxios.post(
-      "/inscripcion/listadopractica1ieci",
-      {
-        anio: anio,
-        id_periodo: periodo_academico,
-        id_asignatura: 620509,
-      }
-    );
-    if (response.status === 200) {
-      if (!response.data.alumnos_ieci) {
-        Swal.fire({
-          title: "Error",
-          text: response.data.mensaje,
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-      }
-      return response.data;
-    }
-  });
-
-  const getListadoPractica2IECI = useQuery("lpractica2ieci", async () => {
-    const response = await clienteAxios.post(
-      "/inscripcion/listadopractica2ieci",
-      {
-        anio: anio,
-        id_periodo: periodo_academico,
-      }
-    );
-    if (response.status === 200) {
-      return response.data;
-    }
-  });
-
-  const getListadoPractica1ICINF = useQuery("lpractica1icinf", async () => {
-    const response = await clienteAxios.post(
-      "/inscripcion/listadopractica1icinf",
-      {
-        anio: anio,
-        id_periodo: periodo_academico,
-      }
-    );
-    if (response.status === 200) {
-      return response.data;
-    }
-  });
-
-  const getListadoPractica2ICINF = useQuery("lpractica2icinf", async () => {
-    const response = await clienteAxios.post(
-      "/inscripcion/listadopractica2icinf",
-      {
-        anio: anio,
-        id_periodo: periodo_academico,
-      }
-    );
-    if (response.status === 200) {
-      return response.data;
-    }
-  });
-
-  const columns = [
-    { 
-      name: "Practica", 
-      label: "Práctica profesional", 
-      options: { 
-        sort: false,
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      } 
-    },
-    { 
-      name: "Alumnos", 
-      label: "Alumnos inscritos", 
-      options: { 
-        sort: false,
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      } 
-    },
-    {
-      name: "Accion",
-      label: "Acción",
-      options: {
-        sort: false,
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        }),
-        customBodyRender: (value, tableMeta, updateValue) => {
-          const practica = tableMeta.rowData[0];
-          const carrera = value.carrera;
-          const id_asignatura = value.id_asignatura;
-          return (
-            <Button
-              onClick={() => {
-                navigate(
-                  `/estadopracticas/${anio}/${periodo_academico}/${id_asignatura}/${carrera}`
-                );
-              }}
-              variant="contained"
-              sx={{ padding: "5px 10px", bgcolor: "#326fa6" }}
-            >
-              Ver estudiantes
-            </Button>
-          );
-        },
-      },
-    },
-  ];
-
   const options = {
     responsive: "standard",
     search: false,
@@ -186,67 +57,6 @@ const Practicas = () => {
     selectableRows: "none", // Desactiva la selección múltiple
   }
 
-  const dataIECI = [
-    {
-      Practica: 1,
-      Alumnos:
-        getListadoPractica1IECI.status === "success"
-          ? getListadoPractica1IECI.data.cantidad_alumnos
-          : 0,
-      Accion: {
-        carrera:
-          getListadoPractica1IECI.status === "success"
-            ? getListadoPractica1IECI.data.carrera
-            : "",
-        id_asignatura: 620509,
-      },
-    },
-    {
-      Practica: 2,
-      Alumnos:
-        getListadoPractica2IECI.status === "success"
-          ? getListadoPractica2IECI.data.cantidad_alumnos
-          : 0,
-      Accion: {
-        carrera:
-          getListadoPractica2IECI.status === "success"
-            ? getListadoPractica2IECI.data.carrera
-            : "",
-        id_asignatura: 620520,
-      },
-    },
-  ];
-
-  const dataICINF = [
-    {
-      Practica: 1,
-      Alumnos:
-        getListadoPractica1ICINF.status === "success"
-          ? getListadoPractica1ICINF.data.cantidad_alumnos
-          : 0,
-      Accion: {
-        carrera:
-          getListadoPractica1ICINF.status === "success"
-            ? getListadoPractica1ICINF.data.carrera
-            : "",
-        id_asignatura: 620509,
-      },
-    },
-    {
-      Practica: 2,
-      Alumnos:
-        getListadoPractica2ICINF.status === "success"
-          ? getListadoPractica2ICINF.data.cantidad_alumnos
-          : 0,
-      Accion: {
-        carrera:
-          getListadoPractica2ICINF.status === "success"
-            ? getListadoPractica2ICINF.data.carrera
-            : "",
-        id_asignatura: 620520,
-      },
-    },
-  ];
 
   return (
     <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
@@ -294,7 +104,6 @@ const Practicas = () => {
             </Typography>
 
             <form
-              onSubmit={onSubmit}
               style={{
                 width: "100%",
                 maxWidth: "1120px",
@@ -391,20 +200,11 @@ const Practicas = () => {
             <Typography variant="h6" sx={{ marginBottom: "10px", textAlign: "center" }}>
               Prácticas Profesionales IECI
             </Typography>
-            <MUIDataTable
-              data={dataIECI}
-              columns={columns}
-              options={options}
-            />
 
             <Typography variant="h6" sx={{ marginBottom: "10px", marginTop: "20px", textAlign: "center" }}>
               Prácticas Profesionales ICINF
             </Typography>
-            <MUIDataTable
-              data={dataICINF}
-              columns={columns}
-              options={options}
-            />
+
           </Card>
         </Grid>
       </Grid>

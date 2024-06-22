@@ -24,7 +24,7 @@ routerInscripcion.post("/create",
 ],
 inscripcionPracticaController.crear_inscripcion);
 
-routerInscripcion.get("/getall",[  
+routerInscripcion.get("/getall",[
     AutenticacionProfesional
 ],
 inscripcionPracticaController.mostrar_inscripciones);
@@ -42,23 +42,12 @@ routerInscripcion.delete("/delete/:id",
 ]
 ,inscripcionPracticaController.eliminar_inscripcion);
 
-
-
 routerInscripcion.post("/comprobar",[AutenticacionToken],inscripcionPracticaController.comprobar_inscripcion);
-
-routerInscripcion.post("/listadopractica1ieci",[AutenticacionProfesional],inscripcionPracticaController.mostrar_listado_alumnos_practica1_IECI);
-routerInscripcion.post("/listadopractica2ieci",[AutenticacionProfesional],inscripcionPracticaController.mostrar_listado_alumnos_practica2_IECI);
-routerInscripcion.post("/listadopractica1icinf",[AutenticacionProfesional],inscripcionPracticaController.mostrar_listado_alumnos_practica1_ICINF);
-routerInscripcion.post("/listadopractica2icinf",[AutenticacionProfesional],inscripcionPracticaController.mostrar_listado_alumnos_practica2_ICINF);
-routerInscripcion.post("/listadogeneral",[AutenticacionProfesional],inscripcionPracticaController.listado_alumnos_general)
 routerInscripcion.get("/modalidades",[AutenticacionToken],inscripcionPracticaController.obtener_Modalidades);
 routerInscripcion.put("/actualizarepresentante/:id",[AutenticacionToken],inscripcionPracticaController.actualizar_representante);
-
 routerInscripcion.post("/updatestado",[AutenticacionToken],inscripcionPracticaController.actualizar_estado_inscripcion)
 routerInscripcion.post("/updatevaluacion",[AutenticacionToken],inscripcionPracticaController.actualizar_evaluacion_inscripcion);
 routerInscripcion.post("/getidinscripcion",[AutenticacionAlumno],inscripcionPracticaController.mostrar_id_inscripcion);
-
-
 routerInscripcion.put("/actualizaralumno/:id",
 [
     AutenticacionAlumno,

@@ -1,4 +1,12 @@
-import { Card, CircularProgress, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
+import {
+  Card,
+  CircularProgress,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import Header from "../../../components/headers/header";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../helpers/clienteaxios";
@@ -26,7 +34,16 @@ const DetalleOfertaPractica = () => {
           <Header />
         </Grid>
 
-        <Grid item sx={{ zIndex: 999, position: "fixed", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto" }}>
+        <Grid
+          item
+          sx={{
+            zIndex: 999,
+            position: "fixed",
+            top: "80px",
+            height: "calc(100vh - 80px)",
+            overflowY: "auto",
+          }}
+        >
           <SidebarAlumno />
         </Grid>
 
@@ -38,7 +55,7 @@ const DetalleOfertaPractica = () => {
             justifyContent: "center",
             alignItems: "center",
             marginLeft: "250px",
-            paddingTop: "80px", 
+            paddingTop: "80px",
           }}
         >
           {getOferta.status === "success" && getOferta.data.oferta && (
@@ -56,22 +73,63 @@ const DetalleOfertaPractica = () => {
               >
                 Detalle Oferta
               </Typography>
-              <Card sx={{ padding: "30px", width: "70%", backgroundColor: "#f4f5f7" }}>
-                <Typography sx={{ marginBottom: "10px" }}> <strong>Descripción:</strong> {getOferta.data.oferta.descripcion}</Typography>
-                <Typography > <strong>Empresa:</strong> {getOferta.data.oferta.empresa.razon_social} </Typography>
+              <Card
+                sx={{
+                  padding: "30px",
+                  width: "70%",
+                  backgroundColor: "#f4f5f7",
+                  borderRadius: "8px",
+                }}
+              >
+                <Typography sx={{ marginBottom: "10px" }}>
+                  {" "}
+                  <strong>Descripción:</strong>{" "}
+                  {getOferta.data.oferta.descripcion}
+                </Typography>
+                <Typography>
+                  {" "}
+                  <strong>Empresa:</strong>{" "}
+                  {getOferta.data.oferta.empresa.razon_social}{" "}
+                </Typography>
                 <br />
-                <Typography ><strong>Correo:</strong> {getOferta.data.oferta.empresa.correo} </Typography>
+                <Typography>
+                  <strong>Correo:</strong>{" "}
+                  {getOferta.data.oferta.empresa.correo}{" "}
+                </Typography>
                 <br />
-                <Typography> <strong>Teléfono:</strong> {getOferta.data.oferta.empresa.telefono} </Typography>
+                <Typography>
+                  {" "}
+                  <strong>Teléfono:</strong>{" "}
+                  {getOferta.data.oferta.empresa.telefono}{" "}
+                </Typography>
               </Card>
-              <Card sx={{ padding: "30px", marginTop: "10px", width: "70%", marginBottom: "10px", backgroundColor: "#f4f5f7" }}>
-                <Typography sx={{ marginLeft: "14px" }} ><strong>Condiciones:</strong> </Typography>
+              <Card
+                sx={{
+                  padding: "30px",
+                  marginTop: "10px",
+                  width: "70%",
+                  marginBottom: "10px",
+                  backgroundColor: "#f4f5f7",
+                  borderRadius: "8px",
+                }}
+              >
+                <Typography sx={{ marginLeft: "14px" }}>
+                  <strong>Condiciones:</strong>{" "}
+                </Typography>
                 <List>
                   <ListItem>
-                    <ListItemText sx={{}}> <strong>Modalidad:</strong> {getOferta.data.oferta.modalidad.nombre_modalidad} </ListItemText>
+                    <ListItemText>
+                      {" "}
+                      <strong>Modalidad:</strong>{" "}
+                      {getOferta.data.oferta.modalidad.nombre_modalidad}{" "}
+                    </ListItemText>
                   </ListItem>
                   <ListItem>
-                    <ListItemText> <strong>Experiencia laboral:</strong> {getOferta.data.oferta.experiencia_laboral == true ? "Si" : "No"} </ListItemText>
+                    <ListItemText>
+                      {" "}
+                      <strong>Experiencia laboral:</strong>{" "}
+                      {getOferta.data.oferta.experiencia_laboral ? "Sí" : "No"}{" "}
+                    </ListItemText>
                   </ListItem>
                 </List>
               </Card>
@@ -100,6 +158,8 @@ const DetalleOfertaPractica = () => {
       </Grid>
     );
   }
+
+  return null; // Manejo del estado 'idle' o cualquier otro estado no contemplado.
 };
 
 export default DetalleOfertaPractica;

@@ -124,11 +124,20 @@ const eliminar_archivo = async (req, res) => {
       where: {
         id_archivo_informe: Number(id),
       },
+      include: {
+        estado_informe: true,
+      },
     });
 
     if (!archivo) {
       return res.status(404).json({
         mensaje: "No se ha encontrado un archivo con ese id",
+      });
+    }
+
+    if (archivo.estado_informe.nombre_estado_informe !== "Rechazado") {
+      return res.status(403).json({
+        mensaje: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
       });
     }
 
@@ -163,7 +172,6 @@ const comprobarTablaVacia = async (req, res) => {
     return res.status(500).json({ message: "Error al comprobar la tabla" });
   }
 };
-
 
 module.exports = {
   subirArchivo,

@@ -87,7 +87,7 @@ const EvaluacionPractica = () => {
               width: "100%",
               marginTop: "15px",
               marginBottom: "15px",
-              marginLeft:"16px"
+              marginLeft: "16px",
             }}
           >
             <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
@@ -98,12 +98,17 @@ const EvaluacionPractica = () => {
                     textAlign: "center",
                     display: "flex",
                     alignItems: "center",
+                    marginBottom: "20px",
                   }}
                 >
-                  Subir evaluacion de la empresa
-                  <Construction style={{ marginLeft: "5px" }}/>
+                  Subir evaluación de la empresa
+                  <Construction style={{ marginLeft: "5px" }} />
                 </Typography>
+              </Grid>
+              <Grid item>
                 <SubirEvaluacion id={id} />
+              </Grid>
+              <Grid item sx={{ width: "100%", marginTop: "20px" }}>
                 <MostrarArchivoEvaluacion id={id} />
               </Grid>
             </Grid>

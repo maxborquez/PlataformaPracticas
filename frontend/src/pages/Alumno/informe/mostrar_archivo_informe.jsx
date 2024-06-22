@@ -30,6 +30,19 @@ const MostrarArchivoInforme = ({ id }) => {
 
   const handleDelete = async (archivoId) => {
     try {
+      const archivo = archivos.find((archivo) => archivo.id_archivo_informe === archivoId);
+      const estadoInforme = archivo.estado_informe?.nombre_estado_informe;
+
+      if (estadoInforme !== "rechazado") {
+        Swal.fire({
+          title: "Error",
+          text: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
+
       const result = await Swal.fire({
         title: '¿Estás seguro?',
         text: "¡No podrás revertir esto!",
@@ -39,7 +52,7 @@ const MostrarArchivoInforme = ({ id }) => {
         cancelButtonText: 'No, cancelar',
         reverseButtons: true
       });
-  
+
       if (result.isConfirmed) {
         await clienteAxios.delete(`/archivoinforme/delete/${archivoId}`);
         setArchivos(archivos.filter(archivo => archivo.id_archivo_informe !== archivoId));
@@ -60,7 +73,7 @@ const MostrarArchivoInforme = ({ id }) => {
       );
     }
   };
-  
+
   if (loading) {
     return <CircularProgress />;
   }
@@ -88,6 +101,17 @@ const MostrarArchivoInforme = ({ id }) => {
       options: {
         filter: true,
         sort: true,
+      },
+    },
+    {
+      name: "estado_informe",
+      label: "Estado del Informe",
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRender: (value) => {
+          return value?.nombre_estado_informe || "Desconocido";
+        },
       },
     },
     {
@@ -121,14 +145,14 @@ const MostrarArchivoInforme = ({ id }) => {
   };
 
   return (
-    <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%" }}>
+ 
       <MUIDataTable
         title={"Archivo subido actualmente"}
         data={archivos}
         columns={columns}
         options={options}
       />
-    </Card>
+    
   );
 };
 

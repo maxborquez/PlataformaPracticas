@@ -56,6 +56,7 @@ const OfertasPublicas = () => {
               width: "250px",
               zIndex: 1200,
               backgroundColor: "#36465d",
+              height: "calc(100vh - 80px)", // Ajustar altura para ocupar todo el espacio disponible
             }}
           >
             <SidebarAlumno />
@@ -70,34 +71,32 @@ const OfertasPublicas = () => {
             transition: "margin-left 0.3s",
             overflowY: "auto",
             paddingRight: "16px",
-            overflowX: "auto",
-            marginTop: "35px",
+            paddingLeft: "16px",
+            paddingTop: "16px",
+            paddingBottom: "16px",
             display: "flex",
             justifyContent: "center",
+            width: "auto", // Asegurar que el Grid ocupe todo el ancho disponible
           }}
         >
           <Grid
-            container
-            spacing={2}
             sx={{
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "15px",
-              backgroundColor: "white",
               padding: "20px",
-              borderRadius: "8px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              maxWidth: "80%",
-              margin: "0 auto",
+              backgroundColor: "white",
+              width: "100%",
+              // Máximo ancho para hacerlo más responsivo
+
+              borderRadius: "8px", // Bordes redondeados
+              boxSizing: "border-box", // Asegurar que el padding no cause overflow
             }}
           >
             <Grid item>
               <Typography
                 variant="h5"
-                sx={{
+                style={{
                   textAlign: "center",
-                  display: "flex",
-                  alignItems: "center",
+                  marginTop: "15px",
+                  marginBottom: "15px",
                 }}
               >
                 Ofertas de Práctica

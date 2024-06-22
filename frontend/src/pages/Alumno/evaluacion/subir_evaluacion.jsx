@@ -21,7 +21,7 @@ const SubirEvaluacion = ({ id }) => {
     // Verificar si ya existe un archivo subido
     const verificarArchivoExistente = async () => {
       try {
-        const response = await clienteAxios.get("/archivoevaluacion/tabla_vacia");
+        const response = await clienteAxios.get("/archivo_evaluacion/tabla_vacia");
         setArchivoExistente(!response.data.isEmpty);
       } catch (error) {
         console.error("Error al verificar archivo existente:", error);
@@ -74,7 +74,7 @@ const SubirEvaluacion = ({ id }) => {
     formData.append("archivo", archivo);
 
     try {
-      const response = await clienteAxios.post("/archivoevaluacion/create", formData);
+      const response = await clienteAxios.post("/archivo_evaluacion/create", formData);
       Swal.fire({
         title: "Éxito",
         text: "Archivo subido correctamente",
@@ -98,7 +98,7 @@ const SubirEvaluacion = ({ id }) => {
       <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
         <Grid item>
           <Typography variant="h5" sx={{ textAlign: "center" }}>
-            Subir Evaluacion
+            Subir Evaluación
           </Typography>
         </Grid>
         <Grid item>

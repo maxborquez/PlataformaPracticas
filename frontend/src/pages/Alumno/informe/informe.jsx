@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography, Card } from "@mui/material";
+import { Grid, Typography, Card, Box } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
@@ -87,7 +87,7 @@ const InformePractica = () => {
               width: "100%",
               marginTop: "15px",
               marginBottom: "15px",
-              marginLeft:"16px"
+              marginLeft: "16px",
             }}
           >
             <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
@@ -98,12 +98,17 @@ const InformePractica = () => {
                     textAlign: "center",
                     display: "flex",
                     alignItems: "center",
+                    marginBottom: "20px",
                   }}
                 >
                   Subir informe de practica
-                  <Construction style={{ marginLeft: "5px" }}/>
+                  <Construction style={{ marginLeft: "5px" }} />
                 </Typography>
+              </Grid>
+              <Grid item>
                 <SubirInforme id={id} />
+              </Grid>
+              <Grid item sx={{ width: "100%", marginTop: "20px" }}>
                 <MostrarArchivoInforme id={id} />
               </Grid>
             </Grid>

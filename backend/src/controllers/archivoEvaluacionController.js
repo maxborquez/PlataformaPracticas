@@ -60,6 +60,9 @@ const mostrar_archivos = async (req, res) => {
       where: {
         id_inscripcion: Number(id_inscripcion),
       },
+      include: {
+        estado_evaluacion: true,
+      },
     });
 
     if (archivos.length === 0) {
@@ -87,6 +90,9 @@ const mostrar_archivo = async (req, res) => {
     const archivo = await prisma.archivo_evaluacion.findFirst({
       where: {
         id_archivo_evaluacion: Number(id),
+      },
+      include: {
+        estado_evaluacion: true,
       },
     });
 
@@ -124,11 +130,20 @@ const eliminar_archivo = async (req, res) => {
       where: {
         id_archivo_evaluacion: Number(id),
       },
+      include: {
+        estado_evaluacion: true,
+      },
     });
 
     if (!archivo) {
       return res.status(404).json({
         mensaje: "No se ha encontrado un archivo con ese id",
+      });
+    }
+
+    if (archivo.estado_evaluacion.nombre_estado_evaluacion !== "rechazado") {
+      return res.status(403).json({
+        mensaje: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
       });
     }
 

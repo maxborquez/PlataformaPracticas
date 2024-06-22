@@ -12,7 +12,7 @@ const MostrarArchivoEvaluacion = ({ id }) => {
   useEffect(() => {
     const fetchArchivos = async () => {
       try {
-        const response = await clienteAxios.post("/archivoevaluacion/getall", { id_inscripcion: id });
+        const response = await clienteAxios.post("/archivo_evaluacion/getall", { id_inscripcion: id });
         if (response.data.archivos) {
           setArchivos(response.data.archivos);
         } else {
@@ -30,6 +30,19 @@ const MostrarArchivoEvaluacion = ({ id }) => {
 
   const handleDelete = async (archivoId) => {
     try {
+      const archivo = archivos.find((archivo) => archivo.id_archivo_evaluacion === archivoId);
+      const estadoEvaluacion = archivo.estado_evaluacion?.nombre_estado_evaluacion;
+
+      if (estadoEvaluacion !== "rechazado") {
+        Swal.fire({
+          title: "Error",
+          text: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
+
       const result = await Swal.fire({
         title: '¿Estás seguro?',
         text: "¡No podrás revertir esto!",
@@ -41,7 +54,7 @@ const MostrarArchivoEvaluacion = ({ id }) => {
       });
 
       if (result.isConfirmed) {
-        await clienteAxios.delete(`/archivoevaluacion/delete/${archivoId}`);
+        await clienteAxios.delete(`/archivo_evaluacion/delete/${archivoId}`);
         setArchivos(archivos.filter(archivo => archivo.id_archivo_evaluacion !== archivoId));
         Swal.fire(
           'Eliminado!',
@@ -91,6 +104,17 @@ const MostrarArchivoEvaluacion = ({ id }) => {
       },
     },
     {
+      name: "estado_evaluacion",
+      label: "Estado del Informe",
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRender: (value) => {
+          return value?.nombre_estado_evaluacion || "Desconocido";
+        },
+      },
+    },
+    {
       name: "acciones",
       label: "Acciones",
       options: {
@@ -121,14 +145,14 @@ const MostrarArchivoEvaluacion = ({ id }) => {
   };
 
   return (
-    <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%" }}>
+    
       <MUIDataTable
         title={"Archivo subido actualmente"}
         data={archivos}
         columns={columns}
         options={options}
       />
-    </Card>
+    
   );
 };
 

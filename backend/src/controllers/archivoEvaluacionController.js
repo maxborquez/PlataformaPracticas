@@ -147,9 +147,9 @@ const eliminar_archivo = async (req, res) => {
       });
     }
 
-    if (archivo.estado_evaluacion.nombre_estado_evaluacion !== "rechazado") {
+    if (archivo.estado_evaluacion.nombre_estado_evaluacion === "Aprobado") {
       return res.status(403).json({
-        mensaje: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
+        mensaje: "El archivo no puede ser eliminado porque ya ha sido aprobado",
       });
     }
 

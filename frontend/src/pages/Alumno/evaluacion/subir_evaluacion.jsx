@@ -21,7 +21,7 @@ const SubirEvaluacion = ({ id }) => {
     // Verificar si ya existe un archivo subido
     const verificarArchivoExistente = async () => {
       try {
-        const response = await clienteAxios.get("/archivo_evaluacion/tabla_vacia");
+        const response = await clienteAxios.get("/archivoevaluacion/tabla_vacia");
         setArchivoExistente(!response.data.isEmpty);
       } catch (error) {
         console.error("Error al verificar archivo existente:", error);
@@ -74,7 +74,7 @@ const SubirEvaluacion = ({ id }) => {
     formData.append("archivo", archivo);
 
     try {
-      const response = await clienteAxios.post("/archivo_evaluacion/create", formData);
+      const response = await clienteAxios.post("/archivoevaluacion/create", formData);
       Swal.fire({
         title: "Éxito",
         text: "Archivo subido correctamente",

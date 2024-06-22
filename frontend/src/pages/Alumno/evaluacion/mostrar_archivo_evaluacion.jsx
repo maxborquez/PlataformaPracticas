@@ -12,7 +12,7 @@ const MostrarArchivoEvaluacion = ({ id }) => {
   useEffect(() => {
     const fetchArchivos = async () => {
       try {
-        const response = await clienteAxios.post("/archivo_evaluacion/getall", { id_inscripcion: id });
+        const response = await clienteAxios.post("/archivoevaluacion/getall", { id_inscripcion: id });
         if (response.data.archivos) {
           setArchivos(response.data.archivos);
         } else {
@@ -33,10 +33,10 @@ const MostrarArchivoEvaluacion = ({ id }) => {
       const archivo = archivos.find((archivo) => archivo.id_archivo_evaluacion === archivoId);
       const estadoEvaluacion = archivo.estado_evaluacion?.nombre_estado_evaluacion;
 
-      if (estadoEvaluacion !== "rechazado") {
+      if (estadoEvaluacion == "Aprobado") {
         Swal.fire({
           title: "Error",
-          text: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
+          text: "El archivo no puede ser eliminado porque ya ha sido aprobado",
           icon: "error",
           confirmButtonText: "Aceptar",
         });
@@ -54,7 +54,7 @@ const MostrarArchivoEvaluacion = ({ id }) => {
       });
 
       if (result.isConfirmed) {
-        await clienteAxios.delete(`/archivo_evaluacion/delete/${archivoId}`);
+        await clienteAxios.delete(`/archivoevaluacion/delete/${archivoId}`);
         setArchivos(archivos.filter(archivo => archivo.id_archivo_evaluacion !== archivoId));
         Swal.fire(
           'Eliminado!',

@@ -33,10 +33,10 @@ const MostrarArchivoInforme = ({ id }) => {
       const archivo = archivos.find((archivo) => archivo.id_archivo_informe === archivoId);
       const estadoInforme = archivo.estado_informe?.nombre_estado_informe;
 
-      if (estadoInforme !== "rechazado") {
+      if (estadoInforme === "Aprobado") {
         Swal.fire({
           title: "Error",
-          text: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
+          text: "El archivo no puede ser eliminado porque ya ha sido aprobado",
           icon: "error",
           confirmButtonText: "Aceptar",
         });

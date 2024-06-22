@@ -66,6 +66,9 @@ const mostrar_archivos = async (req, res) => {
       where: {
         id_inscripcion: Number(id_inscripcion),
       },
+      include: {
+        estado_informe: true, // Incluye la relación con la tabla estado_informe
+      },
     });
 
     if (archivos.length === 0) {
@@ -86,6 +89,7 @@ const mostrar_archivos = async (req, res) => {
     });
   }
 };
+
 
 
 const mostrar_archivo = async (req, res) => {
@@ -142,9 +146,9 @@ const eliminar_archivo = async (req, res) => {
       });
     }
 
-    if (archivo.estado_informe.nombre_estado_informe !== "Rechazado") {
+    if (archivo.estado_informe.nombre_estado_informe === "Aprobado") {
       return res.status(403).json({
-        mensaje: "El archivo no puede ser eliminado porque su estado no es 'rechazado'",
+        mensaje: "El archivo no puede ser eliminado porque ya ha sido aprobado",
       });
     }
 

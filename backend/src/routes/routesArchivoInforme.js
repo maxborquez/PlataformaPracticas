@@ -37,5 +37,7 @@ routerArchivoInforme.delete("/delete/:id",
 
 routerArchivoInforme.get("/show/:id",[AutenticacionToken],archivoInformeController.mostrar_archivo);
 
+routerArchivoInforme.get('/tabla_vacia',[AutenticacionToken], archivoInformeController.comprobarTablaVacia);
+
 
 module.exports = routerArchivoInforme;

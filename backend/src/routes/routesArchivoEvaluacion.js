@@ -37,5 +37,7 @@ routerArchivoEvaluacion.delete("/delete/:id",
 
 routerArchivoEvaluacion.get("/show/:id",[AutenticacionToken],archivoEvaluacionController.mostrar_archivo);
 
+routerArchivoEvaluacion.get('/tabla_vacia',[AutenticacionToken], archivoEvaluacionController.comprobarTablaVacia);
+
 
 module.exports = routerArchivoEvaluacion;

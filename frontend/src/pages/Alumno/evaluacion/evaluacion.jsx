@@ -4,6 +4,7 @@ import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
 import SubirEvaluacion from "./subir_evaluacion";
+import MostrarArchivoEvaluacion from "./mostrar_archivo_evaluacion";
 import { useParams } from "react-router-dom";
 
 const EvaluacionPractica = () => {
@@ -99,10 +100,11 @@ const EvaluacionPractica = () => {
                     alignItems: "center",
                   }}
                 >
-                  Subir informe de practica
+                  Subir evaluacion de la empresa
                   <Construction style={{ marginLeft: "5px" }}/>
                 </Typography>
                 <SubirEvaluacion id={id} />
+                <MostrarArchivoEvaluacion id={id} />
               </Grid>
             </Grid>
           </Card>

@@ -150,9 +150,25 @@ const eliminar_archivo = async (req, res) => {
   }
 };
 
+const comprobarTablaVacia = async (req, res) => {
+  try {
+    const count = await prisma.archivo_informe.count();
+    if (count > 0) {
+      return res.json({ isEmpty: false });
+    } else {
+      return res.json({ isEmpty: true });
+    }
+  } catch (error) {
+    console.error("Error al comprobar la tabla:", error);
+    return res.status(500).json({ message: "Error al comprobar la tabla" });
+  }
+};
+
+
 module.exports = {
   subirArchivo,
   mostrar_archivos,
   eliminar_archivo,
   mostrar_archivo,
+  comprobarTablaVacia,
 };

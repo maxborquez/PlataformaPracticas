@@ -11,6 +11,7 @@ import SidebarProfesional from "../../../../../components/sidebars/sidebarProfes
 const CrearOferta = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [cupos, setCupos] = useState("");
   const [experiencia, setExperiencia] = useState(0);
@@ -68,6 +69,7 @@ const CrearOferta = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const data = {
+      titulo: titulo,
       descripcion: descripcion,
       experiencia_laboral: experiencia === 1,
       cupos: Number(cupos),
@@ -149,7 +151,18 @@ const CrearOferta = () => {
               <Grid container spacing={2}>
                 <Grid item xs={11} xl={11} lg={12} md={12} sm={11}>
                   <TextField
-                    label="Descripcion"
+                    label="Título"
+                    sx={{ backgroundColor: "white" }}
+                    value={titulo}
+                    required
+                    onChange={(e) => setTitulo(e.target.value)}
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </Grid>
+                <Grid item xs={11} xl={11} lg={12} md={12} sm={11}>
+                  <TextField
+                    label="Descripción"
                     multiline
                     sx={{ backgroundColor: "white" }}
                     rows={5}
@@ -187,7 +200,7 @@ const CrearOferta = () => {
                       fullWidth
                     >
                       <MenuItem value={0}>No</MenuItem>
-                      <MenuItem value={1}>Si</MenuItem>
+                      <MenuItem value={1}>Sí</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>

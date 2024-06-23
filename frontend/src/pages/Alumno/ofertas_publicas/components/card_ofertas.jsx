@@ -101,7 +101,7 @@ const CardOfertas = () => {
                   }}
                 >
                   <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-                    {oferta.empresa.razon_social}
+                    {oferta.titulo}
                   </Typography>
                 </div>
                 <CardContent
@@ -121,6 +121,9 @@ const CardOfertas = () => {
                       {oferta.descripcion.length > 50
                         ? `${oferta.descripcion.substring(0, 50)}...`
                         : oferta.descripcion}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginBottom: "20px", fontWeight: 'bold' }}>
+                        Empresa: {oferta.empresa.razon_social}
                     </Typography>
                   </div>
                   <div>

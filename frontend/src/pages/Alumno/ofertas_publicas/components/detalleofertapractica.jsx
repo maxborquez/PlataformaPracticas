@@ -157,6 +157,11 @@ const DetalleOfertaPractica = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
+                    <TableRow>
+                        <TableCell>
+                          <strong>Título:</strong> {getOferta.data.oferta.titulo}
+                        </TableCell>
+                      </TableRow>
                       <TableRow>
                         <TableCell>
                           <strong>Descripción:</strong> {getOferta.data.oferta.descripcion}

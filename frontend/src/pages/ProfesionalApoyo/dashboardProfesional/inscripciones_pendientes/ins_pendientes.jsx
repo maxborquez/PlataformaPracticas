@@ -201,6 +201,7 @@ const InscripcionesPendientes = () => {
     print: false,
     viewColumns: false,
     filter: false,
+    sort: false,
   };
 
   return (

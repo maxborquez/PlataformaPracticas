@@ -60,6 +60,7 @@ const ListaEstudiantes = () => {
     filter: false,
     pagination: false,
     selectableRows: "none",
+    sort: false,
   };
 
   return (

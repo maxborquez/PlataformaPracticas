@@ -4,7 +4,6 @@ import {
   Card,
   Grid,
   Typography,
-  Button,
 } from "@mui/material";
 import Header from "../../../../components/headers/header";
 import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
@@ -43,12 +42,78 @@ const ListaEstudiantes = () => {
   }, [careerId, asignaturaId, anio, periodo]);
 
   const columns = [
-    { name: "rut", label: "RUT" },
-    { name: "primer_nombre", label: "Primer Nombre" },
-    { name: "segundo_nombre", label: "Segundo Nombre" },
-    { name: "apellido_paterno", label: "Apellido Paterno" },
-    { name: "apellido_materno", label: "Apellido Materno" },
-    { name: "correo_institucional", label: "Correo Institucional" },
+    { 
+      name: "rut", 
+      label: "RUT", 
+      options: { 
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
+    { 
+      name: "primer_nombre", 
+      label: "Primer Nombre", 
+      options: { 
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "segundo_nombre", 
+      label: "Segundo Nombre", 
+      options: { 
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "apellido_paterno", 
+      label: "Apellido Paterno", 
+      options: { 
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "apellido_materno", 
+      label: "Apellido Materno", 
+      options: { 
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "correo_institucional", 
+      label: "Correo Institucional", 
+      options: { 
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
   ];
 
   const options = {
@@ -91,7 +156,7 @@ const ListaEstudiantes = () => {
               Lista de Estudiantes
             </Typography>
             <MUIDataTable
-              title={"Estudiantes"}
+         
               data={data}
               columns={columns}
               options={options}

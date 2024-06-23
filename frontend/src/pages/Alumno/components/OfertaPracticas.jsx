@@ -7,7 +7,6 @@ import {
   CardContent,
   CardActionArea,
   CircularProgress,
-  Collapse,
   Button,
 } from "@mui/material";
 import { useQuery } from "react-query";
@@ -24,15 +23,6 @@ const OfertasPracticas = () => {
       throw new Error("Error fetching data");
     }
   });
-
-  const [expanded, setExpanded] = useState({});
-
-  const handleExpandClick = (id) => {
-    setExpanded((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
-  };
 
   if (status === "loading") {
     return (
@@ -78,10 +68,10 @@ const OfertasPracticas = () => {
           <Grid item key={oferta.id_oferta_practica} xs={12} sm={6} md={4}>
             <Card
               sx={{
-                background: "linear-gradient(180deg, #c8e4ff 0%, #e1eaf7 100%)", // Degradado
-                padding: "10px",
+                position: "relative",
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
                 height: "250px",
+                width:"300px",
                 transition: "border 0.3s",
                 "&:hover": {
                   border: "1px solid black",
@@ -92,45 +82,61 @@ const OfertasPracticas = () => {
                 sx={{
                   height: "100%",
                   width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
                 onClick={() =>
                   navigate(`/detalleoferta/${oferta.id_oferta_practica}`)
                 }
               >
-                <CardContent>
-                  <Typography variant="h5" color="textSecondary">
+                <div
+                  style={{
+                    backgroundColor: "#326FA6",
+                    color: "white",
+                    width: "100%",
+                    textAlign: "left",
+                    padding: "16px 16px",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    borderRadius: "4px 4px 0 0",
+                  }}
+                >
+                  <Typography variant="h4">
                     {oferta.empresa.razon_social}
                   </Typography>
-                  <Typography variant="h5" sx={{ marginBottom: "8px" }}>
-                    {oferta.titulo}
-                  </Typography>
-                  <Typography variant="body2" noWrap>
-                    {oferta.descripcion}
-                  </Typography>
-                  <Collapse
-                    in={expanded[oferta.id_oferta_practica]}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    <Typography variant="body2">
-                      <strong>Modalidad:</strong>{" "}
-                      {oferta.modalidad.nombre_modalidad}
+                </div>
+                <CardContent
+                  sx={{
+                    padding: "70px 16px 16px 16px", // Añadimos padding superior para no superponer el contenido con el header
+                    marginLeft: "16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <div>
+                    <Typography variant="h6" sx={{ margin: "8px 0" }}>
+                      {oferta.titulo}
                     </Typography>
-                    <Typography variant="body2">
-                      <strong>Experiencia laboral:</strong>{" "}
-                      {oferta.experiencia_laboral ? "Sí" : "No"}
+                    <Typography variant="body1" sx={{ marginBottom: "8px" }}>
+                      {oferta.descripcion}
                     </Typography>
-                  </Collapse>
+                  </div>
                   <Button
                     size="small"
+                    variant="contained"
+                    color="primary"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleExpandClick(oferta.id_oferta_practica);
+                      // Lógica para inscribir al estudiante en la oferta
+                      // Puedes agregar la función aquí
                     }}
+                    sx={{ alignSelf: "flex-end", marginTop: "auto" , marginRight:"16px"}}
                   >
-                    {expanded[oferta.id_oferta_practica]
-                      ? "Ver menos"
-                      : "Ver más"}
+                    Inscribir
                   </Button>
                 </CardContent>
               </CardActionArea>

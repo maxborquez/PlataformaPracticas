@@ -92,12 +92,43 @@ const Practicas = () => {
   };
 
   const columns = [
-    { name: 'practica', label: 'Práctica' },
-    { name: 'count', label: 'Número de Alumnos' },
+    { 
+      name: "practica", 
+      label: "Práctica profesional", 
+      options: { 
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "count", 
+      label: "Alumnos inscritos", 
+      options: { 
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
     {
-      name: 'acciones',
-      label: 'Acciones',
+      name: "acciones",
+      label: "Acción",
       options: {
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        }),
         customBodyRenderLite: (dataIndex) => {
           const rowData = dataIndex < dataIECI.length ? dataIECI[dataIndex] : dataICINF[dataIndex - dataIECI.length];
           return (
@@ -184,15 +215,21 @@ const Practicas = () => {
                 </Grid>
               </Grid>
             </form>
+
+            <Typography variant="h6" sx={{ marginBottom: "10px", textAlign: "center" }}>
+              Prácticas Profesionales IECI
+            </Typography>
             <MUIDataTable
-              title={"Alumnos en practica IECI"}
               data={dataIECI}
               columns={columns}
               options={options}
+              style={{ marginBottom: "20px" }} // Añadir margen entre tablas
             />
 
+            <Typography variant="h6" sx={{ marginBottom: "10px", marginTop: "20px", textAlign: "center" }}>
+              Prácticas Profesionales ICINF
+            </Typography>
             <MUIDataTable
-              title={"Alumnos en practica ICINF"}
               data={dataICINF}
               columns={columns}
               options={options}

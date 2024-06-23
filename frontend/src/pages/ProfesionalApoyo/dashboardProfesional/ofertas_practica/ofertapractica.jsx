@@ -87,6 +87,19 @@ const OfertaPractica = () => {
 
   const columns = [
     {
+      name: "titulo",
+      label: "Título",
+      options: {
+        setCellProps: () => ({ style: { width: "150px" } }),
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      },
+    },
+    {
       name: "descripcion",
       label: "Descripción",
       options: {

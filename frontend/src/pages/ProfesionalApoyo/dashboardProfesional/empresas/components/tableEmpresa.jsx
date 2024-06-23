@@ -191,7 +191,8 @@ const TableEmpresa = () => {
     viewColumns: false,
     filter: false,
     pagination: false,
-    selectableRows: "none", // Desactiva la selección múltiple
+    selectableRows: "none",
+    sort: false,
   };
 
   if (status === "loading") {

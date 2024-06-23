@@ -88,6 +88,7 @@ const Practicas = () => {
     filter: false,
     pagination: false,
     selectableRows: "none",
+    sort: false,
   };
 
   const columns = [

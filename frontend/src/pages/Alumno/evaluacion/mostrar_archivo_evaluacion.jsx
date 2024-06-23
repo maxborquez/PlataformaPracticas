@@ -96,14 +96,6 @@ const MostrarArchivoEvaluacion = ({ id }) => {
       },
     },
     {
-      name: "tipo_documento",
-      label: "Tipo de Documento",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
       name: "estado_evaluacion",
       label: "Estado del Informe",
       options: {

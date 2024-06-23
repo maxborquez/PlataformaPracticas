@@ -38,35 +38,39 @@ const crear_oferta = async(req,res) => {
     }
 }
 
-const mostrar_ofertas = async(req,res) =>{
-    try{
-        
-        const ofertas = await prisma.oferta_practica.findMany(
-            {
-                include:{
-                    periodo_academico:true,
-                    modalidad:true,
-                    empresa:true
+const mostrar_ofertas = async (req, res) => {
+    try {
+        const ofertas = await prisma.oferta_practica.findMany({
+            include: {
+                periodo_academico: true,
+                modalidad: true,
+                empresa: {
+                    include: {
+                        comuna: true
+                    }
                 }
             }
-        );
-        if(ofertas.length==0){
+        });
+
+        if (ofertas.length == 0) {
             return res.status(200).json({
-                mensaje:"No hay ofertas registradas"
-            })
+                mensaje: "No hay ofertas registradas"
+            });
         }
-        let ofertas_reverse  = ofertas.reverse();
+
+        let ofertas_reverse = ofertas.reverse();
         return res.status(200).json({
-            mensaje:"Se han encontrado resultados",
-            ofertas:ofertas_reverse
-        })
-    }catch(error){
+            mensaje: "Se han encontrado resultados",
+            ofertas: ofertas_reverse
+        });
+    } catch (error) {
         return res.status(400).json({
-            mensaje:"Error al crear la oferta",
-            error:error.stack
-        })
+            mensaje: "Error al crear la oferta",
+            error: error.stack
+        });
     }
 };
+
 
 const mostrar_oferta = async(req,res) =>{
     try{

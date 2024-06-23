@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Alert,
   Grid,
@@ -8,15 +7,17 @@ import {
   CardActionArea,
   CircularProgress,
   Button,
+  Chip,
 } from "@mui/material";
 import { useQuery } from "react-query";
-import clienteAxios from "../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 import { useNavigate } from "react-router-dom";
 
-const OfertasPracticas = () => {
+const CardOfertas = () => {
   const navigate = useNavigate();
   const { data, status, error } = useQuery("ofertas", async () => {
     const response = await clienteAxios.get("/oferta/getall");
+    console.log(response.data);
     if (response.status === 200) {
       return response.data;
     } else {
@@ -70,8 +71,8 @@ const OfertasPracticas = () => {
               sx={{
                 position: "relative",
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-                height: "250px",
-                width:"300px",
+                height: "280px",
+                width: "350px",
                 transition: "border 0.3s",
                 "&:hover": {
                   border: "1px solid black",
@@ -85,9 +86,6 @@ const OfertasPracticas = () => {
                   display: "flex",
                   flexDirection: "column",
                 }}
-                onClick={() =>
-                  navigate(`/detalleoferta/${oferta.id_oferta_practica}`)
-                }
               >
                 <div
                   style={{
@@ -102,28 +100,53 @@ const OfertasPracticas = () => {
                     borderRadius: "4px 4px 0 0",
                   }}
                 >
-                  <Typography variant="h4">
+                  <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
                     {oferta.empresa.razon_social}
                   </Typography>
                 </div>
                 <CardContent
                   sx={{
-                    padding: "70px 16px 16px 16px", // Añadimos padding superior para no superponer el contenido con el header
+                    padding: "70px 16px 16px 16px",
                     marginLeft: "16px",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
                     width: "100%",
                     height: "100%",
+                    marginTop: "30px",
                   }}
                 >
                   <div>
-                    <Typography variant="h6" sx={{ margin: "8px 0" }}>
-                      {oferta.titulo}
+                    <Typography variant="body1" sx={{ marginBottom: "20px" }}>
+                      {oferta.descripcion.length > 50
+                        ? `${oferta.descripcion.substring(0, 50)}...`
+                        : oferta.descripcion}
                     </Typography>
-                    <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                      {oferta.descripcion}
-                    </Typography>
+                  </div>
+                  <div>
+                    <Chip
+                      label={oferta.modalidad.nombre_modalidad}
+                      sx={{
+                        backgroundColor: "#4caf50",
+                        color: "white",
+                        marginRight: "8px",
+                      }}
+                    />
+                    <Chip
+                      label={oferta.empresa.comuna.nombre}
+                      sx={{
+                        backgroundColor: "#2196f3",
+                        color: "white",
+                        marginRight: "8px",
+                      }}
+                    />
+                    <Chip
+                      label={`${oferta.cupos} cupos`}
+                      sx={{
+                        backgroundColor: "#ffce3a",
+                        color: "white",
+                      }}
+                    />
                   </div>
                   <Button
                     size="small"
@@ -131,12 +154,11 @@ const OfertasPracticas = () => {
                     color="primary"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // Lógica para inscribir al estudiante en la oferta
-                      // Puedes agregar la función aquí
+                      navigate(`/detalleoferta/${oferta.id_oferta_practica}`);
                     }}
-                    sx={{ alignSelf: "flex-end", marginTop: "auto" , marginRight:"16px"}}
+                    sx={{ alignSelf: "flex-end", marginTop: "5px", marginRight: "16px" }}
                   >
-                    Inscribir
+                    Ver más
                   </Button>
                 </CardContent>
               </CardActionArea>
@@ -162,4 +184,4 @@ const OfertasPracticas = () => {
   );
 };
 
-export default OfertasPracticas;
+export default CardOfertas;

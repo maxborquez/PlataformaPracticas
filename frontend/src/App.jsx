@@ -14,7 +14,7 @@ import { ProtectedRoute } from './router/ProtectedRoute'
 import { ProtectedRouteProfesional } from './router/protectedrouteprofesional'
 import DashboardProfesional from './pages/ProfesionalApoyo/dashboardProfesional/DashboardProfesional'
 import PerfilAlumno from './pages/Alumno/perfil-alumno/PerfilAlumno'
-import DetalleOfertaPractica from './pages/Alumno/detalleofertapractica/detalleofertapractica'
+import DetalleOfertaPractica from './pages/Alumno/ofertas_publicas/components/detalleofertapractica'
 import DetalleInscripcion from './pages/Alumno/detalleInscripcion/DetalleInscripcion'
 import ModificarDatos from './pages/Alumno/inscripcion_practica/modificarDatos'
 import DocumentosInscripcion from './pages/Alumno/documentos/documentosInscripcion'
@@ -44,12 +44,9 @@ import ListaEstudiantes from './pages/ProfesionalApoyo/dashboardProfesional/prac
 const queryClient = new QueryClient();
 
 function App() {
-    
-    
     return(
       <BrowserRouter>
         <QueryClientProvider client={queryClient} >
-          
               <AuthProvider>
                      <Routes>
                             <Route path='/' index element={<Login/>} />

@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { Card, CircularProgress, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import clienteAxios from "../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 import MUIDataTable from "mui-datatables";
 import Swal from "sweetalert2";
 
-const MostrarArchivoInforme = ({ id }) => {
+const MostrarArchivoEvaluacion = ({ id }) => {
   const [archivos, setArchivos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchArchivos = async () => {
       try {
-        const response = await clienteAxios.post("/archivoinforme/getall", { id_inscripcion: id });
+        const response = await clienteAxios.post("/archivoevaluacion/getall", { id_inscripcion: id });
         if (response.data.archivos) {
           setArchivos(response.data.archivos);
         } else {
@@ -30,10 +30,10 @@ const MostrarArchivoInforme = ({ id }) => {
 
   const handleDelete = async (archivoId) => {
     try {
-      const archivo = archivos.find((archivo) => archivo.id_archivo_informe === archivoId);
-      const estadoInforme = archivo.estado_informe?.nombre_estado_informe;
+      const archivo = archivos.find((archivo) => archivo.id_archivo_evaluacion === archivoId);
+      const estadoEvaluacion = archivo.estado_evaluacion?.nombre_estado_evaluacion;
 
-      if (estadoInforme === "Aprobado") {
+      if (estadoEvaluacion == "Aprobado") {
         Swal.fire({
           title: "Error",
           text: "El archivo no puede ser eliminado porque ya ha sido aprobado",
@@ -54,8 +54,8 @@ const MostrarArchivoInforme = ({ id }) => {
       });
 
       if (result.isConfirmed) {
-        await clienteAxios.delete(`/archivoinforme/delete/${archivoId}`);
-        setArchivos(archivos.filter(archivo => archivo.id_archivo_informe !== archivoId));
+        await clienteAxios.delete(`/archivoevaluacion/delete/${archivoId}`);
+        setArchivos(archivos.filter(archivo => archivo.id_archivo_evaluacion !== archivoId));
         Swal.fire(
           'Eliminado!',
           'El archivo ha sido eliminado.',
@@ -95,15 +95,14 @@ const MostrarArchivoInforme = ({ id }) => {
         sort: true,
       },
     },
-    
     {
-      name: "estado_informe",
+      name: "estado_evaluacion",
       label: "Estado del Informe",
       options: {
         filter: true,
         sort: true,
         customBodyRender: (value) => {
-          return value?.nombre_estado_informe || "Desconocido";
+          return value?.nombre_estado_evaluacion || "Desconocido";
         },
       },
     },
@@ -114,7 +113,7 @@ const MostrarArchivoInforme = ({ id }) => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta) => {
-          const archivoId = archivos[tableMeta.rowIndex].id_archivo_informe;
+          const archivoId = archivos[tableMeta.rowIndex].id_archivo_evaluacion;
           return (
             <IconButton onClick={() => handleDelete(archivoId)}>
               <DeleteIcon />
@@ -138,7 +137,7 @@ const MostrarArchivoInforme = ({ id }) => {
   };
 
   return (
- 
+    
       <MUIDataTable
         title={"Archivo subido actualmente"}
         data={archivos}
@@ -149,4 +148,4 @@ const MostrarArchivoInforme = ({ id }) => {
   );
 };
 
-export default MostrarArchivoInforme;
+export default MostrarArchivoEvaluacion;

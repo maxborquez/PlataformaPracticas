@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Grid, Typography, Card, Alert } from "@mui/material";
+import { Grid, Typography, Card, Alert, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
@@ -28,7 +29,7 @@ const MiPractica = () => {
     const handleResize = () => {
       const zoomThreshold = 900;
       setIsWideScreen(window.innerWidth >= zoomThreshold);
-      setSidebarOpen(window.innerWidth < zoomThreshold ? false : true);
+      setSidebarOpen(window.innerWidth >= zoomThreshold);
     };
 
     window.addEventListener("resize", handleResize);
@@ -62,10 +63,10 @@ const MiPractica = () => {
           <Grid
             item
             sx={{
-              position: "fixed",
-              top: "80px",
+              position: { xs: "fixed", md: "relative" },
+              top: { xs: "80px", md: "0" },
               left: 0,
-              width: "250px",
+              width: { xs: "100%", md: "250px" },
               zIndex: 1200,
               backgroundColor: "#36465d",
             }}
@@ -81,11 +82,10 @@ const MiPractica = () => {
             marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
             overflowY: "auto",
-            paddingRight: "16px",
-            overflowX: "auto",
-            marginTop: "35px",
+            padding: "16px",
             display: "flex",
             justifyContent: "center",
+            marginTop: { xs: "60px", md: "35px" },
           }}
         >
           <Card
@@ -95,7 +95,6 @@ const MiPractica = () => {
               width: "100%",
               marginTop: "15px",
               marginBottom: "15px",
-              marginLeft: "16px",
             }}
           >
             <Grid
@@ -128,7 +127,19 @@ const MiPractica = () => {
               {status === "success" && data.inscrito_sistema === false && (
                 <Grid item>
                   {localStorage.setItem("id_inscripcion_practica", "undefined")}
-                  <Alert severity="warning">No tienes una práctica inscrita</Alert>
+                  <Alert severity="warning">
+                    No tienes una práctica inscrita
+                  </Alert>
+                </Grid>
+              )}
+              {status === "loading" && (
+                <Grid item>
+                  <Alert severity="info">Cargando información...</Alert>
+                </Grid>
+              )}
+              {status === "error" && (
+                <Grid item>
+                  <Alert severity="error">Error al cargar la información</Alert>
                 </Grid>
               )}
             </Grid>

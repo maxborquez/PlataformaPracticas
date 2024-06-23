@@ -6,7 +6,7 @@ import OfertasPublicas from "../pages/Alumno/ofertas_publicas/ofertas_publicas";
 import DashboardProfesional from "../pages/ProfesionalApoyo/dashboardProfesional/DashboardProfesional";
 import ModificarEmpresa from "../pages/ProfesionalApoyo/dashboardProfesional/empresas/modificar_empresa";
 import PerfilAlumno from "../pages/Alumno/perfil-alumno/PerfilAlumno";
-import DetalleOfertaPractica from "../pages/Alumno/detalleofertapractica/detalleofertapractica";
+import DetalleOfertaPractica from "../pages/Alumno/ofertas_publicas/components/detalleofertapractica";
 import DetalleInscripcion from "../pages/Alumno/detalleInscripcion/DetalleInscripcion";
 import InscripcionPractica from "../pages/Alumno/inscripcion_practica/inscripcionPractica";
 import ModificarDatos from "../pages/Alumno/inscripcion_practica/modificarDatos";

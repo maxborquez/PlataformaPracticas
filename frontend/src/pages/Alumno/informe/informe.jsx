@@ -3,8 +3,8 @@ import { Grid, Typography, Card, Box } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
-import SubirInforme from "./subir_informe";
-import MostrarArchivoInforme from "./mostrar_archivo_informe";
+import SubirInforme from "./components/subir_informe";
+import MostrarArchivoInforme from "./components/mostrar_archivo_informe";
 import { useParams } from "react-router-dom";
 
 const InformePractica = () => {

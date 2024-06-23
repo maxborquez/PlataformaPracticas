@@ -1,12 +1,12 @@
 import { Alert, Box, Button, Card, Grid, TextField, Typography } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
-import clienteAxios from "../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { CopyAllOutlined } from "@mui/icons-material";
 
-const SubirInforme = ({ id }) => {
+const SubirEvaluacion = ({ id }) => {
   const [nombre, setNombre] = useState("");
   const [extension, setExtension] = useState(null);
   const [archivo, setArchivo] = useState(null);
@@ -21,7 +21,7 @@ const SubirInforme = ({ id }) => {
     // Verificar si ya existe un archivo subido
     const verificarArchivoExistente = async () => {
       try {
-        const response = await clienteAxios.get("/archivoinforme/tabla_vacia");
+        const response = await clienteAxios.get("/archivoevaluacion/tabla_vacia");
         setArchivoExistente(!response.data.isEmpty);
       } catch (error) {
         console.error("Error al verificar archivo existente:", error);
@@ -70,11 +70,11 @@ const SubirInforme = ({ id }) => {
     formData.append("nombre", nombre);
     formData.append("tipo_archivo", extension);
     formData.append("id_inscripcion", Number(id));
-    formData.append("tipo_documento", "Informe");
+    formData.append("tipo_documento", "Evaluacion");
     formData.append("archivo", archivo);
 
     try {
-      const response = await clienteAxios.post("/archivoinforme/create", formData);
+      const response = await clienteAxios.post("/archivoevaluacion/create", formData);
       Swal.fire({
         title: "Éxito",
         text: "Archivo subido correctamente",
@@ -94,7 +94,6 @@ const SubirInforme = ({ id }) => {
   };
 
   return (
-
       <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
         <Grid item>
         </Grid>
@@ -139,4 +138,4 @@ const SubirInforme = ({ id }) => {
   );
 };
 
-export default SubirInforme;
+export default SubirEvaluacion;

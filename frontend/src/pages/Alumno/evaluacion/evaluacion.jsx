@@ -3,8 +3,8 @@ import { Grid, Typography, Card } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
-import SubirEvaluacion from "./subir_evaluacion";
-import MostrarArchivoEvaluacion from "./mostrar_archivo_evaluacion";
+import SubirEvaluacion from "./components/subir_evaluacion";
+import MostrarArchivoEvaluacion from "./components/mostrar_archivo_evaluacion";
 import { useParams } from "react-router-dom";
 
 const EvaluacionPractica = () => {

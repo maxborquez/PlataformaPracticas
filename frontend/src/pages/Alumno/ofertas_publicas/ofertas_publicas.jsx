@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import Header from "../../../components/headers/header";
-import OfertasPracticas from "../components/OfertaPracticas";
+import CardsOfertas from "./components/card_ofertas";
 
 const OfertasPublicas = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -103,7 +103,7 @@ const OfertasPublicas = () => {
               </Typography>
             </Grid>
             <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
-              <OfertasPracticas />
+              <CardsOfertas />
             </Grid>
           </Grid>
         </Grid>

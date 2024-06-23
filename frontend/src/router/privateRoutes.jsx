@@ -20,6 +20,7 @@ import RenderBitaAlumno from "../pages/Alumno/BitacoraAlumno/ShowBitaAlum/Render
 import RenderDetailsAlumno from "../pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno";
 import EditingBitAlumno from "../pages/Alumno/BitacoraAlumno/ModificarAlumno/EditingBitAlumno";
 import Practicas from "../pages/ProfesionalApoyo/dashboardProfesional/practicas/practicas";
+import ListaEstudiantes from "../pages/ProfesionalApoyo/dashboardProfesional/practicas/lista_estudiantes";
 
 import BitacorasAlumno from "../pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/bitacorasAlumno";
 import DetalleBitacora from "../pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/detalleBitacora";
@@ -78,6 +79,7 @@ const PrivateRoutes = ()=>{
                 <Route path="/bitacoras/:id" element={<BitacorasAlumno/>} />
                 <Route path="/detallebitacora/:id" element={<DetalleBitacora/>} />
                 <Route path="/practicas" element={<Practicas/>} />
+                <Route path="/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo" element={<ListaEstudiantes/>} />
             </Routes>
         )
     }

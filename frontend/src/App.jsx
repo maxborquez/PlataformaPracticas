@@ -39,6 +39,7 @@ import EmpresasPendientes from './pages/ProfesionalApoyo/dashboardProfesional/em
 import MiPractica from './pages/Alumno/mi_practica/mi_practica'
 import InformePractica from './pages/Alumno/informe/informe'
 import EvaluacionPractica from './pages/Alumno/evaluacion/evaluacion'
+import ListaEstudiantes from './pages/ProfesionalApoyo/dashboardProfesional/practicas/lista_estudiantes'
 
 const queryClient = new QueryClient();
 
@@ -74,6 +75,7 @@ function App() {
                             <Route element={<ProtectedRouteProfesional/>}>
                                 <Route path="/dashboard_encargado" element={<DashboardProfesional/>} />
                                 <Route path="/practicas" element={<Practicas/>} />
+                                <Route path="/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo" element={<ListaEstudiantes/>} />
                                 <Route path="/ins_pendientes" element={<InscripcionesPendientes/>} />
                                 <Route path="/empresas_pendientes" element={<EmpresasPendientes/>} />
                                 <Route path="/centros_practicas" element={<CentrosPracticas/>} />

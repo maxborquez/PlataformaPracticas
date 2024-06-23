@@ -517,6 +517,79 @@ const getInscripcionesEnProceso = async (req, res) => {
   }
 };
 
+const getInscriptionsByCareerAndPractica = async (req, res) => {
+  try {
+    const { careerId, practicaId, year, period } = req.params;
+
+    const inscriptions = await prisma.inscribe.count({
+      where: {
+        id_asignatura: parseInt(practicaId),
+        alumno: {
+          id_carrera: parseInt(careerId),
+        },
+        asignatura: {
+          periodo_academico: {
+            anio: parseInt(year),
+            periodo: parseInt(period),
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ count: inscriptions });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getEstudiantesPorParametros = async (req, res) => {
+  const { careerId, asignaturaId, anio, periodo } = req.params;
+
+  try {
+    const estudiantes = await prisma.alumno.findMany({
+      where: {
+        id_carrera: parseInt(careerId),
+        inscribe: {
+          some: {
+            id_asignatura: parseInt(asignaturaId),
+            asignatura: {
+              periodo_academico: {
+                anio: parseInt(anio),
+                periodo: parseInt(periodo),
+              },
+            },
+          },
+        },
+      },
+      include: {
+        inscribe: {
+          where: {
+            id_asignatura: parseInt(asignaturaId),
+            asignatura: {
+              periodo_academico: {
+                anio: parseInt(anio),
+                periodo: parseInt(periodo),
+              },
+            },
+          },
+          include: {
+            asignatura: {
+              include: {
+                periodo_academico: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    res.json(estudiantes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los estudiantes' });
+  }
+};
+
 
 module.exports = {
   crear_inscripcion,
@@ -532,4 +605,6 @@ module.exports = {
   actualizar_evaluacion_inscripcion,
   mostrar_id_inscripcion,
   getInscripcionesEnProceso,
+  getInscriptionsByCareerAndPractica,
+  getEstudiantesPorParametros,
 };

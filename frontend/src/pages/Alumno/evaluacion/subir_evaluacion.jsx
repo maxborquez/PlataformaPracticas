@@ -94,12 +94,8 @@ const SubirEvaluacion = ({ id }) => {
   };
 
   return (
-    <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%" }}>
       <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
         <Grid item>
-          <Typography variant="h5" sx={{ textAlign: "center" }}>
-            Subir Evaluación
-          </Typography>
         </Grid>
         <Grid item>
           <Button
@@ -139,7 +135,6 @@ const SubirEvaluacion = ({ id }) => {
           </Button>
         </Grid>
       </Grid>
-    </Card>
   );
 };
 

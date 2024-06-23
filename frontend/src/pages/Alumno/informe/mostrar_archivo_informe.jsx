@@ -95,14 +95,7 @@ const MostrarArchivoInforme = ({ id }) => {
         sort: true,
       },
     },
-    {
-      name: "tipo_documento",
-      label: "Tipo de Documento",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
+    
     {
       name: "estado_informe",
       label: "Estado del Informe",

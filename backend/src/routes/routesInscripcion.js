@@ -66,4 +66,7 @@ inscripcionPracticaController.actualizar_inscripcion_alumno);
 
 routerInscripcion.get('/estado/:id_estado_inscripcion',[AutenticacionProfesional], inscripcionPracticaController.getInscripcionesEnProceso);
 
+routerInscripcion.get('/count/:careerId/:practicaId/:year/:period', inscripcionPracticaController.getInscriptionsByCareerAndPractica);
+routerInscripcion.get('/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo', inscripcionPracticaController.getEstudiantesPorParametros);
+
 module.exports=routerInscripcion;

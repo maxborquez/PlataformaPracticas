@@ -94,12 +94,9 @@ const SubirInforme = ({ id }) => {
   };
 
   return (
-    <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%" }}>
+
       <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
         <Grid item>
-          <Typography variant="h5" sx={{ textAlign: "center" }}>
-            Subir Informe
-          </Typography>
         </Grid>
         <Grid item>
           <Button
@@ -139,7 +136,6 @@ const SubirInforme = ({ id }) => {
           </Button>
         </Grid>
       </Grid>
-    </Card>
   );
 };
 

@@ -103,6 +103,8 @@ const OfertaPractica = () => {
       name: "descripcion",
       label: "Descripción",
       options: {
+        customBodyRender: (value) =>
+          value.length > 100 ? `${value.substring(0, 100)}...` : value,
         setCellProps: () => ({ style: { width: "150px" } }),
         setCellHeaderProps: () => ({
           style: {
@@ -191,19 +193,26 @@ const OfertaPractica = () => {
           return (
             <>
               <Edit
-                sx={{ cursor: "pointer" }}
+                sx={{ cursor: "pointer", marginRight: "10px" }}
                 onClick={() =>
                   navigate(`/modificaroferta/${oferta.id_oferta_practica}`)
                 }
               />
               <Delete
-                sx={{ cursor: "pointer" }}
+                sx={{ cursor: "pointer", marginRight: "10px" }}
                 onClick={() => eliminar_oferta(oferta.id_oferta_practica)}
               />
+              <Button
+                variant="contained"
+                size="small"
+                onClick={() => navigate(`/detalleOfertas/${oferta.id_oferta_practica}`)}
+              >
+                Ver más
+              </Button>
             </>
           );
         },
-        setCellProps: () => ({ style: { width: "100px" } }),
+        setCellProps: () => ({ style: { width: "150px" } }),
         setCellHeaderProps: () => ({
           style: {
             backgroundColor: '#326fa6',

@@ -37,6 +37,7 @@ import MiPractica from "./pages/Alumno/mi_practica/mi_practica";
 import InformePractica from "./pages/Alumno/informe/informe";
 import EvaluacionPractica from "./pages/Alumno/evaluacion/evaluacion";
 import ListaEstudiantes from "./pages/ProfesionalApoyo/practicas/lista_estudiantes";
+import DetalleOfertas from "./pages/ProfesionalApoyo/ofertas_practica/components/detalleOfertas";
 
 const queryClient = new QueryClient();
 
@@ -116,6 +117,10 @@ function App() {
               <Route
                 path="/detallebitacora/:id"
                 element={<DetalleBitacora />}
+              />
+              <Route
+                path="/detalleOfertas/:id"
+                element={<DetalleOfertas />}
               />
             </Route>
           </Routes>

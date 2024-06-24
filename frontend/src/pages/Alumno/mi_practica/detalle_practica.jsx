@@ -1,4 +1,4 @@
-import { Grid, Paper, CircularProgress, Tooltip } from "@mui/material";
+import { Grid, CircularProgress, Tooltip } from "@mui/material";
 import { useQuery, useQueryClient } from "react-query";
 import clienteAxios from "../../../helpers/clienteaxios";
 import { CheckCircleOutline, Delete, DoNotDisturb, Edit, FileCopy, TimerOutlined } from "@mui/icons-material";
@@ -222,15 +222,13 @@ const Detalle = ({ id }) => {
 
       return (
         <Grid sx={{ marginTop: "15px" }}>
-          <Paper sx={{ maxWidth: '100%', margin: "0px auto", marginTop: "10px", padding: "16px", boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)' }}>
-            <div style={{ overflowX: 'auto' }}>
+            <div>
               <MUIDataTable
                 data={[data]}
                 columns={columns}
                 options={options}
               />
             </div>
-          </Paper>
         </Grid>
       );
     }

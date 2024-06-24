@@ -17,18 +17,18 @@ import { useQuery, useQueryClient } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import { useState } from "react";
 
-const MisAptitudes = ({ id_alumno }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const queryclient = useQueryClient();
-  const getAptitudes = useQuery("misapitudes", async () => {
+const MisAptitudes = ({ id_alumno, showDeleteButton = true }) => {
+  const queryClient = useQueryClient();
+
+  const getAptitudes = useQuery(["misapitudes", id_alumno], async () => {
     const response = await clienteAxios.post("/alumno/showAptitudes", {
       id_alumno: id_alumno,
     });
-    if (response.status == 200) {
+    if (response.status === 200) {
       return response.data;
+    } else {
+      throw new Error("Failed to fetch aptitudes");
     }
   });
 
@@ -36,22 +36,41 @@ const MisAptitudes = ({ id_alumno }) => {
     const response = await clienteAxios.delete(
       `/conocimiento/delete/${id_conocimiento}`
     );
-    if (response.status == 200) {
+    if (response.status === 200) {
       Swal.fire({
         title: "Eliminado",
-        text: "Conocimento eliminado correctamente",
+        text: "Conocimiento eliminado correctamente",
         icon: "success",
         confirmButtonText: "Aceptar",
       });
       setTimeout(() => {
         Swal.close();
-        queryclient.refetchQueries("aptitudes");
+        queryClient.refetchQueries("misapitudes");
         getAptitudes.refetch();
       }, 2000);
     }
   };
 
-  if (getAptitudes.status == "success" && getAptitudes.data.aptitudes) {
+  if (getAptitudes.status === "loading") {
+    return (
+      <Grid
+        sx={{
+          width: "35%",
+          margin: "0px auto",
+          marginTop: "20px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        Cargando datos.........
+        <CircularProgress />
+      </Grid>
+    );
+  }
+
+  if (getAptitudes.status === "success" && getAptitudes.data.aptitudes) {
     return (
       <Grid>
         <Box
@@ -69,9 +88,15 @@ const MisAptitudes = ({ id_alumno }) => {
             }}
           >
             <Table>
-              <TableHead sx={{ width: "100%", textAlign: "center", backgroundColor:"#326fa6" }}>
+              <TableHead
+                sx={{
+                  width: "100%",
+                  textAlign: "center",
+                  backgroundColor: "#326fa6",
+                }}
+              >
                 <TableRow>
-                  <TableCell colSpan={2}>
+                  <TableCell colSpan={showDeleteButton ? 2 : 1}>
                     <Typography
                       variant="subtitle1"
                       sx={{
@@ -97,17 +122,21 @@ const MisAptitudes = ({ id_alumno }) => {
                         {conocimiento.aptitud.nombre_aptitud}
                       </Typography>
                     </TableCell>
-                    <TableCell>
-                      <Tooltip title="Eliminar Apititud">
-                        <DeleteIcon
-                          style={{ cursor: "pointer" }}
-                          className="iconn"
-                          onClick={() =>
-                            eliminar_conocimiento(conocimiento.id_conocimiento)
-                          }
-                        />
-                      </Tooltip>
-                    </TableCell>
+                    {showDeleteButton && (
+                      <TableCell>
+                        <Tooltip title="Eliminar Aptitud">
+                          <DeleteIcon
+                            style={{ cursor: "pointer" }}
+                            className="iconn"
+                            onClick={() =>
+                              eliminar_conocimiento(
+                                conocimiento.id_conocimiento
+                              )
+                            }
+                          />
+                        </Tooltip>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>
@@ -117,7 +146,8 @@ const MisAptitudes = ({ id_alumno }) => {
       </Grid>
     );
   }
-  if (getAptitudes.status == "success" && !getAptitudes.data.aptitudes) {
+
+  if (getAptitudes.status === "success" && !getAptitudes.data.aptitudes) {
     return (
       <Grid sx={{ width: "60%", margin: "0px auto", marginTop: "20px" }}>
         <Box
@@ -159,24 +189,8 @@ const MisAptitudes = ({ id_alumno }) => {
       </Grid>
     );
   }
-  if (getAptitudes.status == "loading") {
-    return (
-      <Grid
-        sx={{
-          width: "35%",
-          margin: "0px auto",
-          marginTop: "20px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        Cargando datos.........
-        <CircularProgress />
-      </Grid>
-    );
-  }
+
+  return null;
 };
 
 export default MisAptitudes;

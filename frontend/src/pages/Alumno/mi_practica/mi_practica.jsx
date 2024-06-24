@@ -3,17 +3,14 @@ import { useQuery } from "react-query";
 import {
   Grid,
   Typography,
-  Card,
   Alert,
-  IconButton,
   Paper,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
 import clienteAxios from "../../../helpers/clienteaxios";
-import Detalle from "../../Alumno/detalleInscripcion/components/Detalle";
+import Detalle from "../../Alumno/mi_practica/detalle_practica";
 
 const MiPractica = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -96,6 +93,8 @@ const MiPractica = () => {
               margin: "auto",
               marginBottom: "16px",
               marginLeft: "16px",
+              maxWidth: "100%", // Ajuste para que el papel no se salga de la pantalla
+              overflowX: "auto", // Asegurarse de que el contenido pueda desplazarse horizontalmente
             }}
           >
             <Grid

@@ -59,7 +59,6 @@ const MisAptitudes = ({ id_alumno }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            minHeight: "100vh",
           }}
         >
           <TableContainer
@@ -126,7 +125,6 @@ const MisAptitudes = ({ id_alumno }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            minHeight: "100vh",
           }}
         >
           <TableContainer

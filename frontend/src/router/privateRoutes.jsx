@@ -16,7 +16,7 @@ import ModificarOferta from "../pages/ProfesionalApoyo/ofertas_practica/componen
 import CentrosPracticas from "../pages/ProfesionalApoyo/empresas/centros_practicas";
 import Practicas from "../pages/ProfesionalApoyo/practicas/practicas";
 import ListaEstudiantes from "../pages/ProfesionalApoyo/practicas/lista_estudiantes";
-
+import PerfilEstudiante from "../pages/ProfesionalApoyo/practicas/ver_info_estudiante"; 
 
 import IngresarEmpresa from "../pages/ProfesionalApoyo/empresas/ingresar_empresa";
 import InscripcionesPendientes from "../pages/ProfesionalApoyo/inscripciones_pendientes/ins_pendientes";
@@ -65,6 +65,7 @@ const PrivateRoutes = ()=>{
                 <Route path="/modificaroferta/:id" element={<ModificarOferta/>} />
                 <Route path="/practicas" element={<Practicas/>} />
                 <Route path="/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo" element={<ListaEstudiantes/>} />
+                <Route path="/perfilEstudiante/:rut" element={<PerfilEstudiante />} />
             </Routes>
         )
     }

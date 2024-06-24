@@ -32,6 +32,7 @@ import InformePractica from "./pages/Alumno/informe/informe";
 import EvaluacionPractica from "./pages/Alumno/evaluacion/evaluacion";
 import ListaEstudiantes from "./pages/ProfesionalApoyo/practicas/lista_estudiantes";
 import DetalleOfertas from "./pages/ProfesionalApoyo/ofertas_practica/components/detalleOfertas";
+import PerfilEstudiante from "./pages/ProfesionalApoyo/practicas/ver_info_estudiante"; 
 
 const queryClient = new QueryClient();
 
@@ -80,6 +81,11 @@ function App() {
                 path="/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo"
                 element={<ListaEstudiantes />}
               />
+              <Route
+                path="/perfilEstudiante/:rut"
+                element={<PerfilEstudiante />} 
+              />
+
               <Route
                 path="/ins_pendientes"
                 element={<InscripcionesPendientes />}

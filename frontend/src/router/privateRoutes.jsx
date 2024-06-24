@@ -14,15 +14,9 @@ import OfertaPractica from "../pages/ProfesionalApoyo/ofertas_practica/ofertapra
 import CrearOferta from "../pages/ProfesionalApoyo/ofertas_practica/components/crear_oferta";
 import ModificarOferta from "../pages/ProfesionalApoyo/ofertas_practica/components/modificarOferta";
 import CentrosPracticas from "../pages/ProfesionalApoyo/empresas/centros_practicas";
-import BitAlumnoRender from "../pages/Alumno/BitacoraAlumno/CreateBitacoAlumno/BitaAlumnoRender";
-import RenderBitaAlumno from "../pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderBitaAlumno";
-import RenderDetailsAlumno from "../pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno";
-import EditingBitAlumno from "../pages/Alumno/BitacoraAlumno/ModificarAlumno/EditingBitAlumno";
 import Practicas from "../pages/ProfesionalApoyo/practicas/practicas";
 import ListaEstudiantes from "../pages/ProfesionalApoyo/practicas/lista_estudiantes";
 
-import BitacorasAlumno from "../pages/ProfesionalApoyo/bitacoras_alumno/bitacorasAlumno";
-import DetalleBitacora from "../pages/ProfesionalApoyo/bitacoras_alumno/detalleBitacora";
 
 import IngresarEmpresa from "../pages/ProfesionalApoyo/empresas/ingresar_empresa";
 import InscripcionesPendientes from "../pages/ProfesionalApoyo/inscripciones_pendientes/ins_pendientes";
@@ -50,10 +44,6 @@ const PrivateRoutes = ()=>{
                     <Route path="/inscripcionpractica/:id" element={<InscripcionPractica/>} />
                     <Route path="/modificarinscripcion/:id" element={<ModificarDatos/>} />
                     <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />
-                    <Route path="/bitacoralumno" element={<BitAlumnoRender />} />
-                    <Route path="/showbitalumno" element={<RenderBitaAlumno/>} />
-                    <Route path="/detailsbitacoralumno/:id" element={<RenderDetailsAlumno/>} />
-                    <Route path="/modificarbitacoralumno/:id" element={<EditingBitAlumno/>} />
                     <Route path="/informe/:id" element={<InformePractica/>} />
                     <Route path="/evaluacion/:id" element={<EvaluacionPractica/>} />
 
@@ -73,8 +63,6 @@ const PrivateRoutes = ()=>{
                 <Route path="/ofertapracticas" element={<OfertaPractica/>} />
                 <Route path="/crearoferta" element={<CrearOferta/>} />
                 <Route path="/modificaroferta/:id" element={<ModificarOferta/>} />
-                <Route path="/bitacoras/:id" element={<BitacorasAlumno/>} />
-                <Route path="/detallebitacora/:id" element={<DetalleBitacora/>} />
                 <Route path="/practicas" element={<Practicas/>} />
                 <Route path="/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo" element={<ListaEstudiantes/>} />
             </Routes>

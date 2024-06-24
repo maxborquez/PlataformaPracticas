@@ -16,6 +16,21 @@ const ListaEstudiantes = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
 
+  const carreraMap = {
+    29037: "IECI",
+    29027: "ICINF",
+    // Añadir más mapeos aquí si es necesario
+  };
+
+  const asignaturaMap = {
+    620520: "Práctica 2",
+    620509: "Práctica 1",
+    // Añadir más mapeos aquí si es necesario
+  };
+
+  const nombreCarrera = carreraMap[careerId] || "Carrera Desconocida";
+  const nombreAsignatura = asignaturaMap[asignaturaId] || "Asignatura Desconocida";
+
   useEffect(() => {
     const handleResize = () => {
       const zoomThreshold = 900;
@@ -57,18 +72,6 @@ const ListaEstudiantes = () => {
     { 
       name: "primer_nombre", 
       label: "Primer Nombre", 
-      options: { 
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      } 
-    },
-    { 
-      name: "segundo_nombre", 
-      label: "Segundo Nombre", 
       options: { 
         setCellHeaderProps: () => ({
           style: {
@@ -153,10 +156,9 @@ const ListaEstudiantes = () => {
         >
           <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%", marginTop: "15px", marginBottom: "15px" }}>
             <Typography variant="h5" sx={{ marginTop: "10px", marginBottom: "10px", fontSize: { xs: "1.3rem", sm: "1.4rem" }, textAlign: "center" }}>
-              Lista de Estudiantes
+              Lista de estudiantes {nombreAsignatura} - {nombreCarrera}
             </Typography>
             <MUIDataTable
-         
               data={data}
               columns={columns}
               options={options}

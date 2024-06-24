@@ -17,7 +17,6 @@ const CardOfertas = () => {
   const navigate = useNavigate();
   const { data, status, error } = useQuery("ofertas", async () => {
     const response = await clienteAxios.get("/oferta/getall");
-    console.log(response.data);
     if (response.status === 200) {
       return response.data;
     } else {
@@ -71,7 +70,6 @@ const CardOfertas = () => {
               sx={{
                 position: "relative",
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-                height: "280px",
                 width: "350px",
                 transition: "border 0.3s",
                 "&:hover": {
@@ -119,7 +117,7 @@ const CardOfertas = () => {
                   <div>
                     <Typography variant="body1" sx={{ marginBottom: "20px" }}>
                       {oferta.descripcion.length > 50
-                        ? `${oferta.descripcion.substring(0, 50)}...`
+                        ? `${oferta.descripcion.substring(0, 100)}...`
                         : oferta.descripcion}
                     </Typography>
                     <Typography variant="body1" sx={{ marginBottom: "20px", fontWeight: 'bold' }}>

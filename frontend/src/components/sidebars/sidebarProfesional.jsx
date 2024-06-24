@@ -85,21 +85,6 @@ const SidebarProfesional = () => {
           >
             <ListItemText primary="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Centros de práctica&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
           </ListItem>
-          <ListItem
-            button
-            onClick={() => navigate("/empresas_pendientes")}
-            sx={{
-              textAlign: "center",
-              backgroundColor: "#495970",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "#425063",
-                color: "white",
-              },
-            }}
-          >
-            <ListItemText primary="Pendientes de alumnos" />
-          </ListItem>
         </List>
       </Collapse>
 

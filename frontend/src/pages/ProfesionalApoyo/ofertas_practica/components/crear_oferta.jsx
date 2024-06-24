@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { Grid, Typography, Button, Card, FormControl, InputLabel, MenuItem, Select, TextField, Autocomplete } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import clienteAxios from "../../../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 import Swal from "sweetalert2";
-import Header from "../../../../../components/headers/header";
+import Header from "../../../../components/headers/header";
 import { Work } from "@mui/icons-material";
-import SidebarProfesional from "../../../../../components/sidebars/sidebarProfesional";
+import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 
 const CrearOferta = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

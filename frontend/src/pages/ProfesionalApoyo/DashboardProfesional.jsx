@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import Header from "../../../components/headers/header";
-import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
+import Header from "../../components/headers/header";
+import SidebarProfesional from "../../components/sidebars/sidebarProfesional";
 
 const DashboardProfesional = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

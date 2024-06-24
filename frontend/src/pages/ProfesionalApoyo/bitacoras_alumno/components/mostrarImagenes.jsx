@@ -8,7 +8,7 @@ import { Delete, Download } from "@mui/icons-material";
 import FileSaver from "file-saver";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import clienteAxios from "../../../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 
 
 

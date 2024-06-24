@@ -10,12 +10,12 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import Header from "../../../../components/headers/header";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import Header from "../../../components/headers/header";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import { Checklist } from "@mui/icons-material";
 import MUIDataTable from "mui-datatables";
 import { useNavigate } from 'react-router-dom';
-import clienteAxios from '../../../../helpers/clienteaxios';
+import clienteAxios from '../../../helpers/clienteaxios';
 
 const Practicas = () => {
   const [anio, setAnio] = useState(new Date().getFullYear());

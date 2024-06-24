@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import Header from "../../../../components/headers/header";
+import Header from "../../../components/headers/header";
 import MostrarBitacoras from "./mostrar_bitacoras";
 
 

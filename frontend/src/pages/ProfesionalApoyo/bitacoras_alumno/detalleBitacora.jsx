@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
-import Header from "../../../../components/headers/header";
-import DetailsBitaAlumno from "../../../Alumno/BitacoraAlumno/DetailsAlumno/DetailsBitaAlumno";
+import Header from "../../../components/headers/header";
+import DetailsBitaAlumno from "../../Alumno/BitacoraAlumno/DetailsAlumno/DetailsBitaAlumno";
 
 
 

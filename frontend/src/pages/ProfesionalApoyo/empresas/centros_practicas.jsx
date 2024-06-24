@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Grid, Button, Typography , Card} from "@mui/material";
-import Header from "../../../../components/headers/header";
+import Header from "../../../components/headers/header";
 import TableEmpresa from "./components/tableEmpresa";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import { useNavigate } from "react-router-dom";
 import { Business } from "@mui/icons-material";
 

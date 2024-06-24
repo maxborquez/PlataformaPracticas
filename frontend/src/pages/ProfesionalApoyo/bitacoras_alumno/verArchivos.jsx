@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MostrarArchivos from "./components/mostrar_archivos";
 
 import { FileCopy } from "@mui/icons-material";
-import Header from "../../../../components/headers/header";
+import Header from "../../../components/headers/header";
 
 
 

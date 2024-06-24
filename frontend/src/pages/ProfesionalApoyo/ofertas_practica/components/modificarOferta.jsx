@@ -1,8 +1,8 @@
 import { Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
-import Header from "../../../../../components/headers/header"
+import Header from "../../../../components/headers/header"
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import clienteAxios from "../../../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Work } from "@mui/icons-material";

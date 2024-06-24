@@ -2,7 +2,7 @@ import {AssignmentReturn, ContentPasteGo, Image, Visibility } from "@mui/icons-m
 import { Box, Button, CircularProgress, Container, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import clienteAxios from "../../../../helpers/clienteaxios";
+import clienteAxios from "../../../helpers/clienteaxios";
 
 
 

@@ -2,7 +2,7 @@ import {Grid,Button,TextField,Typography,MenuItem,InputLabel,FormControl,Card,} 
 import { useEffect, useState } from "react";
 import Select from "@mui/material/Select";
 import { useQuery } from "react-query";
-import clienteAxios from "../../../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Autocomplete from "@mui/material/Autocomplete";

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Grid, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import Header from "../../../../components/headers/header";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import Header from "../../../components/headers/header";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import FormularioModificar from "./components/formularioModificar";
 
 const ModificarEmpresa = () => {

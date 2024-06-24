@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import FileSaver from "file-saver";
 import { useNavigate, useParams } from "react-router-dom";
-import clienteAxios from "../../../../../helpers/clienteaxios";
+import clienteAxios from "../../../../helpers/clienteaxios";
 
 
 const MostrarArchivos = ()=>{

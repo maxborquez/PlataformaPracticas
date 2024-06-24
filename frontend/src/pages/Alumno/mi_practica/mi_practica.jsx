@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Grid, Typography, Card, Alert, IconButton } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Card,
+  Alert,
+  IconButton,
+  Paper,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
@@ -58,18 +65,12 @@ const MiPractica = () => {
         />
       </Grid>
 
-      <Grid container item>
+      <Grid container>
         {sidebarOpen && (
           <Grid
             item
-            sx={{
-              position: { xs: "fixed", md: "relative" },
-              top: { xs: "80px", md: "0" },
-              left: 0,
-              width: { xs: "100%", md: "250px" },
-              zIndex: 1200,
-              backgroundColor: "#36465d",
-            }}
+            xs={3}
+            sx={{ position: "fixed", top: "80px", zIndex: 1200 }}
           >
             <SidebarAlumno />
           </Grid>
@@ -82,25 +83,27 @@ const MiPractica = () => {
             marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
             overflowY: "auto",
-            padding: "16px",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: { xs: "60px", md: "35px" },
+            paddingRight: "16px",
+            marginTop: "35px",
           }}
         >
-          <Card
+          <Paper
+            elevation={3}
             sx={{
-              padding: "20px",
-              backgroundColor: "white",
-              width: "100%",
-              marginTop: "15px",
-              marginBottom: "15px",
+              padding: "16px",
+              backgroundColor: "#fff",
+              margin: "auto",
+              marginBottom: "16px",
+              marginLeft: "16px",
             }}
           >
             <Grid
               container
               spacing={2}
-              sx={{ flexDirection: "column", alignItems: "center" }}
+              sx={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
               <Grid item>
                 <Typography
@@ -143,7 +146,7 @@ const MiPractica = () => {
                 </Grid>
               )}
             </Grid>
-          </Card>
+          </Paper>
         </Grid>
       </Grid>
     </Grid>

@@ -243,7 +243,7 @@ model modalidad {
 model oferta_practica {
   id_oferta_practica   Int                    @id @default(autoincrement())
   titulo               String                 @db.VarChar(50)
-  descripcion          String                 @db.VarChar(500)
+  descripcion          String                 @db.VarChar(3000)
   experiencia_laboral  Boolean
   cupos                Int
   id_modalidad         Int

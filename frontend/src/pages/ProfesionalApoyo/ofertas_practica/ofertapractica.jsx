@@ -49,11 +49,6 @@ const OfertaPractica = () => {
     }
   });
 
-  useEffect(() => {
-    if (getOfertas.data) {
-      console.log("Ofertas data:", getOfertas.data);
-    }
-  }, [getOfertas.data]);
 
   const navigate = useNavigate();
 

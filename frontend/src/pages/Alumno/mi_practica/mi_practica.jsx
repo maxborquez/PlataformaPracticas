@@ -85,6 +85,7 @@ const MiPractica = () => {
             overflowY: "auto",
             paddingRight: "16px",
             marginTop: "35px",
+            overflowX: "auto", // Añadido para permitir el desplazamiento horizontal
           }}
         >
           <Paper

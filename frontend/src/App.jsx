@@ -15,7 +15,6 @@ import { ProtectedRouteProfesional } from "./router/protectedrouteprofesional";
 import DashboardProfesional from "./pages/ProfesionalApoyo/DashboardProfesional";
 import PerfilAlumno from "./pages/Alumno/perfil-alumno/PerfilAlumno";
 import DetalleOfertaPractica from "./pages/Alumno/ofertas_publicas/components/detalleofertapractica";
-import DetalleInscripcion from "./pages/Alumno/detalleInscripcion/DetalleInscripcion";
 import ModificarDatos from "./pages/Alumno/inscripcion_practica/modificarDatos";
 import DocumentosInscripcion from "./pages/Alumno/documentos/documentosInscripcion";
 import BitAlumnoRender from "./pages/Alumno/BitacoraAlumno/CreateBitacoAlumno/BitaAlumnoRender";
@@ -60,10 +59,6 @@ function App() {
               <Route
                 path="/detalleoferta/:id"
                 element={<DetalleOfertaPractica />}
-              />
-              <Route
-                path="/detalleinscripcion/:id"
-                element={<DetalleInscripcion />}
               />
               <Route
                 path="/inscripcionpractica/:id"

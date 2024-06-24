@@ -7,7 +7,6 @@ import DashboardProfesional from "../pages/ProfesionalApoyo/DashboardProfesional
 import ModificarEmpresa from "../pages/ProfesionalApoyo/empresas/modificar_empresa";
 import PerfilAlumno from "../pages/Alumno/perfil-alumno/PerfilAlumno";
 import DetalleOfertaPractica from "../pages/Alumno/ofertas_publicas/components/detalleofertapractica";
-import DetalleInscripcion from "../pages/Alumno/detalleInscripcion/DetalleInscripcion";
 import InscripcionPractica from "../pages/Alumno/inscripcion_practica/inscripcionPractica";
 import ModificarDatos from "../pages/Alumno/inscripcion_practica/modificarDatos";
 import DocumentosInscripcion from "../pages/Alumno/documentos/documentosInscripcion";
@@ -48,7 +47,6 @@ const PrivateRoutes = ()=>{
                     <Route path="/ofertas_publicas" element={<OfertasPublicas/>} />
                     <Route path="/perfil" element={<PerfilAlumno/>} />
                     <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica/>} />
-                    <Route path="/detalleinscripcion/:id" element={<DetalleInscripcion/>}/>
                     <Route path="/inscripcionpractica/:id" element={<InscripcionPractica/>} />
                     <Route path="/modificarinscripcion/:id" element={<ModificarDatos/>} />
                     <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />

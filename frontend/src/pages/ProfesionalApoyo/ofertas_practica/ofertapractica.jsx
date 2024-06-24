@@ -7,12 +7,12 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import Header from "../../../../components/headers/header";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import Header from "../../../components/headers/header";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import { Edit, Delete, Work } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import clienteAxios from "../../../../helpers/clienteaxios";
+import clienteAxios from "../../../helpers/clienteaxios";
 import MUIDataTable from "mui-datatables";
 
 const OfertaPractica = () => {

@@ -12,7 +12,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ProtectedRoute } from "./router/ProtectedRoute";
 
 import { ProtectedRouteProfesional } from "./router/protectedrouteprofesional";
-import DashboardProfesional from "./pages/ProfesionalApoyo/dashboardProfesional/DashboardProfesional";
+import DashboardProfesional from "./pages/ProfesionalApoyo/DashboardProfesional";
 import PerfilAlumno from "./pages/Alumno/perfil-alumno/PerfilAlumno";
 import DetalleOfertaPractica from "./pages/Alumno/ofertas_publicas/components/detalleofertapractica";
 import DetalleInscripcion from "./pages/Alumno/detalleInscripcion/DetalleInscripcion";
@@ -23,21 +23,21 @@ import RenderBitaAlumno from "./pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderB
 import RenderDetailsAlumno from "./pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno";
 import EditingBitAlumno from "./pages/Alumno/BitacoraAlumno/ModificarAlumno/EditingBitAlumno";
 import InscripcionPractica from "./pages/Alumno/inscripcion_practica/inscripcionPractica";
-import CentrosPracticas from "./pages/ProfesionalApoyo/dashboardProfesional/empresas/centros_practicas";
-import ModificarEmpresa from "./pages/ProfesionalApoyo/dashboardProfesional/empresas/modificar_empresa";
-import OfertaPractica from "./pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/ofertapractica";
-import CrearOferta from "./pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/crear_oferta";
-import ModificarOferta from "./pages/ProfesionalApoyo/dashboardProfesional/ofertas_practica/components/modificarOferta";
-import BitacorasAlumno from "./pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/bitacorasAlumno";
-import DetalleBitacora from "./pages/ProfesionalApoyo/dashboardProfesional/bitacoras_alumno/detalleBitacora";
+import CentrosPracticas from "./pages/ProfesionalApoyo/empresas/centros_practicas";
+import ModificarEmpresa from "./pages/ProfesionalApoyo/empresas/modificar_empresa";
+import OfertaPractica from "./pages/ProfesionalApoyo/ofertas_practica/ofertapractica";
+import CrearOferta from "./pages/ProfesionalApoyo/ofertas_practica/components/crear_oferta";
+import ModificarOferta from "./pages/ProfesionalApoyo/ofertas_practica/components/modificarOferta";
+import BitacorasAlumno from "./pages/ProfesionalApoyo/bitacoras_alumno/bitacorasAlumno";
+import DetalleBitacora from "./pages/ProfesionalApoyo/bitacoras_alumno/detalleBitacora";
 import VisualizadorDocumento from "./pages/Alumno/documentos/visualizadorDocumento";
-import IngresarEmpresa from "./pages/ProfesionalApoyo/dashboardProfesional/empresas/ingresar_empresa";
-import InscripcionesPendientes from "./pages/ProfesionalApoyo/dashboardProfesional/inscripciones_pendientes/ins_pendientes";
-import Practicas from "./pages/ProfesionalApoyo/dashboardProfesional/practicas/practicas";
+import IngresarEmpresa from "./pages/ProfesionalApoyo/empresas/ingresar_empresa";
+import InscripcionesPendientes from "./pages/ProfesionalApoyo/inscripciones_pendientes/ins_pendientes";
+import Practicas from "./pages/ProfesionalApoyo/practicas/practicas";
 import MiPractica from "./pages/Alumno/mi_practica/mi_practica";
 import InformePractica from "./pages/Alumno/informe/informe";
 import EvaluacionPractica from "./pages/Alumno/evaluacion/evaluacion";
-import ListaEstudiantes from "./pages/ProfesionalApoyo/dashboardProfesional/practicas/lista_estudiantes";
+import ListaEstudiantes from "./pages/ProfesionalApoyo/practicas/lista_estudiantes";
 
 const queryClient = new QueryClient();
 

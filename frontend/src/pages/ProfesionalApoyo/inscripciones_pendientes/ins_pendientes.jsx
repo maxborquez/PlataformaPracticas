@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Grid, IconButton, Typography, Card } from "@mui/material";
 import { Check, Block } from "@mui/icons-material";
-import Header from "../../../../components/headers/header";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import Header from "../../../components/headers/header";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import MUIDataTable from "mui-datatables";
 import Swal from "sweetalert2";
-import clienteAxios from "../../../../helpers/clienteaxios"; // Ajusta el path según tu estructura de proyecto
+import clienteAxios from "../../../helpers/clienteaxios"; // Ajusta el path según tu estructura de proyecto
 
 const InscripcionesPendientes = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

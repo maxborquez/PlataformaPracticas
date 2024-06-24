@@ -563,19 +563,21 @@ const getEstudiantesPorParametros = async (req, res) => {
       },
       include: {
         inscribe: {
+          include: {
+            asignatura: {
+              include: {
+                periodo_academico: true,
+              },
+            },
+            estado_practica: true,
+            // Quitar la inclusión de estado_inscripcion
+          },
           where: {
             id_asignatura: parseInt(asignaturaId),
             asignatura: {
               periodo_academico: {
                 anio: parseInt(anio),
                 periodo: parseInt(periodo),
-              },
-            },
-          },
-          include: {
-            asignatura: {
-              include: {
-                periodo_academico: true,
               },
             },
           },

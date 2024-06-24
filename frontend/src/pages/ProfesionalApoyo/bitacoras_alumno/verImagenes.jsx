@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import MostrarImagenes from "./components/mostrarImagenes";
 import { Image } from "@mui/icons-material";
-import Header from "../../../../components/headers/header";
+import Header from "../../../components/headers/header";
 
 
 

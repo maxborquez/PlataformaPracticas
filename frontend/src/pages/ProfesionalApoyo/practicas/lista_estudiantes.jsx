@@ -5,10 +5,10 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import Header from "../../../../components/headers/header";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import Header from "../../../components/headers/header";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import MUIDataTable from "mui-datatables";
-import clienteAxios from '../../../../helpers/clienteaxios';
+import clienteAxios from '../../../helpers/clienteaxios';
 
 const ListaEstudiantes = () => {
   const { careerId, asignaturaId, anio, periodo } = useParams();
@@ -47,7 +47,12 @@ const ListaEstudiantes = () => {
     const fetchData = async () => {
       try {
         const response = await clienteAxios.get(`/inscripcion/listaestudiantes/${careerId}/${asignaturaId}/${anio}/${periodo}`);
-        setData(response.data);
+        // Transformar los datos para incluir el estado de práctica
+        const transformedData = response.data.map(estudiante => ({
+          ...estudiante,
+          estado_practica: estudiante.inscribe[0]?.estado_practica?.nombre_estado_practica || "No disponible"
+        }));
+        setData(transformedData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -108,6 +113,18 @@ const ListaEstudiantes = () => {
     { 
       name: "correo_institucional", 
       label: "Correo Institucional", 
+      options: { 
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "estado_practica", 
+      label: "Estado de Práctica", 
       options: { 
         setCellHeaderProps: () => ({
           style: {

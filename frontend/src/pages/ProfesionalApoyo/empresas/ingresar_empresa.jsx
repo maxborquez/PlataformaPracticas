@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Grid, Paper, Button } from "@mui/material";
-import Header from "../../../../components/headers/header";
-import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
+import { Grid, Button } from "@mui/material";
+import Header from "../../../components/headers/header";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import FormularioEmpresa from "./components/formulario_empresa";
 import { useNavigate } from "react-router-dom";
 

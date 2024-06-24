@@ -17,18 +17,12 @@ import PerfilAlumno from "./pages/Alumno/perfil-alumno/PerfilAlumno";
 import DetalleOfertaPractica from "./pages/Alumno/ofertas_publicas/components/detalleofertapractica";
 import ModificarDatos from "./pages/Alumno/inscripcion_practica/modificarDatos";
 import DocumentosInscripcion from "./pages/Alumno/documentos/documentosInscripcion";
-import BitAlumnoRender from "./pages/Alumno/BitacoraAlumno/CreateBitacoAlumno/BitaAlumnoRender";
-import RenderBitaAlumno from "./pages/Alumno/BitacoraAlumno/ShowBitaAlum/RenderBitaAlumno";
-import RenderDetailsAlumno from "./pages/Alumno/BitacoraAlumno/DetailsAlumno/RenderDetailsAlumno";
-import EditingBitAlumno from "./pages/Alumno/BitacoraAlumno/ModificarAlumno/EditingBitAlumno";
 import InscripcionPractica from "./pages/Alumno/inscripcion_practica/inscripcionPractica";
 import CentrosPracticas from "./pages/ProfesionalApoyo/empresas/centros_practicas";
 import ModificarEmpresa from "./pages/ProfesionalApoyo/empresas/modificar_empresa";
 import OfertaPractica from "./pages/ProfesionalApoyo/ofertas_practica/ofertapractica";
 import CrearOferta from "./pages/ProfesionalApoyo/ofertas_practica/components/crear_oferta";
 import ModificarOferta from "./pages/ProfesionalApoyo/ofertas_practica/components/modificarOferta";
-import BitacorasAlumno from "./pages/ProfesionalApoyo/bitacoras_alumno/bitacorasAlumno";
-import DetalleBitacora from "./pages/ProfesionalApoyo/bitacoras_alumno/detalleBitacora";
 import VisualizadorDocumento from "./pages/Alumno/documentos/visualizadorDocumento";
 import IngresarEmpresa from "./pages/ProfesionalApoyo/empresas/ingresar_empresa";
 import InscripcionesPendientes from "./pages/ProfesionalApoyo/inscripciones_pendientes/ins_pendientes";
@@ -75,16 +69,6 @@ function App() {
                 path="/documentosinscripcion/:id"
                 element={<DocumentosInscripcion />}
               />
-              <Route path="/bitacoralumno" element={<BitAlumnoRender />} />
-              <Route path="/showbitalumno/:id" element={<RenderBitaAlumno />} />
-              <Route
-                path="/detailsbitacoralumno/:id"
-                element={<RenderDetailsAlumno />}
-              />
-              <Route
-                path="/modificarbitacoralumno/:id"
-                element={<EditingBitAlumno />}
-              />
             </Route>
             <Route element={<ProtectedRouteProfesional />}>
               <Route
@@ -111,12 +95,6 @@ function App() {
               <Route
                 path="/modificaroferta/:id"
                 element={<ModificarOferta />}
-              />
-
-              <Route path="/bitacoras/:id" element={<BitacorasAlumno />} />
-              <Route
-                path="/detallebitacora/:id"
-                element={<DetalleBitacora />}
               />
               <Route
                 path="/detalleOfertas/:id"

@@ -33,6 +33,10 @@ const routerEstadoEmpresa = require("./routes/EstadoEmpresaRouter");
 const routerAlumno = require("./routes/AlumnoRoutes");
 const routerPeriodo = require("./routes/periodosRoutes");
 const routerEstadosInscripcion = require("./routes/EstadosInscripcionRoutes");
+const routerInscribe= require("./routes/routesInscribe");
+const routerAptitud = require('./routes/aptitudesRoutes');
+const routerRepresentante = require('./routes/representanteRoutes');
+const routerConocimiento  = require('./routes/conocimientoRoutes');
 app.use("/api/empresa",routesEmpresa);
 app.use("/api/oferta",routesOferta);
 app.use("/api/inscripcion",routerInscripcion);
@@ -47,16 +51,11 @@ app.use("/api/estadoempresa",routerEstadoEmpresa);
 app.use("/api/alumno",routerAlumno);
 app.use("/api/periodo",routerPeriodo);
 app.use("/api/estadosinscripcion",routerEstadosInscripcion);
-const routerAptitud = require('./routes/aptitudesRoutes');
-const routerRepresentante = require('./routes/representanteRoutes');
-const routerConocimiento  = require('./routes/conocimientoRoutes');
-
+app.use("/api/inscribe",routerInscribe);
 app.use(express.json())
 app.use('/api/aptitud', routerAptitud);
 app.use('/api/representante', routerRepresentante);
 app.use('/api/conocimiento', routerConocimiento)
-
-
 
 app.listen(process.env.PORT,()=>{
     console.log(`El servidor está escuchando en el puerto ${process.env.PORT}`)

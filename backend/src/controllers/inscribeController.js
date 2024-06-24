@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const updateEstadoPractica = async (req, res) => {
-  const { id_inscribe, id_estado } = req.params;
+  const { id_inscripcion, id_estado } = req.params;
 
   try {
     const inscribe = await prisma.inscribe.update({
@@ -56,7 +56,33 @@ const getInscribeIdByInscripcion = async (req, res) => {
   }
 };
 
+const getAsignaturaByInscripcion = async (req, res) => {
+  const { id_inscripcion } = req.params;
+
+  try {
+    // Buscar la inscripción en la tabla inscribe
+    const inscripcion = await prisma.inscribe.findUnique({
+      where: {
+        id_inscripcion: parseInt(id_inscripcion),
+      },
+      include: {
+        asignatura: true, // Incluir la información de la asignatura
+      },
+    });
+
+    if (!inscripcion) {
+      return res.status(404).json({ message: 'Inscripción no encontrada' });
+    }
+
+    // Devolver la información de la asignatura
+    res.status(200).json(inscripcion.asignatura);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener la asignatura', error });
+  }
+};
+
 module.exports = {
   updateEstadoPractica,
-  getInscribeIdByInscripcion
+  getInscribeIdByInscripcion,
+  getAsignaturaByInscripcion,
 };

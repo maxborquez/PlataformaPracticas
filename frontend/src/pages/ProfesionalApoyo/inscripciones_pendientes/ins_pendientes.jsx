@@ -36,7 +36,25 @@ const InscripcionesPendientes = () => {
     const fetchData = async () => {
       try {
         const response = await clienteAxios.get("/inscripcion/estado/1");
-        setData(response.data);
+        const inscripciones = response.data;
+
+        // Hacer una solicitud adicional para obtener el id_inscribe y el nombre de la asignatura por cada inscripción
+        const inscripcionesConAsignatura = await Promise.all(
+          inscripciones.map(async (inscripcion) => {
+            // Obtener id_inscribe
+            const responseObtenerInscribe = await clienteAxios.get(`/inscribe/obtener_inscribe/${inscripcion.id_inscripcion}`);
+            const id_inscribe = responseObtenerInscribe.data.inscribeId;
+
+            // Obtener asignatura
+            const asignaturaResponse = await clienteAxios.get(`/inscribe/asignatura/${id_inscribe}`);
+            return {
+              ...inscripcion,
+              asignatura: asignaturaResponse.data.nombre_asignatura
+            };
+          })
+        );
+
+        setData(inscripcionesConAsignatura);
       } catch (error) {
         console.error("Error fetching inscripciones:", error);
       }
@@ -156,6 +174,18 @@ const InscripcionesPendientes = () => {
     {
       name: "periodo_academico",
       label: "Periodo Académico",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
+    },
+    {
+      name: "asignatura",
+      label: "Asignatura",
       options: {
         setCellHeaderProps: () => ({
           style: {

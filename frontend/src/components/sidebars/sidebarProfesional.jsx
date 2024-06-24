@@ -58,6 +58,13 @@ const SidebarProfesional = () => {
         />
       </ListItem>
 
+      <ListItem button onClick={() => navigate("/centros_practicas")}
+      >
+        <ListItemText
+        sx={{ textAlign: "center" }}
+        primary="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Centros de práctica&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
+      </ListItem>
+
       <ListItem
         button
         onClick={handleEmpresaDropdown}
@@ -65,7 +72,7 @@ const SidebarProfesional = () => {
           textAlign: "center",
         }}
       >
-        <ListItemText primary="Empresas" />
+        <ListItemText primary="Documentos a revisar" />
         <ArrowDropDown />
       </ListItem>
       <Collapse in={empresaOpen} timeout="auto" unmountOnExit>
@@ -83,8 +90,26 @@ const SidebarProfesional = () => {
               },
             }}
           >
-            <ListItemText primary="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Centros de práctica&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
+            <ListItemText primary="Informes" />
           </ListItem>
+        </List>
+        <List component="div" disablePadding>
+          <ListItem
+            button
+            onClick={() => navigate("/centros_practicas")}
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#495970",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#425063",
+                color: "white",
+              },
+            }}
+          >
+            <ListItemText primary="Evaluaciones" />
+          </ListItem>
+
         </List>
       </Collapse>
 

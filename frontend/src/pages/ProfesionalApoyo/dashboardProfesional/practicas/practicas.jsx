@@ -91,7 +91,7 @@ const Practicas = () => {
     sort: false,
   };
 
-  const columns = [
+  const columnsIECI = [
     { 
       name: "practica", 
       label: "Práctica profesional", 
@@ -130,7 +130,61 @@ const Practicas = () => {
           }
         }),
         customBodyRenderLite: (dataIndex) => {
-          const rowData = dataIndex < dataIECI.length ? dataIECI[dataIndex] : dataICINF[dataIndex - dataIECI.length];
+          const rowData = dataIECI[dataIndex];
+          return (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleViewStudents(rowData.carrera, rowData.asignatura, anio, periodoAcademico)}
+            >
+              Ver Estudiantes
+            </Button>
+          );
+        },
+      },
+    },
+  ];
+
+  const columnsICINF = [
+    { 
+      name: "practica", 
+      label: "Práctica profesional", 
+      options: { 
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    { 
+      name: "count", 
+      label: "Alumnos inscritos", 
+      options: { 
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      } 
+    },
+    {
+      name: "acciones",
+      label: "Acción",
+      options: {
+        sort: false,
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        }),
+        customBodyRenderLite: (dataIndex) => {
+          const rowData = dataICINF[dataIndex];
           return (
             <Button
               variant="contained"
@@ -221,7 +275,7 @@ const Practicas = () => {
             </Typography>
             <MUIDataTable
               data={dataIECI}
-              columns={columns}
+              columns={columnsIECI}
               options={options}
               style={{ marginBottom: "20px" }} // Añadir margen entre tablas
             />
@@ -231,7 +285,7 @@ const Practicas = () => {
             </Typography>
             <MUIDataTable
               data={dataICINF}
-              columns={columns}
+              columns={columnsICINF}
               options={options}
             />
           </Card>

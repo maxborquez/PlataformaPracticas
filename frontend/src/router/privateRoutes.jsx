@@ -69,7 +69,6 @@ const PrivateRoutes = ()=>{
             <Routes>
                 <Route path="/dashboard_encargado" element={<DashboardProfesional/>} />
                 <Route path="/ins_pendientes" element={<InscripcionesPendientes/>} />
-                <Route path="/empresa_alumno" element={<EmpresaAlumno/>} />
                 <Route path="/centros_practicas" element={<CentrosPracticas/>} />
                 <Route path="/ingresar_empresa" element={<IngresarEmpresa/>} />
                 <Route path="/modificarEmpresa/:id" element={<ModificarEmpresa/>} />

@@ -94,7 +94,7 @@ const PerfilAlumno = () => {
           showSidebarButton={true}
         />
       </Grid>
-      <Grid container>
+      <Grid container sx={{ flexGrow: 1 }}>
         {sidebarOpen && (
           <Grid
             item
@@ -114,6 +114,7 @@ const PerfilAlumno = () => {
             overflowY: "auto",
             paddingRight: "16px",
             marginTop: "35px",
+            flexGrow: 1,
           }}
         >
           <Paper
@@ -121,10 +122,11 @@ const PerfilAlumno = () => {
             sx={{
               padding: "16px",
               backgroundColor: "#fff",
-               // Adjust the width as needed
               margin: "auto",
               marginBottom: "16px",
-              marginLeft:"16px"
+              marginLeft: "16px",
+              width: "calc(100% - 16px)",
+              boxSizing: "border-box",
             }}
           >
             <Grid

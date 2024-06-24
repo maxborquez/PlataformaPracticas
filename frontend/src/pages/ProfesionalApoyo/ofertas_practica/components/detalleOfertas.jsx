@@ -1,6 +1,7 @@
 import {
     CircularProgress,
     Grid,
+    Box,
     Typography,
     Table,
     TableContainer,
@@ -14,7 +15,7 @@ import {
   import Header from "../../../../components/headers/header";
   import { useQuery } from "react-query";
   import clienteAxios from "../../../../helpers/clienteaxios";
-  import { useParams } from "react-router-dom";
+  import { useParams, useNavigate } from "react-router-dom";
   import SidebarAlumno from "../../../../components/sidebars/sidebarProfesional";
   import { useState, useEffect } from "react";
   import { Business } from "@mui/icons-material";
@@ -23,6 +24,7 @@ import {
     const { id } = useParams();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isWideScreen, setIsWideScreen] = useState(false);
+    const navigate = useNavigate();
   
     const toggleSidebar = () => {
       setSidebarOpen(!sidebarOpen);
@@ -44,12 +46,12 @@ import {
         window.removeEventListener("resize", handleResize);
       };
     }, []);
-  
+
     const getOferta = useQuery("detalleoferta", async () => {
       const response = await clienteAxios.get(`/oferta/show/${id}`);
       return response.data;
     });
-  
+
     if (getOferta.status === "loading") {
       return (
         <Grid
@@ -133,6 +135,24 @@ import {
                 boxSizing: "border-box",
               }}
             >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <Typography variant="h4" sx={{ textAlign: "center" }}>
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(-1)}
+                  >
+                    Volver
+                  </Button>
+                </Box>
               {getOferta.status === "success" && getOferta.data.oferta && (
                 <>
                   <TableContainer component={Paper}>

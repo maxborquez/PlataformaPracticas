@@ -5,10 +5,9 @@ const { param } = require('express-validator');
 const { AutenticacionProfesional } = require('../middlewares/VerifyRolProfesional');
 const { AutenticacionToken } = require('../middlewares/verifyToken');
 
-routerInscribe.put('/:id_inscribe/:id_estado', inscribeController.updateEstadoPractica
-);
+routerInscribe.put('/:id_inscripcion/:id_estado', inscribeController.updateEstadoPractica);
+routerInscribe.get('/obtener_inscribe/:id_inscripcion_practica', inscribeController.getInscribeIdByInscripcion);
+routerInscribe.get('/asignatura/:id_inscripcion', inscribeController.getAsignaturaByInscripcion);
 
-routerInscribe.get('/obtener_inscribe/:id_inscripcion_practica', inscribeController.getInscribeIdByInscripcion
-);
 
 module.exports = routerInscribe;

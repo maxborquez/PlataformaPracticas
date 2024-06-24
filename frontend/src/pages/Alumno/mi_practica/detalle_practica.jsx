@@ -1,11 +1,10 @@
-import { Grid, Typography, Paper, CircularProgress, Tooltip } from "@mui/material";
+import { Grid, Paper, CircularProgress, Tooltip } from "@mui/material";
 import { useQuery, useQueryClient } from "react-query";
-import clienteAxios from "../../../../helpers/clienteaxios";
-import { CheckCircleOutline, Delete, DoNotDisturb, Edit, FileCopy, School, TimerOutlined } from "@mui/icons-material";
+import clienteAxios from "../../../helpers/clienteaxios";
+import { CheckCircleOutline, Delete, DoNotDisturb, Edit, FileCopy, TimerOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
-
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
@@ -217,17 +216,15 @@ const Detalle = ({ id }) => {
         pagination: false,
         selectableRows: "none",
         sort: false,
+        tableBodyHeight: "auto",
+        tableBodyMaxHeight: "500px", // Para asegurar que la tabla no crezca demasiado
       };
 
       return (
         <Grid sx={{ marginTop: "15px" }}>
-          <Typography sx={{ textAlign: "center", marginTop: "10px", display: "flex", justifyContent: "center", alignItems: "center" }} variant="h6">
-            Detalle Inscripción <School style={{ marginLeft: "5px" }} />
-          </Typography>
           <Paper sx={{ maxWidth: '100%', margin: "0px auto", marginTop: "10px", padding: "16px", boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)' }}>
             <div style={{ overflowX: 'auto' }}>
               <MUIDataTable
-                title={"Detalle Inscripción"}
                 data={[data]}
                 columns={columns}
                 options={options}

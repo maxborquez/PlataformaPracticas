@@ -40,7 +40,7 @@ const routerConocimiento  = require('./routes/conocimientoRoutes');
 app.use("/api/empresa",routesEmpresa);
 app.use("/api/oferta",routesOferta);
 app.use("/api/inscripcion",routerInscripcion);
-app.use("/api/bitacoralumno",routerBitacoras);
+app.use("/api/bitacoras",routerBitacoras);
 app.use("/api/archivoinscripcion",routerArchivoInscripcion);
 app.use("/api/archivoinforme",routerArchivoInforme);
 app.use("/api/archivoevaluacion",routerArchivoEvaluacion);

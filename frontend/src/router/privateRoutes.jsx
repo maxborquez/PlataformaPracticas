@@ -16,13 +16,14 @@ import ModificarOferta from "../pages/ProfesionalApoyo/ofertas_practica/componen
 import CentrosPracticas from "../pages/ProfesionalApoyo/empresas/centros_practicas";
 import Practicas from "../pages/ProfesionalApoyo/practicas/practicas";
 import ListaEstudiantes from "../pages/ProfesionalApoyo/practicas/lista_estudiantes";
-import PerfilEstudiante from "../pages/ProfesionalApoyo/practicas/ver_info_estudiante"; 
+import PerfilEstudiante from "../pages/ProfesionalApoyo/practicas/ver_info_estudiante";
 
 import IngresarEmpresa from "../pages/ProfesionalApoyo/empresas/ingresar_empresa";
 import InscripcionesPendientes from "../pages/ProfesionalApoyo/inscripciones_pendientes/ins_pendientes";
 import InformePractica from "../pages/Alumno/informe/informe";
 import EvaluacionPractica from "../pages/Alumno/evaluacion/evaluacion";
 import Bitacoras from "../pages/Alumno/bitacoras/bitacoras";
+import CrearBitacora from "../pages/Alumno/bitacoras/crear_bitacora";
 
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -48,6 +49,7 @@ const PrivateRoutes = ()=>{
                     <Route path="/informe/:id" element={<InformePractica/>} />
                     <Route path="/evaluacion/:id" element={<EvaluacionPractica/>} />
                     <Route path="/bitacoras/:id_inscripcion_practica" element={<Bitacoras />} />
+                    <Route path="/crear_bitacora/:id_inscripcion_practica" element={<CrearBitacora />} />
                 </Route>
             </Routes>
         )

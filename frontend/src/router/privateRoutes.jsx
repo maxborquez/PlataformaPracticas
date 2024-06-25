@@ -22,6 +22,7 @@ import IngresarEmpresa from "../pages/ProfesionalApoyo/empresas/ingresar_empresa
 import InscripcionesPendientes from "../pages/ProfesionalApoyo/inscripciones_pendientes/ins_pendientes";
 import InformePractica from "../pages/Alumno/informe/informe";
 import EvaluacionPractica from "../pages/Alumno/evaluacion/evaluacion";
+import Bitacoras from "../pages/Alumno/bitacoras/bitacoras";
 
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -46,7 +47,7 @@ const PrivateRoutes = ()=>{
                     <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion/>} />
                     <Route path="/informe/:id" element={<InformePractica/>} />
                     <Route path="/evaluacion/:id" element={<EvaluacionPractica/>} />
-
+                    <Route path="/bitacoras/:id_inscripcion_practica" element={<Bitacoras />} />
                 </Route>
             </Routes>
         )

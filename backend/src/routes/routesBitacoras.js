@@ -4,11 +4,11 @@ const {AutenticacionAlumno} = require("../middlewares/verifyRolAlumno");
 const {AutenticacionProfesional} = require("../middlewares/VerifyRolProfesional");
 const {AutenticacionToken} = require("../middlewares/verifyToken");
 
-const routerBitacoraAlumno = express.Router();
-const bitacoraAlumnoController = require("../controllers/bitacoraAlumnoController");
+const routerBitacoras = express.Router();
+const bitacorasController = require("../controllers/bitacorasController");
 const { body, param } = require("express-validator");
 //titulo,descripcion,fecha_creacion,hora_inicio,hora_fin,id_estado_bitacora,id_inscripcion_practica,id_usuario
-routerBitacoraAlumno.post("/create",
+routerBitacoras.post("/create",
 [
     AutenticacionAlumno,
     body("titulo").notEmpty().withMessage("El campo titulo es requerido").isString().withMessage("El campo titulo debe ser un string").isLength({ max: 100 }),
@@ -20,24 +20,24 @@ routerBitacoraAlumno.post("/create",
     body("id_inscripcion_practica").notEmpty().withMessage("El campo id inscripcion practica es requerido").isInt().withMessage("El campo debe ser un entero"),
     body("id_usuario").notEmpty().withMessage("El campo id_usuario es requerido").isInt().withMessage("El campo debe ser un entero")
 ],
-bitacoraAlumnoController.crear_bitacora);
+bitacorasController.crear_bitacora);
 
-routerBitacoraAlumno.get("/getall/:id",[AutenticacionToken],bitacoraAlumnoController.mostrar_bitacoras)
+routerBitacoras.get("/getall/:id_inscripcion_practica/:id_alumno", [AutenticacionToken], bitacorasController.mostrar_bitacoras);
 
-routerBitacoraAlumno.get("/show/:id",
+routerBitacoras.get("/show/:id",
 [
     AutenticacionToken,
     param("id").notEmpty().withMessage("El campo id es requerido").isInt().withMessage("El campo id debe ser un entero")
-],bitacoraAlumnoController.mostrar_bitacora
+],bitacorasController.mostrar_bitacora
 )
-routerBitacoraAlumno.delete("/delete/:id",
+routerBitacoras.delete("/delete/:id",
 [
     AutenticacionAlumno,
     param("id").notEmpty().withMessage("El campo id es requerido").isInt().withMessage("El campo id debe ser un entero")
-],bitacoraAlumnoController.eliminar_bitacora
+],bitacorasController.eliminar_bitacora
 )
 
-routerBitacoraAlumno.put("/update/:id",
+routerBitacoras.put("/update/:id",
 [
     AutenticacionAlumno,
     param("id").notEmpty().withMessage("El campo id es requerido").isInt().withMessage("El campo id debe ser un entero"),
@@ -50,5 +50,6 @@ routerBitacoraAlumno.put("/update/:id",
     body("id_inscripcion_practica").notEmpty().withMessage("El campo id inscripcion practica es requerido").isInt().withMessage("El campo debe ser un entero"),
     body("id_usuario").notEmpty().withMessage("El campo id_usuario es requerido").isInt().withMessage("El campo debe ser un entero")
 ],
-bitacoraAlumnoController.actualizar_bitacora);
-module.exports = routerBitacoraAlumno;
+bitacorasController.actualizar_bitacora);
+
+module.exports = routesBitacoras;

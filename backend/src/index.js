@@ -22,7 +22,7 @@ app.use('/endpoints', (req, res) => {
 const routesEmpresa = require("./routes/routesEmpresa");
 const routesOferta = require("./routes/routesOferta");
 const routerInscripcion = require("./routes/routesInscripcion");
-const routerBitacoraAlumno = require("./routes/routesBitacoraAlumno");
+const routerBitacoras = require("./routes/routesBitacoras");
 const routerArchivoInscripcion = require("./routes/routesArchivoInscripcion");
 const routerArchivoInforme = require("./routes/routesArchivoInforme");
 const routerArchivoEvaluacion = require("./routes/routesArchivoEvaluacion");
@@ -40,7 +40,7 @@ const routerConocimiento  = require('./routes/conocimientoRoutes');
 app.use("/api/empresa",routesEmpresa);
 app.use("/api/oferta",routesOferta);
 app.use("/api/inscripcion",routerInscripcion);
-app.use("/api/bitacoralumno",routerBitacoraAlumno);
+app.use("/api/bitacoralumno",routerBitacoras);
 app.use("/api/archivoinscripcion",routerArchivoInscripcion);
 app.use("/api/archivoinforme",routerArchivoInforme);
 app.use("/api/archivoevaluacion",routerArchivoEvaluacion);

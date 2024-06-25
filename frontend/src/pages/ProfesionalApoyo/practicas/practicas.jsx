@@ -222,7 +222,7 @@ const Practicas = () => {
             alignItems: "center",
           }}
         >
-          <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%", marginTop: "15px", marginBottom: "15px" }}>
+          <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%", marginTop: "10  px", marginBottom: "10  px" }}>
             <Typography variant="h5" sx={{ marginTop: "10px", marginBottom: "10px", fontSize: { xs: "1.3rem", sm: "1.4rem" }, textAlign: "center" }}>
               Ingrese el semestre y período <Checklist style={{ marginLeft: "5px" }} />
             </Typography>

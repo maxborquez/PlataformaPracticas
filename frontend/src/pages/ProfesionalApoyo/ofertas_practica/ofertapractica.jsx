@@ -263,7 +263,7 @@ const OfertaPractica = () => {
             overflowY: "auto",
             paddingRight: "16px",
             overflowX: "auto",
-            marginTop: "35px",
+            marginTop: "16px",
           }}
         >
           <Paper
@@ -273,6 +273,7 @@ const OfertaPractica = () => {
               backgroundColor: "#fff",
               margin: "auto",
               marginLeft: "16px",
+              marginBottom:"16px"
             }}
           >
             {getOfertas.status === "success" && getOfertas.data.ofertas ? (

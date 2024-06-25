@@ -32,8 +32,9 @@ import InformePractica from "./pages/Alumno/informe/informe";
 import EvaluacionPractica from "./pages/Alumno/evaluacion/evaluacion";
 import ListaEstudiantes from "./pages/ProfesionalApoyo/practicas/lista_estudiantes";
 import DetalleOfertas from "./pages/ProfesionalApoyo/ofertas_practica/components/detalleOfertas";
-import PerfilEstudiante from "./pages/ProfesionalApoyo/practicas/ver_info_estudiante"; 
+import PerfilEstudiante from "./pages/ProfesionalApoyo/practicas/ver_info_estudiante";
 import Bitacoras from "./pages/Alumno/bitacoras/bitacoras";
+import CrearBitacora from "./pages/Alumno/bitacoras/crear_bitacora";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ function App() {
               <Route path="/perfil" element={<PerfilAlumno />} />
               <Route path="/mi_practica" element={<MiPractica />} />
               <Route path="/bitacoras/:id_inscripcion_practica" element={<Bitacoras />} />
+              <Route path="/crear_bitacora/:id_inscripcion_practica" element={<CrearBitacora />} />
               <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica />}/>
               <Route path="/inscripcionpractica/:id" element={<InscripcionPractica />}/>
               <Route path="/modificarinscripcion/:id" element={<ModificarDatos />}/>

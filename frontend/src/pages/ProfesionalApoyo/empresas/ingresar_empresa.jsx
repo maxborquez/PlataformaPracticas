@@ -65,9 +65,8 @@ const IngresarEmpresa = () => {
             marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
             overflowY: "auto",
-            paddingRight: "16px",
             overflowX: "auto",
-            marginTop: "35px",
+            marginTop: "16px",
           }}
         >
             <Grid
@@ -81,6 +80,7 @@ const IngresarEmpresa = () => {
               }}
             >
               <Button
+              direction="absolute"
                 variant="contained"
                 color="primary"
                 onClick={handleBack}

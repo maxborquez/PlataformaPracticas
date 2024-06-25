@@ -75,8 +75,8 @@ const FormularioEmpresa = () => {
     });
 
     return (
-        <Grid container sx={{ width: "90%", margin: "0px auto" }}>
-            <Card sx={{ padding: "20px", marginTop: "15px", backgroundColor: "white" }}>
+        <Grid container justifyContent="center" sx={{ width: "100%" }}>
+            <Card sx={{ padding: "20px", width: "100%", margin:"16px", backgroundColor: "white" }}>
                 <Typography
                     variant="h5"
                     sx={{
@@ -134,11 +134,11 @@ const FormularioEmpresa = () => {
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Comuna" fullWidth />}
                                 noOptionsText="Sin coincidencias"
-                                sx={{ marginTop: "15px", backgroundColor: 'white' }}
+                                sx={{ backgroundColor: 'white' }}
                             />
                         </Grid>
                         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <Button variant="contained" type="submit" fullWidth sx={{ width: "50%", margin: "0px auto" }}>
+                            <Button variant="contained" type="submit" sx={{ width: "200px", margin: "0px auto" }}>
                                 Registrar Empresa
                             </Button>
                         </Grid>

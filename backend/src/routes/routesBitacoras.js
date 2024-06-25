@@ -52,4 +52,4 @@ routerBitacoras.put("/update/:id",
 ],
 bitacorasController.actualizar_bitacora);
 
-module.exports = routesBitacoras;
+module.exports = routerBitacoras;

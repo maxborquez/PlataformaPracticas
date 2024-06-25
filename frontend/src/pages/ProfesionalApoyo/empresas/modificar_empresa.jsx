@@ -55,8 +55,23 @@ const ModificarEmpresa = () => {
           justifyContent="center"
           sx={{ transition: 'margin-left 0.3s', marginLeft: isWideScreen ? '250px' : '0px' }}
         >
-          <Grid item sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-end", mb: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleBack} sx={{ mb: 2, mr: 10 }}>
+          <Grid
+              item
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                mb: 2,
+              }}
+            >
+              <Button
+                direction="absolute"
+                variant="contained"
+                color="primary"
+                onClick={handleBack}
+                sx={{ mb: 2, mr: 10 }}
+              >
               Volver
             </Button>
             <FormularioModificar id={id} />

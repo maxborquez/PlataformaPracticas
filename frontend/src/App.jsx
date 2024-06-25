@@ -33,6 +33,7 @@ import EvaluacionPractica from "./pages/Alumno/evaluacion/evaluacion";
 import ListaEstudiantes from "./pages/ProfesionalApoyo/practicas/lista_estudiantes";
 import DetalleOfertas from "./pages/ProfesionalApoyo/ofertas_practica/components/detalleOfertas";
 import PerfilEstudiante from "./pages/ProfesionalApoyo/practicas/ver_info_estudiante"; 
+import Bitacoras from "./pages/Alumno/bitacoras/bitacoras";
 
 const queryClient = new QueryClient();
 
@@ -43,69 +44,33 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/" index element={<Login />} />
-            <Route
-              path="/visualizador/:id"
-              element={<VisualizadorDocumento />}
-            />
+            <Route path="/visualizador/:id" element={<VisualizadorDocumento />}/>
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard_alumno" element={<DashboardAlumno />} />
               <Route path="/ofertas_publicas" element={<OfertasPublicas />} />
               <Route path="/perfil" element={<PerfilAlumno />} />
               <Route path="/mi_practica" element={<MiPractica />} />
-              <Route
-                path="/detalleoferta/:id"
-                element={<DetalleOfertaPractica />}
-              />
-              <Route
-                path="/inscripcionpractica/:id"
-                element={<InscripcionPractica />}
-              />
-              <Route
-                path="/modificarinscripcion/:id"
-                element={<ModificarDatos />}
-              />
+              <Route path="/bitacoras/:id_inscripcion_practica" element={<Bitacoras />} />
+              <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica />}/>
+              <Route path="/inscripcionpractica/:id" element={<InscripcionPractica />}/>
+              <Route path="/modificarinscripcion/:id" element={<ModificarDatos />}/>
               <Route path="/informe/:id" element={<InformePractica />} />
               <Route path="/evaluacion/:id" element={<EvaluacionPractica />} />
-              <Route
-                path="/documentosinscripcion/:id"
-                element={<DocumentosInscripcion />}
-              />
+              <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion />}/>
             </Route>
             <Route element={<ProtectedRouteProfesional />}>
-              <Route
-                path="/dashboard_encargado"
-                element={<DashboardProfesional />}
-              />
+              <Route path="/dashboard_encargado" element={<DashboardProfesional />}/>
               <Route path="/practicas" element={<Practicas />} />
-              <Route
-                path="/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo"
-                element={<ListaEstudiantes />}
-              />
-              <Route
-                path="/perfilEstudiante/:rut"
-                element={<PerfilEstudiante />} 
-              />
-
-              <Route
-                path="/ins_pendientes"
-                element={<InscripcionesPendientes />}
-              />
+              <Route path="/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo" element={<ListaEstudiantes />}/>
+              <Route path="/perfilEstudiante/:rut" element={<PerfilEstudiante />} />
+              <Route path="/ins_pendientes" element={<InscripcionesPendientes />}/>
               <Route path="/centros_practicas" element={<CentrosPracticas />} />
               <Route path="/ingresar_empresa" element={<IngresarEmpresa />} />
-              <Route
-                path="/modificarEmpresa/:id"
-                element={<ModificarEmpresa />}
-              />
+              <Route path="/modificarEmpresa/:id" element={<ModificarEmpresa />}/>
               <Route path="/ofertapracticas" element={<OfertaPractica />} />
               <Route path="/crearoferta" element={<CrearOferta />} />
-              <Route
-                path="/modificaroferta/:id"
-                element={<ModificarOferta />}
-              />
-              <Route
-                path="/detalleOfertas/:id"
-                element={<DetalleOfertas />}
-              />
+              <Route path="/modificaroferta/:id" element={<ModificarOferta />}/>
+              <Route path="/detalleOfertas/:id" element={<DetalleOfertas />}/>
             </Route>
           </Routes>
         </AuthProvider>

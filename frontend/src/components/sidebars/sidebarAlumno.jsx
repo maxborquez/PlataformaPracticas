@@ -89,7 +89,7 @@ const SidebarAlumno = () => {
           <ListItem
             button
             onClick={() =>
-              navigate(`/showbitalumno/${comprobar.data.id_inscripcion}`)
+              navigate(`/bitacoras/${comprobar.data.id_inscripcion}`)
             }
             sx={{
               textAlign: "center",

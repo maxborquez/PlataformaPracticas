@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Paper } from "@mui/material";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import Header from "../../../components/headers/header";
 import CardsOfertas from "./components/card_ofertas";
@@ -79,7 +79,8 @@ const OfertasPublicas = () => {
             width: "auto", // Asegurar que el Grid ocupe todo el ancho disponible
           }}
         >
-          <Grid
+          <Paper
+          elevation={3}
             sx={{
               padding: "20px",
               backgroundColor: "white",
@@ -105,7 +106,7 @@ const OfertasPublicas = () => {
             <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
               <CardsOfertas />
             </Grid>
-          </Grid>
+          </Paper>
         </Grid>
       </Grid>
     </Grid>

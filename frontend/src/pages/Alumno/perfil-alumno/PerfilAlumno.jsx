@@ -113,7 +113,7 @@ const PerfilAlumno = () => {
             transition: "margin-left 0.3s",
             overflowY: "auto",
             paddingRight: "16px",
-            marginTop: "35px",
+            marginTop: "16px",
             flexGrow: 1,
           }}
         >

@@ -42,14 +42,18 @@ const InscripcionesPendientes = () => {
         const inscripcionesConAsignatura = await Promise.all(
           inscripciones.map(async (inscripcion) => {
             // Obtener id_inscribe
-            const responseObtenerInscribe = await clienteAxios.get(`/inscribe/obtener_inscribe/${inscripcion.id_inscripcion}`);
+            const responseObtenerInscribe = await clienteAxios.get(
+              `/inscribe/obtener_inscribe/${inscripcion.id_inscripcion}`
+            );
             const id_inscribe = responseObtenerInscribe.data.inscribeId;
 
             // Obtener asignatura
-            const asignaturaResponse = await clienteAxios.get(`/inscribe/asignatura/${id_inscribe}`);
+            const asignaturaResponse = await clienteAxios.get(
+              `/inscribe/asignatura/${id_inscribe}`
+            );
             return {
               ...inscripcion,
-              asignatura: asignaturaResponse.data.nombre_asignatura
+              asignatura: asignaturaResponse.data.nombre_asignatura,
             };
           })
         );
@@ -66,40 +70,67 @@ const InscripcionesPendientes = () => {
   const handleAprobarInscripcion = async (id_inscripcion_practica) => {
     try {
       // Primero, aprueba la inscripción
-      const responseAprobar = await clienteAxios.post("/inscripcion/updatestado", {
-        id_inscripcion: id_inscripcion_practica,
-        id_estado_inscripcion: 2,
-      });
+      const responseAprobar = await clienteAxios.post(
+        "/inscripcion/updatestado",
+        {
+          id_inscripcion: id_inscripcion_practica,
+          id_estado_inscripcion: 2,
+        }
+      );
 
       if (responseAprobar.status !== 200) {
-        Swal.fire("Error", "Hubo un problema al aprobar la inscripción", "error");
+        Swal.fire(
+          "Error",
+          "Hubo un problema al aprobar la inscripción",
+          "error"
+        );
         return;
       }
 
       // Luego, obtiene el id_inscribe
-      const responseObtenerInscribe = await clienteAxios.get(`inscribe/obtener_inscribe/${id_inscripcion_practica}`);
+      const responseObtenerInscribe = await clienteAxios.get(
+        `inscribe/obtener_inscribe/${id_inscripcion_practica}`
+      );
 
       if (responseObtenerInscribe.status !== 200) {
-        Swal.fire("Error", "Hubo un problema al obtener la inscripción asociada", "error");
+        Swal.fire(
+          "Error",
+          "Hubo un problema al obtener la inscripción asociada",
+          "error"
+        );
         return;
       }
 
       const id_inscribe = responseObtenerInscribe.data.inscribeId;
 
       // Finalmente, actualiza el estado de práctica
-      const responseActualizarEstado = await clienteAxios.put(`/inscribe/${id_inscribe}/2`);
+      const responseActualizarEstado = await clienteAxios.put(
+        `/inscribe/${id_inscribe}/2`
+      );
 
       if (responseActualizarEstado.status === 200) {
-        Swal.fire("Éxito", "Inscripción aprobada y estado de práctica actualizado", "success");
+        Swal.fire(
+          "Éxito",
+          "Inscripción aprobada y estado de práctica actualizado",
+          "success"
+        );
         // Actualizar la tabla después del cambio
         const updatedResponse = await clienteAxios.get("/inscripcion/estado/1");
         setData(updatedResponse.data);
       } else {
-        Swal.fire("Error", "Hubo un problema al actualizar el estado de práctica", "error");
+        Swal.fire(
+          "Error",
+          "Hubo un problema al actualizar el estado de práctica",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error handling inscripcion:", error);
-      Swal.fire("Error", "Hubo un problema al procesar la inscripción", "error");
+      Swal.fire(
+        "Error",
+        "Hubo un problema al procesar la inscripción",
+        "error"
+      );
     }
   };
 
@@ -204,7 +235,9 @@ const InscripcionesPendientes = () => {
           return (
             <>
               <IconButton
-                onClick={() => handleAprobarInscripcion(id_inscripcion_practica)}
+                onClick={() =>
+                  handleAprobarInscripcion(id_inscripcion_practica)
+                }
                 style={{ color: "green" }}
               >
                 <Check />
@@ -284,7 +317,6 @@ const InscripcionesPendientes = () => {
               padding: "20px",
               backgroundColor: "white",
               width: "100%",
-              marginTop: "15px",
               marginBottom: "15px",
             }}
           >

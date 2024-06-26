@@ -271,7 +271,7 @@ const OfertaPractica = () => {
             sx={{
               padding: "16px",
               backgroundColor: "#fff",
-              margin: "auto",
+    
               marginLeft: "16px",
               marginBottom:"16px"
             }}

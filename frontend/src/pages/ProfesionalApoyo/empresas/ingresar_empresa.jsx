@@ -69,27 +69,27 @@ const IngresarEmpresa = () => {
             marginTop: "16px",
           }}
         >
-            <Grid
-              item
-              sx={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-                mb: 2,
-              }}
-            >
-              <Button
+          <Grid
+            item
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              mb: 2,
+            }}
+          >
+            <Button
               direction="absolute"
-                variant="contained"
-                color="primary"
-                onClick={handleBack}
-                sx={{ mb: 2, mr: 10 }}
-              >
-                Volver
-              </Button>
-              <FormularioEmpresa />
-            </Grid>
+              variant="contained"
+              color="primary"
+              onClick={handleBack}
+              sx={{ mb: 2, mr: 10 }}
+            >
+              Volver
+            </Button>
+            <FormularioEmpresa />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

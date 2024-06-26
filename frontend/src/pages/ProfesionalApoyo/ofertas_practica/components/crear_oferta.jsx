@@ -1,5 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Grid, Typography, Button, Card, FormControl, InputLabel, MenuItem, Select, TextField, Autocomplete } from "@mui/material";
+import { useState, useEffect } from "react";
+import {
+  Grid,
+  Typography,
+  Button,
+  Card,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Autocomplete,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
@@ -15,9 +26,9 @@ const CrearOferta = () => {
   const [descripcion, setDescripcion] = useState("");
   const [cupos, setCupos] = useState("");
   const [experiencia, setExperiencia] = useState(0);
-  const [modalidad, setModalidad] = useState('');
-  const [empresa, setEmpresa] = useState('');
-  const [periodo, setPeriodo] = useState('');
+  const [modalidad, setModalidad] = useState("");
+  const [empresa, setEmpresa] = useState("");
+  const [periodo, setPeriodo] = useState("");
 
   const navigate = useNavigate();
 
@@ -42,7 +53,7 @@ const CrearOferta = () => {
   }, []);
 
   const handleBack = () => {
-    navigate('/ofertapracticas');
+    navigate("/ofertapracticas");
   };
 
   const getmodalidades = useQuery("modalidades", async () => {
@@ -75,7 +86,7 @@ const CrearOferta = () => {
       cupos: Number(cupos),
       id_modalidad: modalidad,
       id_periodo_academico: periodo,
-      id_empresa: empresa.id_empresa
+      id_empresa: empresa.id_empresa,
     };
 
     const response = await clienteAxios.post("/oferta/create", data);
@@ -94,16 +105,29 @@ const CrearOferta = () => {
   };
 
   const remainingChars = 1000 - descripcion.length;
-  const remainingCharsColor = remainingChars > 200 ? 'green' : remainingChars > 100 ? 'orange' : 'red';
+  const remainingCharsColor =
+    remainingChars > 200 ? "green" : remainingChars > 100 ? "orange" : "red";
 
   return (
-    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
+    <Grid
+      container
+      direction="column"
+      sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
+    >
       <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
-        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true}/>
+        <Header
+          toggleSidebar={toggleSidebar}
+          isWideScreen={isWideScreen}
+          showSidebarButton={true}
+        />
       </Grid>
       <Grid container>
         {sidebarOpen && (
-          <Grid item xs={3} sx={{ position: "fixed", top: "80px", zIndex: 1200 }}>
+          <Grid
+            item
+            xs={3}
+            sx={{ position: "fixed", top: "80px", zIndex: 1200 }}
+          >
             <SidebarProfesional />
           </Grid>
         )}
@@ -115,17 +139,14 @@ const CrearOferta = () => {
             marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
             overflowY: "auto",
-            paddingRight: "16px",
             overflowX: "auto",
-            marginTop: "35px",
           }}
         >
           <Card
             sx={{
               padding: "15px",
-              backgroundColor: "withe",
-              maxWidth: "1200px",
-              margin: "auto",
+              backgroundColor: "white",
+              margin: "16px",
             }}
           >
             <Typography
@@ -142,12 +163,24 @@ const CrearOferta = () => {
               Crear Oferta Práctica Profesional
               <Work style={{ marginTop: "2px", marginLeft: "5px" }} />
             </Typography>
-            <Grid container justifyContent="flex-end" sx={{ paddingRight: 2, mb: 2 }}>
-              <Button variant="contained" color="primary" onClick={handleBack} sx={{ paddingRight: 2, mr: 14 }}>
+            <Grid
+              container
+              justifyContent="flex-end"
+              sx={{ paddingRight: 2, mb: 2 }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleBack}
+                sx={{ paddingRight: 2, mr: 14 }}
+              >
                 Volver
               </Button>
             </Grid>
-            <form style={{ width: "85%", margin: "0px auto", marginBottom: "10px" }} onSubmit={onSubmit}>
+            <form
+              style={{ width: "85%", margin: "0px auto", marginBottom: "10px" }}
+              onSubmit={onSubmit}
+            >
               <Grid container spacing={2}>
                 <Grid item xs={11} xl={11} lg={12} md={12} sm={11}>
                   <TextField
@@ -173,8 +206,16 @@ const CrearOferta = () => {
                     InputLabelProps={{ shrink: true }}
                     inputProps={{ maxLength: 1001 }}
                   />
-                  <p style={{ color: remainingCharsColor, fontSize: '15px', textAlign: 'center' }}>
-                    {remainingChars >= 0 ? `Carácteres restantes: ${remainingChars}` : 'Has superado el límite de carácteres. Por favor, reduce tu descripción.'}
+                  <p
+                    style={{
+                      color: remainingCharsColor,
+                      fontSize: "15px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {remainingChars >= 0
+                      ? `Carácteres restantes: ${remainingChars}`
+                      : "Has superado el límite de carácteres. Por favor, reduce tu descripción."}
                   </p>
                 </Grid>
                 <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
@@ -215,9 +256,12 @@ const CrearOferta = () => {
                       onChange={(e) => setModalidad(e.target.value)}
                       fullWidth
                     >
-                      {getmodalidades.status === "success" && getmodalidades.data.map((modalidad, idx) => (
-                        <MenuItem key={idx} value={modalidad.id_modalidad}>{modalidad.nombre_modalidad}</MenuItem>
-                      ))}
+                      {getmodalidades.status === "success" &&
+                        getmodalidades.data.map((modalidad, idx) => (
+                          <MenuItem key={idx} value={modalidad.id_modalidad}>
+                            {modalidad.nombre_modalidad}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -228,7 +272,9 @@ const CrearOferta = () => {
                     getOptionLabel={(option) => option.razon_social || ""}
                     value={empresa}
                     onChange={(event, newValue) => setEmpresa(newValue)}
-                    renderInput={(params) => <TextField {...params} label="Empresa" fullWidth />}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Empresa" fullWidth />
+                    )}
                     noOptionsText="Sin coincidencias"
                   />
                 </Grid>
@@ -243,14 +289,35 @@ const CrearOferta = () => {
                       onChange={(e) => setPeriodo(e.target.value)}
                       fullWidth
                     >
-                      {getPeriodos.status === "success" && Array.isArray(getPeriodos.data) && getPeriodos.data.map((periodo, idx) => (
-                        <MenuItem key={idx} value={periodo.id_periodo_academico}>{periodo.anio} - {periodo.periodo}</MenuItem>
-                      ))}
+                      {getPeriodos.status === "success" &&
+                        Array.isArray(getPeriodos.data) &&
+                        getPeriodos.data.map((periodo, idx) => (
+                          <MenuItem
+                            key={idx}
+                            value={periodo.id_periodo_academico}
+                          >
+                            {periodo.anio} - {periodo.periodo}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={11} xl={6} lg={12} md={6} sm={10} sx={{ display: "flex", justifyContent: "center" }}>
-                  <Button type="submit" variant="contained" disabled={remainingChars === -1}>Publicar oferta</Button>
+                <Grid
+                  item
+                  xs={11}
+                  xl={6}
+                  lg={12}
+                  md={6}
+                  sm={10}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    disabled={remainingChars === -1}
+                  >
+                    Publicar oferta
+                  </Button>
                 </Grid>
               </Grid>
             </form>

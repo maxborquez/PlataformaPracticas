@@ -215,7 +215,7 @@ const ListaEstudiantes = () => {
               padding: "20px",
               backgroundColor: "white",
               width: "100%",
-              marginTop: "15px",
+              marginTop: "10  px",
               marginBottom: "15px",
             }}
           >

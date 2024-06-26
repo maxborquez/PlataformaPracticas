@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid, Button, Typography , Card} from "@mui/material";
+import { Grid, Button, Typography, Card } from "@mui/material";
 import Header from "../../../components/headers/header";
 import TableEmpresa from "./components/tableEmpresa";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
@@ -74,48 +74,50 @@ const CentrosPracticas = () => {
             overflowY: "auto",
             paddingRight: "16px",
             overflowX: "auto",
-            marginTop: "35px",
+            marginTop: "16px",
             display: "flex",
             justifyContent: "center",
           }}
         >
           <Card
-            
             sx={{
               padding: "20px",
               backgroundColor: "white",
               width: "100%",
-              marginTop: "15px",
               marginBottom: "15px",
-              marginLeft:"16px"
+              marginLeft: "16px",
             }}
           >
-            <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
-            <Grid item>
-              <Typography
-                variant="h5"
-                sx={{
-                  textAlign: "center",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                Centros de práctica 
-                <Business style={{ marginLeft: "5px" }}/>
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Button
-                sx={{ marginLeft: "10px", bgcolor: "#326fa6" }}
-                variant="contained"
-                onClick={() => navigate("/ingresar_empresa")}
-              >
-                Añadir empresa
-              </Button>
-            </Grid>
-            <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
-              <TableEmpresa />
-            </Grid>
+            <Grid
+              container
+              spacing={2}
+              sx={{ flexDirection: "column", alignItems: "center" }}
+            >
+              <Grid item>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    textAlign: "center",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  Centros de práctica
+                  <Business style={{ marginLeft: "5px" }} />
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Button
+                  sx={{ marginLeft: "10px", bgcolor: "#326fa6" }}
+                  variant="contained"
+                  onClick={() => navigate("/ingresar_empresa")}
+                >
+                  Añadir empresa
+                </Button>
+              </Grid>
+              <Grid item sx={{ width: "100%", overflowX: "hidden" }}>
+                <TableEmpresa />
+              </Grid>
             </Grid>
           </Card>
         </Grid>

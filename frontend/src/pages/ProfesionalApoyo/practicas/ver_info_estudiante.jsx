@@ -108,9 +108,10 @@ const PerfilEstudiante = () => {
               overflowY: "auto",
               paddingRight: "16px",
               overflowX: "auto",
-              marginTop: "35px",
+              marginTop: "5px",
               display: "flex",
               justifyContent: "center",
+              marginBottom:"16px"
             }}
           >
             <Card
@@ -119,7 +120,6 @@ const PerfilEstudiante = () => {
                 backgroundColor: "white",
                 width: "100%",
                 marginTop: "15px",
-                marginBottom: "15px",
                 marginLeft: "16px",
               }}
             >

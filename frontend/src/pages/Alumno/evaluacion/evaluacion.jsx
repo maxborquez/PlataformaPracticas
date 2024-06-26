@@ -75,7 +75,7 @@ const EvaluacionPractica = () => {
             overflowY: "auto",
             paddingRight: "16px",
             overflowX: "auto",
-            marginTop: "35px",
+            marginTop: "16px",
             display: "flex",
             justifyContent: "center",
           }}
@@ -85,7 +85,6 @@ const EvaluacionPractica = () => {
               padding: "20px",
               backgroundColor: "white",
               width: "100%",
-              marginTop: "15px",
               marginBottom: "15px",
               marginLeft: "16px",
             }}

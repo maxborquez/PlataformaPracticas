@@ -98,6 +98,19 @@ routerBitacoras.get(
 );
 
 routerBitacoras.put(
+  "/revisar/:id_bitacora",
+  [
+    AutenticacionToken,
+    param("id_bitacora")
+      .notEmpty()
+      .withMessage("El campo id_bitacora es requerido")
+      .isInt()
+      .withMessage("El campo id_bitacora debe ser un entero"),
+  ],
+  bitacorasController.revisar
+);
+
+routerBitacoras.put(
   "/update/:id",
   [
     AutenticacionAlumno,

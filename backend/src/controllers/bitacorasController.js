@@ -145,10 +145,10 @@ const actualizar_bitacora = async (req, res) => {
       });
     }
 
-    const { id } = req.params;
+    const { id_bitacora } = req.params;
     const bitacora = await prisma.bitacora_alumno.findFirst({
       where: {
-        id_bitacora: Number(id),
+        id_bitacora: Number(id_bitacora),
       },
     });
     if (!bitacora) {
@@ -156,33 +156,38 @@ const actualizar_bitacora = async (req, res) => {
         mensaje: "No existe una bitacora con ese id",
       });
     }
+
     const {
       titulo,
       descripcion,
-      fecha_creacion,
       hora_inicio,
       hora_fin,
       id_estado_bitacora,
       id_inscripcion_practica,
       id_usuario,
+      id_tipo_bitacora,
     } = req.body;
-    const formato_fecha = "T00:00:00Z";
-    const hora_inicio_formateada = `${fecha_creacion}T${hora_inicio}:00Z`;
-    const hora_fin_formateada = `${fecha_creacion}T${hora_fin}:00Z`;
+
+    const dataToUpdate = {};
+    if (titulo !== undefined) dataToUpdate.titulo = titulo;
+    if (descripcion !== undefined) dataToUpdate.descripcion = descripcion;
+    if (hora_inicio !== undefined && hora_fin !== undefined) {
+      const fecha_creacion = bitacora.fecha_creacion.toISOString().split('T')[0];
+      const hora_inicio_formateada = `${fecha_creacion}T${hora_inicio}:00Z`;
+      const hora_fin_formateada = `${fecha_creacion}T${hora_fin}:00Z`;
+      dataToUpdate.hora_inicio = hora_inicio_formateada;
+      dataToUpdate.hora_fin = hora_fin_formateada;
+    }
+    if (id_estado_bitacora !== undefined) dataToUpdate.id_estado_bitacora = Number(id_estado_bitacora);
+    if (id_usuario !== undefined) dataToUpdate.id_usuario = Number(id_usuario);
+    if (id_inscripcion_practica !== undefined) dataToUpdate.id_inscripcion_practica = Number(id_inscripcion_practica);
+    if (id_tipo_bitacora !== undefined) dataToUpdate.id_tipo_bitacora = Number(id_tipo_bitacora);
+
     const bitacora_actualizada = await prisma.bitacora_alumno.update({
       where: {
-        id_bitacora: Number(id),
+        id_bitacora: Number(id_bitacora),
       },
-      data: {
-        titulo,
-        descripcion,
-        fecha_creacion: `${fecha_creacion}${formato_fecha}`,
-        hora_inicio: hora_inicio_formateada,
-        hora_fin: hora_fin_formateada,
-        id_estado_bitacora,
-        id_usuario,
-        id_inscripcion_practica: Number(id_inscripcion_practica),
-      },
+      data: dataToUpdate,
     });
 
     return res.status(200).json({
@@ -195,6 +200,7 @@ const actualizar_bitacora = async (req, res) => {
     });
   }
 };
+
 
 const detalle_bitacora = async (req, res) => {
   try {

@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Button,
   Chip,
+  Box,
 } from "@mui/material";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
@@ -85,23 +86,23 @@ const CardOfertas = () => {
                   flexDirection: "column",
                 }}
               >
-                <div
-                  style={{
+                <Box
+                  sx={{
                     backgroundColor: "#326FA6",
                     color: "white",
                     width: "100%",
                     textAlign: "left",
-                    padding: "16px 16px",
+                    padding: "16px",
                     position: "absolute",
                     top: 0,
                     left: 0,
                     borderRadius: "4px 4px 0 0",
                   }}
                 >
-                  <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                  <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                     {oferta.titulo}
                   </Typography>
-                </div>
+                </Box>
                 <CardContent
                   sx={{
                     padding: "70px 16px 16px 16px",
@@ -111,20 +112,23 @@ const CardOfertas = () => {
                     justifyContent: "space-between",
                     width: "100%",
                     height: "100%",
-                    marginTop: "30px",
+                    marginTop: "10px",
                   }}
                 >
-                  <div>
+                  <Box>
                     <Typography variant="body1" sx={{ marginBottom: "20px" }}>
                       {oferta.descripcion.length > 50
                         ? `${oferta.descripcion.substring(0, 100)}...`
                         : oferta.descripcion}
                     </Typography>
-                    <Typography variant="body1" sx={{ marginBottom: "20px", fontWeight: 'bold' }}>
-                        Empresa: {oferta.empresa.razon_social}
+                    <Typography
+                      variant="body1"
+                      sx={{ marginBottom: "20px", fontWeight: "bold" }}
+                    >
+                      Empresa: {oferta.empresa.razon_social}
                     </Typography>
-                  </div>
-                  <div>
+                  </Box>
+                  <Box>
                     <Chip
                       label={oferta.modalidad.nombre_modalidad}
                       sx={{
@@ -148,19 +152,30 @@ const CardOfertas = () => {
                         color: "white",
                       }}
                     />
-                  </div>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/detalleoferta/${oferta.id_oferta_practica}`);
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      paddingRight: "20px",
+                      paddingBottom: "10px",
                     }}
-                    sx={{ alignSelf: "flex-end", marginTop: "5px", marginRight: "16px" }}
                   >
-                    Ver más
-                  </Button>
+                    <Button
+                      size="small" variant="contained" color="primary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/detalleoferta/${oferta.id_oferta_practica}`);
+                      }}
+                      sx={{
+                        alignSelf: "flex-end",
+                        marginTop: "5px",
+                        paddingRight: "5px",
+                      }}
+                    >
+                      Ver más
+                    </Button>
+                  </Box>
                 </CardContent>
               </CardActionArea>
             </Card>

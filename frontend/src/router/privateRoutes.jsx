@@ -23,7 +23,8 @@ import InscripcionesPendientes from "../pages/ProfesionalApoyo/inscripciones_pen
 import InformePractica from "../pages/Alumno/informe/informe";
 import EvaluacionPractica from "../pages/Alumno/evaluacion/evaluacion";
 import Bitacoras from "../pages/Alumno/bitacoras/bitacoras";
-import CrearBitacora from "../pages/Alumno/bitacoras/crear_bitacora";
+import CrearBitacora from "../pages/Alumno/bitacoras/components/crear_bitacora";
+import DetalleBitacora from "../pages/Alumno/bitacoras/components/detalle_bitacora";
 
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -50,6 +51,7 @@ const PrivateRoutes = ()=>{
                     <Route path="/evaluacion/:id" element={<EvaluacionPractica/>} />
                     <Route path="/bitacoras/:id_inscripcion_practica" element={<Bitacoras />} />
                     <Route path="/crear_bitacora/:id_inscripcion_practica" element={<CrearBitacora />} />
+                    <Route path="/detalle_bitacora/:id_bitacora" element={<DetalleBitacora />} />
                 </Route>
             </Routes>
         )

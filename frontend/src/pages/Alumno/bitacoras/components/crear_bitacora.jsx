@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Grid, Card, Typography, Box, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-import Header from "../../../components/headers/header";
-import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
-import clienteAxios from "../../../helpers/clienteaxios";
+import Header from "../../../../components/headers/header";
+import SidebarAlumno from "../../../../components/sidebars/sidebarAlumno";
+import clienteAxios from "../../../../helpers/clienteaxios";
 import { useParams, useNavigate } from "react-router-dom";
 
 const CrearBitacora = () => {

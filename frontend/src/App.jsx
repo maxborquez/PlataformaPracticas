@@ -36,6 +36,8 @@ import PerfilEstudiante from "./pages/ProfesionalApoyo/practicas/ver_info_estudi
 import Bitacoras from "./pages/Alumno/bitacoras/bitacoras";
 import CrearBitacora from "./pages/Alumno/bitacoras/components/crear_bitacora";
 import DetalleBitacora from "./pages/Alumno/bitacoras/components/detalle_bitacora";
+import EditarBitacora from "./pages/Alumno/bitacoras/components/editar_bitacora";
+
 
 const queryClient = new QueryClient();
 
@@ -54,6 +56,7 @@ function App() {
               <Route path="/mi_practica" element={<MiPractica />} />
               <Route path="/bitacoras/:id_inscripcion_practica" element={<Bitacoras />} />
               <Route path="/detalle_bitacora/:id_bitacora" element={<DetalleBitacora />} />
+              <Route path="/editar_bitacora/:id_bitacora" element={<EditarBitacora />} />
               <Route path="/crear_bitacora/:id_inscripcion_practica" element={<CrearBitacora />} />
               <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica />}/>
               <Route path="/inscripcionpractica/:id" element={<InscripcionPractica />}/>

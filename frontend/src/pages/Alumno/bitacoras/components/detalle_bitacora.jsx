@@ -77,6 +77,26 @@ const DetalleBitacora = () => {
     );
   }
 
+  const formatTime = (timeString) => {
+    const options = { hour: '2-digit', minute: '2-digit' };
+    return new Date(timeString).toLocaleTimeString([], options);
+  };
+
+  const mapTipoBitacora = (id) => {
+    switch (id) {
+      case 1:
+        return "Código";
+      case 2:
+        return "Investigación";
+      case 3:
+        return "Gestión";
+      case 4:
+        return "Otros";
+      default:
+        return "Desconocido";
+    }
+  };
+
   return (
     <Grid
       container
@@ -175,6 +195,15 @@ const DetalleBitacora = () => {
                 >
                   Revisar
                 </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => navigate(`/editar_bitacora/${id_bitacora}`)}
+                  sx={{ marginLeft: "10px" }}
+                  disabled={getBitacora.data.bitacora.estado_bitacora.nombre_estado_bitacora === "revisada"}
+                >
+                  Editar
+                </Button>
               </Box>
             </Box>
             {getBitacora.status === "success" && getBitacora.data.bitacora && (
@@ -198,6 +227,15 @@ const DetalleBitacora = () => {
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
                     Descripción: {getBitacora.data.bitacora.descripcion}
+                  </Typography>
+                  <Typography variant="body1" sx={{ marginBottom: "8px" }}>
+                    Hora de Inicio: {formatTime(getBitacora.data.bitacora.hora_inicio)}
+                  </Typography>
+                  <Typography variant="body1" sx={{ marginBottom: "8px" }}>
+                    Hora de Fin: {formatTime(getBitacora.data.bitacora.hora_fin)}
+                  </Typography>
+                  <Typography variant="body1" sx={{ marginBottom: "8px" }}>
+                    Tipo de Bitácora: {mapTipoBitacora(getBitacora.data.bitacora.id_tipo_bitacora)}
                   </Typography>
                 </Paper>
               </>

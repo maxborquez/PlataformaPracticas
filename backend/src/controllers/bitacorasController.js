@@ -3,56 +3,37 @@ const { validationResult } = require("express-validator");
 
 const prisma = new PrismaClient();
 
-const crear_bitacora = async (req, res) => {
+const createBitacora = async (req, res) => {
+  const {
+    titulo,
+    descripcion,
+    fecha_creacion,
+    hora_inicio,
+    hora_fin,
+    id_tipo_bitacora,
+    id_estado_bitacora,
+    id_inscripcion_practica,
+    id_alumno,
+  } = req.body;
+
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        mensaje: "Se han encontrado errores",
-        errors: errors.array(),
-      });
-    }
-
-    const {
-      titulo,
-      descripcion,
-      fecha_creacion,
-      hora_inicio,
-      hora_fin,
-      id_estado_bitacora,
-      id_inscripcion_practica,
-      id_usuario,
-    } = req.body;
-    const formato_fecha = "T00:00:00Z";
-    const hora_inicio_formateada = `${fecha_creacion}T${hora_inicio}:00Z`;
-    const hora_fin_formateada = `${fecha_creacion}T${hora_fin}:00Z`;
-    const bitacora = await prisma.bitacora_alumno.create({
+    const nuevaBitacora = await prisma.bitacora_alumno.create({
       data: {
-        titulo,
-        descripcion,
-        fecha_creacion: `${fecha_creacion}${formato_fecha}`,
-        hora_inicio: hora_inicio_formateada,
-        hora_fin: hora_fin_formateada,
-        id_estado_bitacora,
-        id_usuario,
-        id_inscripcion_practica: Number(id_inscripcion_practica),
+        titulo: titulo,
+        descripcion: descripcion,
+        fecha_creacion: new Date(fecha_creacion + "T00:00:00.000Z"),
+        hora_inicio: new Date(fecha_creacion + "T" + hora_inicio + ":00.000Z"),
+        hora_fin: new Date(fecha_creacion + "T" + hora_fin + ":00.000Z"),
+        id_tipo_bitacora: id_tipo_bitacora,
+        id_estado_bitacora: id_estado_bitacora,
+        id_inscripcion_practica: id_inscripcion_practica,
+        id_alumno: id_alumno,
       },
     });
-
-    if (!bitacora) {
-      return res.status(400).json({
-        mensaje: "Error al registrar la bitacora",
-      });
-    }
-    return res.status(200).json({
-      mensaje: "Bitacora creada exitosamente",
-      bitacora: bitacora,
-    });
+    res.status(201).json(nuevaBitacora);
   } catch (error) {
-    return res.status(400).json({
-      error: error.stack,
-    });
+    console.error(error);
+    res.status(500).json({ error: "Error al crear la bitácora" });
   }
 };
 
@@ -284,7 +265,7 @@ const revisar = async (req, res) => {
 };
 
 module.exports = {
-  crear_bitacora,
+  createBitacora,
   mostrar_bitacoras,
   mostrar_bitacora,
   eliminar_bitacora,

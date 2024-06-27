@@ -16,7 +16,7 @@ const CrearBitacora = () => {
   const [idTipoBitacora, setIdTipoBitacora] = useState("");
   const [mensaje, setMensaje] = useState("");
   const { id_inscripcion_practica } = useParams();
-  const id_alumno = localStorage.getItem("id_alumno");
+  const id_alumno = parseInt(localStorage.getItem("id_alumno"), 10);
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -48,16 +48,17 @@ const CrearBitacora = () => {
         fecha_creacion: fechaCreacion,
         hora_inicio: horaInicio,
         hora_fin: horaFin,
-        id_tipo_bitacora: idTipoBitacora,
-        id_estado_bitacora: 2, // Por defecto a 1 o ajusta según sea necesario
-        id_inscripcion_practica,
-        id_alumno,
+        id_tipo_bitacora: parseInt(idTipoBitacora, 10),
+        id_estado_bitacora: 2,
+        id_inscripcion_practica: parseInt(id_inscripcion_practica, 10),
+        id_alumno: id_alumno,
       };
+      console.log(nuevaBitacora);
 
       const response = await clienteAxios.post("/bitacoras/create", nuevaBitacora);
-      if (response.status === 200) {
+      if (response.status === 201) {
         setMensaje("Bitácora creada exitosamente");
-        navigate(`/bitacoras/${id_inscripcion_practica}`); // Navega de vuelta a la lista de bitácoras
+        navigate(-1);
       }
     } catch (error) {
       setMensaje("Error al crear la bitácora");

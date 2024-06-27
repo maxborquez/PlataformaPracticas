@@ -98,16 +98,19 @@ model bitacora_alumno {
   fecha_creacion          DateTime             @db.Date
   hora_inicio             DateTime             @db.Time(0)
   hora_fin                DateTime             @db.Time(0)
+  id_tipo_bitacora        Int
   id_estado_bitacora      Int
   id_inscripcion_practica Int
   id_alumno               Int
-  alumno                  alumno               @relation(fields: [id_alumno], references: [id_alumno], onDelete: NoAction, onUpdate: NoAction, map: "bitacora_alumno_ibfk_1")
+  alumno                  alumno               @relation(fields: [id_alumno], references: [id_alumno], onDelete: Cascade, map: "bitacora_alumno_ibfk_1")
   estado_bitacora         estado_bitacora      @relation(fields: [id_estado_bitacora], references: [id_estado_bitacora])
   inscripcion_practica    inscripcion_practica @relation(fields: [id_inscripcion_practica], references: [id_inscripcion_practica], onDelete: Cascade)
+  tipo_bitacora           tipo_bitacora        @relation(fields: [id_tipo_bitacora], references: [id_tipo_bitacora])
 
   @@index([id_alumno], map: "bitacora_alumno_id_alumno_fkey")
   @@index([id_estado_bitacora], map: "bitacora_alumno_id_estado_bitacora_fkey")
   @@index([id_inscripcion_practica], map: "bitacora_alumno_id_inscripcion_practica_fkey")
+  @@index([id_tipo_bitacora], map: "bitacora_alumno_id_tipo_bitacora_fkey")
 }
 
 model carrera {
@@ -297,8 +300,9 @@ model representante {
 }
 
 model tipo_bitacora {
-  id_tipo_bitacora     Int    @id
-  nombre_tipo_bitacora String @db.VarChar(50)
+  id_tipo_bitacora     Int               @id
+  nombre_tipo_bitacora String            @db.VarChar(50)
+  bitacora_alumno      bitacora_alumno[]
 }
 
 model tipo_usuario {

@@ -250,6 +250,39 @@ const detalle_bitacora = async (req, res) => {
   }
 };
 
+const revisar = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        mensaje: "Se han encontrado errores",
+        errors: errors.array(),
+      });
+    }
+
+    const { id_bitacora } = req.params;
+
+    // Actualizar el estado de la bitácora a 2
+    const updatedBitacora = await prisma.bitacora_alumno.update({
+      where: {
+        id_bitacora: Number(id_bitacora),
+      },
+      data: {
+        id_estado_bitacora: 1,
+      },
+    });
+
+    return res.status(200).json({
+      mensaje: "El estado de la bitácora ha sido actualizado a revisada",
+      bitacora: updatedBitacora,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.stack,
+    });
+  }
+};
+
 module.exports = {
   crear_bitacora,
   mostrar_bitacoras,
@@ -257,4 +290,5 @@ module.exports = {
   eliminar_bitacora,
   actualizar_bitacora,
   detalle_bitacora,
+  revisar,
 };

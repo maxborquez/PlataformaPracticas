@@ -215,10 +215,46 @@ const actualizar_bitacora = async (req, res) => {
   }
 };
 
+const detalle_bitacora = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        mensaje: "Se han encontrado errores",
+        errors: errors.array(),
+      });
+    }
+    const { id_bitacora } = req.params;
+
+    const bitacora = await prisma.bitacora_alumno.findFirst({
+      where: {
+        id_bitacora: Number(id_bitacora),
+      },
+      include: {
+        estado_bitacora: true,
+      },
+    });
+    if (!bitacora) {
+      return res.status(200).json({
+        mensaje: "No existe una bitácora con ese ID",
+      });
+    }
+    return res.status(200).json({
+      mensaje: "Se ha encontrado una bitácora",
+      bitacora: bitacora,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.stack,
+    });
+  }
+};
+
 module.exports = {
   crear_bitacora,
   mostrar_bitacoras,
   mostrar_bitacora,
   eliminar_bitacora,
   actualizar_bitacora,
+  detalle_bitacora,
 };

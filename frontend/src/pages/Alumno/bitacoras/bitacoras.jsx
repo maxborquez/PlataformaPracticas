@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Grid, Card, Typography, Box, Button } from "@mui/material";
+import { Grid, Typography, Box, Button } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import clienteAxios from "../../../helpers/clienteaxios";
 import { useParams, useNavigate } from "react-router-dom";
+import CardBitacora from "./components/card_bitacora";
 
 const Bitacoras = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -61,7 +62,7 @@ const Bitacoras = () => {
   }, [id_inscripcion_practica, id_alumno]);
 
   const handleAgregarBitacora = () => {
-    navigate("/crear_bitacora"); // Cambia esta ruta a la ruta correspondiente para agregar bitácoras
+    navigate("/crear_bitacora");
   };
 
   return (
@@ -139,42 +140,7 @@ const Bitacoras = () => {
               </Box>
             ) : (
               bitacoras.map((bitacora) => (
-                <Card
-                  key={bitacora.id_bitacora}
-                  sx={{
-                    padding: "20px",
-                    backgroundColor: "white",
-                    width: "100%",
-                    marginTop: "15px",
-                    marginBottom: "15px",
-                    marginLeft: "16px",
-                    position: "relative",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      backgroundColor: "#1E88E5",
-                      color: "white",
-                      padding: "10px",
-                      borderTopLeftRadius: "4px",
-                      borderTopRightRadius: "4px",
-                    }}
-                  >
-                    <Typography variant="h6">{bitacora.titulo}</Typography>
-                  </Box>
-                  <Box sx={{ padding: "10px" }}>
-                    <Typography variant="body2" sx={{ color: "#1E88E5" }}>
-                      {new Date(bitacora.fecha_creacion).toLocaleDateString()}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{ position: "absolute", bottom: "10px", right: "10px" }}
-                  >
-                    <Typography variant="body2" sx={{ color: "red" }}>
-                      {bitacora.estado_bitacora.nombre}
-                    </Typography>
-                  </Box>
-                </Card>
+                <CardBitacora key={bitacora.id_bitacora} bitacora={bitacora} />
               ))
             )}
           </Grid>

@@ -37,6 +37,8 @@ import Bitacoras from "./pages/Alumno/bitacoras/bitacoras";
 import CrearBitacora from "./pages/Alumno/bitacoras/components/crear_bitacora";
 import DetalleBitacora from "./pages/Alumno/bitacoras/components/detalle_bitacora";
 import EditarBitacora from "./pages/Alumno/bitacoras/components/editar_bitacora";
+import InformesPendientes from "./pages/ProfesionalApoyo/informesPendientes/informesPendientes";
+import EvaluacionesPendientes from "./pages/ProfesionalApoyo/evaluacionesPendientes/evaluaciones_pendientes";
 
 
 const queryClient = new QueryClient();
@@ -78,6 +80,8 @@ function App() {
               <Route path="/crearoferta" element={<CrearOferta />} />
               <Route path="/modificaroferta/:id" element={<ModificarOferta />}/>
               <Route path="/detalleOfertas/:id" element={<DetalleOfertas />}/>
+              <Route path="/informes_pendientes" element={<InformesPendientes />}/>
+              <Route path="/evaluaciones_pendientes" element={<EvaluacionesPendientes />}/>
             </Route>
           </Routes>
         </AuthProvider>

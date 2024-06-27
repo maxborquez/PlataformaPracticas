@@ -184,10 +184,24 @@ const comprobarTablaVacia = async (req, res) => {
   }
 };
 
+const getPendientes = async (req, res) => {
+  try {
+    const pendientes = await prisma.archivo_informe.findMany({
+      where: {
+        id_estado_informe: 1,
+      },
+    });
+    res.status(200).json(pendientes);
+  } catch (error) {
+    res.status(500).json({ error: 'Error obteniendo los informes pendientes' });
+  }
+};
+
 module.exports = {
   subirArchivo,
   mostrar_archivos,
   eliminar_archivo,
   mostrar_archivo,
   comprobarTablaVacia,
+  getPendientes,
 };

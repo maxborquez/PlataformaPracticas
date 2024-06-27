@@ -69,4 +69,6 @@ routerArchivoEvaluacion.get(
   archivoEvaluacionController.comprobarTablaVacia
 );
 
+routerArchivoEvaluacion.get('/getPendientes', archivoEvaluacionController.getPendientes);
+
 module.exports = routerArchivoEvaluacion;

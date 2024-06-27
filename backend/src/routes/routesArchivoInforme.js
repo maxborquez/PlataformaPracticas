@@ -69,4 +69,7 @@ routerArchivoInforme.get(
   archivoInformeController.comprobarTablaVacia
 );
 
+routerArchivoInforme.get('/getPendientes', archivoInformeController.getPendientes);
+
+
 module.exports = routerArchivoInforme;

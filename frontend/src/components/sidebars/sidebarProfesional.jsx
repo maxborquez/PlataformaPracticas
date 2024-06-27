@@ -79,7 +79,7 @@ const SidebarProfesional = () => {
         <List component="div" disablePadding>
           <ListItem
             button
-            onClick={() => navigate("/centros_practicas")}
+            onClick={() => navigate("/informes_pendientes")}
             sx={{
               textAlign: "center",
               backgroundColor: "#495970",
@@ -96,7 +96,7 @@ const SidebarProfesional = () => {
         <List component="div" disablePadding>
           <ListItem
             button
-            onClick={() => navigate("/centros_practicas")}
+            onClick={() => navigate("/evaluaciones_pendientes")}
             sx={{
               textAlign: "center",
               backgroundColor: "#495970",

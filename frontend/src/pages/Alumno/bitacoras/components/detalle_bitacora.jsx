@@ -141,7 +141,6 @@ const DetalleBitacora = () => {
             overflowY: "auto",
             paddingRight: "16px",
             paddingLeft: "16px",
-            paddingTop: "16px",
             paddingBottom: "16px",
             display: "flex",
             justifyContent: "center",
@@ -167,14 +166,14 @@ const DetalleBitacora = () => {
                 marginBottom: "20px",
               }}
             >
-              <Typography variant="h4" sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom sx={{ textAlign: "center", flexGrow: 1 }}>
                 Detalle de Bitácora
               </Typography>
               <Box>
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate(`/bitacoras/${getBitacora.data.bitacora.id_inscripcion_practica}`)}
                   sx={{ marginRight: "10px" }}
                 >
                   Volver
@@ -190,7 +189,7 @@ const DetalleBitacora = () => {
                   }}
                   onClick={() => {
                     revisarBitacora();
-                    navigate(-1);
+                    navigate(`/bitacoras/${getBitacora.data.bitacora.id_inscripcion_practica}`);
                   }}
                 >
                   Revisar
@@ -210,32 +209,32 @@ const DetalleBitacora = () => {
               <>
                 <Paper sx={{ padding: "16px" }}>
                   <Typography variant="h6" sx={{ marginBottom: "8px" }}>
-                    {getBitacora.data.bitacora.titulo}
+                    <strong>{getBitacora.data.bitacora.titulo}</strong>
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    Fecha:{" "}
+                    <strong>Fecha:</strong>{" "}
                     {new Date(
                       getBitacora.data.bitacora.fecha_creacion
                     ).toLocaleDateString()}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    Estado:{" "}
+                    <strong>Estado:</strong>{" "}
                     {
                       getBitacora.data.bitacora.estado_bitacora
                         .nombre_estado_bitacora
                     }
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    Descripción: {getBitacora.data.bitacora.descripcion}
+                    <strong>Descripción:</strong> {getBitacora.data.bitacora.descripcion}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    Hora de Inicio: {formatTime(getBitacora.data.bitacora.hora_inicio)}
+                    <strong>Hora de Inicio:</strong> {formatTime(getBitacora.data.bitacora.hora_inicio)}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    Hora de Fin: {formatTime(getBitacora.data.bitacora.hora_fin)}
+                    <strong>Hora de Fin:</strong> {formatTime(getBitacora.data.bitacora.hora_fin)}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    Tipo de Bitácora: {mapTipoBitacora(getBitacora.data.bitacora.id_tipo_bitacora)}
+                    <strong>Tipo de Bitácora:</strong> {mapTipoBitacora(getBitacora.data.bitacora.id_tipo_bitacora)}
                   </Typography>
                 </Paper>
               </>

@@ -20,7 +20,7 @@ const CardBitacora = ({ bitacora }) => {
     <Card
       sx={{
         width: "250px",
-        marginTop: "15px",
+        marginTop: "45px",
         marginBottom: "15px",
         marginLeft: "16px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -47,7 +47,7 @@ const CardBitacora = ({ bitacora }) => {
       </Box>
       <Box sx={{ padding: "16px" }}>
         <Typography variant="body2" sx={{ marginBottom: "10px" }}>
-          Fecha: {formatFechaUTC(bitacora.fecha_creacion)}
+        Fecha: {formatFechaUTC(bitacora.fecha_creacion)}
         </Typography>
         <Box
           sx={{

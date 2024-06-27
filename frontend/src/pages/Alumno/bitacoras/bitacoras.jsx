@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography, Box, Button, IconButton } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import { Grid, Typography, Box, Button, Paper } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import clienteAxios from "../../../helpers/clienteaxios";
 import { useParams, useNavigate } from "react-router-dom";
 import CardBitacora from "./components/card_bitacora";
+import CardAddBitacora from "./components/card_add_bitacora";
 
 const Bitacoras = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -83,7 +83,7 @@ const Bitacoras = () => {
         />
       </Grid>
 
-      <Grid container item>
+      <Grid container item sx={{ flexGrow: 1 }}>
         {sidebarOpen && (
           <Grid
             item
@@ -94,6 +94,7 @@ const Bitacoras = () => {
               width: "250px",
               zIndex: 1200,
               backgroundColor: "#36465d",
+              height: "calc(100vh - 80px)",
             }}
           >
             <SidebarAlumno />
@@ -107,22 +108,22 @@ const Bitacoras = () => {
             marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
             overflowY: "auto",
-            paddingRight: "16px",
-            overflowX: "auto",
-            marginTop: "35px",
             display: "flex",
             justifyContent: "center",
-            flexDirection: "column",
-            alignItems: "center",
+            width: "auto",
           }}
         >
-          <Grid
+          <Paper
             sx={{
-              padding: "20px",
-              backgroundColor: "white",
+              padding: "16px",
+              margin: "16px",
               width: "100%",
+              maxWidth: "calc(100% - 32px)",
+              backgroundColor: "white",
               borderRadius: "8px",
               boxSizing: "border-box",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+              flexGrow: 1, // Para que el Paper crezca y ocupe toda la altura disponible
             }}
           >
             {mensaje ? (
@@ -141,29 +142,19 @@ const Bitacoras = () => {
               </Box>
             ) : (
               <Box>
-                {bitacoras.map((bitacora) => (
-                  <Box key={bitacora.id_bitacora} sx={{ marginBottom: "16px" }}>
-                    <CardBitacora bitacora={bitacora} />
-                  </Box>
-                ))}
-                <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
-                  <IconButton
-                    color="primary"
-                    onClick={handleAgregarBitacora}
-                    sx={{
-                      backgroundColor: "#1976d2",
-                      color: "white",
-                      '&:hover': {
-                        backgroundColor: "#1565c0",
-                      }
-                    }}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </Box>
+                <Grid container spacing={2}>
+                  {bitacoras.map((bitacora) => (
+                    <Grid item key={bitacora.id_bitacora} xs={12} sm={6} md={3}>
+                      <CardBitacora bitacora={bitacora} />
+                    </Grid>
+                  ))}
+                  <Grid item xs={12} sm={6} md={3}>
+                    <CardAddBitacora onClick={handleAgregarBitacora} />
+                  </Grid>
+                </Grid>
               </Box>
             )}
-          </Grid>
+          </Paper>
         </Grid>
       </Grid>
     </Grid>

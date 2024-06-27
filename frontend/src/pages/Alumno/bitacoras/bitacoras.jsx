@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography, Box, Button } from "@mui/material";
+import { Grid, Typography, Box, Button, IconButton } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import clienteAxios from "../../../helpers/clienteaxios";
@@ -62,7 +63,7 @@ const Bitacoras = () => {
   }, [id_inscripcion_practica, id_alumno]);
 
   const handleAgregarBitacora = () => {
-    navigate("/crear_bitacora");
+    navigate(`/crear_bitacora/${id_inscripcion_practica}`);
   };
 
   return (
@@ -139,9 +140,28 @@ const Bitacoras = () => {
                 </Button>
               </Box>
             ) : (
-              bitacoras.map((bitacora) => (
-                <CardBitacora key={bitacora.id_bitacora} bitacora={bitacora} />
-              ))
+              <Box>
+                {bitacoras.map((bitacora) => (
+                  <Box key={bitacora.id_bitacora} sx={{ marginBottom: "16px" }}>
+                    <CardBitacora bitacora={bitacora} />
+                  </Box>
+                ))}
+                <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
+                  <IconButton
+                    color="primary"
+                    onClick={handleAgregarBitacora}
+                    sx={{
+                      backgroundColor: "#1976d2",
+                      color: "white",
+                      '&:hover': {
+                        backgroundColor: "#1565c0",
+                      }
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Box>
+              </Box>
             )}
           </Grid>
         </Grid>

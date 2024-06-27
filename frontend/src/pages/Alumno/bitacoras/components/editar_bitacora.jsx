@@ -170,7 +170,6 @@ import {
                 padding: "20px",
                 backgroundColor: "white",
                 width: "100%",
-                marginTop: "16px",
                 boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.3)",
                 borderRadius: "8px",
                 boxSizing: "border-box",

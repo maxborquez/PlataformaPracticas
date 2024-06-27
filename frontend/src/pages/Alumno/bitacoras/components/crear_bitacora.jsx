@@ -66,22 +66,70 @@ const CrearBitacora = () => {
   };
 
   return (
-    <Grid container direction="column" sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}>
-      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}>
-        <Header toggleSidebar={toggleSidebar} isWideScreen={isWideScreen} showSidebarButton={true} />
+    <Grid
+      container
+      direction="column"
+      sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
+    >
+      <Grid
+        item
+        sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}
+      >
+        <Header
+          toggleSidebar={toggleSidebar}
+          isWideScreen={isWideScreen}
+          showSidebarButton={true}
+        />
       </Grid>
 
       <Grid container item>
         {sidebarOpen && (
-          <Grid item sx={{ position: "fixed", top: "80px", left: 0, width: "250px", zIndex: 1200, backgroundColor: "#36465d" }}>
+          <Grid
+            item
+            sx={{
+              position: "fixed",
+              top: "80px",
+              left: 0,
+              width: "250px",
+              zIndex: 1200,
+              backgroundColor: "#36465d",
+              height: "calc(100vh - 80px)",
+            }}
+          >
             <SidebarAlumno />
           </Grid>
         )}
 
-        <Grid item xs sx={{ marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px", transition: "margin-left 0.3s", overflowY: "auto", paddingRight: "16px", overflowX: "auto", marginTop: "35px", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+        <Grid
+          item
+          xs
+          sx={{
+            marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
+            transition: "margin-left 0.3s",
+            overflowY: "auto",
+            paddingTop: "16px",
+            paddingRight: "16px",
+            paddingLeft: "16px",
+            paddingBottom: "16px",
+            display: "flex",
+            justifyContent: "center",
+            width: "auto",
+          }}
+        >
           <Card sx={{ padding: "20px", backgroundColor: "white", width: "100%", borderRadius: "8px", boxSizing: "border-box" }}>
-            <Typography variant="h5" gutterBottom>Crear Bitácora</Typography>
-            <form onSubmit={handleSubmit}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <Typography variant="h5" gutterBottom sx={{ textAlign: "center", flexGrow: 1 }}>
+                Crear Bitácora
+              </Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => navigate(-1)}
+              >
+                Volver
+              </Button>
+            </Box>
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
               <TextField
                 label="Título"
                 value={titulo}
@@ -138,7 +186,7 @@ const CrearBitacora = () => {
                   <MenuItem value={4}>Otro</MenuItem>
                 </Select>
               </FormControl>
-              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+              <Button type="submit" variant="contained" color="primary" sx={{ mt: 2, maxWidth: "200px", alignSelf: "center" }}>
                 Crear Bitácora
               </Button>
             </form>

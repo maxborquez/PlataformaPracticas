@@ -11,6 +11,11 @@ const CardBitacora = ({ bitacora }) => {
     navigate(`/detalle_bitacora/${bitacora.id_bitacora}`);
   };
 
+  const formatFechaUTC = (fecha) => {
+    const date = new Date(fecha);
+    return `${date.getUTCDate()}/${date.getUTCMonth() + 1}/${date.getUTCFullYear()}`;
+  };
+
   return (
     <Card
       sx={{
@@ -42,7 +47,7 @@ const CardBitacora = ({ bitacora }) => {
       </Box>
       <Box sx={{ padding: "16px" }}>
         <Typography variant="body2" sx={{ marginBottom: "10px" }}>
-          Fecha: {new Date(bitacora.fecha_creacion).toLocaleDateString()}
+          Fecha: {formatFechaUTC(bitacora.fecha_creacion)}
         </Typography>
         <Box
           sx={{

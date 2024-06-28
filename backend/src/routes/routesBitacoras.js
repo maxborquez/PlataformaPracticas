@@ -76,4 +76,7 @@ routerBitacoras.put(
   bitacorasController.actualizar_bitacora
 );
 
+routerBitacoras.get('/getByInscripcion/:id_inscripcion', bitacorasController.getBitacorasByInscripcion);
+
+
 module.exports = routerBitacoras;

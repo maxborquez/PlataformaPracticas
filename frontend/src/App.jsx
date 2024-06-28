@@ -39,7 +39,8 @@ import DetalleBitacora from "./pages/Alumno/bitacoras/components/detalle_bitacor
 import EditarBitacora from "./pages/Alumno/bitacoras/components/editar_bitacora";
 import InformesPendientes from "./pages/ProfesionalApoyo/informesPendientes/informesPendientes";
 import EvaluacionesPendientes from "./pages/ProfesionalApoyo/evaluacionesPendientes/evaluaciones_pendientes";
-
+import BitacorasAlumnos from "./pages/ProfesionalApoyo/bitacorasAlumnos/bitacoras_alumnos";
+import DetalleBitacoraAlumno from "./pages/ProfesionalApoyo/bitacorasAlumnos/components/detalle_bitacora_alumno";
 
 const queryClient = new QueryClient();
 
@@ -82,6 +83,8 @@ function App() {
               <Route path="/detalleOfertas/:id" element={<DetalleOfertas />}/>
               <Route path="/informes_pendientes" element={<InformesPendientes />}/>
               <Route path="/evaluaciones_pendientes" element={<EvaluacionesPendientes />}/>
+              <Route path="/bitacoras_alumnos/:id_inscripcion" element={<BitacorasAlumnos />}/>
+              <Route path="/detalle_bitacora_alumno/:id_bitacora" element={<DetalleBitacoraAlumno />}/>
             </Route>
           </Routes>
         </AuthProvider>

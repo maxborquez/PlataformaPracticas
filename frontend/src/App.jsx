@@ -41,6 +41,8 @@ import InformesPendientes from "./pages/ProfesionalApoyo/informesPendientes/info
 import EvaluacionesPendientes from "./pages/ProfesionalApoyo/evaluacionesPendientes/evaluaciones_pendientes";
 import BitacorasAlumnos from "./pages/ProfesionalApoyo/bitacorasAlumnos/bitacoras_alumnos";
 import DetalleBitacoraAlumno from "./pages/ProfesionalApoyo/bitacorasAlumnos/components/detalle_bitacora_alumno";
+import VisualizadorInformes from "./pages/ProfesionalApoyo/informesPendientes/visualizadorInformes";
+import VisualizadorEvaluaciones from "./pages/ProfesionalApoyo/evaluacionesPendientes/visualizadorEvaluaciones";
 
 const queryClient = new QueryClient();
 
@@ -85,6 +87,8 @@ function App() {
               <Route path="/evaluaciones_pendientes" element={<EvaluacionesPendientes />}/>
               <Route path="/bitacoras_alumnos/:id_inscripcion" element={<BitacorasAlumnos />}/>
               <Route path="/detalle_bitacora_alumno/:id_bitacora" element={<DetalleBitacoraAlumno />}/>
+              <Route path="/visualizadorInformes/:id" element={<VisualizadorInformes />}/>
+              <Route path="/visualizadorEvaluaciones/:id" element={<VisualizadorEvaluaciones />}/>
             </Route>
           </Routes>
         </AuthProvider>

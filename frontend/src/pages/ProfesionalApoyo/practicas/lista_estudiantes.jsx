@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, Grid, Typography, Button } from "@mui/material";
+import { Card, Grid, Typography, Button, Box } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import MUIDataTable from "mui-datatables";
@@ -26,8 +26,7 @@ const ListaEstudiantes = () => {
   };
 
   const nombreCarrera = carreraMap[careerId] || "Carrera Desconocida";
-  const nombreAsignatura =
-    asignaturaMap[asignaturaId] || "Asignatura Desconocida";
+  const nombreAsignatura = asignaturaMap[asignaturaId] || "Asignatura Desconocida";
 
   useEffect(() => {
     const handleResize = () => {
@@ -47,12 +46,10 @@ const ListaEstudiantes = () => {
         const response = await clienteAxios.get(
           `/inscripcion/listaestudiantes/${careerId}/${asignaturaId}/${anio}/${periodo}`
         );
-        // Transformar los datos para incluir el estado de práctica
         const transformedData = response.data.map((estudiante) => ({
           ...estudiante,
-          estado_practica:
-            estudiante.inscribe[0]?.estado_practica?.nombre_estado_practica ||
-            "No disponible",
+          estado_practica: estudiante.inscribe[0]?.estado_practica?.nombre_estado_practica || "No disponible",
+          id_inscripcion: estudiante.inscribe[0]?.id_inscripcion || "No disponible",
         }));
         setData(transformedData);
       } catch (error) {
@@ -141,16 +138,25 @@ const ListaEstudiantes = () => {
       label: "Perfil",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
+          const idInscripcion = data[tableMeta.rowIndex]?.id_inscripcion || "No disponible";
           return (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() =>
-                navigate(`/perfilEstudiante/${tableMeta.rowData[0]}`)
-              }
-            >
-              Ver Perfil
-            </Button>
+            <Box>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ marginRight: "10px"}}
+                onClick={() => navigate(`/perfilEstudiante/${tableMeta.rowData[0]}`)}
+              >
+                Perfil
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate(`/bitacoras_alumnos/${idInscripcion}`)}
+              >
+                Bitácoras
+              </Button>
+            </Box>
           );
         },
         setCellHeaderProps: () => ({
@@ -215,7 +221,7 @@ const ListaEstudiantes = () => {
               padding: "20px",
               backgroundColor: "white",
               width: "100%",
-              marginTop: "10  px",
+              marginTop: "10px",
               marginBottom: "15px",
             }}
           >

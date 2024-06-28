@@ -270,6 +270,50 @@ const revisar = async (req, res) => {
   }
 };
 
+const getBitacorasByInscripcion = async (req, res) => {
+  const { id_inscripcion } = req.params;
+
+  try {
+    // Primero, obtén el id_inscripcion_practica usando el id_inscripcion
+    const inscripcion = await prisma.inscribe.findUnique({
+      where: {
+        id_inscripcion: parseInt(id_inscripcion),
+      },
+      select: {
+        inscripcion_practica: {
+          select: {
+            id_inscripcion_practica: true
+          }
+        }
+      }
+    });
+
+    if (!inscripcion || inscripcion.inscripcion_practica.length === 0) {
+      return res.status(404).json({ error: 'Inscripción no encontrada o no tiene inscripciones prácticas asociadas' });
+    }
+
+    const id_inscripcion_practica = inscripcion.inscripcion_practica[0].id_inscripcion_practica;
+
+    // Ahora, obtén las bitácoras usando el id_inscripcion_practica
+    const bitacoras = await prisma.bitacora_alumno.findMany({
+      where: {
+        id_inscripcion_practica: parseInt(id_inscripcion_practica),
+      },
+      include: {
+        alumno: true, // Opcional: incluir información del alumno
+        estado_bitacora: true, // Opcional: incluir información del estado de la bitácora
+        inscripcion_practica: true, // Opcional: incluir información de la inscripción práctica
+        tipo_bitacora: true, // Opcional: incluir información del tipo de bitácora
+      },
+    });
+
+    res.json(bitacoras);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener las bitácoras' });
+  }
+};
+
 module.exports = {
   createBitacora,
   mostrar_bitacoras,
@@ -278,4 +322,5 @@ module.exports = {
   actualizar_bitacora,
   detalle_bitacora,
   revisar,
+  getBitacorasByInscripcion,
 };

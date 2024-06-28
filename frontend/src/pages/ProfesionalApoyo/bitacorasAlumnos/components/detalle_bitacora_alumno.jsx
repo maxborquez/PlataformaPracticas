@@ -10,10 +10,10 @@ import Header from "../../../../components/headers/header";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import { useParams, useNavigate } from "react-router-dom";
-import SidebarAlumno from "../../../../components/sidebars/sidebarAlumno";
+import SidebarProfesional from "../../../../components/sidebars/sidebarProfesional";
 import { useState, useEffect } from "react";
 
-const DetalleBitacora = () => {
+const DetalleBitacoraAlumno = () => {
   const { id_bitacora } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
@@ -47,6 +47,17 @@ const DetalleBitacora = () => {
     return response.data;
   });
 
+  const revisarBitacora = async () => {
+    try {
+      const response = await clienteAxios.put(
+        `/bitacoras/revisar/${id_bitacora}`
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error al revisar la bitácora:", error);
+    }
+  };
+
   if (getBitacora.status === "loading") {
     return (
       <Grid
@@ -67,7 +78,7 @@ const DetalleBitacora = () => {
   }
 
   const formatTime = (timeString) => {
-    const options = { hour: '2-digit', minute: '2-digit' };
+    const options = { hour: "2-digit", minute: "2-digit" };
     return new Date(timeString).toLocaleTimeString([], options);
   };
 
@@ -122,7 +133,7 @@ const DetalleBitacora = () => {
               height: "calc(100vh - 80px)",
             }}
           >
-            <SidebarAlumno />
+            <SidebarProfesional />
           </Grid>
         )}
 
@@ -160,26 +171,43 @@ const DetalleBitacora = () => {
                 marginBottom: "20px",
               }}
             >
-                <Typography variant="h5" gutterBottom sx={{ textAlign: "center", flexGrow: 1 }}>
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textAlign: "center", flexGrow: 1 }}
+              >
                 Detalle de Bitácora
               </Typography>
               <Box>
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => navigate(`/bitacoras/${getBitacora.data.bitacora.id_inscripcion_practica}`)}
+                  onClick={() =>
+                    navigate(
+                      `/bitacoras_alumnos/${getBitacora.data.bitacora.id_inscripcion_practica}`
+                    )
+                  }
                   sx={{ marginRight: "10px" }}
                 >
                   Volver
                 </Button>
                 <Button
                   variant="contained"
-                  color="secondary"
-                  onClick={() => navigate(`/editar_bitacora/${id_bitacora}`)}
-                  sx={{ marginLeft: "10px" }}
-                  disabled={getBitacora.data.bitacora.estado_bitacora.nombre_estado_bitacora === "revisada"}
+                  sx={{
+                    backgroundColor: "#40ab52",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#176733",
+                    },
+                  }}
+                  onClick={() => {
+                    revisarBitacora();
+                    navigate(
+                      `/bitacoras_alumnos/${getBitacora.data.bitacora.id_inscripcion_practica}`
+                    );
+                  }}
                 >
-                  Editar
+                  Revisar
                 </Button>
               </Box>
             </Box>
@@ -201,16 +229,22 @@ const DetalleBitacora = () => {
                     }
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    <strong>Descripción:</strong> {getBitacora.data.bitacora.descripcion}
+                    <strong>Descripción:</strong>{" "}
+                    {getBitacora.data.bitacora.descripcion}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    <strong>Hora de Inicio:</strong> {formatTime(getBitacora.data.bitacora.hora_inicio)}
+                    <strong>Hora de Inicio:</strong>{" "}
+                    {formatTime(getBitacora.data.bitacora.hora_inicio)}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    <strong>Hora de Fin:</strong> {formatTime(getBitacora.data.bitacora.hora_fin)}
+                    <strong>Hora de Fin:</strong>{" "}
+                    {formatTime(getBitacora.data.bitacora.hora_fin)}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    <strong>Tipo de Bitácora:</strong> {mapTipoBitacora(getBitacora.data.bitacora.id_tipo_bitacora)}
+                    <strong>Tipo de Bitácora:</strong>{" "}
+                    {mapTipoBitacora(
+                      getBitacora.data.bitacora.id_tipo_bitacora
+                    )}
                   </Typography>
                 </Paper>
               </>
@@ -222,4 +256,4 @@ const DetalleBitacora = () => {
   );
 };
 
-export default DetalleBitacora;
+export default DetalleBitacoraAlumno;

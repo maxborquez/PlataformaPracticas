@@ -71,5 +71,4 @@ routerArchivoInforme.get(
 
 routerArchivoInforme.get('/getPendientes', archivoInformeController.getPendientes);
 
-
 module.exports = routerArchivoInforme;

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Grid, Card } from "@mui/material";
+import { Grid, Card, IconButton } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import { useNavigate } from "react-router-dom";
 import MUIDataTable from "mui-datatables";
 import clienteAxios from '../../../helpers/clienteaxios';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const EvaluacionesPendientes = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -44,17 +45,42 @@ const EvaluacionesPendientes = () => {
     fetchEvaluaciones();
   }, []);
 
+  const handleView = (id) => {
+    window.open(`/visualizadorEvaluaciones/${id}`, '_blank');
+  };
+
   const columns = [
     { name: "id_archivo_evaluacion", label: "ID" },
     { name: "nombre", label: "Nombre" },
     { name: "tipo_archivo", label: "Tipo de Archivo" },
     { name: "tipo_documento", label: "Tipo de Documento" },
     { name: "id_inscripcion", label: "ID Inscripción" },
-    { name: "id_estado_evaluacion", label: "Estado de la evaluacion" },
+    { name: "id_estado_evaluacion", label: "Estado de la evaluación" },
+    {
+      name: "ver",
+      label: "Ver",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <IconButton onClick={() => handleView(tableMeta.rowData[0])}>
+              <VisibilityIcon />
+            </IconButton>
+          );
+        },
+      },
+    },
   ];
 
   const options = {
-    filterType: "checkbox",
+    responsive: "standard",
+    search: false,
+    download: false,
+    print: false,
+    viewColumns: false,
+    filter: false,
+    pagination: false,
+    selectableRows: "none",
+    sort: false,
   };
 
   return (

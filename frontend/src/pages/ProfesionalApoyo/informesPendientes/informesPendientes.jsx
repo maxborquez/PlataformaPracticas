@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import { Grid, Card } from "@mui/material";
+import { Grid, Card, IconButton } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
-import { useNavigate } from "react-router-dom";
 import MUIDataTable from "mui-datatables";
 import clienteAxios from '../../../helpers/clienteaxios';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const InformesPendientes = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const [informes, setInformes] = useState([]);
-  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -44,6 +43,10 @@ const InformesPendientes = () => {
     fetchInformes();
   }, []);
 
+  const handleView = (id) => {
+    window.open(`/visualizadorInformes/${id}`, '_blank');
+  };
+
   const columns = [
     { name: "id_archivo_informe", label: "ID" },
     { name: "nombre", label: "Nombre" },
@@ -51,10 +54,31 @@ const InformesPendientes = () => {
     { name: "tipo_documento", label: "Tipo de Documento" },
     { name: "id_inscripcion", label: "ID Inscripción" },
     { name: "id_estado_informe", label: "Estado del Informe" },
+    {
+      name: "ver",
+      label: "Ver",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <IconButton onClick={() => handleView(tableMeta.rowData[0])}>
+              <VisibilityIcon />
+            </IconButton>
+          );
+        },
+      },
+    },
   ];
 
   const options = {
-    filterType: "checkbox",
+    responsive: "standard",
+    search: false,
+    download: false,
+    print: false,
+    viewColumns: false,
+    filter: false,
+    pagination: false,
+    selectableRows: "none",
+    sort: false,
   };
 
   return (

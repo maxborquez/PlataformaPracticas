@@ -59,11 +59,15 @@ const crear_inscripcion = async (req, res) => {
 const mostrar_inscripciones = async (req, res) => {
   try {
     const inscripciones = await prisma.inscripcion_practica.findMany({
+      where: {
+        id_estado_inscripcion: 1,
+      },
       include: {
         estado_inscripcion: true,
       },
     });
-    if (inscripciones.length == 0) {
+    if (inscripciones.length === 0) {
+      console.log("No hay inscripciones pendientes");
       return res.status(200).json({
         mensaje: "No existen registros de inscripciones",
       });
@@ -78,6 +82,7 @@ const mostrar_inscripciones = async (req, res) => {
     });
   }
 };
+
 const mostrar_inscripcion = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -212,6 +217,7 @@ const actualizar_inscripcion = async (req, res) => {
     });
   }
 };
+
 const comprobar_inscripcion = async (req, res) => {
   try {
     const { id_alumno } = req.body;
@@ -261,7 +267,6 @@ const comprobar_inscripcion = async (req, res) => {
     });
   }
 };
-
 
 const obtener_Modalidades = async (req, res) => {
   try {
@@ -487,13 +492,13 @@ const getInscripcionesEnProceso = async (req, res) => {
             alumno: {
               include: {
                 carrera: true,
-              }
+              },
             },
             asignatura: {
               include: {
                 periodo_academico: true,
-              }
-            }
+              },
+            },
           },
         },
         oferta_practica: true,
@@ -506,7 +511,7 @@ const getInscripcionesEnProceso = async (req, res) => {
       primer_apellido: inscripcion.inscribe.alumno.apellido_paterno,
       rut: inscripcion.inscribe.alumno.rut,
       carrera: inscripcion.inscribe.alumno.carrera.nombre_carrera,
-      oferta: inscripcion.oferta_practica.descripcion,
+      oferta: inscripcion.oferta_practica ? inscripcion.oferta_practica.descripcion : 'No especificada',
       periodo_academico: `${inscripcion.inscribe.asignatura.periodo_academico.anio}-${inscripcion.inscribe.asignatura.periodo_academico.periodo}`,
     }));
 

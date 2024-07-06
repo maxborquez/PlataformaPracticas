@@ -76,21 +76,6 @@ const DetalleBitacora = () => {
     return `${date.getUTCDate()}/${date.getUTCMonth() + 1}/${date.getUTCFullYear()}`;
   };
 
-  const mapTipoBitacora = (id) => {
-    switch (id) {
-      case 1:
-        return "Código";
-      case 2:
-        return "Investigación";
-      case 3:
-        return "Gestión";
-      case 4:
-        return "Otros";
-      default:
-        return "Desconocido";
-    }
-  };
-
   return (
     <Grid
       container
@@ -160,7 +145,7 @@ const DetalleBitacora = () => {
                 marginBottom: "20px",
               }}
             >
-                <Typography variant="h5" gutterBottom sx={{ textAlign: "center", flexGrow: 1 }}>
+              <Typography variant="h5" gutterBottom sx={{ textAlign: "center", flexGrow: 1 }}>
                 Detalle de Bitácora
               </Typography>
               <Box>
@@ -210,7 +195,7 @@ const DetalleBitacora = () => {
                     <strong>Hora de Fin:</strong> {formatTime(getBitacora.data.bitacora.hora_fin)}
                   </Typography>
                   <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                    <strong>Tipo de Bitácora:</strong> {mapTipoBitacora(getBitacora.data.bitacora.id_tipo_bitacora)}
+                    <strong>Tipo de Bitácora:</strong> {getBitacora.data.bitacora.tipo_bitacora.nombre_tipo_bitacora}
                   </Typography>
                 </Paper>
               </>

@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 const EvaluacionPractica = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [hasExistingFile, setHasExistingFile] = useState(false);
   const { id } = useParams();
 
   const toggleSidebar = () => {
@@ -105,10 +106,10 @@ const EvaluacionPractica = () => {
                 </Typography>
               </Grid>
               <Grid item>
-                <SubirEvaluacion id={id} />
+                <SubirEvaluacion id={id} hasExistingFile={hasExistingFile} />
               </Grid>
               <Grid item sx={{ width: "100%", marginTop: "20px" }}>
-                <MostrarArchivoEvaluacion id={id} />
+                <MostrarArchivoEvaluacion id={id} setHasExistingFile={setHasExistingFile} />
               </Grid>
             </Grid>
           </Card>

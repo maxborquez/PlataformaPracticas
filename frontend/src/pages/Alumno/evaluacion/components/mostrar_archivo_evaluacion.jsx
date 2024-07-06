@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Card, CircularProgress, IconButton } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import MUIDataTable from "mui-datatables";
 import Swal from "sweetalert2";
 
-const MostrarArchivoEvaluacion = ({ id }) => {
+const MostrarArchivoEvaluacion = ({ id, setHasExistingFile }) => {
   const [archivos, setArchivos] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,18 +15,21 @@ const MostrarArchivoEvaluacion = ({ id }) => {
         const response = await clienteAxios.post("/archivoevaluacion/getall", { id_inscripcion: id });
         if (response.data.archivos) {
           setArchivos(response.data.archivos);
+          setHasExistingFile(response.data.archivos.length > 0);
         } else {
           setArchivos([]);
+          setHasExistingFile(false);
         }
       } catch (error) {
         console.error("Error al obtener archivos:", error);
+        setHasExistingFile(false);
       } finally {
         setLoading(false);
       }
     };
 
     fetchArchivos();
-  }, [id]);
+  }, [id, setHasExistingFile]);
 
   const handleDelete = async (archivoId) => {
     try {
@@ -56,6 +59,7 @@ const MostrarArchivoEvaluacion = ({ id }) => {
       if (result.isConfirmed) {
         await clienteAxios.delete(`/archivoevaluacion/delete/${archivoId}`);
         setArchivos(archivos.filter(archivo => archivo.id_archivo_evaluacion !== archivoId));
+        setHasExistingFile(archivos.length > 1);
         Swal.fire(
           'Eliminado!',
           'El archivo ha sido eliminado.',
@@ -137,14 +141,12 @@ const MostrarArchivoEvaluacion = ({ id }) => {
   };
 
   return (
-    
-      <MUIDataTable
-        title={"Archivo subido actualmente"}
-        data={archivos}
-        columns={columns}
-        options={options}
-      />
-    
+    <MUIDataTable
+      title={"Archivo subido actualmente"}
+      data={archivos}
+      columns={columns}
+      options={options}
+    />
   );
 };
 

@@ -82,6 +82,7 @@ const mostrar_bitacora = async (req, res) => {
       },
       include: {
         estado_bitacora: true,
+        tipo_bitacora: true,  // Incluyendo la relación con tipo_bitacora
       },
     });
     if (!bitacora) {
@@ -99,6 +100,7 @@ const mostrar_bitacora = async (req, res) => {
     });
   }
 };
+
 
 const eliminar_bitacora = async (req, res) => {
   try {
@@ -219,6 +221,7 @@ const detalle_bitacora = async (req, res) => {
       },
       include: {
         estado_bitacora: true,
+        tipo_bitacora: true,
       },
     });
     if (!bitacora) {
@@ -294,16 +297,15 @@ const getBitacorasByInscripcion = async (req, res) => {
 
     const id_inscripcion_practica = inscripcion.inscripcion_practica[0].id_inscripcion_practica;
 
-    // Ahora, obtén las bitácoras usando el id_inscripcion_practica
     const bitacoras = await prisma.bitacora_alumno.findMany({
       where: {
         id_inscripcion_practica: parseInt(id_inscripcion_practica),
       },
       include: {
-        alumno: true, // Opcional: incluir información del alumno
-        estado_bitacora: true, // Opcional: incluir información del estado de la bitácora
-        inscripcion_practica: true, // Opcional: incluir información de la inscripción práctica
-        tipo_bitacora: true, // Opcional: incluir información del tipo de bitácora
+        alumno: true,
+        estado_bitacora: true,
+        inscripcion_practica: true,
+        tipo_bitacora: true,
       },
     });
 

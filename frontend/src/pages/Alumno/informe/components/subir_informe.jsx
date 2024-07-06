@@ -6,30 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { CopyAllOutlined } from "@mui/icons-material";
 
-const SubirInforme = ({ id }) => {
+const SubirInforme = ({ id, hasExistingFile }) => {
   const [nombre, setNombre] = useState("");
   const [extension, setExtension] = useState(null);
   const [archivo, setArchivo] = useState(null);
   const [isPdf, setPdf] = useState(true);
-  const [archivoExistente, setArchivoExistente] = useState(false);
   const inputFileRef = useRef(null);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    // Verificar si ya existe un archivo subido
-    const verificarArchivoExistente = async () => {
-      try {
-        const response = await clienteAxios.get("/archivoinforme/tabla_vacia");
-        setArchivoExistente(!response.data.isEmpty);
-      } catch (error) {
-        console.error("Error al verificar archivo existente:", error);
-      }
-    };
-
-    verificarArchivoExistente();
-  }, []);
 
   useEffect(() => {
     if (archivo) {
@@ -94,48 +79,45 @@ const SubirInforme = ({ id }) => {
   };
 
   return (
-
-      <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+    <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+      <Grid item>
+        <Button
+          variant="contained"
+          component="label"
+          startIcon={<CopyAllOutlined />}
+          disabled={hasExistingFile}
+        >
+          Seleccionar Archivo
+          <input
+            type="file"
+            hidden
+            ref={inputFileRef}
+            onChange={handleArchivoSeleccionado}
+          />
+        </Button>
+      </Grid>
+      {!isPdf && (
         <Grid item>
+          <Alert severity="success">Archivo PDF seleccionado: {archivo?.name}</Alert>
         </Grid>
+      )}
+      {hasExistingFile ? (
         <Grid item>
-          <Button
-            variant="contained"
-            component="label"
-            startIcon={<CopyAllOutlined />}
-            disabled={archivoExistente} // Desactivar botón si ya existe un archivo
-          >
-            Seleccionar Archivo
-            <input
-              type="file"
-              hidden
-              ref={inputFileRef}
-              onChange={handleArchivoSeleccionado}
-              disabled={archivoExistente} // Desactivar input si ya existe un archivo
-            />
-          </Button>
+          <Alert severity="info">Ya existe un informe subido. Si desea subir uno nuevo debe borrar el actual.</Alert>
         </Grid>
-        {!isPdf && (
-          <Grid item>
-            <Alert severity="success">Archivo PDF seleccionado: {archivo?.name}</Alert>
-          </Grid>
-        )}
-        {archivoExistente && (
-          <Grid item>
-            <Alert severity="warning">Ya existe un archivo subido. Elimine el archivo existente antes de subir uno nuevo.</Alert>
-          </Grid>
-        )}
+      ) : (
         <Grid item>
           <Button
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            disabled={isPdf || archivoExistente}
+            disabled={hasExistingFile}
           >
             Subir Archivo
           </Button>
         </Grid>
-      </Grid>
+      )}
+    </Grid>
   );
 };
 

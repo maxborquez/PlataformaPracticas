@@ -5,7 +5,7 @@ import clienteAxios from "../../../../helpers/clienteaxios";
 import MUIDataTable from "mui-datatables";
 import Swal from "sweetalert2";
 
-const MostrarArchivoInforme = ({ id }) => {
+const MostrarArchivoInforme = ({ id, setHasExistingFile }) => {
   const [archivos, setArchivos] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,18 +15,21 @@ const MostrarArchivoInforme = ({ id }) => {
         const response = await clienteAxios.post("/archivoinforme/getall", { id_inscripcion: id });
         if (response.data.archivos) {
           setArchivos(response.data.archivos);
+          setHasExistingFile(response.data.archivos.length > 0);
         } else {
           setArchivos([]);
+          setHasExistingFile(false);
         }
       } catch (error) {
         console.error("Error al obtener archivos:", error);
+        setHasExistingFile(false);
       } finally {
         setLoading(false);
       }
     };
 
     fetchArchivos();
-  }, [id]);
+  }, [id, setHasExistingFile]);
 
   const handleDelete = async (archivoId) => {
     try {
@@ -56,6 +59,7 @@ const MostrarArchivoInforme = ({ id }) => {
       if (result.isConfirmed) {
         await clienteAxios.delete(`/archivoinforme/delete/${archivoId}`);
         setArchivos(archivos.filter(archivo => archivo.id_archivo_informe !== archivoId));
+        setHasExistingFile(archivos.length > 1);
         Swal.fire(
           'Eliminado!',
           'El archivo ha sido eliminado.',
@@ -138,14 +142,12 @@ const MostrarArchivoInforme = ({ id }) => {
   };
 
   return (
- 
-      <MUIDataTable
-        title={"Archivo subido actualmente"}
-        data={archivos}
-        columns={columns}
-        options={options}
-      />
-    
+    <MUIDataTable
+      title={"Archivo subido actualmente"}
+      data={archivos}
+      columns={columns}
+      options={options}
+    />
   );
 };
 

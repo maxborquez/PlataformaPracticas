@@ -42,7 +42,7 @@ const PerfilAlumno = () => {
   }, []);
 
   // Código de aptitudes
-  const { handleSubmit, register, control } = useForm();
+  const { handleSubmit, register, control, reset } = useForm();
   const { data, status, refetch } = useQuery("aptitudes", async () => {
     const response = await clienteAxios.get("/aptitud/getall");
     const response2 = await clienteAxios.post("/alumno/showAptitudes", {
@@ -77,6 +77,7 @@ const PerfilAlumno = () => {
         Swal.close();
         refetch();
         queryClient.refetchQueries("misapitudes");
+        reset(); // Resetea el formulario
       }, 2000);
     }
   };

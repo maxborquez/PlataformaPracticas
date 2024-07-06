@@ -180,10 +180,12 @@ const CrearBitacora = () => {
                   onChange={(e) => setIdTipoBitacora(e.target.value)}
                   label="Tipo de Bitácora"
                 >
-                  <MenuItem value={1}>Código</MenuItem>
-                  <MenuItem value={2}>Investigación</MenuItem>
-                  <MenuItem value={3}>Gestión</MenuItem>
-                  <MenuItem value={4}>Otro</MenuItem>
+                  <MenuItem value={1}>Programación</MenuItem>
+                  <MenuItem value={2}>Búsqueda de información</MenuItem>
+                  <MenuItem value={3}>Reunión</MenuItem>
+                  <MenuItem value={4}>Estudio de Software</MenuItem>
+                  <MenuItem value={5}>Aplicaciones pars HW Industrial y Laboratorio</MenuItem>
+                  <MenuItem value={6}>Otros</MenuItem>
                 </Select>
               </FormControl>
               <Button type="submit" variant="contained" color="primary" sx={{ mt: 2, maxWidth: "200px", alignSelf: "center" }}>

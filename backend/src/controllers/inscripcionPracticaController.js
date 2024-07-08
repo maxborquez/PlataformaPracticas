@@ -609,6 +609,28 @@ const getEstudiantesPorParametros = async (req, res) => {
   }
 };
 
+const getPracticasByAlumno = async (req, res) => {
+  const { id_alumno } = req.params;
+
+  try {
+    // Obtener las inscripciones y las prácticas asociadas del alumno
+    const practicas = await prisma.inscribe.findMany({
+      where: {
+        id_alumno: parseInt(id_alumno),
+      },
+      include: {
+        inscripcion_practica: true,
+      },
+    });
+
+    // Devolver la respuesta en formato JSON
+    res.json(practicas);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener las prácticas del alumno' });
+  }
+};
+
 
 module.exports = {
   crear_inscripcion,
@@ -626,4 +648,5 @@ module.exports = {
   getInscripcionesEnProceso,
   getInscriptionsByCareerAndPractica,
   getEstudiantesPorParametros,
+  getPracticasByAlumno
 };

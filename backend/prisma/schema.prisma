@@ -119,12 +119,6 @@ model carrera {
   alumno         alumno[]
 }
 
-model comuna {
-  id_comuna Int       @id @default(autoincrement())
-  nombre    String    @db.VarChar(50)
-  empresa   empresa[]
-}
-
 model conocimiento {
   id_conocimiento Int     @id @default(autoincrement())
   id_alumno       Int
@@ -144,15 +138,15 @@ model empresa {
   centro_practica   Boolean
   correo            String            @db.VarChar(70)
   telefono          String            @db.VarChar(18)
-  id_comuna         Int
+  id_ciudad         Int
   id_estado_empresa Int
-  comuna            comuna            @relation(fields: [id_comuna], references: [id_comuna], onDelete: Cascade)
+  ciudad            ciudad            @relation(fields: [id_ciudad], references: [id_ciudad], onDelete: Cascade)
   estado_empresa    estado_empresa    @relation(fields: [id_estado_empresa], references: [id_estado_empresa], onDelete: Cascade)
   oferta_practica   oferta_practica[]
   representante     representante[]
 
-  @@index([id_comuna], map: "empresa_id_comuna_fkey")
   @@index([id_estado_empresa], map: "empresa_id_estado_empresa_fkey")
+  @@index([id_ciudad], map: "empresa_id_ciudad_fkey")
 }
 
 model estado_bitacora {
@@ -217,8 +211,6 @@ model inscripcion_practica {
   id_estado_inscripcion      Int
   id_modalidad               Int
   id_inscribe                Int
-  nota_empresa               Int
-  nota_encargado             Int
   archivo_evaluacion         archivo_evaluacion[]
   archivo_informe            archivo_informe[]
   archivo_inscripcion        archivo_inscripcion[]
@@ -321,4 +313,10 @@ model usuario {
   tipo_usuario    tipo_usuario  @relation(fields: [id_tipo_usuario], references: [id_tipo_usuario], onDelete: NoAction, onUpdate: NoAction, map: "usuario_ibfk_1")
 
   @@index([id_tipo_usuario], map: "usuario_id_tipo_usuario_fkey")
+}
+
+model ciudad {
+  id_ciudad Int       @id @default(autoincrement())
+  nombre    String    @db.VarChar(50)
+  empresa   empresa[]
 }

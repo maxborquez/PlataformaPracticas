@@ -151,32 +151,6 @@ const Detalle = ({ id }) => {
           }
         },
         {
-          name: "nota_empresa",
-          label: "Nota Empresa",
-          options: {
-            customBodyRender: (value) => value === 0 ? "-----" : value,
-            setCellHeaderProps: () => ({
-              style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
-        },
-        {
-          name: "nota_encargado",
-          label: "Nota Encargado",
-          options: {
-            customBodyRender: (value) => value === 0 ? "-----" : value,
-            setCellHeaderProps: () => ({
-              style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
-        },
-        {
           name: "estado_inscripcion",
           label: "Estado Solicitud",
           options: {

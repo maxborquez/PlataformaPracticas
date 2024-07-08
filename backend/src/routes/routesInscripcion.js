@@ -11,7 +11,7 @@ const {AutenticacionAlumno} = require("../middlewares/verifyRolAlumno");
 const {AutenticacionProfesional} = require("../middlewares/VerifyRolProfesional");
 const { AutenticacionToken } = require("../middlewares/verifyToken");
 
-//fecha_inscripcion_practica,fecha_inicio,fecha_fin,nota_final,observaciones,id_representante,id_oferta,id_estado_inscripcion, id_modalidad
+//fecha_inscripcion_practica,fecha_inicio,fecha_fin,observaciones,id_representante,id_oferta,id_estado_inscripcion, id_modalidad
 routerInscripcion.post("/create",
 [
     AutenticacionAlumno,

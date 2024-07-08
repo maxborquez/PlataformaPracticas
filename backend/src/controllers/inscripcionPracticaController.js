@@ -221,52 +221,64 @@ const actualizar_inscripcion = async (req, res) => {
 const comprobar_inscripcion = async (req, res) => {
   try {
     const { id_alumno } = req.body;
-    //comprobamos si el alumno existe
+    
+    // Comprobamos si el alumno existe
     const alumno = await prisma.alumno.findFirst({
       where: {
         id_alumno: Number(id_alumno),
       },
     });
+    
     if (!alumno) {
       return res.status(400).json({
         mensaje: "El alumno no existe",
       });
     }
-    //consultamos si tiene inscrita la practica desde intranet
+    
+    // Consultamos si tiene inscrita la práctica desde intranet y que no tenga id_estado_practica = 3
     const inscribe = await prisma.inscribe.findFirst({
       where: {
         id_alumno: Number(id_alumno),
+        NOT: {
+          id_estado_practica: 3,
+        },
       },
     });
+    
     if (!inscribe) {
       return res.status(200).json({
-        mensaje: "El alumno no tiene inscrita la práctica desde intranet",
+        mensaje: "El alumno no tiene inscrita la práctica desde intranet o ya ha finalizado",
         inscrito_intranet: false,
       });
     }
 
+    // Consultamos si la inscripción está en el sistema
     const inscripcion_sistema = await prisma.inscripcion_practica.findFirst({
       where: {
         id_inscribe: inscribe.id_inscripcion,
       },
     });
+    
     if (!inscripcion_sistema) {
       return res.status(200).json({
         mensaje: "Por favor haga inscripción en el sistema",
         inscrito_sistema: false,
       });
     }
+    
     return res.status(200).json({
       mensaje: "Tiene su práctica inscrita correctamente en el sistema",
       inscrito_sistema: true,
       id_inscripcion: inscripcion_sistema.id_inscripcion_practica,
     });
+    
   } catch (error) {
     return res.status(400).json({
       error: error.stack,
     });
   }
 };
+
 
 const obtener_Modalidades = async (req, res) => {
   try {

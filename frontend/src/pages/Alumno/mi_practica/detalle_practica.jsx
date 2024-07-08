@@ -1,4 +1,4 @@
-import { Grid, CircularProgress, Tooltip } from "@mui/material";
+import { Grid, CircularProgress, Tooltip, Typography, Alert } from "@mui/material";
 import { useQuery, useQueryClient } from "react-query";
 import clienteAxios from "../../../helpers/clienteaxios";
 import { CheckCircleOutline, Delete, DoNotDisturb, Edit, FileCopy, TimerOutlined } from "@mui/icons-material";
@@ -8,9 +8,9 @@ import MUIDataTable from "mui-datatables";
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
-  const { data, status } = useQuery("detalleinscripcion", async () => {
+  const { data, status } = useQuery(["detalleinscripcion", id], async () => {
     const response = await clienteAxios.get(`/inscripcion/show/${id}`);
-    return response.data.inscripcion;
+    return response.data;
   });
 
   const formato = (texto) => {
@@ -56,11 +56,32 @@ const Detalle = ({ id }) => {
     });
   };
 
+  if (status === "loading") {
+    return (
+      <Grid sx={{ width: "35%", margin: "0px auto", marginTop: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        Cargando datos.........
+        <CircularProgress />
+      </Grid>
+    );
+  }
+
   if (status === "success") {
-    if (data.fecha_inicio && data.fecha_fin) {
-      let fecha_inicio = data.fecha_inicio.split("T")[0];
+    if (data.mensaje === "No se ha encontrado la inscripcion") {
+      return (
+        <Grid sx={{ width: "100%", margin: "0px auto", marginTop: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <Alert severity="warning">
+            Asignatura inscrita en sistema pero aún falta inscribir una práctica
+          </Alert>
+        </Grid>
+      );
+    }
+
+    const inscripcion = data.inscripcion;
+
+    if (inscripcion.fecha_inicio && inscripcion.fecha_fin) {
+      let fecha_inicio = inscripcion.fecha_inicio.split("T")[0];
       fecha_inicio = formato(fecha_inicio);
-      let fecha_fin = data.fecha_fin.split("T")[0];
+      let fecha_fin = inscripcion.fecha_fin.split("T")[0];
       fecha_fin = formato(fecha_fin);
 
       const columns = [
@@ -181,16 +202,16 @@ const Detalle = ({ id }) => {
           options: {
             customBodyRender: () => (
               <>
-                {data.estado_inscripcion.id_estado_inscripcion !== 2 && (
+                {inscripcion.estado_inscripcion.id_estado_inscripcion !== 2 && (
                   <>
                     <Tooltip title="Modificar inscripción">
                       <Edit sx={{ cursor: "pointer" }} onClick={() => { navigate(`/modificarinscripcion/${id}`) }} />
                     </Tooltip>
                     <Tooltip title="Documentos">
-                      <FileCopy sx={{ cursor: "pointer" }} onClick={() => { navigate(`/documentosinscripcion/${data.id_inscripcion_practica}`) }} />
+                      <FileCopy sx={{ cursor: "pointer" }} onClick={() => { navigate(`/documentosinscripcion/${inscripcion.id_inscripcion_practica}`) }} />
                     </Tooltip>
                     <Tooltip title="Eliminar Inscripción">
-                      <Delete sx={{ cursor: "pointer" }} onClick={() => eliminar_inscripcion(data.id_inscripcion_practica)} />
+                      <Delete sx={{ cursor: "pointer" }} onClick={() => eliminar_inscripcion(inscripcion.id_inscripcion_practica)} />
                     </Tooltip>
                   </>
                 )}
@@ -224,7 +245,7 @@ const Detalle = ({ id }) => {
         <Grid sx={{ marginTop: "15px" }}>
             <div>
               <MUIDataTable
-                data={[data]}
+                data={[inscripcion]}
                 columns={columns}
                 options={options}
               />
@@ -232,15 +253,6 @@ const Detalle = ({ id }) => {
         </Grid>
       );
     }
-  }
-
-  if (status === "loading") {
-    return (
-      <Grid sx={{ width: "35%", margin: "0px auto", marginTop: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-        Cargando datos.........
-        <CircularProgress />
-      </Grid>
-    );
   }
 
   return null;

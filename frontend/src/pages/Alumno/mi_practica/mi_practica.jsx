@@ -1,29 +1,21 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import {
-  Grid,
-  Typography,
-  Alert,
-  Paper,
-} from "@mui/material";
+import { Grid, Typography, Alert, Paper } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
 import clienteAxios from "../../../helpers/clienteaxios";
 import Detalle from "../../Alumno/mi_practica/detalle_practica";
 
+const fetchPracticas = async (id_alumno) => {
+  const response = await clienteAxios.get(`/inscripcion/getPracticas/${id_alumno}`);
+  return response.data;
+};
+
 const MiPractica = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const id_alumno = localStorage.getItem("id_alumno");
-  const id_inscribe = localStorage.getItem("id_inscribe");
-
-  const { data, status } = useQuery("estado_inscripcion", async () => {
-    const response = await clienteAxios.post("/inscripcion/comprobar", {
-      id_alumno: id_alumno,
-    });
-    return response.data;
-  });
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -44,6 +36,13 @@ const MiPractica = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const { data, status } = useQuery(['practicas', id_alumno], () => fetchPracticas(id_alumno), {
+    enabled: !!id_alumno,
+  });
+
+  const practica1 = data?.find(practica => practica.id_asignatura === 620509);
+  const practica2 = data?.find(practica => practica.id_asignatura === 620520);
 
   return (
     <Grid
@@ -118,23 +117,6 @@ const MiPractica = () => {
                   <Construction style={{ marginLeft: "5px" }} />
                 </Typography>
               </Grid>
-              {status === "success" && data.inscrito_sistema && (
-                <Grid item>
-                  {localStorage.setItem(
-                    "id_inscripcion_practica",
-                    data.id_inscripcion_practica
-                  )}
-                  <Detalle id={id_inscribe} />
-                </Grid>
-              )}
-              {status === "success" && data.inscrito_sistema === false && (
-                <Grid item>
-                  {localStorage.setItem("id_inscripcion_practica", "undefined")}
-                  <Alert severity="warning">
-                    No tienes una práctica inscrita
-                  </Alert>
-                </Grid>
-              )}
               {status === "loading" && (
                 <Grid item>
                   <Alert severity="info">Cargando información...</Alert>
@@ -144,6 +126,26 @@ const MiPractica = () => {
                 <Grid item>
                   <Alert severity="error">Error al cargar la información</Alert>
                 </Grid>
+              )}
+              {status === "success" && (
+                <>
+                  <Grid item>
+                    <Typography variant="h6">Mi Práctica 1</Typography>
+                    {practica1 ? (
+                      <Detalle id={practica1.id_inscripcion} />
+                    ) : (
+                      <Alert severity="info">No se encontró información para la Práctica 1</Alert>
+                    )}
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h6">Mi Práctica 2</Typography>
+                    {practica2 ? (
+                      <Detalle id={practica2.id_inscripcion} />
+                    ) : (
+                      <Alert severity="info">No se encontró información para la Práctica 2</Alert>
+                    )}
+                  </Grid>
+                </>
               )}
             </Grid>
           </Paper>

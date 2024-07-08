@@ -188,7 +188,7 @@ const FormularioInscripcion = () => {
             };
 
             const response = await clienteAxios.post(
-                "/representante/create",
+                "/supervisor/create",
                 data_evaluador
             );
 
@@ -202,8 +202,8 @@ const FormularioInscripcion = () => {
                     id_inscribe: Number(id_inscribe),
                     id_estado_inscripcion: 1,
 
-                    id_representante: Number(
-                        response.data.representante.id_representante
+                    id_supervisor: Number(
+                        response.data.supervisor.id_supervisor
                     ),
                 };
 
@@ -233,7 +233,7 @@ const FormularioInscripcion = () => {
                 fecha_fin: fecha_fin,
                 id_modalidad: select_modalidad,
                 id_oferta: Number(oferta.id_oferta_practica),
-                id_representante: null,
+                id_supervisor: null,
                 id_inscribe: Number(id_inscribe),
                 id_estado_inscripcion: 1,
             };
@@ -265,7 +265,7 @@ const FormularioInscripcion = () => {
                 cargo: cargo,
             };
             const response = await clienteAxios.post(
-                "/representante/create",
+                "/supervisor/create",
                 data_evaluador
             );
             if (response.status == 200) {
@@ -275,8 +275,8 @@ const FormularioInscripcion = () => {
                     fecha_fin: fecha_fin,
                     id_modalidad: select_modalidad,
                     id_oferta: null,
-                    id_representante: Number(
-                        response.data.representante.id_representante
+                    id_supervisor: Number(
+                        response.data.supervisor.id_supervisor
                     ),
                     id_inscribe: Number(id_inscribe),
                     id_estado_inscripcion: 1,
@@ -306,7 +306,7 @@ const FormularioInscripcion = () => {
                 fecha_fin: fecha_fin,
                 id_modalidad: select_modalidad,
                 id_oferta: null,
-                id_representante: null,
+                id_supervisor: null,
                 id_inscribe: Number(id_inscribe),
                 id_estado_inscripcion: 1,
             };

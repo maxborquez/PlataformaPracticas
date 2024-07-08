@@ -138,7 +138,7 @@ const Detalle = ({ id }) => {
           }
         },
         {
-          name: "representante",
+          name: "supervisor",
           label: "Supervisor práctica",
           options: {
             customBodyRender: (value) => value === null ? "No registrado" : `${value.nombre} ${value.apellido}`,

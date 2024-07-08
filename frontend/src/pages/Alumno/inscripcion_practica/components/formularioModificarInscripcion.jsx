@@ -9,7 +9,7 @@ import { School } from "@mui/icons-material";
 
 const FormularioModificarInscripcion = () => {
     const [fecha_inicio, setFechaInicio] = useState("");
-    const [id_representante, setidrepresentante] = useState("");
+    const [id_supervisor, setidsupervisor] = useState("");
     const [fecha_fin, setFechaFin] = useState("")
     const [select_modalidad, setSelectModalidad] = useState("");
     const [select_oferta, setSelectOferta] = useState(0);
@@ -104,13 +104,13 @@ const FormularioModificarInscripcion = () => {
                 setOferta(response.oferta_practica)
             }
 
-            if (response.representante != null) {
-                setidrepresentante(response.representante.id_representante)
-                setNombre(response.representante.nombre)
-                setApellido(response.representante.apellido)
-                setCorreo(response.representante.correo)
-                setTelefono(response.representante.telefono)
-                setCargo(response.representante.cargo);
+            if (response.supervisor != null) {
+                setidsupervisor(response.supervisor.id_supervisor)
+                setNombre(response.supervisor.nombre)
+                setApellido(response.supervisor.apellido)
+                setCorreo(response.supervisor.correo)
+                setTelefono(response.supervisor.telefono)
+                setCargo(response.supervisor.cargo);
             }
         }
     }
@@ -215,8 +215,8 @@ const FormularioModificarInscripcion = () => {
                 cargo: cargo
             }
 
-            if (id_representante == "") {
-                const response = await clienteAxios.post("/representante/create", data_evaluador);
+            if (id_supervisor == "") {
+                const response = await clienteAxios.post("/supervisor/create", data_evaluador);
                 if (response.status == 200) {
 
                     const data_inscripcion = {
@@ -227,7 +227,7 @@ const FormularioModificarInscripcion = () => {
                         id_oferta: Number(oferta.id_oferta_practica),
                         id_inscribe: Number(id_inscribe),
                         id_estado_inscripcion: 1,
-                        id_representante: Number(response.data.representante.id_representante)
+                        id_supervisor: Number(response.data.supervisor.id_supervisor)
                     }
 
                     const response_inscripcion = await clienteAxios.put(`/inscripcion/actualizaralumno/${id_inscribe}`, data_inscripcion);
@@ -248,7 +248,7 @@ const FormularioModificarInscripcion = () => {
                 }
             }
             else {
-                const response = await clienteAxios.put(`/representante/update/${id_representante}`, data_evaluador);
+                const response = await clienteAxios.put(`/supervisor/update/${id_supervisor}`, data_evaluador);
                 console.log(response.data)
                 if (response.status == 200) {
 
@@ -260,7 +260,7 @@ const FormularioModificarInscripcion = () => {
                         id_oferta: Number(oferta.id_oferta_practica),
                         id_inscribe: Number(id_inscribe),
                         id_estado_inscripcion: 1,
-                        id_representante: Number(response.data.representante.id_representante)
+                        id_supervisor: Number(response.data.supervisor.id_supervisor)
                     }
                     console.log(data_inscripcion)
 
@@ -294,8 +294,8 @@ const FormularioModificarInscripcion = () => {
                 cargo: cargo
             }
 
-            if (id_representante == "") {
-                const response = await clienteAxios.post(`/representante/create`, data_evaluador)
+            if (id_supervisor == "") {
+                const response = await clienteAxios.post(`/supervisor/create`, data_evaluador)
                 if (response.status == 200) {
 
                     const data_actualizada = {
@@ -304,7 +304,7 @@ const FormularioModificarInscripcion = () => {
                         fecha_fin: fecha_fin,
                         id_modalidad: select_modalidad,
                         id_oferta: null,
-                        id_representante: Number(response.data.representante.id_representante),
+                        id_supervisor: Number(response.data.supervisor.id_supervisor),
                         id_inscribe: Number(id_inscribe),
                         id_estado_inscripcion: 1,
                     }
@@ -327,7 +327,7 @@ const FormularioModificarInscripcion = () => {
                 }
             } else {
 
-                const response = await clienteAxios.put(`/representante/update/${id_representante}`, data_evaluador)
+                const response = await clienteAxios.put(`/supervisor/update/${id_supervisor}`, data_evaluador)
 
                 if (response.status == 200) {
                     const data_actualizada = {
@@ -336,7 +336,7 @@ const FormularioModificarInscripcion = () => {
                         fecha_fin: fecha_fin,
                         id_modalidad: select_modalidad,
                         id_oferta: null,
-                        id_representante: Number(id_representante),
+                        id_supervisor: Number(id_supervisor),
                         id_inscribe: Number(id_inscribe),
                         id_estado_inscripcion: 1,
                     }

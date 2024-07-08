@@ -35,7 +35,7 @@ const routerPeriodo = require("./routes/periodosRoutes");
 const routerEstadosInscripcion = require("./routes/EstadosInscripcionRoutes");
 const routerInscribe= require("./routes/routesInscribe");
 const routerAptitud = require('./routes/aptitudesRoutes');
-const routerRepresentante = require('./routes/representanteRoutes');
+const routerSupervisor = require('./routes/supervisorRoutes');
 const routerConocimiento  = require('./routes/conocimientoRoutes');
 app.use("/api/empresa",routesEmpresa);
 app.use("/api/oferta",routesOferta);
@@ -54,7 +54,7 @@ app.use("/api/estadosinscripcion",routerEstadosInscripcion);
 app.use("/api/inscribe",routerInscribe);
 app.use(express.json())
 app.use('/api/aptitud', routerAptitud);
-app.use('/api/representante', routerRepresentante);
+app.use('/api/supervisor', routerSupervisor);
 app.use('/api/conocimiento', routerConocimiento)
 
 app.listen(process.env.PORT,()=>{

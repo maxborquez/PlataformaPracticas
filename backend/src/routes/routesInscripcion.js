@@ -68,5 +68,6 @@ routerInscripcion.get('/estado/:id_estado_inscripcion',[AutenticacionProfesional
 
 routerInscripcion.get('/count/:careerId/:practicaId/:year/:period', inscripcionPracticaController.getInscriptionsByCareerAndPractica);
 routerInscripcion.get('/listaestudiantes/:careerId/:asignaturaId/:anio/:periodo', inscripcionPracticaController.getEstudiantesPorParametros);
+routerInscripcion.get('/getPracticas/:id_alumno', inscripcionPracticaController.getPracticasByAlumno);
 
 module.exports=routerInscripcion;

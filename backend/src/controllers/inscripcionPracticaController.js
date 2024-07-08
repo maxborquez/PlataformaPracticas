@@ -18,7 +18,7 @@ const crear_inscripcion = async (req, res) => {
       fecha_inicio,
       fecha_fin,
       id_inscribe,
-      id_representante,
+      id_supervisor,
       id_oferta,
       id_estado_inscripcion,
       id_modalidad,
@@ -35,7 +35,7 @@ const crear_inscripcion = async (req, res) => {
         id_modalidad,
         observaciones: "",
         id_oferta,
-        id_representante,
+        id_supervisor,
       },
     });
     if (!inscripcion) {
@@ -97,7 +97,7 @@ const mostrar_inscripcion = async (req, res) => {
       },
       include: {
         estado_inscripcion: true,
-        representante: true,
+        supervisor: true,
         modalidad: true,
         oferta_practica: true,
       },
@@ -181,7 +181,7 @@ const actualizar_inscripcion = async (req, res) => {
       fecha_fin,
       id_inscribe,
       observaciones,
-      id_representante,
+      id_supervisor,
       id_oferta,
       id_estado_inscripcion,
       id_modalidad,
@@ -200,7 +200,7 @@ const actualizar_inscripcion = async (req, res) => {
         id_modalidad,
         observaciones,
         id_oferta,
-        id_representante,
+        id_supervisor,
       },
     });
 
@@ -296,10 +296,10 @@ const obtener_Modalidades = async (req, res) => {
   }
 };
 
-const actualizar_representante = async (req, res) => {
+const actualizar_supervisor = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id_representante } = req.body;
+    const { id_supervisor } = req.body;
     const inscripcion = await prisma.inscripcion_practica.findFirst({
       where: {
         id_inscribe: Number(id),
@@ -316,7 +316,7 @@ const actualizar_representante = async (req, res) => {
         id_inscripcion_practica: Number(inscripcion.id_inscripcion_practica),
       },
       data: {
-        id_representante: Number(id_representante),
+        id_supervisor: Number(id_supervisor),
       },
     });
     if (!actualiza) {
@@ -359,7 +359,7 @@ const actualizar_inscripcion_alumno = async (req, res) => {
       fecha_inicio,
       fecha_fin,
       id_inscribe,
-      id_representante,
+      id_supervisor,
       id_oferta,
       id_estado_inscripcion,
       id_modalidad,
@@ -377,7 +377,7 @@ const actualizar_inscripcion_alumno = async (req, res) => {
         id_estado_inscripcion,
         id_modalidad,
         id_oferta,
-        id_representante,
+        id_supervisor,
       },
     });
 
@@ -635,7 +635,7 @@ module.exports = {
   eliminar_inscripcion,
   actualizar_inscripcion,
   obtener_Modalidades,
-  actualizar_representante,
+  actualizar_supervisor,
   actualizar_inscripcion_alumno,
   actualizar_estado_inscripcion,
   actualizar_evaluacion_inscripcion,

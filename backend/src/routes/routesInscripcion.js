@@ -11,7 +11,7 @@ const {AutenticacionAlumno} = require("../middlewares/verifyRolAlumno");
 const {AutenticacionProfesional} = require("../middlewares/VerifyRolProfesional");
 const { AutenticacionToken } = require("../middlewares/verifyToken");
 
-//fecha_inscripcion_practica,fecha_inicio,fecha_fin,observaciones,id_representante,id_oferta,id_estado_inscripcion, id_modalidad
+//fecha_inscripcion_practica,fecha_inicio,fecha_fin,observaciones,id_supervisor,id_oferta,id_estado_inscripcion, id_modalidad
 routerInscripcion.post("/create",
 [
     AutenticacionAlumno,
@@ -44,7 +44,7 @@ routerInscripcion.delete("/delete/:id",
 
 routerInscripcion.post("/comprobar",[AutenticacionToken],inscripcionPracticaController.comprobar_inscripcion);
 routerInscripcion.get("/modalidades",[AutenticacionToken],inscripcionPracticaController.obtener_Modalidades);
-routerInscripcion.put("/actualizarepresentante/:id",[AutenticacionToken],inscripcionPracticaController.actualizar_representante);
+routerInscripcion.put("/actualizasupervisor/:id",[AutenticacionToken],inscripcionPracticaController.actualizar_supervisor);
 routerInscripcion.post("/updatestado",[AutenticacionToken],inscripcionPracticaController.actualizar_estado_inscripcion)
 routerInscripcion.post("/updatevaluacion",[AutenticacionToken],inscripcionPracticaController.actualizar_evaluacion_inscripcion);
 routerInscripcion.post("/getidinscripcion",[AutenticacionAlumno],inscripcionPracticaController.mostrar_id_inscripcion);
@@ -55,7 +55,7 @@ routerInscripcion.put("/actualizaralumno/:id",
     body("fecha_inicio").optional(),
     body("fecha_fin").optional(),
     body("observaciones").optional().isString().withMessage("El campo observaciones debe ser un string"),
-    body("id_representante").optional().isInt().withMessage("El campo debe ser un entero"),
+    body("id_supervisor").optional().isInt().withMessage("El campo debe ser un entero"),
     body("id_oferta").optional(),
     body("id_modalidad").optional().isInt().withMessage("El campo debe ser un entero"),
     body("id_estado_inscripcion").optional().isInt().withMessage("El campo debe ser un entero"),

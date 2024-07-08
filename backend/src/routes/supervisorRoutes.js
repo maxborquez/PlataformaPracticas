@@ -1,36 +1,36 @@
 const express = require('express')
-const representanteControllers = require('../controllers/representante_controller')
+const supervisorControllers = require('../controllers/supervisor_controller')
 const {body,param} = require('express-validator')
-const routerRepresentante = express.Router()
+const routerSupervisor = express.Router()
 const {AutenticacionAlumno} = require("../middlewares/verifyRolAlumno");
 
-routerRepresentante.get("/getAll",AutenticacionAlumno,representanteControllers.obtener_representantes)
+routerSupervisor.get("/getAll",AutenticacionAlumno,supervisorControllers.obtener_supervisores)
 
-routerRepresentante.post("/create", [
+routerSupervisor.post("/create", [
     AutenticacionAlumno,
     body('nombre').notEmpty().withMessage('El campo nombre es requerido').isString().withMessage('El campo nombre debe ser un string').isLength({ max: 50 }),
     body('apellido').notEmpty().withMessage('El campo apellido es requerido').isString().withMessage('El campo apellido debe ser un string').isLength({ max: 50 }),
     body('correo').notEmpty().withMessage('El campo correo es requerido').isEmail().withMessage('El campo correo debe ser un email válido').isLength({ max: 50 }),
     body('telefono').notEmpty().withMessage('El campo teléfono es requerido').isString().withMessage('El campo teléfono debe ser un string').isLength({ max: 20 })
-], representanteControllers.crear_representante);
+], supervisorControllers.crear_supervisor);
 
-routerRepresentante.get("/show/:id", [
+routerSupervisor.get("/show/:id", [
     AutenticacionAlumno,
     param('id').notEmpty().withMessage('El campo ID es requerido').isString().withMessage('El campo ID debe ser un string').isLength({ max: 50 })
-], representanteControllers.obtener_representante);
+], supervisorControllers.obtener_supervisor);
 
-routerRepresentante.put("/update/:id", [
+routerSupervisor.put("/update/:id", [
     AutenticacionAlumno,
     body('nombre').optional().isString().withMessage('El campo nombre debe ser un string').isLength({ max: 50 }),
     body('apellido').optional().isString().withMessage('El campo apellido debe ser un string').isLength({ max: 50 }),
     body('correo').optional().isEmail().withMessage('El campo correo debe ser un email válido').isLength({ max: 50 }),
     body('telefono').optional().isString().withMessage('El campo teléfono debe ser un string').isLength({ max: 20 })
-], representanteControllers.actualizar_representante);
+], supervisorControllers.actualizar_supervisor);
 
-routerRepresentante.delete("/delete/:id", [
+routerSupervisor.delete("/delete/:id", [
     AutenticacionAlumno,
     param('id').notEmpty().withMessage('El campo ID es requerido').isString().withMessage('El campo ID debe ser un string').isLength({ max: 50 })
-], representanteControllers.eliminar_representante);
+], supervisorControllers.eliminar_supervisor);
 
 
-module.exports = routerRepresentante;
+module.exports = routerSupervisor;

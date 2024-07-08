@@ -143,7 +143,7 @@ model empresa {
   ciudad            ciudad            @relation(fields: [id_ciudad], references: [id_ciudad], onDelete: Cascade)
   estado_empresa    estado_empresa    @relation(fields: [id_estado_empresa], references: [id_estado_empresa], onDelete: Cascade)
   oferta_practica   oferta_practica[]
-  representante     representante[]
+  supervisor        supervisor[]
 
   @@index([id_estado_empresa], map: "empresa_id_estado_empresa_fkey")
   @@index([id_ciudad], map: "empresa_id_ciudad_fkey")
@@ -206,7 +206,7 @@ model inscripcion_practica {
   fecha_inicio               DateTime              @db.Date
   fecha_fin                  DateTime              @db.Date
   observaciones              String?               @db.VarChar(1300)
-  id_representante           Int?
+  id_supervisor              Int?
   id_oferta                  Int?
   id_estado_inscripcion      Int
   id_modalidad               Int
@@ -219,13 +219,13 @@ model inscripcion_practica {
   inscribe                   inscribe              @relation(fields: [id_inscribe], references: [id_inscripcion], onDelete: Cascade)
   modalidad                  modalidad             @relation(fields: [id_modalidad], references: [id_modalidad], onDelete: NoAction, onUpdate: NoAction)
   oferta_practica            oferta_practica?      @relation(fields: [id_oferta], references: [id_oferta_practica])
-  representante              representante?        @relation(fields: [id_representante], references: [id_representante], onDelete: Cascade)
+  supervisor                 supervisor?           @relation(fields: [id_supervisor], references: [id_supervisor], onDelete: Cascade)
 
   @@index([id_estado_inscripcion], map: "inscripcion_practica_id_estado_inscripcion_fkey")
   @@index([id_inscribe], map: "inscripcion_practica_id_inscribe_fkey")
   @@index([id_modalidad], map: "inscripcion_practica_id_modalidad_fkey")
   @@index([id_oferta], map: "inscripcion_practica_id_oferta_fkey")
-  @@index([id_representante], map: "inscripcion_practica_id_representante_fkey")
+  @@index([id_supervisor], map: "inscripcion_practica_id_supervisor_fkey")
 }
 
 model modalidad {
@@ -277,20 +277,6 @@ model profesional {
   @@index([id_usuario], map: "id_usuario")
 }
 
-model representante {
-  id_representante     Int                    @id @default(autoincrement())
-  nombre               String                 @db.VarChar(30)
-  apellido             String                 @db.VarChar(30)
-  telefono             String                 @db.VarChar(15)
-  correo               String                 @db.VarChar(100)
-  cargo                String                 @db.VarChar(50)
-  id_empresa           Int
-  inscripcion_practica inscripcion_practica[]
-  empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_representante")
-
-  @@index([id_empresa], map: "fk_empresa_representante")
-}
-
 model tipo_bitacora {
   id_tipo_bitacora     Int               @id
   nombre_tipo_bitacora String            @db.VarChar(50)
@@ -319,4 +305,18 @@ model ciudad {
   id_ciudad Int       @id @default(autoincrement())
   nombre    String    @db.VarChar(50)
   empresa   empresa[]
+}
+
+model supervisor {
+  id_supervisor        Int                    @id @default(autoincrement())
+  nombre               String                 @db.VarChar(30)
+  apellido             String                 @db.VarChar(30)
+  telefono             String                 @db.VarChar(15)
+  correo               String                 @db.VarChar(100)
+  cargo                String                 @db.VarChar(50)
+  id_empresa           Int
+  inscripcion_practica inscripcion_practica[]
+  empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_supervisor")
+
+  @@index([id_empresa], map: "fk_empresa_supervisor")
 }

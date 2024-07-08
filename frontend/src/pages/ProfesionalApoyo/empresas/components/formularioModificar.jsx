@@ -24,14 +24,14 @@ const FormularioModificar = ({ id }) => {
   const [direccion, setDireccion] = useState("");
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [comuna, setComuna] = useState({});
+  const [ciudad, setCiudad] = useState({});
   const [estado, setEstado] = useState("");
-  const [empresa, setEmpresa] = useState({ id_comuna: "", nombre: "" });
+  const [empresa, setEmpresa] = useState({ id_ciudad: "", nombre: "" });
 
-  const getcomunas = useQuery("comunas", async () => {
-    const response = await clienteAxios.get("/comuna/getComunas");
+  const getciudades = useQuery("ciudades", async () => {
+    const response = await clienteAxios.get("/ciudad/getCiudades");
     if (response.status == 200) {
-      return response.data.comuna;
+      return response.data.ciudad;
     }
   });
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const FormularioModificar = ({ id }) => {
       setCorreo(response.data.empresa.correo);
       setTelefono(response.data.empresa.telefono);
       console.log(response.data);
-      setComuna(response.data.empresa.comuna);
+      setCiudad(response.data.empresa.ciudad);
       setEstado(response.data.empresa.id_estado_empresa);
       setLoading(false);
     }
@@ -55,8 +55,8 @@ const FormularioModificar = ({ id }) => {
     getEmpresa();
   }, []);
 
-  const handleComuna = (event) => {
-    setComuna(event.target.value);
+  const handleCiudad = (event) => {
+    setCiudad(event.target.value);
   };
 
   const getEstados = useQuery("estados", async () => {
@@ -72,7 +72,7 @@ const FormularioModificar = ({ id }) => {
       direccion: direccion,
       correo: correo,
       telefono: telefono,
-      id_comuna: comuna.id_comuna,
+      id_ciudad: ciudad.id_ciudad,
       id_estado_empresa: estado,
     };
     const response = await clienteAxios.put(
@@ -172,14 +172,14 @@ const FormularioModificar = ({ id }) => {
               <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
                 <Autocomplete
                   sx={{ backgroundColor: "white" }}
-                  options={getcomunas.data || []}
+                  options={getciudades.data || []}
                   getOptionLabel={(option) => option.nombre || ""}
-                  value={comuna}
+                  value={ciudad}
                   onChange={(event, newValue) => {
-                    setComuna(newValue);
+                    setCiudad(newValue);
                   }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Comuna" fullWidth />
+                    <TextField {...params} label="Ciudad" fullWidth />
                   )}
                   noOptionsText="Sin coincidencias"
                 />

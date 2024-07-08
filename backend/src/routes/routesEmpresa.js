@@ -7,7 +7,7 @@ const { body, param } = require("express-validator");
 const {AutenticacionProfesional} = require("../middlewares/VerifyRolProfesional");
 const {AutenticacionToken} = require("../middlewares/verifyToken");
 
-//rut_empresa,razon_social,direccion,id_comuna, id_estado_empresa
+//rut_empresa,razon_social,direccion,id_ciudad, id_estado_empresa
 routerEmpresa.post("/create",
 [
     AutenticacionProfesional,
@@ -16,8 +16,8 @@ body("razon_social").notEmpty().withMessage("el campo razon_social es requerido"
 body("direccion").notEmpty().withMessage().isString().withMessage("El campo direccion ser un string"),
 body("correo").notEmpty().withMessage("El campo email ser requerido").isEmail().withMessage("El campo correo debe ser email"),
 body("telefono").notEmpty().withMessage("El campo telefono es requerido").isString().withMessage("El campo telefono debe ser email"),
-body("id_comuna").notEmpty().withMessage("El campo id_comuna es requerido").isInt().withMessage("El campo id_comuna debe ser un entero"),
-body("id_estado_empresa").notEmpty().withMessage("El campo id_estado_empresa es requerido").withMessage("El campo id_estado_comuna debe ser un entero")
+body("id_ciudad").notEmpty().withMessage("El campo id_ciudad es requerido").isInt().withMessage("El campo id_ciudad debe ser un entero"),
+body("id_estado_empresa").notEmpty().withMessage("El campo id_estado_empresa es requerido").withMessage("El campo id_estado_ciudad debe ser un entero")
 ],
 empresaController.crear_empresa);
 
@@ -41,8 +41,8 @@ body("razon_social").notEmpty().withMessage("el campo razon_social es requerido"
 body("direccion").notEmpty().withMessage().isString().withMessage("El campo direccion ser un string"),
 body("correo").notEmpty().withMessage("El campo email ser requerido").isEmail().withMessage("El campo correo debe ser email"),
 body("telefono").notEmpty().withMessage("El campo telefono es requerido").isString().withMessage("El campo telefono debe ser email"),
-body("id_comuna").notEmpty().withMessage("El campo id_comuna es requerido").isInt().withMessage("El campo id_comuna debe ser un entero"),
-body("id_estado_empresa").notEmpty().withMessage("El campo id_estado_empresa es requerido").withMessage("El campo id_estado_comuna debe ser un entero")
+body("id_ciudad").notEmpty().withMessage("El campo id_ciudad es requerido").isInt().withMessage("El campo id_ciudad debe ser un entero"),
+body("id_estado_empresa").notEmpty().withMessage("El campo id_estado_empresa es requerido").withMessage("El campo id_estado_ciudad debe ser un entero")
 ],
 empresaController.actualizar_empresa);
 

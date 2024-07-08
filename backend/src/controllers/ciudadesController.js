@@ -5,7 +5,7 @@ const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
 
 
-const obtener_comunas = async(req,res)=>{
+const obtener_ciudades = async(req,res)=>{
     try{
         const ciudad = await prisma.ciudad.findMany({
         });
@@ -26,4 +26,4 @@ const obtener_comunas = async(req,res)=>{
     }
 }
 
-module.exports={obtener_comunas};
+module.exports={obtener_ciudades};

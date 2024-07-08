@@ -10,13 +10,13 @@ import { useNavigate } from 'react-router-dom';
 
 const FormularioEmpresa = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [comuna, setComuna] = useState("");
+    const [ciudad, setCiudad] = useState("");
     const queryClient = useQueryClient();
     const formRef = useRef(null);
     const navigate = useNavigate();
 
-    const handleComuna = (event) => {
-        setComuna(event.target.value);
+    const handleCiudad = (event) => {
+        setCiudad(event.target.value);
     };
 
     const handleBack = () => {
@@ -43,7 +43,7 @@ const FormularioEmpresa = () => {
                     direccion: data.direccion,
                     correo: data.correo,
                     telefono: data.telefono,
-                    id_comuna: comuna.id_comuna,
+                    id_ciudad: ciudad.id_ciudad,
                     id_estado_empresa: 1
                 };
                 console.log(data_oficial);
@@ -69,9 +69,9 @@ const FormularioEmpresa = () => {
         });
     }
 
-    const getcomunas = useQuery("comunas", async () => {
-        const response = await clienteAxios.get("/comuna/getComunas");
-        return response.data.comuna;
+    const getciudades = useQuery("ciudades", async () => {
+        const response = await clienteAxios.get("/ciudades/getCiudades");
+        return response.data.ciudad;
     });
 
     return (
@@ -126,13 +126,13 @@ const FormularioEmpresa = () => {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Autocomplete
-                                options={getcomunas.data || []}
+                                options={getciudades.data || []}
                                 getOptionLabel={(option) => option.nombre || ""}
-                                value={comuna}
+                                value={ciudad}
                                 onChange={(event, newValue) => {
-                                    setComuna(newValue);
+                                    setCiudad(newValue);
                                 }}
-                                renderInput={(params) => <TextField {...params} label="Comuna" fullWidth />}
+                                renderInput={(params) => <TextField {...params} label="Ciudad" fullWidth />}
                                 noOptionsText="Sin coincidencias"
                                 sx={{ backgroundColor: 'white' }}
                             />

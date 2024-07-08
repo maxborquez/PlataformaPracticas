@@ -50,7 +50,7 @@ const mostrar_ofertas = async (req, res) => {
                 modalidad: true,
                 empresa: {
                     include: {
-                        comuna: true
+                        ciudad: true
                     }
                 }
             }

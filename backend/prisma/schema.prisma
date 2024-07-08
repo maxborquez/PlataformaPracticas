@@ -211,8 +211,6 @@ model inscripcion_practica {
   id_estado_inscripcion      Int
   id_modalidad               Int
   id_inscribe                Int
-  nota_empresa               Int
-  nota_encargado             Int
   archivo_evaluacion         archivo_evaluacion[]
   archivo_informe            archivo_informe[]
   archivo_inscripcion        archivo_inscripcion[]

@@ -113,7 +113,7 @@ const MiPractica = () => {
                     alignItems: "center",
                   }}
                 >
-                  Mis practicas
+                  Mis prácticas
                   <Construction style={{ marginLeft: "5px" }} />
                 </Typography>
               </Grid>

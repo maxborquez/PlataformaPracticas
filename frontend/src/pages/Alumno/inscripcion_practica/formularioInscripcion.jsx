@@ -29,6 +29,42 @@ const FormularioInscripcion = () => {
     fetchCiudades();
   }, []);
 
+  useEffect(() => {
+    // Función para obtener los datos del estudiante
+    const obtenerDatosEstudiante = async () => {
+      try {
+        // Obtener id_alumno del localStorage
+        const id_alumno = localStorage.getItem('id_alumno');
+
+        // Verificar si hay un id_alumno almacenado
+        if (!id_alumno) {
+          console.error('No se encontró el id_alumno en el localStorage.');
+          return;
+        }
+
+        // Realizar la solicitud al servidor con el id_alumno en el body
+        const response = await clienteAxios.post('http://localhost:3000/api/alumno/show', {
+          id_alumno: id_alumno
+        });
+
+        const { alumno } = response.data;
+        // Actualizar los estados con los datos del estudiante
+        setNombreEstudiante(`${alumno.primer_nombre} ${alumno.segundo_nombre} ${alumno.apellido_paterno} ${alumno.apellido_materno}`);
+        setRun(alumno.rut);
+        setEmailEstudiante(alumno.correo_personal);
+        setCelular(alumno.telefono_personal);
+        setDireccionEstudiante(alumno.direccion_particular);
+        setFonoEmergencia(alumno.telefono_familiar); // Aquí asumo que el teléfono familiar es igual al teléfono de emergencia
+      } catch (error) {
+        console.error('Error al obtener los datos del estudiante:', error);
+      }
+    };
+
+    // Llamar a la función para obtener los datos del estudiante al cargar el componente
+    obtenerDatosEstudiante();
+  }, []); // El segundo argumento [] indica que useEffect se ejecutará solo una vez, al montar el componente
+
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -161,72 +197,78 @@ const FormularioInscripcion = () => {
       label: "Datos del estudiante",
       content: (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Datos del estudiante
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Nombre del Estudiante"
-              value={nombreEstudiante}
-              onChange={(e) => setNombreEstudiante(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="RUN"
-              value={run}
-              onChange={(e) => setRun(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Email del Estudiante"
-              value={emailEstudiante}
-              onChange={(e) => setEmailEstudiante(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Celular"
-              value={celular}
-              onChange={(e) => setCelular(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Dirección del Estudiante"
-              value={direccionEstudiante}
-              onChange={(e) => setDireccionEstudiante(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Fono de Emergencia"
-              value={fonoEmergencia}
-              onChange={(e) => setFonoEmergencia(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h5" gutterBottom>
+            Datos del estudiante
+          </Typography>
         </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Nombre del Estudiante"
+            value={nombreEstudiante}
+            onChange={(e) => setNombreEstudiante(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="RUN"
+            value={run}
+            onChange={(e) => setRun(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Email del Estudiante"
+            value={emailEstudiante}
+            onChange={(e) => setEmailEstudiante(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Celular"
+            value={celular}
+            onChange={(e) => setCelular(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Dirección del Estudiante"
+            value={direccionEstudiante}
+            onChange={(e) => setDireccionEstudiante(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Fono de Emergencia"
+            value={fonoEmergencia}
+            onChange={(e) => setFonoEmergencia(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            disabled
+          />
+        </Grid>
+      </Grid>
       ),
     },
     {

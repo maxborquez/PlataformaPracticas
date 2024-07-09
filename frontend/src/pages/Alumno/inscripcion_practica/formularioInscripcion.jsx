@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   Grid,
@@ -10,9 +10,24 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import clienteAxios from "../../../helpers/clienteaxios";
 
 const FormularioInscripcion = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [ciudades, setCiudades] = useState([]);
+
+  useEffect(() => {
+    const fetchCiudades = async () => {
+      try {
+        const response = await clienteAxios.get("/ciudades/getCiudades");
+        setCiudades(response.data.ciudad); // Actualiza el estado con el arreglo de ciudades
+      } catch (error) {
+        console.error("Error al obtener las ciudades:", error);
+      }
+    };
+
+    fetchCiudades();
+  }, []);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -107,8 +122,8 @@ const FormularioInscripcion = () => {
                 onChange={(e) => setPractica(e.target.value)}
                 label="Práctica"
               >
-                <MenuItem value="Práctica 1">Práctica 1</MenuItem>
-                <MenuItem value="Práctica 2">Práctica 2</MenuItem>
+                <MenuItem value="1">Práctica 1</MenuItem>
+                <MenuItem value="2">Práctica 2</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -132,10 +147,10 @@ const FormularioInscripcion = () => {
                 onChange={(e) => setModalidad(e.target.value)}
                 label="Modalidad"
               >
-                <MenuItem value="Presencial">Presencial</MenuItem>
-                <MenuItem value="Online">Online</MenuItem>
-                <MenuItem value="Pasantía">Pasantía</MenuItem>
-                <MenuItem value="Training">Training</MenuItem>
+                <MenuItem value="1">Presencial</MenuItem>
+                <MenuItem value="2">Online</MenuItem>
+                <MenuItem value="3">Pasantía</MenuItem>
+                <MenuItem value="4">Training</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -284,14 +299,21 @@ const FormularioInscripcion = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Ciudad"
-              value={ciudad}
-              onChange={(e) => setCiudad(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel id="ciudad-label">Ciudad</InputLabel>
+              <Select
+                labelId="ciudad-label"
+                value={ciudad}
+                onChange={(e) => setCiudad(e.target.value)}
+                label="Ciudad"
+              >
+                {ciudades.map((ciudad) => (
+                  <MenuItem key={ciudad.id_ciudad} value={ciudad.nombre}>
+                    {ciudad.nombre}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
       ),

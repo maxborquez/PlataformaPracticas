@@ -1,541 +1,1029 @@
-import { Autocomplete, Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { useQuery } from "react-query";
-import clienteAxios from "../../../helpers/clienteaxios";
 import { useState } from "react";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Button,
+  Typography,
+} from "@mui/material";
 
 const FormularioInscripcion = () => {
-    const [fecha_inicio, setFechaInicio] = useState("");
-    const [fecha_fin, setFechaFin] = useState("");
-    const [select_modalidad, setSelectModalidad] = useState("");
-    const [select_oferta, setSelectOferta] = useState(0);
-    const [oferta, setOferta] = useState("");
-    const [datos_evaluador, setDatosEvaluador] = useState(0);
-    const [nombre, setNombre] = useState("");
-    const [apellido, setApellido] = useState("");
-    const [telefono, setTelefono] = useState("");
-    const [correo, setCorreo] = useState("");
-    const [cargo, setCargo] = useState("");
-    const [fechaMaxFin, setFechaMaxFin] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
 
-    const navigate = useNavigate();
-    const validateCargo = (input) => {
-        const regex = /^[A-Za-z ]+$/;
-        return regex.test(input);
-    };
-    const validateNombreApellido = (input) => {
-        const regex = /^[A-Za-z ]+$/;
-        return regex.test(input);
-    };
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
 
-    const validateTelefono = (input) => {
-        const regex = /^[0-9]{9}$/; //9 dígitos
-        return regex.test(input);
-    };
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
-    const validateCorreo = (input) => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return regex.test(input);
-    };
+  const [practica, setPractica] = useState("");
+  const [modalidad, setModalidad] = useState("");
+  const [nombreEstudiante, setNombreEstudiante] = useState("");
+  const [run, setRun] = useState("");
+  const [emailEstudiante, setEmailEstudiante] = useState("");
+  const [celular, setCelular] = useState("");
+  const [direccionEstudiante, setDireccionEstudiante] = useState("");
+  const [fonoEmergencia, setFonoEmergencia] = useState("");
+  const [nombreEmpresa, setNombreEmpresa] = useState("");
+  const [deptoArea, setDeptoArea] = useState("");
+  const [paginaWeb, setPaginaWeb] = useState("");
+  const [rubro, setRubro] = useState("");
+  const [fonoEmpresa, setFonoEmpresa] = useState("");
+  const [direccionEmpresa, setDireccionEmpresa] = useState("");
+  const [ciudad, setCiudad] = useState("");
+  const [nombreSupervisor, setNombreSupervisor] = useState("");
+  const [cargoSupervisor, setCargoSupervisor] = useState("");
+  const [fonoSupervisor, setFonoSupervisor] = useState("");
+  const [emailSupervisor, setEmailSupervisor] = useState("");
+  const [descripcionArea, setDescripcionArea] = useState("");
+  const [objetivosPractica, setObjetivosPractica] = useState("");
+  const [actividadesDesarrollar, setActividadesDesarrollar] = useState("");
+  const [horarioPractica, setHorarioPractica] = useState({
+    lunes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    martes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    miercoles: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    jueves: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    viernes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+  });
 
-    const modalidades = useQuery("modalidades", async () => {
-        const response = await clienteAxios.get("/inscripcion/modalidades");
-        if (response.status == 200) {
-            return response.data.modalidades;
-        }
+  const fechaRecepcion = new Date().toISOString().split("T")[0]; // Fecha actual en formato YYYY-MM-DD
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Aquí puedes manejar el envío del formulario
+    console.log("Formulario enviado con éxito:", {
+      practica,
+      fechaRecepcion,
+      modalidad,
+      nombreEstudiante,
+      run,
+      emailEstudiante,
+      celular,
+      direccionEstudiante,
+      fonoEmergencia,
+      nombreEmpresa,
+      deptoArea,
+      paginaWeb,
+      rubro,
+      fonoEmpresa,
+      direccionEmpresa,
+      ciudad,
+      nombreSupervisor,
+      cargoSupervisor,
+      fonoSupervisor,
+      emailSupervisor,
+      descripcionArea,
+      objetivosPractica,
+      actividadesDesarrollar,
+      horarioPractica,
     });
+    // Aquí podrías enviar los datos del formulario a través de una API o hacer alguna acción adicional
+  };
 
-    const ofertas = useQuery("ofertas", async () => {
-        const response = await clienteAxios.get("/oferta/getall");
-        return response.data.ofertas;
-    });
+  const steps = [
+    {
+      label: "Datos",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Datos de la práctica
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel id="practica-label">Práctica</InputLabel>
+              <Select
+                labelId="practica-label"
+                id="practica"
+                value={practica}
+                onChange={(e) => setPractica(e.target.value)}
+                label="Práctica"
+              >
+                <MenuItem value="Práctica 1">Práctica 1</MenuItem>
+                <MenuItem value="Práctica 2">Práctica 2</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Fecha de Recepción"
+              value={fechaRecepcion}
+              disabled
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel id="modalidad-label">Modalidad</InputLabel>
+              <Select
+                labelId="modalidad-label"
+                id="modalidad"
+                value={modalidad}
+                onChange={(e) => setModalidad(e.target.value)}
+                label="Modalidad"
+              >
+                <MenuItem value="Presencial">Presencial</MenuItem>
+                <MenuItem value="Online">Online</MenuItem>
+                <MenuItem value="Pasantía">Pasantía</MenuItem>
+                <MenuItem value="Training">Training</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+      ),
+    },
+    {
+      label: "Datos del estudiante",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Datos del estudiante
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Nombre del Estudiante"
+              value={nombreEstudiante}
+              onChange={(e) => setNombreEstudiante(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="RUN"
+              value={run}
+              onChange={(e) => setRun(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Email del Estudiante"
+              value={emailEstudiante}
+              onChange={(e) => setEmailEstudiante(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Celular"
+              value={celular}
+              onChange={(e) => setCelular(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Dirección del Estudiante"
+              value={direccionEstudiante}
+              onChange={(e) => setDireccionEstudiante(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Fono de Emergencia"
+              value={fonoEmergencia}
+              onChange={(e) => setFonoEmergencia(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        </Grid>
+      ),
+    },
+    {
+      label: "Datos de la empresa",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Datos de empresa
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Nombre de la Empresa"
+              value={nombreEmpresa}
+              onChange={(e) => setNombreEmpresa(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Departamento o Área"
+              value={deptoArea}
+              onChange={(e) => setDeptoArea(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Página Web"
+              value={paginaWeb}
+              onChange={(e) => setPaginaWeb(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Rubro"
+              value={rubro}
+              onChange={(e) => setRubro(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Fono de la Empresa"
+              value={fonoEmpresa}
+              onChange={(e) => setFonoEmpresa(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Dirección de la Empresa"
+              value={direccionEmpresa}
+              onChange={(e) => setDireccionEmpresa(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Ciudad"
+              value={ciudad}
+              onChange={(e) => setCiudad(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        </Grid>
+      ),
+    },
+    {
+      label: "Datos del supervisor",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Datos del supervisor
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Nombre del Supervisor"
+              value={nombreSupervisor}
+              onChange={(e) => setNombreSupervisor(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Cargo del Supervisor"
+              value={cargoSupervisor}
+              onChange={(e) => setCargoSupervisor(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Fono del Supervisor"
+              value={fonoSupervisor}
+              onChange={(e) => setFonoSupervisor(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Email del Supervisor"
+              value={emailSupervisor}
+              onChange={(e) => setEmailSupervisor(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        </Grid>
+      ),
+    },
+    {
+      label: "Breve descripción del área de desarrollo",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Breve descripción del área de desarrollo
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              label="Descripción del Área"
+              value={descripcionArea}
+              onChange={(e) => setDescripcionArea(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        </Grid>
+      ),
+    },
+    {
+      label: "Objetivo(s) de la práctica",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Objetivo(s) de la práctica
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              label="Objetivos de la Práctica"
+              value={objetivosPractica}
+              onChange={(e) => setObjetivosPractica(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        </Grid>
+      ),
+    },
+    {
+      label: "Actividades a desarrollar",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Actividades a desarrollar
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              label="Actividades a Desarrollar"
+              value={actividadesDesarrollar}
+              onChange={(e) => setActividadesDesarrollar(e.target.value)}
+              variant="outlined"
+              margin="normal"
+            />
+          </Grid>
+        </Grid>
+      ),
+    },
+    {
+      label: "Horario de la práctica",
+      content: (
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Horario de la práctica
+            </Typography>
+          </Grid>
 
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">Lunes</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Mañana"
+                  value={horarioPractica.lunes.mañana1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      lunes: {
+                        ...horarioPractica.lunes,
+                        mañana1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Mañana"
+                  value={horarioPractica.lunes.mañana2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      lunes: {
+                        ...horarioPractica.lunes,
+                        mañana2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Tarde"
+                  value={horarioPractica.lunes.tarde1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      lunes: {
+                        ...horarioPractica.lunes,
+                        tarde1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Tarde"
+                  value={horarioPractica.lunes.tarde2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      lunes: {
+                        ...horarioPractica.lunes,
+                        tarde2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
 
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">Martes</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Mañana"
+                  value={horarioPractica.martes.mañana1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      martes: {
+                        ...horarioPractica.martes,
+                        mañana1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Mañana"
+                  value={horarioPractica.martes.mañana2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      martes: {
+                        ...horarioPractica.martes,
+                        mañana2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Tarde"
+                  value={horarioPractica.martes.tarde1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      martes: {
+                        ...horarioPractica.martes,
+                        tarde1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Tarde"
+                  value={horarioPractica.martes.tarde2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      martes: {
+                        ...horarioPractica.martes,
+                        tarde2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">Miércoles</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Mañana"
+                  value={horarioPractica.miercoles.mañana1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      miercoles: {
+                        ...horarioPractica.miercoles,
+                        mañana1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Mañana"
+                  value={horarioPractica.miercoles.mañana2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      miercoles: {
+                        ...horarioPractica.miercoles,
+                        mañana2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Tarde"
+                  value={horarioPractica.miercoles.tarde1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      miercoles: {
+                        ...horarioPractica.miercoles,
+                        tarde1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Tarde"
+                  value={horarioPractica.miercoles.tarde2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      miercoles: {
+                        ...horarioPractica.miercoles,
+                        tarde2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
 
-    const handleFechaInicio = (event) => {
-        setFechaInicio(event.target.value);
-        //calcula la fecha máxima permitida para 'fecha_fin'
-        let fechaInicio = new Date(event.target.value);
-        fechaInicio.setMonth(fechaInicio.getMonth() + 6);
-        const año = fechaInicio.getFullYear();
-        let mes = fechaInicio.getMonth() + 1; //los meses en JavaScript van de 0 a 11
-        let dia = fechaInicio.getDate();
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">Jueves</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Mañana"
+                  value={horarioPractica.jueves.mañana1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      jueves: {
+                        ...horarioPractica.jueves,
+                        mañana1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Mañana"
+                  value={horarioPractica.jueves.mañana2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      jueves: {
+                        ...horarioPractica.jueves,
+                        mañana2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Tarde"
+                  value={horarioPractica.jueves.tarde1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      jueves: {
+                        ...horarioPractica.jueves,
+                        tarde1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Tarde"
+                  value={horarioPractica.jueves.tarde2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      jueves: {
+                        ...horarioPractica.jueves,
+                        tarde2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">Viernes</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Mañana"
+                  value={horarioPractica.viernes.mañana1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      viernes: {
+                        ...horarioPractica.viernes,
+                        mañana1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Mañana"
+                  value={horarioPractica.viernes.mañana2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      viernes: {
+                        ...horarioPractica.viernes,
+                        mañana2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Tarde"
+                  value={horarioPractica.viernes.tarde1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      viernes: {
+                        ...horarioPractica.viernes,
+                        tarde1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Tarde"
+                  value={horarioPractica.viernes.tarde2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      viernes: {
+                        ...horarioPractica.viernes,
+                        tarde2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
 
-        //asegúrate de que los valores de día y mes tengan dos dígitos
-        if (mes < 10) mes = "0" + mes;
-        if (dia < 10) dia = "0" + dia;
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">Sábado</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Mañana"
+                  value={horarioPractica.sabado.mañana1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      sabado: {
+                        ...horarioPractica.sabado,
+                        mañana1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Mañana"
+                  value={horarioPractica.sabado.mañana2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      sabado: {
+                        ...horarioPractica.sabado,
+                        mañana2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Inicio Tarde"
+                  value={horarioPractica.sabado.tarde1}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      sabado: {
+                        ...horarioPractica.sabado,
+                        tarde1: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  fullWidth
+                  type="time"
+                  label="Fin Tarde"
+                  value={horarioPractica.sabado.tarde2}
+                  onChange={(e) =>
+                    setHorarioPractica({
+                      ...horarioPractica,
+                      sabado: {
+                        ...horarioPractica.sabado,
+                        tarde2: e.target.value,
+                      },
+                    })
+                  }
+                  variant="outlined"
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      ),
+    },
+  ];
 
-        setFechaMaxFin(`${año}-${mes}-${dia}`);
-    };
-    const handleFechaFin = (event) => {
-        setFechaFin(event.target.value);
-    };
-    const handleModalidad = (event) => {
-        setSelectModalidad(event.target.value);
-    };
-    const handleOferta = (event) => {
-        setSelectOferta(event.target.value);
-    };
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        //validación para comprobar si las fechas de inicio y fin son iguales
-        if (fecha_inicio === fecha_fin) {
-            Swal.fire({
-                title: "Error",
-                text: "La fecha de inicio y la fecha de fin deben ser distintas",
-                icon: "error",
-            });
-            return; //salir de la función si las fechas son iguales
-        }
-
-        const fechaInicioValidacion = new Date(fecha_inicio);
-        const fechaFinValidacion = new Date(fecha_fin);
-        //crea una nueva fecha sumando un mes a la fecha de inicio
-        const unMesDespues = new Date(fechaInicioValidacion);
-        unMesDespues.setMonth(fechaInicioValidacion.getMonth() + 1);
-
-        //comparaa si la nueva fecha es todavía mayor o igual que la fecha de fin
-        if (unMesDespues > fechaFinValidacion) {
-            Swal.fire({
-                title: "Error",
-                text: "El rango entre la fecha de inicio y la fecha de fin debe ser de al menos 1 mes",
-                icon: "error",
-            });
-            return;
-        }
-
-        if (datos_evaluador === 1) {
-            if (
-                !validateNombreApellido(nombre) ||
-                !validateNombreApellido(apellido)
-            ) {
-                Swal.fire({
-                    title: "Error",
-                    text: "Nombre y apellido solo deben contener carácteres alfabéticos",
-                    icon: "error",
-                });
-                return;
+  return (
+    <Card style={{ padding: "20px", marginBottom: "20px" }}>
+      {steps[activeStep].content}
+      <Grid container spacing={2} style={{ marginTop: "20px" }}>
+        <Grid item>
+          <Button
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            variant="contained"
+            style={{ marginRight: "10px" }}
+          >
+            Atrás
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={
+              activeStep === steps.length - 1 ? handleSubmit : handleNext
             }
-
-            if (!validateTelefono(telefono)) {
-                Swal.fire({
-                    title: "Error",
-                    text: "El teléfono debe contener 9 dígitos numéricos",
-                    icon: "error",
-                });
-                return;
-            }
-
-            if (!validateCorreo(correo)) {
-                Swal.fire({
-                    title: "Error",
-                    text: "Por favor, ingresa un correo válido",
-                    icon: "error",
-                });
-                return;
-            }
-
-            if (!validateCargo(cargo)) {
-                Swal.fire({
-                    title: "Error",
-                    text: "El campo 'Cargo' solo debe contener carácteres alfabéticos",
-                    icon: "error",
-                });
-                return;
-            }
-        }
-
-        const fechaInicio = new Date(fecha_inicio);
-        const fechaFin = new Date(fecha_fin);
-        let months;
-        months = (fechaFin.getFullYear() - fechaInicio.getFullYear()) * 12;
-        months -= fechaInicio.getMonth();
-        months += fechaFin.getMonth();
-        //aquí puedes agregar el cálculo para los días adicionales
-        const diffDays = fechaFin.getDate() - fechaInicio.getDate();
-        if (diffDays > 0) {
-            months += 1;
-        }
-        if (months > 6) {
-            Swal.fire({
-                title: "Error",
-                text: "El rango entre la fecha de inicio y la fecha de fin no debe exceder los 6 meses",
-                icon: "error",
-            });
-            return;
-        }
-
-
-        var fechaHoy = new Date();
-        var año = fechaHoy.getFullYear().toString();
-        var mes = ("0" + (fechaHoy.getMonth() + 1)).slice(-2); //los meses en JavaScript van de 0 a 11, por lo tanto, se suma 1
-        var dia = ("0" + fechaHoy.getDate()).slice(-2);
-
-        //formato de fecha yy/mm/dd
-        var fechaActual = año + "-" + mes + "-" + dia;
-        const id_inscribe = localStorage.getItem("id_inscribe");
-        if (select_oferta == 1 && datos_evaluador == 1) {
-            //caso con todo los campos
-
-            const data_evaluador = {
-                nombre: nombre,
-                apellido: apellido,
-                telefono: telefono,
-                correo: correo,
-                cargo: cargo,
-            };
-
-            const response = await clienteAxios.post(
-                "/supervisor/create",
-                data_evaluador
-            );
-
-            if (response.status == 200) {
-                const data_inscripcion = {
-                    fecha_inscripcion_practica: fechaActual,
-                    fecha_inicio: fecha_inicio,
-                    fecha_fin: fecha_fin,
-                    id_modalidad: select_modalidad,
-                    id_oferta: Number(oferta.id_oferta),
-                    id_inscribe: Number(id_inscribe),
-                    id_estado_inscripcion: 1,
-
-                    id_supervisor: Number(
-                        response.data.supervisor.id_supervisor
-                    ),
-                };
-
-                const response_inscripcion = await clienteAxios.post(
-                    "/inscripcion/create",
-                    data_inscripcion
-                );
-                console.log(response_inscripcion.data);
-                if (response_inscripcion.status == 200) {
-                    Swal.fire({
-                        title: "Registrada",
-                        text: "La inscripción ha sida registrada correctamente",
-                        icon: "success",
-                        confirmButtonText: "Aceptar",
-                    });
-                    setTimeout(() => {
-                        Swal.close();
-
-                        navigate("/mi_practica");
-                    }, 2000);
-                }
-            }
-        } else if (select_oferta == 1 && datos_evaluador == 0) {
-            const data_inscripcion = {
-                fecha_inscripcion_practica: fechaActual,
-                fecha_inicio: fecha_inicio,
-                fecha_fin: fecha_fin,
-                id_modalidad: select_modalidad,
-                id_oferta: Number(oferta.id_oferta_practica),
-                id_supervisor: null,
-                id_inscribe: Number(id_inscribe),
-                id_estado_inscripcion: 1,
-            };
-
-            const response = await clienteAxios.post(
-                "/inscripcion/create",
-                data_inscripcion
-            );
-            if (response.status == 200) {
-                Swal.fire({
-                    title: "Registrada",
-                    text: "La inscripción ha sida registrada correctamente",
-                    icon: "success",
-                    confirmButtonText: "Aceptar",
-                });
-                setTimeout(() => {
-                    Swal.close();
-                    navigate("/mi_practica");
-                }, 2000);
-            }
-            //Hago una peticion solamente
-        } else if (select_oferta == 0 && datos_evaluador == 1) {
-            // aqui hago dos
-            const data_evaluador = {
-                nombre: nombre,
-                apellido: apellido,
-                telefono: telefono,
-                correo: correo,
-                cargo: cargo,
-            };
-            const response = await clienteAxios.post(
-                "/supervisor/create",
-                data_evaluador
-            );
-            if (response.status == 200) {
-                const data_inscripcion = {
-                    fecha_inscripcion_practica: fechaActual,
-                    fecha_inicio: fecha_inicio,
-                    fecha_fin: fecha_fin,
-                    id_modalidad: select_modalidad,
-                    id_oferta: null,
-                    id_supervisor: Number(
-                        response.data.supervisor.id_supervisor
-                    ),
-                    id_inscribe: Number(id_inscribe),
-                    id_estado_inscripcion: 1,
-                };
-                const response2 = await clienteAxios.post(
-                    "/inscripcion/create",
-                    data_inscripcion
-                );
-                if (response2.status == 200) {
-                    Swal.fire({
-                        title: "Registrada",
-                        text: "La inscripción ha sida registrada correctamente",
-                        icon: "success",
-                        confirmButtonText: "Aceptar",
-                    });
-                    setTimeout(() => {
-                        Swal.close();
-                        navigate("/mi_practica");
-                    }, 2000);
-                }
-            }
-        }
-        if (select_oferta == 0 && datos_evaluador == 0) {
-            const data_inscripcion = {
-                fecha_inscripcion_practica: fechaActual,
-                fecha_inicio: fecha_inicio,
-                fecha_fin: fecha_fin,
-                id_modalidad: select_modalidad,
-                id_oferta: null,
-                id_supervisor: null,
-                id_inscribe: Number(id_inscribe),
-                id_estado_inscripcion: 1,
-            };
-            const response = await clienteAxios.post(
-                "/inscripcion/create",
-                data_inscripcion
-            );
-            if (response.status == 200) {
-                Swal.fire({
-                    title: "Registrada",
-                    text: "La inscripción ha sida registrada correctamente",
-                    icon: "success",
-                    confirmButtonText: "Aceptar",
-                });
-                setTimeout(() => {
-                    Swal.close();
-                    navigate("/mi_practica");
-                }, 2000);
-            }
-        }
-    };
-
-    return (
-        <form
-            method="post"
-            onSubmit={onSubmit}
-            style={{ width: "75%", margin: "0px auto" }}
-        >
-            <Card sx={{ padding: "25px", backgroundColor: "#f4f5f7" }}>
-                <Grid container spacing={2}>
-                    <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                        <TextField
-                            sx={{ backgroundColor: "white" }}
-                            required
-                            label="Fecha Inicio"
-                            onChange={handleFechaInicio}
-                            InputLabelProps={{ shrink: true }}
-                            type="date"
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                        <TextField
-                            sx={{ backgroundColor: "white" }}
-                            label="Fecha Fin"
-                            required
-                            onChange={handleFechaFin}
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                            min={fecha_inicio} //fecha mínima basada en fecha_inicio
-                            max={fechaMaxFin} //fecha máxima basada en fecha_inicio
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                        <FormControl margin="normal" fullWidth>
-                            <InputLabel id="select-modalidad">Modalidad</InputLabel>
-                            <Select
-                                sx={{ backgroundColor: "white" }}
-                                id="select-modalidad"
-                                required
-                                onChange={handleModalidad}
-                                value={select_modalidad}
-                                label="Modalidad"
-                                fullWidth
-                            >
-                                {modalidades.status == "success" &&
-                                    modalidades.data.map((modalidad, idx) => (
-                                        <MenuItem value={modalidad.id_modalidad} key={idx}>
-                                            {modalidad.nombre_modalidad}
-                                        </MenuItem>
-                                    ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                        <FormControl variant="outlined" margin="normal" fullWidth>
-                            <InputLabel htmlFor="select-oferta">
-                                ¿Tiene oferta de práctica?
-                            </InputLabel>
-                            <Select
-                                sx={{ backgroundColor: "white" }}
-                                required
-                                id="select-oferta"
-                                value={select_oferta}
-                                onChange={handleOferta}
-                                label="¿Tiene oferta de práctica?"
-                                fullWidth
-                            >
-                                <MenuItem value={1}>Si</MenuItem>
-                                <MenuItem value={0}>No</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    {select_oferta == 1 && (
-                        <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                            <FormControl variant="outlined" margin="normal" fullWidth>
-                                <Autocomplete
-                                    sx={{ backgroundColor: "white" }}
-                                    options={ofertas.data || []}
-                                    getOptionLabel={(option) => option.descripcion || ""}
-                                    value={oferta}
-                                    onChange={(event, newValue) => {
-                                        setOferta(newValue);
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Oferta de práctica"
-                                            fullWidth
-                                        />
-                                    )}
-                                    noOptionsText="Sin coincidencias"
-                                />
-                            </FormControl>
-                        </Grid>
-                    )}
-                    <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                        <FormControl variant="outlined" margin="normal" fullWidth>
-                            <InputLabel htmlFor="select_evaluador" id="select-evaluador">
-                                ¿Desea agregar al evaluador?
-                            </InputLabel>
-                            <Select
-                                sx={{ backgroundColor: "white" }}
-                                value={datos_evaluador}
-                                required
-                                label="¿Desea agregar al evaluador?"
-                                onChange={(event) => {
-                                    setDatosEvaluador(event.target.value);
-                                }}
-                                id="select-evaluador"
-                                fullWidth
-                            >
-                                <MenuItem value={1}>Si</MenuItem>
-                                <MenuItem value={0}>No</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    {datos_evaluador == 1 && (
-                        <Grid
-                            container
-                            item
-                            spacing={2}
-                            xs={11}
-                            xl={6}
-                            lg={6}
-                            md={6}
-                            sm={10}
-                        >
-                            <Grid item xs={11} xl={12} lg={12} md={12} sm={10}>
-                                <Typography>Datos evaluador</Typography>
-                            </Grid>
-                            <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                                <TextField
-                                    sx={{ backgroundColor: "white" }}
-                                    onChange={(e) => {
-                                        setNombre(e.target.value);
-                                    }}
-                                    required
-                                    label="Nombre"
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                                <TextField
-                                    sx={{ backgroundColor: "white" }}
-                                    label="Apellido"
-                                    onChange={(e) => {
-                                        setApellido(e.target.value);
-                                    }}
-                                    required
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                                <TextField
-                                    sx={{ backgroundColor: "white" }}
-                                    placeholder="9xxxxxxxx"
-                                    label="Teléfono"
-                                    onChange={(e) => {
-                                        setTelefono(e.target.value);
-                                    }}
-                                    required
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                                <TextField
-                                    sx={{ backgroundColor: "white" }}
-                                    label="Correo"
-                                    type="email"
-                                    onChange={(e) => setCorreo(e.target.value)}
-                                    required
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                                <TextField
-                                    sx={{ backgroundColor: "white" }}
-                                    fullWidth
-                                    required
-                                    label="Cargo"
-                                    type="text"
-                                    onChange={(e) => setCargo(e.target.value)}
-                                />
-                            </Grid>
-                        </Grid>
-                    )}
-                    <Grid
-                        item
-                        xs={11}
-                        xl={6}
-                        lg={12}
-                        md={6}
-                        sm={10}
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Button type="submit" variant="contained">
-                            Enviar datos
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Card>
-        </form>
-    );
+          >
+            {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
+          </Button>
+        </Grid>
+      </Grid>
+    </Card>
+  );
 };
 
 export default FormularioInscripcion;

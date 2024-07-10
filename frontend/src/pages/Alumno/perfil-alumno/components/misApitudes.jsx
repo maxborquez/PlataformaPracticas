@@ -70,51 +70,71 @@ const MisAptitudes = ({ id_alumno, showDeleteButton = true }) => {
     );
   }
 
-  if (getAptitudes.status === "success" && getAptitudes.data.aptitudes) {
+  if (getAptitudes.status === "error") {
     return (
-      <Grid>
-        <Box
+      <Grid
+        sx={{
+          width: "35%",
+          margin: "0px auto",
+          marginTop: "20px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Alert severity="error">Error al cargar las aptitudes</Alert>
+      </Grid>
+    );
+  }
+
+  return (
+    <Grid>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <TableContainer
+          component={Paper}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            maxWidth: "50%",
+            boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.3)",
           }}
         >
-          <TableContainer
-            component={Paper}
-            sx={{
-              maxWidth: "80%",
-              boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            <Table>
-              <TableHead
-                sx={{
-                  width: "100%",
-                  textAlign: "center",
-                  backgroundColor: "#326fa6",
-                }}
-              >
-                <TableRow>
-                  <TableCell colSpan={showDeleteButton ? 2 : 1}>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{
-                        textAlign: "center",
-                        color: "white",
-                        transition: "all 1000ms",
-                      }}
-                    >
-                      {" "}
-                      <strong>Listado de aptitudes</strong>
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {getAptitudes.data.aptitudes.map((conocimiento, index) => (
+          <Table>
+            <TableHead
+              sx={{
+                width: "100%",
+                textAlign: "center",
+                backgroundColor: "#326fa6",
+              }}
+            >
+              <TableRow>
+                <TableCell colSpan={showDeleteButton ? 2 : 1}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      textAlign: "center",
+                      color: "white",
+                      transition: "all 1000ms",
+                    }}
+                  >
+                    {" "}
+                    <strong>Listado de aptitudes</strong>
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {getAptitudes.status === "success" &&
+              getAptitudes.data.aptitudes &&
+              getAptitudes.data.aptitudes.length > 0 ? (
+                getAptitudes.data.aptitudes.map((conocimiento, index) => (
                   <TableRow key={index}>
-                    <TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
                       <Typography
                         variant="body1"
                         sx={{ color: "black", transition: "all 1000ms" }}
@@ -123,7 +143,7 @@ const MisAptitudes = ({ id_alumno, showDeleteButton = true }) => {
                       </Typography>
                     </TableCell>
                     {showDeleteButton && (
-                      <TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
                         <Tooltip title="Eliminar Aptitud">
                           <DeleteIcon
                             style={{ cursor: "pointer" }}
@@ -138,59 +158,23 @@ const MisAptitudes = ({ id_alumno, showDeleteButton = true }) => {
                       </TableCell>
                     )}
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </Grid>
-    );
-  }
-
-  if (getAptitudes.status === "success" && !getAptitudes.data.aptitudes) {
-    return (
-      <Grid sx={{ width: "60%", margin: "0px auto", marginTop: "20px" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <TableContainer
-            component={Paper}
-            sx={{
-              maxWidth: "80%",
-              boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            <Table>
-              <TableHead sx={{ width: "100%", textAlign: "center" }}>
+                ))
+              ) : (
                 <TableRow>
-                  <TableCell colSpan={2}>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{
-                        textAlign: "center",
-                        color: "black",
-                        transition: "all 1000ms",
-                        ":hover": { color: "black" },
-                      }}
-                    >
-                      <strong>Listado de aptitudes</strong>
-                    </Typography>
+                  <TableCell
+                    colSpan={showDeleteButton ? 2 : 1}
+                    sx={{ textAlign: "center" }}
+                  >
+                    <Alert severity="error">No hay aptitudes registradas</Alert>
                   </TableCell>
                 </TableRow>
-              </TableHead>
-            </Table>
-            <Alert severity="error">No hay aptitudes registradas</Alert>
-          </TableContainer>
-        </Box>
-      </Grid>
-    );
-  }
-
-  return null;
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </Grid>
+  );
 };
 
 export default MisAptitudes;

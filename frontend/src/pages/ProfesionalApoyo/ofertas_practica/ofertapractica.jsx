@@ -169,7 +169,7 @@ const OfertaPractica = () => {
       label: "Empresa",
       options: {
         customBodyRender: (value) =>
-          value ? value.razon_social : "No hay una empresa asociada",
+          value ? value.nombre : "No hay una empresa asociada",
         setCellProps: () => ({ style: { width: "200px" } }),
         setCellHeaderProps: () => ({
           style: {

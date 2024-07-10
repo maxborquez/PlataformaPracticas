@@ -3,9 +3,6 @@ import {
   Button,
   TextField,
   Typography,
-  MenuItem,
-  InputLabel,
-  FormControl,
   Card,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -15,38 +12,40 @@ import clienteAxios from "../../../../helpers/clienteaxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Autocomplete from "@mui/material/Autocomplete";
+
 const FormularioModificar = ({ id }) => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
 
-  const [rut_empresa, setRut] = useState("");
-  const [razon_social, setRazonSocial] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [departamento, setDepartamento] = useState("");
+  const [web, setWeb] = useState("");
+  const [rubro, setRubro] = useState("");
   const [direccion, setDireccion] = useState("");
-  const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [ciudad, setCiudad] = useState({});
-  const [estado, setEstado] = useState("");
   const [empresa, setEmpresa] = useState({ id_ciudad: "", nombre: "" });
 
   const getciudades = useQuery("ciudades", async () => {
     const response = await clienteAxios.get("/ciudad/getCiudades");
-    if (response.status == 200) {
+    if (response.status === 200) {
       return response.data.ciudad;
     }
   });
+
   const navigate = useNavigate();
+
   const getEmpresa = async () => {
     const response = await clienteAxios.get(`/empresa/show/${id}`);
-    if (response.status == 200) {
+    if (response.status === 200) {
       setEmpresa(response.data.empresa);
-      setRut(response.data.empresa.rut_empresa);
-      setRazonSocial(response.data.empresa.razon_social);
+      setNombre(response.data.empresa.nombre);
+      setDepartamento(response.data.empresa.departamento);
+      setWeb(response.data.empresa.web);
+      setRubro(response.data.empresa.rubro);
       setDireccion(response.data.empresa.direccion);
-      setCorreo(response.data.empresa.correo);
       setTelefono(response.data.empresa.telefono);
-      console.log(response.data);
       setCiudad(response.data.empresa.ciudad);
-      setEstado(response.data.empresa.id_estado_empresa);
       setLoading(false);
     }
   };
@@ -59,28 +58,24 @@ const FormularioModificar = ({ id }) => {
     setCiudad(event.target.value);
   };
 
-  const getEstados = useQuery("estados", async () => {
-    const response = await clienteAxios.get("/estadoempresa/getall");
-    return response.data.estados;
-  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     const data_oficial = {
-      rut_empresa: rut_empresa,
-      razon_social: razon_social,
+      nombre: nombre,
+      departamento: departamento,
+      web: web,
+      rubro: rubro,
       direccion: direccion,
-      correo: correo,
       telefono: telefono,
       id_ciudad: ciudad.id_ciudad,
-      id_estado_empresa: estado,
     };
     const response = await clienteAxios.put(
       `empresa/update/${id}`,
       data_oficial
     );
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       Swal.fire({
         title: "Actualizada",
         text: "La empresa ha sido actualizada correctamente",
@@ -96,10 +91,11 @@ const FormularioModificar = ({ id }) => {
       }, 2000);
     }
   };
+
   if (!loading) {
     return (
-        <Grid container justifyContent="center" sx={{ width: "100%" }}>
-        <Card sx={{ padding: "20px", width: "100%", margin:"16px", backgroundColor: "white" }}>
+      <Grid container justifyContent="center" sx={{ width: "100%" }}>
+        <Card sx={{ padding: "20px", width: "100%", margin: "16px", backgroundColor: "white" }}>
           <Typography
             variant="h5"
             sx={{
@@ -108,28 +104,51 @@ const FormularioModificar = ({ id }) => {
               marginBottom: "10px",
             }}
           >
-            Empresa seleccionada: {empresa.razon_social}{" "}
+            Empresa seleccionada: {empresa.nombre}
           </Typography>
           <form method="POST" onSubmit={onSubmit}>
             <Grid container spacing={2} sx={{ marginTop: "10px" }}>
               <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
                 <TextField
                   sx={{ backgroundColor: "white" }}
-                  label="Rut"
+                  label="Nombre"
                   fullWidth
-                  value={rut_empresa}
+                  value={nombre}
                   onChange={(e) => {
-                    setRut(e.target.value);
+                    setNombre(e.target.value);
                   }}
                 />
               </Grid>
               <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
                 <TextField
                   sx={{ backgroundColor: "white" }}
-                  label="Razón social"
-                  value={razon_social}
+                  label="Departamento"
+                  value={departamento}
                   onChange={(e) => {
-                    setRazonSocial(e.target.value);
+                    setDepartamento(e.target.value);
+                  }}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
+                <TextField
+                  label="Web"
+                  sx={{ backgroundColor: "white" }}
+                  value={web}
+                  onChange={(e) => {
+                    setWeb(e.target.value);
+                  }}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
+                <TextField
+                  label="Rubro"
+                  sx={{ backgroundColor: "white" }}
+                  value={rubro}
+                  onChange={(e) => {
+                    setRubro(e.target.value);
                   }}
                   fullWidth
                 />
@@ -141,18 +160,6 @@ const FormularioModificar = ({ id }) => {
                   value={direccion}
                   onChange={(e) => {
                     setDireccion(e.target.value);
-                  }}
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                <TextField
-                  label="Correo"
-                  sx={{ backgroundColor: "white" }}
-                  value={correo}
-                  onChange={(e) => {
-                    setCorreo(e.target.value);
                   }}
                   fullWidth
                 />
@@ -184,29 +191,6 @@ const FormularioModificar = ({ id }) => {
                   noOptionsText="Sin coincidencias"
                 />
               </Grid>
-              <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
-                <FormControl  fullWidth>
-                  <InputLabel>Estado Empresa</InputLabel>
-                  <Select
-                    label="Estado Empresa"
-                    sx={{ backgroundColor: "white" }}
-                    value={estado}
-                    onChange={(e) => {
-                      setEstado(e.target.value);
-                    }}
-                    fullWidth
-                  >
-                    {getEstados.status == "success" &&
-                      getEstados.data.map((estado, idx) => {
-                        return (
-                          <MenuItem key={idx} value={estado.id_estado_empresa}>
-                            {estado.nombre_estado_empresa}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </FormControl>
-              </Grid>
 
               <Grid
                 sx={{
@@ -221,7 +205,7 @@ const FormularioModificar = ({ id }) => {
                 md={12}
                 sm={12}
               >
-               <Button variant="contained" type="submit" sx={{ width: "200px", margin: "0px auto" }}>
+                <Button variant="contained" type="submit" sx={{ width: "200px", margin: "0px auto" }}>
                   Actualizar Empresa
                 </Button>
               </Grid>
@@ -231,6 +215,8 @@ const FormularioModificar = ({ id }) => {
       </Grid>
     );
   }
+
+  return null;
 };
 
 export default FormularioModificar;

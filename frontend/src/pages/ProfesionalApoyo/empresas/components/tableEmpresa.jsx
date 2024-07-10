@@ -69,8 +69,8 @@ const TableEmpresa = () => {
       }
     },
     { 
-      name: "rut_empresa", 
-      label: "Rut", 
+      name: "nombre", 
+      label: "Nombre", 
       options: {
         setCellHeaderProps: () => ({
           style: {
@@ -81,8 +81,32 @@ const TableEmpresa = () => {
       }
     },
     { 
-      name: "razon_social", 
-      label: "Razón Social", 
+      name: "departamento", 
+      label: "Departamento", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
+    { 
+      name: "web", 
+      label: "Sitio Web", 
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: '#326fa6',
+            color: '#fff'
+          }
+        })
+      }
+    },
+    { 
+      name: "rubro", 
+      label: "Rubro", 
       options: {
         setCellHeaderProps: () => ({
           style: {
@@ -95,18 +119,6 @@ const TableEmpresa = () => {
     { 
       name: "direccion", 
       label: "Dirección", 
-      options: {
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
-    },
-    { 
-      name: "correo", 
-      label: "Correo", 
       options: {
         setCellHeaderProps: () => ({
           style: {
@@ -133,19 +145,6 @@ const TableEmpresa = () => {
       label: "Ciudad",
       options: {
         customBodyRender: (value) => value.nombre,
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      },
-    },
-    {
-      name: "estado_empresa",
-      label: "Estado",
-      options: {
-        customBodyRender: (value) => value.nombre_estado_empresa,
         setCellHeaderProps: () => ({
           style: {
             backgroundColor: '#326fa6',

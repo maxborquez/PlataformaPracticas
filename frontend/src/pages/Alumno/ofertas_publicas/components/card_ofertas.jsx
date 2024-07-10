@@ -125,7 +125,7 @@ const CardOfertas = () => {
                       variant="body1"
                       sx={{ marginBottom: "20px", fontWeight: "bold" }}
                     >
-                      Empresa: {oferta.empresa.razon_social}
+                      Empresa: {oferta.empresa.nombre}
                     </Typography>
                   </Box>
                   <Box>

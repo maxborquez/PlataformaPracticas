@@ -300,11 +300,13 @@ model ciudad {
 
 model supervisor {
   id_supervisor        Int                    @id @default(autoincrement())
-  nombre               String                 @db.VarChar(30)
-  apellido             String                 @db.VarChar(30)
+  primer_nombre        String                 @db.VarChar(30)
+  segundo_nombre       String                 @db.VarChar(30)
+  apellido_paterno     String                 @db.VarChar(30)
+  apellido_materno     String                 @db.VarChar(30)
+  cargo                String                 @db.VarChar(50)
   telefono             String                 @db.VarChar(15)
   correo               String                 @db.VarChar(100)
-  cargo                String                 @db.VarChar(50)
   id_empresa           Int
   inscripcion_practica inscripcion_practica[]
   empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_supervisor")

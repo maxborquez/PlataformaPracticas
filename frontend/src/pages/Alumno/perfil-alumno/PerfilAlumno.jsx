@@ -49,8 +49,8 @@ const PerfilAlumno = () => {
       id_alumno: id_alumno,
     });
 
-    const array_aptitudes = response.data.aptitudes;
-    const array_conocimientos = response2.data.aptitudes;
+    const array_aptitudes = response.data.aptitudes || [];
+    const array_conocimientos = response2.data.aptitudes || [];
     const optionsNotRegistered = array_aptitudes.filter(
       (option) =>
         !array_conocimientos.some(
@@ -138,56 +138,63 @@ const PerfilAlumno = () => {
               <Grid item sx={{ width: "100%" }}>
                 <DataAlumno isWideScreen={isWideScreen} />
               </Grid>
-              {status === "success" && (
-                <Grid item sx={{ width: "100%" }}>
-                  <Typography variant="h5" sx={{ textAlign: "center", marginBottom: "10px" }}>
-                    Agregar conocimientos
-                  </Typography>
+              <Grid item sx={{ width: "100%" }}>
+                <Typography
+                  variant="h5"
+                  sx={{ textAlign: "center", marginBottom: "10px" }}
+                >
+                  Agregar conocimientos
+                </Typography>
 
-                  <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      width: "100%",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Controller
-                      name="id_aptitud"
-                      control={control}
-                      defaultValue=""
-                      rules={{ required: "Este campo es obligatorio" }}
-                      render={({ field, fieldState }) => (
-                        <Select
-                          {...field}
-                          displayEmpty
-                          required
-                          sx={{ marginRight: "10px", width: "300px" }}
-                        >
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Controller
+                    name="id_aptitud"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Este campo es obligatorio" }}
+                    render={({ field, fieldState }) => (
+                      <Select
+                        {...field}
+                        displayEmpty
+                        required
+                        sx={{ marginRight: "10px", width: "300px" }}
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona una opción
+                        </MenuItem>
+                        {Array.isArray(data) && data.length > 0 ? (
+                          data.map((option, idx) => (
+                            <MenuItem key={idx} value={option.id_aptitud}>
+                              {option.nombre_aptitud}
+                            </MenuItem>
+                          ))
+                        ) : (
                           <MenuItem value="" disabled>
-                            Selecciona una opción
+                            No hay aptitudes disponibles
                           </MenuItem>
-                          {Array.isArray(data) &&
-                            data.map((option, idx) => (
-                              <MenuItem key={idx} value={option.id_aptitud}>
-                                {option.nombre_aptitud}
-                              </MenuItem>
-                            ))}
-                        </Select>
-                      )}
-                    />
-                    <Button
-                      variant="contained"
-                      sx={{ width: "100px", height: "50px", bgcolor: "#326fa6" }}
-                      type="submit"
-                    >
-                      Agregar
-                    </Button>
-                  </form>
-                </Grid>
-              )}
+                        )}
+                      </Select>
+                    )}
+                  />
+                  <Button
+                    variant="contained"
+                    sx={{ width: "100px", height: "50px", bgcolor: "#326fa6" }}
+                    type="submit"
+                    disabled={data && data.length === 0}
+                  >
+                    Agregar
+                  </Button>
+                </form>
+              </Grid>
               <Grid item sx={{ width: "100%" }}>
                 <MisAptitudes id_alumno={id_alumno} />
               </Grid>

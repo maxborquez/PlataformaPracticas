@@ -17,35 +17,96 @@ const crear_inscripcion = async (req, res) => {
       fecha_inscripcion_practica,
       fecha_inicio,
       fecha_fin,
-      id_inscribe,
+      descripcion,
+      objetivos,
+      actividades,
+      id_empresa,
       id_supervisor,
       id_oferta,
       id_estado_inscripcion,
       id_modalidad,
+      id_inscribe,
+      observaciones,
+      lunes_manana1,
+      lunes_manana2,
+      lunes_tarde1,
+      lunes_tarde2,
+      martes_manana1,
+      martes_manana2,
+      martes_tarde1,
+      martes_tarde2,
+      miercoles_manana1,
+      miercoles_manana2,
+      miercoles_tarde1,
+      miercoles_tarde2,
+      jueves_manana1,
+      jueves_manana2,
+      jueves_tarde1,
+      jueves_tarde2,
+      viernes_manana1,
+      viernes_manana2,
+      viernes_tarde1,
+      viernes_tarde2,
+      sabado_manana1,
+      sabado_manana2,
+      sabado_tarde1,
+      sabado_tarde2,
     } = req.body;
+
     const formato_fecha = "T00:00:00Z";
+    const formato_hora = "T00:00:00Z"; // Ajusta el formato de hora si es necesario
 
     const inscripcion = await prisma.inscripcion_practica.create({
       data: {
         fecha_inscripcion_practica: `${fecha_inscripcion_practica}${formato_fecha}`,
         fecha_inicio: `${fecha_inicio}${formato_fecha}`,
         fecha_fin: `${fecha_fin}${formato_fecha}`,
-        id_inscribe,
+        descripcion,
+        objetivos,
+        actividades,
+        id_empresa,
+        id_supervisor,
+        id_oferta,
         id_estado_inscripcion,
         id_modalidad,
-        observaciones: "",
-        id_oferta,
-        id_supervisor,
+        id_inscribe,
+        observaciones,
+        lunes_manana1: `${lunes_manana1}${formato_hora}`,
+        lunes_manana2: `${lunes_manana2}${formato_hora}`,
+        lunes_tarde1: `${lunes_tarde1}${formato_hora}`,
+        lunes_tarde2: `${lunes_tarde2}${formato_hora}`,
+        martes_manana1: `${martes_manana1}${formato_hora}`,
+        martes_manana2: `${martes_manana2}${formato_hora}`,
+        martes_tarde1: `${martes_tarde1}${formato_hora}`,
+        martes_tarde2: `${martes_tarde2}${formato_hora}`,
+        miercoles_manana1: `${miercoles_manana1}${formato_hora}`,
+        miercoles_manana2: `${miercoles_manana2}${formato_hora}`,
+        miercoles_tarde1: `${miercoles_tarde1}${formato_hora}`,
+        miercoles_tarde2: `${miercoles_tarde2}${formato_hora}`,
+        jueves_manana1: `${jueves_manana1}${formato_hora}`,
+        jueves_manana2: `${jueves_manana2}${formato_hora}`,
+        jueves_tarde1: `${jueves_tarde1}${formato_hora}`,
+        jueves_tarde2: `${jueves_tarde2}${formato_hora}`,
+        viernes_manana1: `${viernes_manana1}${formato_hora}`,
+        viernes_manana2: `${viernes_manana2}${formato_hora}`,
+        viernes_tarde1: `${viernes_tarde1}${formato_hora}`,
+        viernes_tarde2: `${viernes_tarde2}${formato_hora}`,
+        sabado_manana1: `${sabado_manana1}${formato_hora}`,
+        sabado_manana2: `${sabado_manana2}${formato_hora}`,
+        sabado_tarde1: `${sabado_tarde1}${formato_hora}`,
+        sabado_tarde2: `${sabado_tarde2}${formato_hora}`,
       },
     });
+
     if (!inscripcion) {
       return res.status(400).json({
         mensaje: "Error al registrar inscripcion",
       });
     }
+
     return res.status(200).json({
       mensaje: "Inscripcion registrada correctamente",
-      inscripcion: inscripcion,
+      inscripcion,
     });
   } catch (error) {
     return res.status(400).json({
@@ -53,6 +114,7 @@ const crear_inscripcion = async (req, res) => {
     });
   }
 };
+
 
 const mostrar_inscripciones = async (req, res) => {
   try {
@@ -164,29 +226,63 @@ const actualizar_inscripcion = async (req, res) => {
         errors: errors.array(),
       });
     }
+
     const { id } = req.params;
     const inscripcion = await prisma.inscripcion_practica.findFirst({
       where: {
-        id_inscribe: Number(id),
+        id_inscripcion_practica: Number(id),
       },
     });
+
     if (!inscripcion) {
       return res.status(200).json({
         mensaje: "La inscripción no existe",
       });
     }
+
     const {
       fecha_inscripcion_practica,
       fecha_inicio,
       fecha_fin,
-      id_inscribe,
-      observaciones,
+      descripcion,
+      objetivos,
+      actividades,
+      id_empresa,
       id_supervisor,
       id_oferta,
       id_estado_inscripcion,
       id_modalidad,
+      id_inscribe,
+      observaciones,
+      lunes_manana1,
+      lunes_manana2,
+      lunes_tarde1,
+      lunes_tarde2,
+      martes_manana1,
+      martes_manana2,
+      martes_tarde1,
+      martes_tarde2,
+      miercoles_manana1,
+      miercoles_manana2,
+      miercoles_tarde1,
+      miercoles_tarde2,
+      jueves_manana1,
+      jueves_manana2,
+      jueves_tarde1,
+      jueves_tarde2,
+      viernes_manana1,
+      viernes_manana2,
+      viernes_tarde1,
+      viernes_tarde2,
+      sabado_manana1,
+      sabado_manana2,
+      sabado_tarde1,
+      sabado_tarde2,
     } = req.body;
+
     const formato_fecha = "T00:00:00Z";
+    const formato_hora = "T00:00:00Z"; // Ajusta el formato de hora si es necesario
+
     const inscripcion_actualizada = await prisma.inscripcion_practica.update({
       where: {
         id_inscripcion_practica: Number(id),
@@ -195,18 +291,46 @@ const actualizar_inscripcion = async (req, res) => {
         fecha_inscripcion_practica: `${fecha_inscripcion_practica}${formato_fecha}`,
         fecha_inicio: `${fecha_inicio}${formato_fecha}`,
         fecha_fin: `${fecha_fin}${formato_fecha}`,
-        id_inscribe,
+        descripcion,
+        objetivos,
+        actividades,
+        id_empresa,
+        id_supervisor,
+        id_oferta,
         id_estado_inscripcion,
         id_modalidad,
+        id_inscribe,
         observaciones,
-        id_oferta,
-        id_supervisor,
+        lunes_manana1: `${lunes_manana1}${formato_hora}`,
+        lunes_manana2: `${lunes_manana2}${formato_hora}`,
+        lunes_tarde1: `${lunes_tarde1}${formato_hora}`,
+        lunes_tarde2: `${lunes_tarde2}${formato_hora}`,
+        martes_manana1: `${martes_manana1}${formato_hora}`,
+        martes_manana2: `${martes_manana2}${formato_hora}`,
+        martes_tarde1: `${martes_tarde1}${formato_hora}`,
+        martes_tarde2: `${martes_tarde2}${formato_hora}`,
+        miercoles_manana1: `${miercoles_manana1}${formato_hora}`,
+        miercoles_manana2: `${miercoles_manana2}${formato_hora}`,
+        miercoles_tarde1: `${miercoles_tarde1}${formato_hora}`,
+        miercoles_tarde2: `${miercoles_tarde2}${formato_hora}`,
+        jueves_manana1: `${jueves_manana1}${formato_hora}`,
+        jueves_manana2: `${jueves_manana2}${formato_hora}`,
+        jueves_tarde1: `${jueves_tarde1}${formato_hora}`,
+        jueves_tarde2: `${jueves_tarde2}${formato_hora}`,
+        viernes_manana1: `${viernes_manana1}${formato_hora}`,
+        viernes_manana2: `${viernes_manana2}${formato_hora}`,
+        viernes_tarde1: `${viernes_tarde1}${formato_hora}`,
+        viernes_tarde2: `${viernes_tarde2}${formato_hora}`,
+        sabado_manana1: `${sabado_manana1}${formato_hora}`,
+        sabado_manana2: `${sabado_manana2}${formato_hora}`,
+        sabado_tarde1: `${sabado_tarde1}${formato_hora}`,
+        sabado_tarde2: `${sabado_tarde2}${formato_hora}`,
       },
     });
 
     return res.status(200).json({
       mensaje: "Inscripción actualizada correctamente",
-      inscripcion_actualizada: inscripcion_actualizada,
+      inscripcion_actualizada,
     });
   } catch (error) {
     return res.status(400).json({
@@ -214,6 +338,7 @@ const actualizar_inscripcion = async (req, res) => {
     });
   }
 };
+
 
 const comprobar_inscripcion = async (req, res) => {
   try {
@@ -343,28 +468,63 @@ const actualizar_inscripcion_alumno = async (req, res) => {
         errors: errors.array(),
       });
     }
+
     const { id } = req.params;
     const inscripcion = await prisma.inscripcion_practica.findFirst({
       where: {
         id_inscribe: Number(id),
       },
     });
+
     if (!inscripcion) {
       return res.status(200).json({
         mensaje: "La inscripción no existe",
       });
     }
+
     const {
       fecha_inscripcion_practica,
       fecha_inicio,
       fecha_fin,
-      id_inscribe,
+      descripcion,
+      objetivos,
+      actividades,
+      id_empresa,
       id_supervisor,
       id_oferta,
       id_estado_inscripcion,
       id_modalidad,
+      id_inscribe,
+      observaciones,
+      lunes_manana1,
+      lunes_manana2,
+      lunes_tarde1,
+      lunes_tarde2,
+      martes_manana1,
+      martes_manana2,
+      martes_tarde1,
+      martes_tarde2,
+      miercoles_manana1,
+      miercoles_manana2,
+      miercoles_tarde1,
+      miercoles_tarde2,
+      jueves_manana1,
+      jueves_manana2,
+      jueves_tarde1,
+      jueves_tarde2,
+      viernes_manana1,
+      viernes_manana2,
+      viernes_tarde1,
+      viernes_tarde2,
+      sabado_manana1,
+      sabado_manana2,
+      sabado_tarde1,
+      sabado_tarde2,
     } = req.body;
+
     const formato_fecha = "T00:00:00Z";
+    const formato_hora = "T00:00:00Z"; // Ajusta el formato de hora si es necesario
+
     const inscripcion_actualizada = await prisma.inscripcion_practica.update({
       where: {
         id_inscripcion_practica: Number(inscripcion.id_inscripcion_practica),
@@ -373,17 +533,46 @@ const actualizar_inscripcion_alumno = async (req, res) => {
         fecha_inscripcion_practica: `${fecha_inscripcion_practica}${formato_fecha}`,
         fecha_inicio: `${fecha_inicio}${formato_fecha}`,
         fecha_fin: `${fecha_fin}${formato_fecha}`,
-        id_inscribe,
+        descripcion,
+        objetivos,
+        actividades,
+        id_empresa,
+        id_supervisor,
+        id_oferta,
         id_estado_inscripcion,
         id_modalidad,
-        id_oferta,
-        id_supervisor,
+        id_inscribe,
+        observaciones,
+        lunes_manana1: `${lunes_manana1}${formato_hora}`,
+        lunes_manana2: `${lunes_manana2}${formato_hora}`,
+        lunes_tarde1: `${lunes_tarde1}${formato_hora}`,
+        lunes_tarde2: `${lunes_tarde2}${formato_hora}`,
+        martes_manana1: `${martes_manana1}${formato_hora}`,
+        martes_manana2: `${martes_manana2}${formato_hora}`,
+        martes_tarde1: `${martes_tarde1}${formato_hora}`,
+        martes_tarde2: `${martes_tarde2}${formato_hora}`,
+        miercoles_manana1: `${miercoles_manana1}${formato_hora}`,
+        miercoles_manana2: `${miercoles_manana2}${formato_hora}`,
+        miercoles_tarde1: `${miercoles_tarde1}${formato_hora}`,
+        miercoles_tarde2: `${miercoles_tarde2}${formato_hora}`,
+        jueves_manana1: `${jueves_manana1}${formato_hora}`,
+        jueves_manana2: `${jueves_manana2}${formato_hora}`,
+        jueves_tarde1: `${jueves_tarde1}${formato_hora}`,
+        jueves_tarde2: `${jueves_tarde2}${formato_hora}`,
+        viernes_manana1: `${viernes_manana1}${formato_hora}`,
+        viernes_manana2: `${viernes_manana2}${formato_hora}`,
+        viernes_tarde1: `${viernes_tarde1}${formato_hora}`,
+        viernes_tarde2: `${viernes_tarde2}${formato_hora}`,
+        sabado_manana1: `${sabado_manana1}${formato_hora}`,
+        sabado_manana2: `${sabado_manana2}${formato_hora}`,
+        sabado_tarde1: `${sabado_tarde1}${formato_hora}`,
+        sabado_tarde2: `${sabado_tarde2}${formato_hora}`,
       },
     });
 
     return res.status(200).json({
       mensaje: "Inscripción actualizada correctamente",
-      inscripcion_actualizada: inscripcion_actualizada,
+      inscripcion_actualizada,
     });
   } catch (error) {
     return res.status(400).json({
@@ -391,6 +580,7 @@ const actualizar_inscripcion_alumno = async (req, res) => {
     });
   }
 };
+
 
 const actualizar_estado_inscripcion = async (req, res) => {
   try {

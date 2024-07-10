@@ -21,7 +21,7 @@ app.use('/endpoints', (req, res) => {
 
 const routesEmpresa = require("./routes/routesEmpresa");
 const routesOferta = require("./routes/routesOferta");
-const routerInscripcion = require("./routes/routesInscripcion");
+const routerInscripcion = require("./routes/inscripcionRoutes");
 const routerBitacoras = require("./routes/routesBitacoras");
 const routerArchivoInscripcion = require("./routes/routesArchivoInscripcion");
 const routerArchivoInforme = require("./routes/routesArchivoInforme");

@@ -81,8 +81,35 @@ const getAsignaturaByInscripcion = async (req, res) => {
   }
 };
 
+const getInscribe = async (req, res) => {
+  const { id_inscripcion } = req.params;
+
+  try {
+    const inscribe = await prisma.inscribe.findUnique({
+      where: {
+        id_inscripcion: parseInt(id_inscripcion),
+      },
+      include: {
+        alumno: true,
+        asignatura: true,
+        estado_practica: true,
+      },
+    });
+
+    if (!inscribe) {
+      return res.status(404).json({ error: 'La inscripción no se encontró' });
+    }
+
+    res.json(inscribe);
+  } catch (error) {
+    console.error('Error al obtener la inscripción:', error);
+    res.status(500).json({ error: 'Ocurrió un error al buscar la inscripción' });
+  }
+};
+
 module.exports = {
   updateEstadoPractica,
   getInscribeIdByInscripcion,
   getAsignaturaByInscripcion,
+  getInscribe,
 };

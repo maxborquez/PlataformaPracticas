@@ -15,6 +15,8 @@ import clienteAxios from "../../../helpers/clienteaxios";
 const FormularioInscripcion = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [ciudades, setCiudades] = useState([]);
+  const [practica, setPractica] = useState("");
+  const [idInscribe, setIdInscribe] = useState("");
 
   useEffect(() => {
     const fetchCiudades = async () => {
@@ -43,12 +45,9 @@ const FormularioInscripcion = () => {
         }
 
         // Realizar la solicitud al servidor con el id_alumno en el body
-        const response = await clienteAxios.post(
-          "http://localhost:3000/api/alumno/show",
-          {
-            id_alumno: id_alumno,
-          }
-        );
+        const response = await clienteAxios.post("/alumno/show", {
+          id_alumno: id_alumno,
+        });
 
         const { alumno } = response.data;
         // Actualizar los estados con los datos del estudiante
@@ -77,7 +76,36 @@ const FormularioInscripcion = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const [practica, setPractica] = useState("");
+  useEffect(() => {
+    // Obtener id_inscribe del localStorage
+    const idInscribeLocalStorage = localStorage.getItem("id_inscribe");
+    if (idInscribeLocalStorage) {
+      setIdInscribe(idInscribeLocalStorage);
+      obtenerDatosInscripcion(idInscribeLocalStorage);
+    } else {
+      console.error("No se encontró id_inscribe en el localStorage.");
+    }
+  }, []);
+
+  const obtenerDatosInscripcion = async (idInscribe) => {
+    try {
+      // Realizar la solicitud al servidor con el id_inscribe
+      const response = await clienteAxios.get(
+        `/inscribe/getInscribe/${idInscribe}`
+      );
+
+      // Extraer la práctica desde la respuesta
+      const { asignatura } = response.data;
+      const practicaRegistrada = asignatura.id_asignatura; // Nombre de la práctica registrada
+      console.log(practicaRegistrada);
+
+      // Actualizar el estado de practica con la práctica registrada
+      setPractica(practicaRegistrada);
+    } catch (error) {
+      console.error("Error al obtener los datos de la inscripción:", error);
+    }
+  };
+
   const [modalidad, setModalidad] = useState("");
   const [nombreEstudiante, setNombreEstudiante] = useState("");
   const [run, setRun] = useState("");
@@ -198,9 +226,10 @@ const FormularioInscripcion = () => {
                 value={practica}
                 onChange={(e) => setPractica(e.target.value)}
                 label="Práctica"
+                disabled
               >
-                <MenuItem value="1">Práctica 1</MenuItem>
-                <MenuItem value="2">Práctica 2</MenuItem>
+                <MenuItem value="620509">Práctica 1</MenuItem>
+                <MenuItem value="620520">Práctica 2</MenuItem>
               </Select>
             </FormControl>
           </Grid>

@@ -131,17 +131,18 @@ model conocimiento {
 }
 
 model empresa {
-  id_empresa      Int               @id @default(autoincrement())
-  nombre          String            @db.VarChar(50)
-  departamento    String            @db.VarChar(50)
-  web             String            @db.VarChar(50)
-  rubro           String            @db.VarChar(50)
-  telefono        String            @db.VarChar(18)
-  direccion       String            @db.VarChar(100)
-  id_ciudad       Int
-  ciudad          ciudad            @relation(fields: [id_ciudad], references: [id_ciudad], onDelete: Cascade)
-  oferta_practica oferta_practica[]
-  supervisor      supervisor[]
+  id_empresa           Int                    @id @default(autoincrement())
+  nombre               String                 @db.VarChar(50)
+  departamento         String                 @db.VarChar(50)
+  web                  String                 @db.VarChar(50)
+  rubro                String                 @db.VarChar(50)
+  telefono             String                 @db.VarChar(18)
+  direccion            String                 @db.VarChar(100)
+  id_ciudad            Int
+  ciudad               ciudad                 @relation(fields: [id_ciudad], references: [id_ciudad], onDelete: Cascade)
+  inscripcion_practica inscripcion_practica[]
+  oferta_practica      oferta_practica[]
+  supervisor           supervisor[]
 
   @@index([id_ciudad], map: "empresa_id_ciudad_fkey")
 }
@@ -196,16 +197,45 @@ model inscripcion_practica {
   fecha_inscripcion_practica DateTime              @db.Date
   fecha_inicio               DateTime              @db.Date
   fecha_fin                  DateTime              @db.Date
-  observaciones              String?               @db.VarChar(1300)
+  descripcion                String                @db.VarChar(500)
+  objetivos                  String                @db.VarChar(500)
+  actividades                String                @db.VarChar(500)
+  id_empresa                 Int?
   id_supervisor              Int?
   id_oferta                  Int?
   id_estado_inscripcion      Int
   id_modalidad               Int
   id_inscribe                Int
+  observaciones              String                @db.VarChar(500)
+  lunes_manana1              DateTime              @db.Time(0)
+  lunes_manana2              DateTime              @db.Time(0)
+  lunes_tarde1               DateTime              @db.Time(0)
+  lunes_tarde2               DateTime              @db.Time(0)
+  martes_manana1             DateTime              @db.Time(0)
+  martes_manana2             DateTime              @db.Time(0)
+  martes_tarde1              DateTime              @db.Time(0)
+  martes_tarde2              DateTime              @db.Time(0)
+  miercoles_manana1          DateTime              @db.Time(0)
+  miercoles_manana2          DateTime              @db.Time(0)
+  miercoles_tarde1           DateTime              @db.Time(0)
+  miercoles_tarde2           DateTime              @db.Time(0)
+  jueves_manana1             DateTime              @db.Time(0)
+  jueves_manana2             DateTime              @db.Time(0)
+  jueves_tarde1              DateTime              @db.Time(0)
+  jueves_tarde2              DateTime              @db.Time(0)
+  viernes_manana1            DateTime              @db.Time(0)
+  viernes_manana2            DateTime              @db.Time(0)
+  viernes_tarde1             DateTime              @db.Time(0)
+  viernes_tarde2             DateTime              @db.Time(0)
+  sabado_manana1             DateTime              @db.Time(0)
+  sabado_manana2             DateTime              @db.Time(0)
+  sabado_tarde1              DateTime              @db.Time(0)
+  sabado_tarde2              DateTime              @db.Time(0)
   archivo_evaluacion         archivo_evaluacion[]
   archivo_informe            archivo_informe[]
   archivo_inscripcion        archivo_inscripcion[]
   bitacora_alumno            bitacora_alumno[]
+  empresa                    empresa?              @relation(fields: [id_empresa], references: [id_empresa], onDelete: Cascade)
   estado_inscripcion         estado_inscripcion    @relation(fields: [id_estado_inscripcion], references: [id_estado_inscripcion], onDelete: Cascade)
   inscribe                   inscribe              @relation(fields: [id_inscribe], references: [id_inscripcion], onDelete: Cascade)
   modalidad                  modalidad             @relation(fields: [id_modalidad], references: [id_modalidad], onDelete: NoAction, onUpdate: NoAction)
@@ -217,6 +247,7 @@ model inscripcion_practica {
   @@index([id_modalidad], map: "inscripcion_practica_id_modalidad_fkey")
   @@index([id_oferta], map: "inscripcion_practica_id_oferta_fkey")
   @@index([id_supervisor], map: "inscripcion_practica_id_supervisor_fkey")
+  @@index([id_empresa], map: "inscripcion_practica_id_empresa_fkey")
 }
 
 model modalidad {

@@ -414,6 +414,8 @@ const FormularioInscripcion = () => {
           <Grid item xs={6}>
             <TextField
               fullWidth
+              type="email"
+              placeholder="corre@dominio.cl"
               label="Email del Supervisor"
               value={emailSupervisor}
               onChange={(e) => setEmailSupervisor(e.target.value)}

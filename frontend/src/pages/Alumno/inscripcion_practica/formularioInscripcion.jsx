@@ -34,36 +34,40 @@ const FormularioInscripcion = () => {
     const obtenerDatosEstudiante = async () => {
       try {
         // Obtener id_alumno del localStorage
-        const id_alumno = localStorage.getItem('id_alumno');
+        const id_alumno = localStorage.getItem("id_alumno");
 
         // Verificar si hay un id_alumno almacenado
         if (!id_alumno) {
-          console.error('No se encontró el id_alumno en el localStorage.');
+          console.error("No se encontró el id_alumno en el localStorage.");
           return;
         }
 
         // Realizar la solicitud al servidor con el id_alumno en el body
-        const response = await clienteAxios.post('http://localhost:3000/api/alumno/show', {
-          id_alumno: id_alumno
-        });
+        const response = await clienteAxios.post(
+          "http://localhost:3000/api/alumno/show",
+          {
+            id_alumno: id_alumno,
+          }
+        );
 
         const { alumno } = response.data;
         // Actualizar los estados con los datos del estudiante
-        setNombreEstudiante(`${alumno.primer_nombre} ${alumno.segundo_nombre} ${alumno.apellido_paterno} ${alumno.apellido_materno}`);
+        setNombreEstudiante(
+          `${alumno.primer_nombre} ${alumno.segundo_nombre} ${alumno.apellido_paterno} ${alumno.apellido_materno}`
+        );
         setRun(alumno.rut);
         setEmailEstudiante(alumno.correo_personal);
         setCelular(alumno.telefono_personal);
         setDireccionEstudiante(alumno.direccion_particular);
         setFonoEmergencia(alumno.telefono_familiar); // Aquí asumo que el teléfono familiar es igual al teléfono de emergencia
       } catch (error) {
-        console.error('Error al obtener los datos del estudiante:', error);
+        console.error("Error al obtener los datos del estudiante:", error);
       }
     };
 
     // Llamar a la función para obtener los datos del estudiante al cargar el componente
     obtenerDatosEstudiante();
   }, []); // El segundo argumento [] indica que useEffect se ejecutará solo una vez, al montar el componente
-
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -104,7 +108,42 @@ const FormularioInscripcion = () => {
     sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
   });
 
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
+  const [fechaInicioError, setFechaInicioError] = useState(false);
+  const [fechaFinError, setFechaFinError] = useState(false);
+
   const fechaRecepcion = new Date().toISOString().split("T")[0]; // Fecha actual en formato YYYY-MM-DD
+
+  const handleFechaInicioChange = (e) => {
+    const fechaActual = new Date().toISOString().split("T")[0];
+    const nuevaFechaInicio = e.target.value;
+    setFechaInicio(nuevaFechaInicio);
+
+    if (nuevaFechaInicio < fechaActual) {
+      setFechaInicioError(true);
+    } else {
+      setFechaInicioError(false);
+    }
+
+    if (fechaFin && new Date(nuevaFechaInicio) > new Date(fechaFin)) {
+      setFechaFin("");
+    }
+  };
+
+  const handleFechaFinChange = (e) => {
+    const nuevaFechaFin = e.target.value;
+    const fechaMinimaFin = new Date(fechaInicio);
+    fechaMinimaFin.setDate(fechaMinimaFin.getDate() + 30);
+
+    setFechaFin(nuevaFechaFin);
+
+    if (new Date(nuevaFechaFin) < fechaMinimaFin) {
+      setFechaFinError(true);
+    } else {
+      setFechaFinError(false);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -134,6 +173,8 @@ const FormularioInscripcion = () => {
       objetivosPractica,
       actividadesDesarrollar,
       horarioPractica,
+      fechaInicio,
+      fechaFin,
     });
     // Aquí podrías enviar los datos del formulario a través de una API o hacer alguna acción adicional
   };
@@ -197,84 +238,84 @@ const FormularioInscripcion = () => {
       label: "Datos del estudiante",
       content: (
         <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h5" gutterBottom>
-            Datos del estudiante
-          </Typography>
+          <Grid item xs={12}>
+            <Typography variant="h5" gutterBottom>
+              Datos del estudiante
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Nombre del Estudiante"
+              value={nombreEstudiante}
+              onChange={(e) => setNombreEstudiante(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="RUN"
+              value={run}
+              onChange={(e) => setRun(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Email del Estudiante"
+              value={emailEstudiante}
+              onChange={(e) => setEmailEstudiante(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Celular"
+              type="text"
+              placeholder="9xxxxxxxx"
+              inputProps={{ maxLength: 9 }}
+              value={celular}
+              onChange={(e) => setCelular(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Dirección del Estudiante"
+              value={direccionEstudiante}
+              onChange={(e) => setDireccionEstudiante(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Fono de Emergencia"
+              type="text"
+              placeholder="9xxxxxxxx"
+              inputProps={{ maxLength: 9 }}
+              value={fonoEmergencia}
+              onChange={(e) => setFonoEmergencia(e.target.value)}
+              variant="outlined"
+              margin="normal"
+              disabled
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="Nombre del Estudiante"
-            value={nombreEstudiante}
-            onChange={(e) => setNombreEstudiante(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            disabled
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="RUN"
-            value={run}
-            onChange={(e) => setRun(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            disabled
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="Email del Estudiante"
-            value={emailEstudiante}
-            onChange={(e) => setEmailEstudiante(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            disabled
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="Celular"
-            type="text"
-            placeholder="9xxxxxxxx"
-            inputProps={{ maxLength: 9 }}
-            value={celular}
-            onChange={(e) => setCelular(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            disabled
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="Dirección del Estudiante"
-            value={direccionEstudiante}
-            onChange={(e) => setDireccionEstudiante(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            disabled
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            fullWidth
-            label="Fono de Emergencia"
-            type="text"
-            placeholder="9xxxxxxxx"
-            inputProps={{ maxLength: 9 }}
-            value={fonoEmergencia}
-            onChange={(e) => setFonoEmergencia(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            disabled
-          />
-        </Grid>
-      </Grid>
       ),
     },
     {
@@ -503,9 +544,57 @@ const FormularioInscripcion = () => {
       content: (
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" marginBottom={5}>
               Horario de la práctica
             </Typography>
+          </Grid>
+
+          <Grid container spacing={2} marginLeft={0.06}>
+            <Grid item xs={6} md={2}>
+              <Typography variant="subtitle1" gutterBottom>
+                Fecha de inicio de la práctica
+              </Typography>
+              <TextField
+                id="fecha_inicio"
+                label="Fecha de inicio"
+                type="date"
+                value={fechaInicio}
+                onChange={handleFechaInicioChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                error={fechaInicioError}
+                helperText={
+                  fechaInicioError
+                    ? "La fecha de inicio no puede ser anterior a la fecha actual"
+                    : ""
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6} md={2}>
+              <Typography variant="subtitle1" gutterBottom>
+                Fecha de fin de la práctica
+              </Typography>
+              <TextField
+                id="fecha_fin"
+                label="Fecha de fin"
+                type="date"
+                value={fechaFin}
+                onChange={handleFechaFinChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                error={fechaFinError}
+                helperText={
+                  fechaFinError
+                    ? "La fecha de fin debe ser al menos 30 días después de la fecha de inicio"
+                    : ""
+                }
+                fullWidth
+                disabled={!fechaInicio}
+              />
+            </Grid>
           </Grid>
 
           <Grid item xs={12}>

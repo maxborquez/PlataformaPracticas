@@ -269,7 +269,7 @@ const CrearOferta = () => {
                   <Autocomplete
                     sx={{ backgroundColor: "white", marginTop: "15px" }}
                     options={getEmpresas.data || []}
-                    getOptionLabel={(option) => option.razon_social || ""}
+                    getOptionLabel={(option) => option.nombre || ""}
                     value={empresa}
                     onChange={(event, newValue) => setEmpresa(newValue)}
                     renderInput={(params) => (

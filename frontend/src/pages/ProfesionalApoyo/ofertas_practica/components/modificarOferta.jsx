@@ -308,7 +308,7 @@ const ModificarOferta = () => {
                     <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
                       <Autocomplete
                         options={getEmpresas.data || []}
-                        getOptionLabel={(option) => option.razon_social || ""}
+                        getOptionLabel={(option) => option.nombre || ""}
                         value={empresa}
                         onChange={(event, newValue) => {
                           setEmpresa(newValue);

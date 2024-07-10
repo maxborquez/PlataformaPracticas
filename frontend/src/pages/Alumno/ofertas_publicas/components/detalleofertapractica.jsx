@@ -188,12 +188,7 @@ const DetalleOfertaPractica = () => {
                       </TableRow>
                       <TableRow>
                         <TableCell>
-                          <strong>Empresa:</strong> {getOferta.data.oferta.empresa.razon_social}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <strong>Correo:</strong> {getOferta.data.oferta.empresa.correo}
+                          <strong>Empresa:</strong> {getOferta.data.oferta.empresa.nombre}
                         </TableCell>
                       </TableRow>
                       <TableRow>

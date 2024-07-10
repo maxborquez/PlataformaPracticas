@@ -131,21 +131,18 @@ model conocimiento {
 }
 
 model empresa {
-  id_empresa        Int               @id @default(autoincrement())
-  rut_empresa       String            @db.VarChar(15)
-  razon_social      String            @db.VarChar(50)
-  direccion         String            @db.VarChar(100)
-  centro_practica   Boolean
-  correo            String            @db.VarChar(70)
-  telefono          String            @db.VarChar(18)
-  id_ciudad         Int
-  id_estado_empresa Int
-  ciudad            ciudad            @relation(fields: [id_ciudad], references: [id_ciudad], onDelete: Cascade)
-  estado_empresa    estado_empresa    @relation(fields: [id_estado_empresa], references: [id_estado_empresa], onDelete: Cascade)
-  oferta_practica   oferta_practica[]
-  supervisor        supervisor[]
+  id_empresa      Int               @id @default(autoincrement())
+  nombre          String            @db.VarChar(50)
+  departamento    String            @db.VarChar(50)
+  web             String            @db.VarChar(50)
+  rubro           String            @db.VarChar(50)
+  telefono        String            @db.VarChar(18)
+  direccion       String            @db.VarChar(100)
+  id_ciudad       Int
+  ciudad          ciudad            @relation(fields: [id_ciudad], references: [id_ciudad], onDelete: Cascade)
+  oferta_practica oferta_practica[]
+  supervisor      supervisor[]
 
-  @@index([id_estado_empresa], map: "empresa_id_estado_empresa_fkey")
   @@index([id_ciudad], map: "empresa_id_ciudad_fkey")
 }
 
@@ -153,12 +150,6 @@ model estado_bitacora {
   id_estado_bitacora     Int               @id @default(autoincrement())
   nombre_estado_bitacora String
   bitacora_alumno        bitacora_alumno[]
-}
-
-model estado_empresa {
-  id_estado_empresa     Int       @id @default(autoincrement())
-  nombre_estado_empresa String    @db.VarChar(60)
-  empresa               empresa[]
 }
 
 model estado_evaluacion {

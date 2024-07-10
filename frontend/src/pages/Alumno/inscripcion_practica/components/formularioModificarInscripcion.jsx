@@ -482,4 +482,3 @@ const FormularioModificarInscripcion = () => {
 }
 
 export default FormularioModificarInscripcion;
-

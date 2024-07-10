@@ -189,10 +189,40 @@ const actualizar_empresa = async (req, res) => {
   }
 };
 
+const getEmpresaByNombre = async (req, res) => {
+  const { nombre } = req.body; // Nombre de la empresa que se espera en el cuerpo de la solicitud
+
+  try {
+    // Busca la empresa por nombre utilizando Prisma
+    const empresa = await prisma.empresa.findFirst({
+      where: {
+        nombre: nombre
+      },
+      include: {
+        ciudad: true, // Incluir datos de la ciudad asociada si es necesario
+        inscripcion_practica: true, // Incluir relaciones según sea necesario
+        oferta_practica: true,
+        supervisor: true
+      }
+    });
+
+    if (!empresa) {
+      return res.status(404).json({ error: 'No se encontró la empresa con el nombre proporcionado.' });
+    }
+
+    // Retorna la empresa encontrada
+    res.status(200).json(empresa);
+  } catch (error) {
+    console.error('Error al obtener la empresa:', error);
+    res.status(500).json({ error: 'Ocurrió un error al buscar la empresa.' });
+  }
+}
+
 module.exports = {
   crear_empresa,
   obtener_empresas,
   eliminar_empresa,
   mostrar_empresa,
   actualizar_empresa,
+  getEmpresaByNombre,
 };

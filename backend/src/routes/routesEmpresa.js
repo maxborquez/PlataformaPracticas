@@ -126,4 +126,7 @@ routerEmpresa.put(
   empresaController.actualizar_empresa
 );
 
+routerEmpresa.post('/getByNombre', empresaController.getEmpresaByNombre);
+
+
 module.exports = routerEmpresa;

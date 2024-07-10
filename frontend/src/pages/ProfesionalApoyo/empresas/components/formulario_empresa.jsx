@@ -177,7 +177,7 @@ const FormularioEmpresa = () => {
               <TextField
                 label="Teléfono"
                 fullWidth
-                type="text" // Usar "text" en lugar de "number" para controlar mejor la longitud del input
+                type="text"
                 placeholder="9xxxxxxxx"
                 inputProps={{ maxLength: 9 }}
                 {...register("telefono", {

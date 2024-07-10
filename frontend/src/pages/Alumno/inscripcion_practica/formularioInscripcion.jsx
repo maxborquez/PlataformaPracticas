@@ -239,6 +239,9 @@ const FormularioInscripcion = () => {
           <TextField
             fullWidth
             label="Celular"
+            type="text"
+            placeholder="9xxxxxxxx"
+            inputProps={{ maxLength: 9 }}
             value={celular}
             onChange={(e) => setCelular(e.target.value)}
             variant="outlined"
@@ -261,6 +264,9 @@ const FormularioInscripcion = () => {
           <TextField
             fullWidth
             label="Fono de Emergencia"
+            type="text"
+            placeholder="9xxxxxxxx"
+            inputProps={{ maxLength: 9 }}
             value={fonoEmergencia}
             onChange={(e) => setFonoEmergencia(e.target.value)}
             variant="outlined"
@@ -324,6 +330,9 @@ const FormularioInscripcion = () => {
             <TextField
               fullWidth
               label="Fono de la Empresa"
+              type="text"
+              placeholder="9xxxxxxxx"
+              inputProps={{ maxLength: 9 }}
               value={fonoEmpresa}
               onChange={(e) => setFonoEmpresa(e.target.value)}
               variant="outlined"
@@ -393,6 +402,9 @@ const FormularioInscripcion = () => {
             <TextField
               fullWidth
               label="Fono del Supervisor"
+              type="text"
+              placeholder="9xxxxxxxx"
+              inputProps={{ maxLength: 9 }}
               value={fonoSupervisor}
               onChange={(e) => setFonoSupervisor(e.target.value)}
               variant="outlined"

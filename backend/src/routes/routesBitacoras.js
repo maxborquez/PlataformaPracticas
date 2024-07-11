@@ -8,7 +8,6 @@ const { AutenticacionToken } = require("../middlewares/verifyToken");
 const routerBitacoras = express.Router();
 const bitacorasController = require("../controllers/bitacorasController");
 const { body, param } = require("express-validator");
-//titulo,descripcion,fecha_creacion,hora_inicio,hora_fin,id_estado_bitacora,id_inscripcion_practica,id_usuario
 routerBitacoras.post(
   "/create",
   bitacorasController.createBitacora

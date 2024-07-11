@@ -10,6 +10,7 @@ const {
   AutenticacionProfesional,
 } = require("../middlewares/VerifyRolProfesional");
 const { AutenticacionToken } = require("../middlewares/verifyToken");
+
 routerInscripcion.post(
   "/create",
   [
@@ -64,100 +65,100 @@ routerInscripcion.post(
       .withMessage("Debe ser una cadena de texto"),
     body("lunes_manana1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("lunes_manana2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("lunes_tarde1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("lunes_tarde2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_manana1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_manana2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_tarde1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_tarde2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_manana1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_manana2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_tarde1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_tarde2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_manana1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_manana2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_tarde1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_tarde2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_manana1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_manana2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_tarde1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_tarde2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("sabado_manana1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("sabado_manana2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("sabado_tarde1")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("sabado_tarde2")
       .optional()
-      .isISO8601()
-      .withMessage("Debe ser una fecha y hora válida"),
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .withMessage("Debe ser una hora válida en formato HH:mm"),
   ],
   inscripcionPracticaController.crear_inscripcion
 );

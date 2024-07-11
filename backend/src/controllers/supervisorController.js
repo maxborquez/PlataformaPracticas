@@ -46,6 +46,7 @@ const crear_supervisor = async (req, res) => {
     return res.status(200).json({
       message: "El supervisor se ha añadido correctamente",
       supervisor: supervisor,
+      id_supervisor: supervisor.id_supervisor,
     });
   } catch (error) {
     return res.status(400).json({

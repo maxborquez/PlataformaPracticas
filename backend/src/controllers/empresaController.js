@@ -37,6 +37,7 @@ const crear_empresa = async (req, res) => {
     return res.status(200).json({
       mensaje: "Empresa creada correctamente",
       empresa: empresa,
+      id_empresa: empresa.id_empresa,
     });
   } catch (error) {
     return res.status(400).json({

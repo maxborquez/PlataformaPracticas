@@ -11,7 +11,6 @@ const { AutenticacionToken } = require("../middlewares/verifyToken");
 routerEmpresa.post(
   "/create",
   [
-    AutenticacionProfesional,
     body("nombre")
       .notEmpty()
       .withMessage("El campo nombre es requerido")

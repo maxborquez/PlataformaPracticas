@@ -53,14 +53,11 @@ const crear_inscripcion = async (req, res) => {
       sabado_tarde2,
     } = req.body;
 
-    const formato_fecha = "T00:00:00Z";
-    const formato_hora = "T00:00:00Z"; // Ajusta el formato de hora si es necesario
-
     const inscripcion = await prisma.inscripcion_practica.create({
       data: {
-        fecha_inscripcion_practica: `${fecha_inscripcion_practica}${formato_fecha}`,
-        fecha_inicio: `${fecha_inicio}${formato_fecha}`,
-        fecha_fin: `${fecha_fin}${formato_fecha}`,
+        fecha_inscripcion_practica: new Date(`${fecha_inscripcion_practica}T00:00:00.000Z`),
+        fecha_inicio: new Date(`${fecha_inicio}T00:00:00.000Z`),
+        fecha_fin: new Date(`${fecha_fin}T00:00:00.000Z`),
         descripcion,
         objetivos,
         actividades,
@@ -71,30 +68,30 @@ const crear_inscripcion = async (req, res) => {
         id_modalidad,
         id_inscribe,
         observaciones,
-        lunes_manana1: `${lunes_manana1}${formato_hora}`,
-        lunes_manana2: `${lunes_manana2}${formato_hora}`,
-        lunes_tarde1: `${lunes_tarde1}${formato_hora}`,
-        lunes_tarde2: `${lunes_tarde2}${formato_hora}`,
-        martes_manana1: `${martes_manana1}${formato_hora}`,
-        martes_manana2: `${martes_manana2}${formato_hora}`,
-        martes_tarde1: `${martes_tarde1}${formato_hora}`,
-        martes_tarde2: `${martes_tarde2}${formato_hora}`,
-        miercoles_manana1: `${miercoles_manana1}${formato_hora}`,
-        miercoles_manana2: `${miercoles_manana2}${formato_hora}`,
-        miercoles_tarde1: `${miercoles_tarde1}${formato_hora}`,
-        miercoles_tarde2: `${miercoles_tarde2}${formato_hora}`,
-        jueves_manana1: `${jueves_manana1}${formato_hora}`,
-        jueves_manana2: `${jueves_manana2}${formato_hora}`,
-        jueves_tarde1: `${jueves_tarde1}${formato_hora}`,
-        jueves_tarde2: `${jueves_tarde2}${formato_hora}`,
-        viernes_manana1: `${viernes_manana1}${formato_hora}`,
-        viernes_manana2: `${viernes_manana2}${formato_hora}`,
-        viernes_tarde1: `${viernes_tarde1}${formato_hora}`,
-        viernes_tarde2: `${viernes_tarde2}${formato_hora}`,
-        sabado_manana1: `${sabado_manana1}${formato_hora}`,
-        sabado_manana2: `${sabado_manana2}${formato_hora}`,
-        sabado_tarde1: `${sabado_tarde1}${formato_hora}`,
-        sabado_tarde2: `${sabado_tarde2}${formato_hora}`,
+        lunes_manana1: new Date(`${fecha_inscripcion_practica}T${lunes_manana1}:00.000Z`),
+        lunes_manana2: new Date(`${fecha_inscripcion_practica}T${lunes_manana2}:00.000Z`),
+        lunes_tarde1: new Date(`${fecha_inscripcion_practica}T${lunes_tarde1}:00.000Z`),
+        lunes_tarde2: new Date(`${fecha_inscripcion_practica}T${lunes_tarde2}:00.000Z`),
+        martes_manana1: new Date(`${fecha_inscripcion_practica}T${martes_manana1}:00.000Z`),
+        martes_manana2: new Date(`${fecha_inscripcion_practica}T${martes_manana2}:00.000Z`),
+        martes_tarde1: new Date(`${fecha_inscripcion_practica}T${martes_tarde1}:00.000Z`),
+        martes_tarde2: new Date(`${fecha_inscripcion_practica}T${martes_tarde2}:00.000Z`),
+        miercoles_manana1: new Date(`${fecha_inscripcion_practica}T${miercoles_manana1}:00.000Z`),
+        miercoles_manana2: new Date(`${fecha_inscripcion_practica}T${miercoles_manana2}:00.000Z`),
+        miercoles_tarde1: new Date(`${fecha_inscripcion_practica}T${miercoles_tarde1}:00.000Z`),
+        miercoles_tarde2: new Date(`${fecha_inscripcion_practica}T${miercoles_tarde2}:00.000Z`),
+        jueves_manana1: new Date(`${fecha_inscripcion_practica}T${jueves_manana1}:00.000Z`),
+        jueves_manana2: new Date(`${fecha_inscripcion_practica}T${jueves_manana2}:00.000Z`),
+        jueves_tarde1: new Date(`${fecha_inscripcion_practica}T${jueves_tarde1}:00.000Z`),
+        jueves_tarde2: new Date(`${fecha_inscripcion_practica}T${jueves_tarde2}:00.000Z`),
+        viernes_manana1: new Date(`${fecha_inscripcion_practica}T${viernes_manana1}:00.000Z`),
+        viernes_manana2: new Date(`${fecha_inscripcion_practica}T${viernes_manana2}:00.000Z`),
+        viernes_tarde1: new Date(`${fecha_inscripcion_practica}T${viernes_tarde1}:00.000Z`),
+        viernes_tarde2: new Date(`${fecha_inscripcion_practica}T${viernes_tarde2}:00.000Z`),
+        sabado_manana1: new Date(`${fecha_inscripcion_practica}T${sabado_manana1}:00.000Z`),
+        sabado_manana2: new Date(`${fecha_inscripcion_practica}T${sabado_manana2}:00.000Z`),
+        sabado_tarde1: new Date(`${fecha_inscripcion_practica}T${sabado_tarde1}:00.000Z`),
+        sabado_tarde2: new Date(`${fecha_inscripcion_practica}T${sabado_tarde2}:00.000Z`),
       },
     });
 
@@ -483,7 +480,6 @@ const actualizar_inscripcion_alumno = async (req, res) => {
     }
 
     const {
-      fecha_inscripcion_practica,
       fecha_inicio,
       fecha_fin,
       descripcion,
@@ -494,7 +490,6 @@ const actualizar_inscripcion_alumno = async (req, res) => {
       id_oferta,
       id_estado_inscripcion,
       id_modalidad,
-      id_inscribe,
       observaciones,
       lunes_manana1,
       lunes_manana2,
@@ -522,17 +517,16 @@ const actualizar_inscripcion_alumno = async (req, res) => {
       sabado_tarde2,
     } = req.body;
 
-    const formato_fecha = "T00:00:00Z";
-    const formato_hora = "T00:00:00Z"; // Ajusta el formato de hora si es necesario
+    const formato_fecha = "T00:00:00.000Z";
+    const formato_hora = ":00.000Z";
 
     const inscripcion_actualizada = await prisma.inscripcion_practica.update({
       where: {
-        id_inscripcion_practica: Number(inscripcion.id_inscripcion_practica),
+        id_inscripcion_practica: inscripcion.id_inscripcion_practica,
       },
       data: {
-        fecha_inscripcion_practica: `${fecha_inscripcion_practica}${formato_fecha}`,
-        fecha_inicio: `${fecha_inicio}${formato_fecha}`,
-        fecha_fin: `${fecha_fin}${formato_fecha}`,
+        fecha_inicio: new Date(`${inscripcion.fecha_inscripcion_practica}T${fecha_inicio}${formato_hora}`),
+        fecha_fin: new Date(`${inscripcion.fecha_inscripcion_practica}T${fecha_fin}${formato_hora}`),
         descripcion,
         objetivos,
         actividades,
@@ -541,32 +535,31 @@ const actualizar_inscripcion_alumno = async (req, res) => {
         id_oferta,
         id_estado_inscripcion,
         id_modalidad,
-        id_inscribe,
         observaciones,
-        lunes_manana1: `${lunes_manana1}${formato_hora}`,
-        lunes_manana2: `${lunes_manana2}${formato_hora}`,
-        lunes_tarde1: `${lunes_tarde1}${formato_hora}`,
-        lunes_tarde2: `${lunes_tarde2}${formato_hora}`,
-        martes_manana1: `${martes_manana1}${formato_hora}`,
-        martes_manana2: `${martes_manana2}${formato_hora}`,
-        martes_tarde1: `${martes_tarde1}${formato_hora}`,
-        martes_tarde2: `${martes_tarde2}${formato_hora}`,
-        miercoles_manana1: `${miercoles_manana1}${formato_hora}`,
-        miercoles_manana2: `${miercoles_manana2}${formato_hora}`,
-        miercoles_tarde1: `${miercoles_tarde1}${formato_hora}`,
-        miercoles_tarde2: `${miercoles_tarde2}${formato_hora}`,
-        jueves_manana1: `${jueves_manana1}${formato_hora}`,
-        jueves_manana2: `${jueves_manana2}${formato_hora}`,
-        jueves_tarde1: `${jueves_tarde1}${formato_hora}`,
-        jueves_tarde2: `${jueves_tarde2}${formato_hora}`,
-        viernes_manana1: `${viernes_manana1}${formato_hora}`,
-        viernes_manana2: `${viernes_manana2}${formato_hora}`,
-        viernes_tarde1: `${viernes_tarde1}${formato_hora}`,
-        viernes_tarde2: `${viernes_tarde2}${formato_hora}`,
-        sabado_manana1: `${sabado_manana1}${formato_hora}`,
-        sabado_manana2: `${sabado_manana2}${formato_hora}`,
-        sabado_tarde1: `${sabado_tarde1}${formato_hora}`,
-        sabado_tarde2: `${sabado_tarde2}${formato_hora}`,
+        lunes_manana1: new Date(`${inscripcion.fecha_inscripcion_practica}T${lunes_manana1}${formato_hora}`),
+        lunes_manana2: new Date(`${inscripcion.fecha_inscripcion_practica}T${lunes_manana2}${formato_hora}`),
+        lunes_tarde1: new Date(`${inscripcion.fecha_inscripcion_practica}T${lunes_tarde1}${formato_hora}`),
+        lunes_tarde2: new Date(`${inscripcion.fecha_inscripcion_practica}T${lunes_tarde2}${formato_hora}`),
+        martes_manana1: new Date(`${inscripcion.fecha_inscripcion_practica}T${martes_manana1}${formato_hora}`),
+        martes_manana2: new Date(`${inscripcion.fecha_inscripcion_practica}T${martes_manana2}${formato_hora}`),
+        martes_tarde1: new Date(`${inscripcion.fecha_inscripcion_practica}T${martes_tarde1}${formato_hora}`),
+        martes_tarde2: new Date(`${inscripcion.fecha_inscripcion_practica}T${martes_tarde2}${formato_hora}`),
+        miercoles_manana1: new Date(`${inscripcion.fecha_inscripcion_practica}T${miercoles_manana1}${formato_hora}`),
+        miercoles_manana2: new Date(`${inscripcion.fecha_inscripcion_practica}T${miercoles_manana2}${formato_hora}`),
+        miercoles_tarde1: new Date(`${inscripcion.fecha_inscripcion_practica}T${miercoles_tarde1}${formato_hora}`),
+        miercoles_tarde2: new Date(`${inscripcion.fecha_inscripcion_practica}T${miercoles_tarde2}${formato_hora}`),
+        jueves_manana1: new Date(`${inscripcion.fecha_inscripcion_practica}T${jueves_manana1}${formato_hora}`),
+        jueves_manana2: new Date(`${inscripcion.fecha_inscripcion_practica}T${jueves_manana2}${formato_hora}`),
+        jueves_tarde1: new Date(`${inscripcion.fecha_inscripcion_practica}T${jueves_tarde1}${formato_hora}`),
+        jueves_tarde2: new Date(`${inscripcion.fecha_inscripcion_practica}T${jueves_tarde2}${formato_hora}`),
+        viernes_manana1: new Date(`${inscripcion.fecha_inscripcion_practica}T${viernes_manana1}${formato_hora}`),
+        viernes_manana2: new Date(`${inscripcion.fecha_inscripcion_practica}T${viernes_manana2}${formato_hora}`),
+        viernes_tarde1: new Date(`${inscripcion.fecha_inscripcion_practica}T${viernes_tarde1}${formato_hora}`),
+        viernes_tarde2: new Date(`${inscripcion.fecha_inscripcion_practica}T${viernes_tarde2}${formato_hora}`),
+        sabado_manana1: new Date(`${inscripcion.fecha_inscripcion_practica}T${sabado_manana1}${formato_hora}`),
+        sabado_manana2: new Date(`${inscripcion.fecha_inscripcion_practica}T${sabado_manana2}${formato_hora}`),
+        sabado_tarde1: new Date(`${inscripcion.fecha_inscripcion_practica}T${sabado_tarde1}${formato_hora}`),
+        sabado_tarde2: new Date(`${inscripcion.fecha_inscripcion_practica}T${sabado_tarde2}${formato_hora}`),
       },
     });
 
@@ -580,7 +573,6 @@ const actualizar_inscripcion_alumno = async (req, res) => {
     });
   }
 };
-
 
 const actualizar_estado_inscripcion = async (req, res) => {
   try {

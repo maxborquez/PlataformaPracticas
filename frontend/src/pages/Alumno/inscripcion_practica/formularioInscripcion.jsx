@@ -16,7 +16,9 @@ const FormularioInscripcion = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [ciudades, setCiudades] = useState([]);
   const [practica, setPractica] = useState("");
-  const [idInscribe, setIdInscribe] = useState("");
+  const [ciudadSeleccionada, setCiudadSeleccionada] = useState("");
+  console.log(ciudadSeleccionada);
+
 
   useEffect(() => {
     const fetchCiudades = async () => {
@@ -30,6 +32,11 @@ const FormularioInscripcion = () => {
 
     fetchCiudades();
   }, []);
+
+  const handleChangeCiudad = (event) => {
+    const ciudadIdSeleccionada = event.target.value;
+    setCiudadSeleccionada(ciudadIdSeleccionada);
+  };
 
   useEffect(() => {
     // Función para obtener los datos del estudiante
@@ -80,7 +87,6 @@ const FormularioInscripcion = () => {
     // Obtener id_inscribe del localStorage
     const idInscribeLocalStorage = localStorage.getItem("id_inscribe");
     if (idInscribeLocalStorage) {
-      setIdInscribe(idInscribeLocalStorage);
       obtenerDatosInscripcion(idInscribeLocalStorage);
     } else {
       console.error("No se encontró id_inscribe en el localStorage.");
@@ -97,7 +103,6 @@ const FormularioInscripcion = () => {
       // Extraer la práctica desde la respuesta
       const { asignatura } = response.data;
       const practicaRegistrada = asignatura.id_asignatura; // Nombre de la práctica registrada
-      console.log(practicaRegistrada);
 
       // Actualizar el estado de practica con la práctica registrada
       setPractica(practicaRegistrada);
@@ -107,6 +112,7 @@ const FormularioInscripcion = () => {
   };
 
   const [modalidad, setModalidad] = useState("");
+  console.log(modalidad);
   const [nombreEstudiante, setNombreEstudiante] = useState("");
   const [run, setRun] = useState("");
   const [emailEstudiante, setEmailEstudiante] = useState("");
@@ -135,6 +141,14 @@ const FormularioInscripcion = () => {
     viernes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
     sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
   });
+  const [idInscribe, setIdInscribe] = useState("");
+
+  useEffect(() => {
+    const storedIdInscribe = localStorage.getItem("id_inscribe");
+    if (storedIdInscribe) {
+      setIdInscribe(storedIdInscribe);
+    }
+  }, []);
 
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
@@ -173,40 +187,105 @@ const FormularioInscripcion = () => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Aquí puedes manejar el envío del formulario
-    console.log("Formulario enviado con éxito:", {
-      practica,
-      fechaRecepcion,
-      modalidad,
-      nombreEstudiante,
-      run,
-      emailEstudiante,
-      celular,
-      direccionEstudiante,
-      fonoEmergencia,
-      nombreEmpresa,
-      deptoArea,
-      paginaWeb,
-      rubro,
-      fonoEmpresa,
-      direccionEmpresa,
-      ciudad,
-      nombreSupervisor,
-      cargoSupervisor,
-      fonoSupervisor,
-      emailSupervisor,
-      descripcionArea,
-      objetivosPractica,
-      actividadesDesarrollar,
-      horarioPractica,
-      fechaInicio,
-      fechaFin,
-    });
-    // Aquí podrías enviar los datos del formulario a través de una API o hacer alguna acción adicional
-  };
+  const [idEmpresa, setIdEmpresa] = useState(null);
+  const [idSupervisor, setIdSupervisor] = useState(null);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Crear la empresa y obtener id_empresa
+      const formDataEmpresa = {
+        nombre: nombreEmpresa,
+        departamento: deptoArea,
+        web: paginaWeb,
+        rubro: rubro,
+        telefono: fonoEmpresa,
+        direccion: direccionEmpresa,
+        id_ciudad: ciudadSeleccionada,
+      };
+
+      const responseEmpresa = await clienteAxios.post(
+        "/empresa/create",
+        formDataEmpresa
+      );
+      const { id_empresa } = responseEmpresa.data;
+      setIdEmpresa(id_empresa);
+
+      console.log("Empresa creada con id:", id_empresa);
+
+      // Crear el supervisor con id_empresa y obtener id_supervisor
+      const formDataSupervisor = {
+        primer_nombre: nombreSupervisor,
+        segundo_nombre: "a",
+        apellido_paterno: "b",
+        apellido_materno: "c",
+        cargo: cargoSupervisor,
+        telefono: fonoSupervisor,
+        correo: emailSupervisor,
+        id_empresa: id_empresa,
+      };
+
+      const responseSupervisor = await clienteAxios.post(
+        "/supervisor/create",
+        formDataSupervisor
+      );
+      const { id_supervisor } = responseSupervisor.data;
+      setIdSupervisor(id_supervisor);
+
+      console.log("Supervisor creado con id:", id_supervisor);
+
+      const formDataInscripcion = {
+        id_modalidad:  parseInt(modalidad, 10),
+        descripcion: descripcionArea,
+        objetivos: objetivosPractica,
+        actividades: actividadesDesarrollar,
+        fecha_inicio: fechaInicio,
+        fecha_fin: fechaFin,
+        fecha_inscripcion_practica: fechaRecepcion,
+        id_empresa: parseInt(idEmpresa, 10),
+        id_supervisor: parseInt(idSupervisor, 10),
+        lunes_manana1: horarioPractica.lunes.mañana1,
+        lunes_manana2: horarioPractica.lunes.mañana2,
+        lunes_tarde1: horarioPractica.lunes.tarde1,
+        lunes_tarde2: horarioPractica.lunes.tarde2,
+        martes_manana1: horarioPractica.martes.mañana1,
+        martes_manana2: horarioPractica.martes.mañana2,
+        martes_tarde1: horarioPractica.martes.tarde1,
+        martes_tarde2: horarioPractica.martes.tarde2,
+        miercoles_manana1: horarioPractica.miercoles.mañana1,
+        miercoles_manana2: horarioPractica.miercoles.mañana2,
+        miercoles_tarde1: horarioPractica.miercoles.tarde1,
+        miercoles_tarde2: horarioPractica.miercoles.tarde2,
+        jueves_manana1: horarioPractica.jueves.mañana1,
+        jueves_manana2: horarioPractica.jueves.mañana2,
+        jueves_tarde1: horarioPractica.jueves.tarde1,
+        jueves_tarde2: horarioPractica.jueves.tarde2,
+        viernes_manana1: horarioPractica.viernes.mañana1,
+        viernes_manana2: horarioPractica.viernes.mañana2,
+        viernes_tarde1: horarioPractica.viernes.tarde1,
+        viernes_tarde2: horarioPractica.viernes.tarde2,
+        sabado_manana1: horarioPractica.sabado.mañana1,
+        sabado_manana2: horarioPractica.sabado.mañana2,
+        sabado_tarde1: horarioPractica.sabado.tarde1,
+        sabado_tarde2: horarioPractica.sabado.tarde2,
+        id_estado_inscripcion: 1,
+        id_inscribe:  parseInt(idInscribe, 10),
+        observaciones: "",
+      };
+
+      const responseInscripcion = await clienteAxios.post(
+        "/inscripcion/create",
+        formDataInscripcion
+      );
+      console.log("Inscripción creada con éxito:", responseInscripcion.data);
+    } catch (error) {
+      console.error(
+        "Error al crear la empresa, supervisor o inscripción:",
+        error
+      );
+    }
+  };
   const steps = [
     {
       label: "Datos",
@@ -424,12 +503,12 @@ const FormularioInscripcion = () => {
               <InputLabel id="ciudad-label">Ciudad</InputLabel>
               <Select
                 labelId="ciudad-label"
-                value={ciudad}
-                onChange={(e) => setCiudad(e.target.value)}
+                value={ciudadSeleccionada}
+                onChange={handleChangeCiudad}
                 label="Ciudad"
               >
                 {ciudades.map((ciudad) => (
-                  <MenuItem key={ciudad.id_ciudad} value={ciudad.nombre}>
+                  <MenuItem key={ciudad.id_ciudad} value={ciudad.id_ciudad}>
                     {ciudad.nombre}
                   </MenuItem>
                 ))}

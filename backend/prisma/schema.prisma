@@ -344,3 +344,9 @@ model supervisor {
 
   @@index([id_empresa], map: "fk_empresa_supervisor")
 }
+
+model plantilla_word {
+  id_plantilla Int    @id @default(autoincrement())
+  nombre       String @db.VarChar(100)
+  archivo      Bytes
+}

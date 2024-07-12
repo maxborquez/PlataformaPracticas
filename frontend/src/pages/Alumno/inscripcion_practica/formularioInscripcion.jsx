@@ -182,13 +182,58 @@ const FormularioInscripcion = () => {
         } else {
           updatedErrors[day].mañana1 = false;
         }
+        if (
+          updatedHorario[day].mañana2 &&
+          updatedHorario[day].mañana2 < value
+        ) {
+          updatedErrors[day].mañana2 = true;
+          isValid = false;
+        } else {
+          updatedErrors[day].mañana2 = false;
+        }
+        break;
+      case "mañana2":
+        if (
+          updatedHorario[day].mañana1 &&
+          updatedHorario[day].mañana1 > value
+        ) {
+          updatedErrors[day].mañana1 = true;
+          isValid = false;
+        } else {
+          updatedErrors[day].mañana1 = false;
+        }
+        break;
+      case "tarde1":
+        if (
+          updatedHorario[day].mañana2 &&
+          updatedHorario[day].mañana2 > value
+        ) {
+          updatedErrors[day].mañana2 = true;
+          isValid = false;
+        } else {
+          updatedErrors[day].mañana2 = false;
+        }
+        if (updatedHorario[day].tarde2 && updatedHorario[day].tarde2 < value) {
+          updatedErrors[day].tarde2 = true;
+          isValid = false;
+        } else {
+          updatedErrors[day].tarde2 = false;
+        }
         break;
       case "tarde2":
+
         if (value > "20:00") {
           updatedErrors[day].tarde2 = true;
           isValid = false;
         } else {
           updatedErrors[day].tarde2 = false;
+        }
+
+        if (updatedHorario[day].tarde1 && updatedHorario[day].tarde1 > value) {
+          updatedErrors[day].tarde1 = true;
+          isValid = false;
+        } else {
+          updatedErrors[day].tarde1 = false;
         }
         break;
       default:
@@ -817,7 +862,7 @@ const FormularioInscripcion = () => {
                       error={errors[dia].mañana1}
                       helperText={
                         errors[dia].mañana1
-                          ? "La hora de inicio mañana no puede ser antes de las 08:00"
+                          ? "La hora de inicio mañana no puede ser antes de las 08:00 o mayor que la hora fin mañana"
                           : ""
                       }
                     />
@@ -836,6 +881,12 @@ const FormularioInscripcion = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      error={errors[dia].mañana2}
+                      helperText={
+                        errors[dia].mañana2
+                          ? "La hora de fin mañana no puede ser menor que la hora inicio mañana o mayor que la hora inicio tarde"
+                          : ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={3}>
@@ -852,6 +903,12 @@ const FormularioInscripcion = () => {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      error={errors[dia].tarde1}
+                      helperText={
+                        errors[dia].tarde1
+                          ? "La hora de inicio tarde no puede ser menor que la hora fin mañana o mayor que la hora fin tarde"
+                          : ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={3}>
@@ -871,7 +928,7 @@ const FormularioInscripcion = () => {
                       error={errors[dia].tarde2}
                       helperText={
                         errors[dia].tarde2
-                          ? "La hora de fin tarde no puede ser después de las 20:00"
+                          ? "La hora de fin tarde no puede ser despues de las 20:00 o menor que la hora inicio tarde"
                           : ""
                       }
                     />

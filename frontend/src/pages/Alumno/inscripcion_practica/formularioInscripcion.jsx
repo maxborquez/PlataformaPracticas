@@ -11,14 +11,15 @@ import {
   Typography,
 } from "@mui/material";
 import clienteAxios from "../../../helpers/clienteaxios";
+import { useNavigate } from "react-router-dom";
 
 const FormularioInscripcion = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [ciudades, setCiudades] = useState([]);
   const [practica, setPractica] = useState("");
   const [ciudadSeleccionada, setCiudadSeleccionada] = useState("");
+  const navigate = useNavigate();
   console.log(ciudadSeleccionada);
-
 
   useEffect(() => {
     const fetchCiudades = async () => {
@@ -141,6 +142,66 @@ const FormularioInscripcion = () => {
     viernes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
     sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
   });
+
+  const [errors, setErrors] = useState({
+    lunes: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
+    martes: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
+    miercoles: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
+    jueves: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
+    viernes: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
+    sabado: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
+  });
+
+  const diasSemana = [
+    "lunes",
+    "martes",
+    "miercoles",
+    "jueves",
+    "viernes",
+    "sabado",
+  ];
+
+  const handleTimeChange = (day, timePart, value) => {
+    const updatedHorario = {
+      ...horarioPractica,
+      [day]: {
+        ...horarioPractica[day],
+        [timePart]: value,
+      },
+    };
+
+    let updatedErrors = { ...errors };
+    let isValid = true;
+
+    // Validaciones específicas por día y parte del día
+    switch (timePart) {
+      case "mañana1":
+        if (value < "08:00") {
+          updatedErrors[day].mañana1 = true;
+          isValid = false;
+        } else {
+          updatedErrors[day].mañana1 = false;
+        }
+        break;
+      case "tarde2":
+        if (value > "20:00") {
+          updatedErrors[day].tarde2 = true;
+          isValid = false;
+        } else {
+          updatedErrors[day].tarde2 = false;
+        }
+        break;
+      default:
+        break;
+    }
+
+    // Aplicar el estado actualizado
+    setHorarioPractica(updatedHorario);
+    setErrors(updatedErrors);
+
+    return isValid;
+  };
+
   const [idInscribe, setIdInscribe] = useState("");
 
   useEffect(() => {
@@ -194,25 +255,47 @@ const FormularioInscripcion = () => {
     e.preventDefault();
 
     try {
-      // Crear la empresa y obtener id_empresa
-      const formDataEmpresa = {
-        nombre: nombreEmpresa,
-        departamento: deptoArea,
-        web: paginaWeb,
-        rubro: rubro,
-        telefono: fonoEmpresa,
-        direccion: direccionEmpresa,
-        id_ciudad: ciudadSeleccionada,
-      };
+      let id_empresa;
 
-      const responseEmpresa = await clienteAxios.post(
-        "/empresa/create",
-        formDataEmpresa
-      );
-      const { id_empresa } = responseEmpresa.data;
-      setIdEmpresa(id_empresa);
+      // Primero, busca si la empresa ya existe por nombre
+      try {
+        const responseBuscarEmpresa = await clienteAxios.post(
+          "/empresa/getByNombre",
+          { nombre: nombreEmpresa }
+        );
 
-      console.log("Empresa creada con id:", id_empresa);
+        if (
+          responseBuscarEmpresa.data &&
+          responseBuscarEmpresa.data.id_empresa
+        ) {
+          // Si la empresa existe, usa el id_empresa existente
+          id_empresa = responseBuscarEmpresa.data.id_empresa;
+          console.log("Empresa encontrada con id:", id_empresa);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          // Si la empresa no existe (404), crea una nueva empresa
+          const formDataEmpresa = {
+            nombre: nombreEmpresa,
+            departamento: deptoArea,
+            web: paginaWeb,
+            rubro: rubro,
+            telefono: fonoEmpresa,
+            direccion: direccionEmpresa,
+            id_ciudad: ciudadSeleccionada,
+          };
+
+          const responseCrearEmpresa = await clienteAxios.post(
+            "/empresa/create",
+            formDataEmpresa
+          );
+          id_empresa = responseCrearEmpresa.data.id_empresa;
+          console.log("Empresa creada con id:", id_empresa);
+        } else {
+          // Maneja otros errores posibles en la búsqueda de la empresa
+          throw new Error("Error al buscar la empresa");
+        }
+      }
 
       // Crear el supervisor con id_empresa y obtener id_supervisor
       const formDataSupervisor = {
@@ -231,20 +314,18 @@ const FormularioInscripcion = () => {
         formDataSupervisor
       );
       const { id_supervisor } = responseSupervisor.data;
-      setIdSupervisor(id_supervisor);
-
       console.log("Supervisor creado con id:", id_supervisor);
 
       const formDataInscripcion = {
-        id_modalidad:  parseInt(modalidad, 10),
+        id_modalidad: parseInt(modalidad, 10),
         descripcion: descripcionArea,
         objetivos: objetivosPractica,
         actividades: actividadesDesarrollar,
         fecha_inicio: fechaInicio,
         fecha_fin: fechaFin,
         fecha_inscripcion_practica: fechaRecepcion,
-        id_empresa: parseInt(idEmpresa, 10),
-        id_supervisor: parseInt(idSupervisor, 10),
+        id_empresa: parseInt(id_empresa, 10),
+        id_supervisor: parseInt(id_supervisor, 10),
         lunes_manana1: horarioPractica.lunes.mañana1,
         lunes_manana2: horarioPractica.lunes.mañana2,
         lunes_tarde1: horarioPractica.lunes.tarde1,
@@ -270,7 +351,7 @@ const FormularioInscripcion = () => {
         sabado_tarde1: horarioPractica.sabado.tarde1,
         sabado_tarde2: horarioPractica.sabado.tarde2,
         id_estado_inscripcion: 1,
-        id_inscribe:  parseInt(idInscribe, 10),
+        id_inscribe: parseInt(idInscribe, 10),
         observaciones: "",
       };
 
@@ -279,6 +360,9 @@ const FormularioInscripcion = () => {
         formDataInscripcion
       );
       console.log("Inscripción creada con éxito:", responseInscripcion.data);
+
+      // Redirige a la página /mi_practica después de la inscripción exitosa
+      navigate("/mi_practica");
     } catch (error) {
       console.error(
         "Error al crear la empresa, supervisor o inscripción:",
@@ -286,6 +370,7 @@ const FormularioInscripcion = () => {
       );
     }
   };
+
   const steps = [
     {
       label: "Datos",
@@ -705,566 +790,95 @@ const FormularioInscripcion = () => {
             </Grid>
           </Grid>
 
-          <Grid item xs={12}>
-            <Typography variant="subtitle1">Lunes</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Mañana"
-                  value={horarioPractica.lunes.mañana1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      lunes: {
-                        ...horarioPractica.lunes,
-                        mañana1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
+          <Grid container spacing={2}>
+            {diasSemana.map((dia) => (
+              <Grid item xs={12} key={dia}>
+                <Typography
+                  variant="subtitle1"
+                  style={{ textTransform: "capitalize" }}
+                >
+                  {dia}
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      type="time"
+                      label="Inicio Mañana"
+                      value={horarioPractica[dia].mañana1}
+                      onChange={(e) =>
+                        handleTimeChange(dia, "mañana1", e.target.value)
+                      }
+                      variant="outlined"
+                      margin="normal"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      error={errors[dia].mañana1}
+                      helperText={
+                        errors[dia].mañana1
+                          ? "La hora de inicio mañana no puede ser antes de las 08:00"
+                          : ""
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      type="time"
+                      label="Fin Mañana"
+                      value={horarioPractica[dia].mañana2}
+                      onChange={(e) =>
+                        handleTimeChange(dia, "mañana2", e.target.value)
+                      }
+                      variant="outlined"
+                      margin="normal"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      type="time"
+                      label="Inicio Tarde"
+                      value={horarioPractica[dia].tarde1}
+                      onChange={(e) =>
+                        handleTimeChange(dia, "tarde1", e.target.value)
+                      }
+                      variant="outlined"
+                      margin="normal"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      type="time"
+                      label="Fin Tarde"
+                      value={horarioPractica[dia].tarde2}
+                      onChange={(e) =>
+                        handleTimeChange(dia, "tarde2", e.target.value)
+                      }
+                      variant="outlined"
+                      margin="normal"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      error={errors[dia].tarde2}
+                      helperText={
+                        errors[dia].tarde2
+                          ? "La hora de fin tarde no puede ser después de las 20:00"
+                          : ""
+                      }
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Mañana"
-                  value={horarioPractica.lunes.mañana2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      lunes: {
-                        ...horarioPractica.lunes,
-                        mañana2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Tarde"
-                  value={horarioPractica.lunes.tarde1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      lunes: {
-                        ...horarioPractica.lunes,
-                        tarde1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Tarde"
-                  value={horarioPractica.lunes.tarde2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      lunes: {
-                        ...horarioPractica.lunes,
-                        tarde2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography variant="subtitle1">Martes</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Mañana"
-                  value={horarioPractica.martes.mañana1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      martes: {
-                        ...horarioPractica.martes,
-                        mañana1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Mañana"
-                  value={horarioPractica.martes.mañana2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      martes: {
-                        ...horarioPractica.martes,
-                        mañana2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Tarde"
-                  value={horarioPractica.martes.tarde1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      martes: {
-                        ...horarioPractica.martes,
-                        tarde1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Tarde"
-                  value={horarioPractica.martes.tarde2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      martes: {
-                        ...horarioPractica.martes,
-                        tarde2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="subtitle1">Miércoles</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Mañana"
-                  value={horarioPractica.miercoles.mañana1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      miercoles: {
-                        ...horarioPractica.miercoles,
-                        mañana1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Mañana"
-                  value={horarioPractica.miercoles.mañana2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      miercoles: {
-                        ...horarioPractica.miercoles,
-                        mañana2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Tarde"
-                  value={horarioPractica.miercoles.tarde1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      miercoles: {
-                        ...horarioPractica.miercoles,
-                        tarde1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Tarde"
-                  value={horarioPractica.miercoles.tarde2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      miercoles: {
-                        ...horarioPractica.miercoles,
-                        tarde2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography variant="subtitle1">Jueves</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Mañana"
-                  value={horarioPractica.jueves.mañana1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      jueves: {
-                        ...horarioPractica.jueves,
-                        mañana1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Mañana"
-                  value={horarioPractica.jueves.mañana2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      jueves: {
-                        ...horarioPractica.jueves,
-                        mañana2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Tarde"
-                  value={horarioPractica.jueves.tarde1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      jueves: {
-                        ...horarioPractica.jueves,
-                        tarde1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Tarde"
-                  value={horarioPractica.jueves.tarde2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      jueves: {
-                        ...horarioPractica.jueves,
-                        tarde2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="subtitle1">Viernes</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Mañana"
-                  value={horarioPractica.viernes.mañana1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      viernes: {
-                        ...horarioPractica.viernes,
-                        mañana1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Mañana"
-                  value={horarioPractica.viernes.mañana2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      viernes: {
-                        ...horarioPractica.viernes,
-                        mañana2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Tarde"
-                  value={horarioPractica.viernes.tarde1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      viernes: {
-                        ...horarioPractica.viernes,
-                        tarde1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Tarde"
-                  value={horarioPractica.viernes.tarde2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      viernes: {
-                        ...horarioPractica.viernes,
-                        tarde2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography variant="subtitle1">Sábado</Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Mañana"
-                  value={horarioPractica.sabado.mañana1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      sabado: {
-                        ...horarioPractica.sabado,
-                        mañana1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Mañana"
-                  value={horarioPractica.sabado.mañana2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      sabado: {
-                        ...horarioPractica.sabado,
-                        mañana2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Inicio Tarde"
-                  value={horarioPractica.sabado.tarde1}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      sabado: {
-                        ...horarioPractica.sabado,
-                        tarde1: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  fullWidth
-                  type="time"
-                  label="Fin Tarde"
-                  value={horarioPractica.sabado.tarde2}
-                  onChange={(e) =>
-                    setHorarioPractica({
-                      ...horarioPractica,
-                      sabado: {
-                        ...horarioPractica.sabado,
-                        tarde2: e.target.value,
-                      },
-                    })
-                  }
-                  variant="outlined"
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-            </Grid>
+            ))}
           </Grid>
         </Grid>
       ),

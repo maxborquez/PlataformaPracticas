@@ -207,30 +207,30 @@ model inscripcion_practica {
   id_modalidad               Int
   id_inscribe                Int
   observaciones              String                @db.VarChar(500)
-  lunes_manana1              DateTime              @db.Time(0)
-  lunes_manana2              DateTime              @db.Time(0)
-  lunes_tarde1               DateTime              @db.Time(0)
-  lunes_tarde2               DateTime              @db.Time(0)
-  martes_manana1             DateTime              @db.Time(0)
-  martes_manana2             DateTime              @db.Time(0)
-  martes_tarde1              DateTime              @db.Time(0)
-  martes_tarde2              DateTime              @db.Time(0)
-  miercoles_manana1          DateTime              @db.Time(0)
-  miercoles_manana2          DateTime              @db.Time(0)
-  miercoles_tarde1           DateTime              @db.Time(0)
-  miercoles_tarde2           DateTime              @db.Time(0)
-  jueves_manana1             DateTime              @db.Time(0)
-  jueves_manana2             DateTime              @db.Time(0)
-  jueves_tarde1              DateTime              @db.Time(0)
-  jueves_tarde2              DateTime              @db.Time(0)
-  viernes_manana1            DateTime              @db.Time(0)
-  viernes_manana2            DateTime              @db.Time(0)
-  viernes_tarde1             DateTime              @db.Time(0)
-  viernes_tarde2             DateTime              @db.Time(0)
-  sabado_manana1             DateTime              @db.Time(0)
-  sabado_manana2             DateTime              @db.Time(0)
-  sabado_tarde1              DateTime              @db.Time(0)
-  sabado_tarde2              DateTime              @db.Time(0)
+  lunes_manana1              DateTime?             @db.Time(0)
+  lunes_manana2              DateTime?             @db.Time(0)
+  lunes_tarde1               DateTime?             @db.Time(0)
+  lunes_tarde2               DateTime?             @db.Time(0)
+  martes_manana1             DateTime?             @db.Time(0)
+  martes_manana2             DateTime?             @db.Time(0)
+  martes_tarde1              DateTime?             @db.Time(0)
+  martes_tarde2              DateTime?             @db.Time(0)
+  miercoles_manana1          DateTime?             @db.Time(0)
+  miercoles_manana2          DateTime?             @db.Time(0)
+  miercoles_tarde1           DateTime?             @db.Time(0)
+  miercoles_tarde2           DateTime?             @db.Time(0)
+  jueves_manana1             DateTime?             @db.Time(0)
+  jueves_manana2             DateTime?             @db.Time(0)
+  jueves_tarde1              DateTime?             @db.Time(0)
+  jueves_tarde2              DateTime?             @db.Time(0)
+  viernes_manana1            DateTime?             @db.Time(0)
+  viernes_manana2            DateTime?             @db.Time(0)
+  viernes_tarde1             DateTime?             @db.Time(0)
+  viernes_tarde2             DateTime?             @db.Time(0)
+  sabado_manana1             DateTime?             @db.Time(0)
+  sabado_manana2             DateTime?             @db.Time(0)
+  sabado_tarde1              DateTime?             @db.Time(0)
+  sabado_tarde2              DateTime?             @db.Time(0)
   archivo_evaluacion         archivo_evaluacion[]
   archivo_informe            archivo_informe[]
   archivo_inscripcion        archivo_inscripcion[]
@@ -343,10 +343,4 @@ model supervisor {
   empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_supervisor")
 
   @@index([id_empresa], map: "fk_empresa_supervisor")
-}
-
-model plantilla_word {
-  id_plantilla Int    @id @default(autoincrement())
-  nombre       String @db.VarChar(100)
-  archivo      Bytes
 }

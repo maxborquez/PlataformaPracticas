@@ -1,41 +1,96 @@
-import React, { useState, useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { Button, Card, Grid } from '@mui/material';
-import DatosPractica from './components/DatosPractica';
-import DatosEstudiante from './components/DatosEstudiante';
-import DatosEmpresa from './components/DatosEmpresa';
-import DatosSupervisor from './components/DatosSupervisor';
-import Descripcion from './components/Descripcion';
-import Objetivos from './components/Objetivos';
-import Actividades from './components/Actividades';
-import HorarioPractica from './components/HorarioPractica';
-import clienteAxios from '../../../helpers/clienteaxios';
+import React, { useState, useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { Button, Card, Grid } from "@mui/material";
+import clienteAxios from "../../../helpers/clienteaxios";
+import DatosPractica from "./components/DatosPractica";
+import DatosEstudiante from "./components/DatosEstudiante";
+import DatosEmpresa from "./components/DatosEmpresa";
+import DatosSupervisor from "./components/DatosSupervisor";
+import Descripcion from "./components/Descripcion";
+import Objetivos from "./components/Objetivos";
+import Actividades from "./components/Actividades";
+import HorarioPractica from "./components/HorarioPractica";
 
 const steps = [
-  { label: 'Datos de la práctica', component: DatosPractica },
-  { label: 'Datos del estudiante', component: DatosEstudiante },
-  { label: 'Datos de la empresa', component: DatosEmpresa },
-  { label: 'Datos del supervisor', component: DatosSupervisor },
-  { label: 'Breve descripción del área de desarrollo', component: Descripcion },
-  { label: 'Objetivo(s) de la práctica', component: Objetivos },
-  { label: 'Actividades a desarrollar', component: Actividades },
-  { label: 'Horario de la práctica', component: HorarioPractica },
+  { label: "Datos de la práctica", component: DatosPractica },
+  { label: "Datos del estudiante", component: DatosEstudiante },
+  { label: "Datos de la empresa", component: DatosEmpresa },
+  { label: "Datos del supervisor", component: DatosSupervisor },
+  { label: "Breve descripción del área de desarrollo", component: Descripcion },
+  { label: "Objetivo(s) de la práctica", component: Objetivos },
+  { label: "Actividades a desarrollar", component: Actividades },
+  { label: "Horario de la práctica", component: HorarioPractica },
 ];
 
 const FormularioInscripcion = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [stepCompleted, setStepCompleted] = useState(Array(steps.length).fill(false));
+  const [stepCompleted, setStepCompleted] = useState(
+    Array(steps.length).fill(false)
+  );
   const methods = useForm();
-  const { handleSubmit, setValue } = methods;
-  const [practica, setPractica] = useState('');
-  const [fechaRecepcion, setFechaRecepcion] = useState(new Date().toISOString().split("T")[0]); // Fecha actual en formato YYYY-MM-DD
-  const [modalidad, setModalidad] = useState('');
-  const [nombreEstudiante, setNombreEstudiante] = useState('');
-  const [run, setRun] = useState('');
-  const [emailEstudiante, setEmailEstudiante] = useState('');
-  const [celular, setCelular] = useState('');
-  const [direccionEstudiante, setDireccionEstudiante] = useState('');
-  const [fonoEmergencia, setFonoEmergencia] = useState('');
+  const { handleSubmit } = methods;
+
+  const [practica, setPractica] = useState("");
+  const [fechaRecepcion, setFechaRecepcion] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [modalidad, setModalidad] = useState("");
+  const [nombreEstudiante, setNombreEstudiante] = useState("");
+  const [run, setRun] = useState("");
+  const [emailEstudiante, setEmailEstudiante] = useState("");
+  const [celular, setCelular] = useState("");
+  const [direccionEstudiante, setDireccionEstudiante] = useState("");
+  const [fonoEmergencia, setFonoEmergencia] = useState("");
+  const [regiones, setRegiones] = useState([]);
+  const [provincias, setProvincias] = useState([]);
+  const [comunas, setComunas] = useState([]);
+
+  useEffect(() => {
+    // Obtener datos del localStorage o inicializar según tu lógica
+    const idInscribeLocalStorage = localStorage.getItem("id_inscribe");
+    if (idInscribeLocalStorage) {
+      obtenerDatosInscripcion(idInscribeLocalStorage);
+    } else {
+      console.error("No se encontró id_inscribe en el localStorage.");
+    }
+  }, []);
+
+  useEffect(() => {
+    // Función para obtener las regiones disponibles
+    const obtenerRegiones = async () => {
+      try {
+        const response = await clienteAxios.get("/comuna/regiones");
+        setRegiones(response.data);
+      } catch (error) {
+        console.error("Error al obtener las regiones:", error);
+      }
+    };
+
+    // Llamar a la función para obtener las regiones al cargar el componente
+    obtenerRegiones();
+  }, []);
+
+  const handleRegionChange = async (regionId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getProvinciaByRegion/${regionId}`
+      );
+      setProvincias(response.data); // Ajustar según la estructura de datos recibida
+    } catch (error) {
+      console.error("Error al obtener las provincias por región:", error);
+    }
+  };
+
+  const handleProvinciaChange = async (provinciaId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getComunasByProvincia/${provinciaId}`
+      );
+      setComunas(response.data); // Ajustar según la estructura de datos recibida
+    } catch (error) {
+      console.error("Error al obtener las comunas por provincia:", error);
+    }
+  };
 
   useEffect(() => {
     // Función para obtener los datos del estudiante
@@ -74,19 +129,11 @@ const FormularioInscripcion = () => {
     obtenerDatosEstudiante();
   }, []);
 
-  useEffect(() => {
-    // Obtener datos del localStorage o inicializar según tu lógica
-    const idInscribeLocalStorage = localStorage.getItem("id_inscribe");
-    if (idInscribeLocalStorage) {
-      obtenerDatosInscripcion(idInscribeLocalStorage);
-    } else {
-      console.error("No se encontró id_inscribe en el localStorage.");
-    }
-  }, []);
-
   const obtenerDatosInscripcion = async (idInscribe) => {
     try {
-      const response = await clienteAxios.get(`/inscribe/getInscribe/${idInscribe}`);
+      const response = await clienteAxios.get(
+        `/inscribe/getInscribe/${idInscribe}`
+      );
       const { asignatura } = response.data; // Ajustar según la respuesta real del servidor
       const practicaRegistrada = asignatura.id_asignatura; // Ajustar según la respuesta real del servidor
       setPractica(practicaRegistrada);
@@ -110,7 +157,7 @@ const FormularioInscripcion = () => {
   const onSubmit = async (data) => {
     try {
       console.log("Datos a enviar:", data);
-      const response = await clienteAxios.post('/inscribe/enviarDatos', data);
+      const response = await clienteAxios.post("/inscribe/enviarDatos", data);
       console.log("Respuesta del servidor:", response.data);
       // Manejar la respuesta del servidor, redireccionar, mostrar mensajes, etc.
     } catch (error) {
@@ -123,7 +170,7 @@ const FormularioInscripcion = () => {
 
   return (
     <FormProvider {...methods}>
-      <Card style={{ padding: '20px', marginBottom: '20px' }}>
+      <Card style={{ padding: "20px", marginBottom: "20px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StepComponent
             practica={practica}
@@ -137,19 +184,24 @@ const FormularioInscripcion = () => {
             celular={celular}
             direccionEstudiante={direccionEstudiante}
             fonoEmergencia={fonoEmergencia}
+            regiones={regiones}
+            provincias={provincias}
+            comunas={comunas}
+            onRegionChange={handleRegionChange}
+            onProvinciaChange={handleProvinciaChange}
             onStepComplete={(completed) => {
               const newStepCompleted = [...stepCompleted];
               newStepCompleted[activeStep] = completed;
               setStepCompleted(newStepCompleted);
             }}
           />
-          <Grid container spacing={2} style={{ marginTop: '20px' }}>
+          <Grid container spacing={2} style={{ marginTop: "20px" }}>
             <Grid item>
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 variant="contained"
-                style={{ marginRight: '10px' }}
+                style={{ marginRight: "10px" }}
               >
                 Atrás
               </Button>
@@ -158,10 +210,14 @@ const FormularioInscripcion = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={activeStep === steps.length - 1 ? handleSubmit(onSubmit) : handleNext}
+                onClick={
+                  activeStep === steps.length - 1
+                    ? handleSubmit(onSubmit)
+                    : handleNext
+                }
                 disabled={!stepCompleted[activeStep]}
               >
-                {activeStep === steps.length - 1 ? 'Enviar' : 'Siguiente'}
+                {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
               </Button>
             </Grid>
           </Grid>

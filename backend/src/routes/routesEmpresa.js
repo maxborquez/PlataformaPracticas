@@ -41,11 +41,11 @@ routerEmpresa.post(
       .withMessage("El campo telefono es requerido")
       .isString()
       .withMessage("El campo telefono debe ser un string"),
-    body("id_ciudad")
+    body("id_comuna")
       .notEmpty()
-      .withMessage("El campo id_ciudad es requerido")
+      .withMessage("El campo id_comuna es requerido")
       .isInt()
-      .withMessage("El campo id_ciudad debe ser un entero"),
+      .withMessage("El campo id_comuna debe ser un entero"),
   ],
   empresaController.crear_empresa
 );
@@ -116,11 +116,11 @@ routerEmpresa.put(
       .withMessage("El campo telefono es requerido")
       .isString()
       .withMessage("El campo telefono debe ser un string"),
-    body("id_ciudad")
+    body("id_comuna")
       .notEmpty()
-      .withMessage("El campo id_ciudad es requerido")
+      .withMessage("El campo id_comuna es requerido")
       .isInt()
-      .withMessage("El campo id_ciudad debe ser un entero"),
+      .withMessage("El campo id_comuna debe ser un entero"),
   ],
   empresaController.actualizar_empresa
 );

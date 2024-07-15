@@ -23,13 +23,13 @@ const FormularioModificar = ({ id }) => {
   const [rubro, setRubro] = useState("");
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [ciudad, setCiudad] = useState({});
-  const [empresa, setEmpresa] = useState({ id_ciudad: "", nombre: "" });
+  const [comuna, setComuna] = useState({});
+  const [empresa, setEmpresa] = useState({ id_comuna: "", nombre: "" });
 
-  const getciudades = useQuery("ciudades", async () => {
-    const response = await clienteAxios.get("/ciudad/getCiudades");
+  const getcomunas = useQuery("comunas", async () => {
+    const response = await clienteAxios.get("/comuna/getComunas");
     if (response.status === 200) {
-      return response.data.ciudad;
+      return response.data.comuna;
     }
   });
 
@@ -45,7 +45,7 @@ const FormularioModificar = ({ id }) => {
       setRubro(response.data.empresa.rubro);
       setDireccion(response.data.empresa.direccion);
       setTelefono(response.data.empresa.telefono);
-      setCiudad(response.data.empresa.ciudad);
+      setComuna(response.data.empresa.comuna);
       setLoading(false);
     }
   };
@@ -54,8 +54,8 @@ const FormularioModificar = ({ id }) => {
     getEmpresa();
   }, []);
 
-  const handleCiudad = (event) => {
-    setCiudad(event.target.value);
+  const handleComuna = (event) => {
+    setComuna(event.target.value);
   };
 
 
@@ -68,7 +68,7 @@ const FormularioModificar = ({ id }) => {
       rubro: rubro,
       direccion: direccion,
       telefono: telefono,
-      id_ciudad: ciudad.id_ciudad,
+      id_comuna: comuna.id_comuna,
     };
     const response = await clienteAxios.put(
       `empresa/update/${id}`,
@@ -179,14 +179,14 @@ const FormularioModificar = ({ id }) => {
               <Grid item xs={11} xl={6} lg={6} md={6} sm={10}>
                 <Autocomplete
                   sx={{ backgroundColor: "white" }}
-                  options={getciudades.data || []}
+                  options={getcomunas.data || []}
                   getOptionLabel={(option) => option.nombre || ""}
-                  value={ciudad}
+                  value={comuna}
                   onChange={(event, newValue) => {
-                    setCiudad(newValue);
+                    setComuna(newValue);
                   }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Ciudad" fullWidth />
+                    <TextField {...params} label="Comuna" fullWidth />
                   )}
                   noOptionsText="Sin coincidencias"
                 />

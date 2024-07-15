@@ -141,8 +141,8 @@ const TableEmpresa = () => {
       }
     },
     {
-      name: "ciudad",
-      label: "Ciudad",
+      name: "comuna",
+      label: "Comuna",
       options: {
         customBodyRender: (value) => value.nombre,
         setCellHeaderProps: () => ({

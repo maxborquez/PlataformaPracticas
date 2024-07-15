@@ -10,7 +10,6 @@ const {
   AutenticacionProfesional,
 } = require("../middlewares/VerifyRolProfesional");
 const { AutenticacionToken } = require("../middlewares/verifyToken");
-
 routerInscripcion.post(
   "/create",
   [
@@ -18,8 +17,12 @@ routerInscripcion.post(
     body("fecha_inscripcion_practica")
       .notEmpty()
       .withMessage("El campo es requerido"),
-    body("fecha_inicio").notEmpty().withMessage("El campo es requerido"),
-    body("fecha_fin").notEmpty().withMessage("El campo es requerido"),
+    body("fecha_inicio")
+      .notEmpty()
+      .withMessage("El campo es requerido"),
+    body("fecha_fin")
+      .notEmpty()
+      .withMessage("El campo es requerido"),
     body("id_modalidad")
       .notEmpty()
       .withMessage("El campo es requerido")
@@ -63,101 +66,174 @@ routerInscripcion.post(
       .optional()
       .isString()
       .withMessage("Debe ser una cadena de texto"),
+    // Campos de hora
     body("lunes_manana1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("lunes_manana2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("lunes_tarde1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("lunes_tarde2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_manana1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_manana2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_tarde1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("martes_tarde2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_manana1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_manana2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_tarde1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("miercoles_tarde2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_manana1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_manana2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_tarde1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("jueves_tarde2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_manana1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_manana2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_tarde1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
     body("viernes_tarde2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
-    body("sabado_manana1")
+      body("sabado_manana1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
-    body("sabado_manana2")
+      body("sabado_manana2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
-    body("sabado_tarde1")
+      body("sabado_tarde1")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
-    body("sabado_tarde2")
+      body("sabado_tarde2")
       .optional()
-      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      .custom((value) => {
+        if (value === '') return true; // Permitir cadena vacía
+        return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+      })
       .withMessage("Debe ser una hora válida en formato HH:mm"),
   ],
   inscripcionPracticaController.crear_inscripcion

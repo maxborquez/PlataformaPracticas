@@ -13,7 +13,9 @@ const FormularioInscripcion = () => {
   const [ciudades, setCiudades] = useState([]);
   const [practica, setPractica] = useState("");
   const [ciudadSeleccionada, setCiudadSeleccionada] = useState("");
-
+  const [descripcionError, setDescripcionError] = useState("");
+  const [objetivosError, setObjetivosError] = useState("");
+  const [actividadesError, setActividadesError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -198,6 +200,11 @@ const FormularioInscripcion = () => {
     const value = e.target.value;
     if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
       setDescripcionArea(value);
+      setDescripcionError("");
+    } else {
+      setDescripcionError(
+        "Descripción inválida. Solo letras, números y máximo 200 caracteres."
+      );
     }
   };
 
@@ -205,6 +212,11 @@ const FormularioInscripcion = () => {
     const value = e.target.value;
     if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
       setObjetivosPractica(value);
+      setObjetivosError("");
+    } else {
+      setObjetivosError(
+        "Objetivos inválidos. Solo letras, números y máximo 200 caracteres."
+      );
     }
   };
 
@@ -212,6 +224,11 @@ const FormularioInscripcion = () => {
     const value = e.target.value;
     if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
       setActividadesDesarrollar(value);
+      setActividadesError("");
+    } else {
+      setActividadesError(
+        "Actividades inválidas. Solo letras, números y máximo 200 caracteres."
+      );
     }
   };
 
@@ -340,7 +357,7 @@ const FormularioInscripcion = () => {
       label: "Datos de la práctica",
       content: (
         <DatosPractica
-          practica={parseInt(practica,10)}
+          practica={parseInt(practica, 10)}
           setPractica={setPractica}
           fechaRecepcion={fechaRecepcion}
           modalidad={modalidad}
@@ -423,6 +440,8 @@ const FormularioInscripcion = () => {
               onChange={handleDescripcionAreaChange}
               variant="outlined"
               margin="normal"
+              error={!!descripcionError}
+              helperText={descripcionError}
               inputProps={{
                 maxLength: 200,
               }}
@@ -450,6 +469,8 @@ const FormularioInscripcion = () => {
               onChange={handleObjetivosPracticaChange}
               variant="outlined"
               margin="normal"
+              error={!!objetivosError}
+              helperText={objetivosError}
               inputProps={{
                 maxLength: 200,
               }}
@@ -477,6 +498,8 @@ const FormularioInscripcion = () => {
               onChange={handleActividadesDesarrollarChange}
               variant="outlined"
               margin="normal"
+              error={!!actividadesError}
+              helperText={actividadesError}
               inputProps={{
                 maxLength: 200,
               }}

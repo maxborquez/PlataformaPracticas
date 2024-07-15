@@ -5,6 +5,7 @@ import {
   Select,
   MenuItem,
   Paper,
+  TextField,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -20,6 +21,7 @@ const PerfilAlumno = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const id_alumno = localStorage.getItem("id_alumno");
+  const [nuevaAptitud, setNuevaAptitud] = useState("");
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -41,10 +43,37 @@ const PerfilAlumno = () => {
     };
   }, []);
 
-  // Código de aptitudes
+  const handleSubmitNuevaAptitud = async (e) => {
+    e.preventDefault();
+    try {
+      await clienteAxios.post("/aptitud/create", {
+        nombre_aptitud: nuevaAptitud,
+        id_estado: 1,
+      });
+      Swal.fire(
+        "Agregada",
+        "Nueva aptitud agregada correctamente",
+        "success"
+      ).then(() => {
+        setNuevaAptitud(""); // Limpiar el campo después de agregar
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error("Error al agregar aptitud:", error);
+      Swal.fire("Error", "Hubo un problema al agregar la aptitud", "error");
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z0-9\s.-]*$/.test(value) && value.length <= 15) {
+      setNuevaAptitud(value);
+    }
+  };
+
   const { handleSubmit, register, control, reset } = useForm();
   const { data, status, refetch } = useQuery("aptitudes", async () => {
-    const response = await clienteAxios.get("/aptitud/getall");
+    const response = await clienteAxios.get("/aptitud/getAprobadas");
     const response2 = await clienteAxios.post("/alumno/showAptitudes", {
       id_alumno: id_alumno,
     });
@@ -128,6 +157,9 @@ const PerfilAlumno = () => {
               marginLeft: "16px",
               width: "calc(100% - 16px)",
               boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             <Grid
@@ -138,6 +170,7 @@ const PerfilAlumno = () => {
               <Grid item sx={{ width: "100%" }}>
                 <DataAlumno isWideScreen={isWideScreen} />
               </Grid>
+
               <Grid item sx={{ width: "100%" }}>
                 <Typography
                   variant="h5"
@@ -199,8 +232,48 @@ const PerfilAlumno = () => {
                 <MisAptitudes id_alumno={id_alumno} />
               </Grid>
             </Grid>
+
+            <Grid item width={"100%"} display="flex" justifyContent="center" mt={"50px"}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    padding: "16px",
+                    backgroundColor: "white",
+                    width: "100%",
+                    maxWidth: "600px",
+                    marginBottom: "30px",
+                  }}
+                >
+                  <Typography variant="h5" marginBottom={"15px"}>
+                    Recomendar una nueva aptitud
+                  </Typography>
+                  <form
+                    onSubmit={handleSubmitNuevaAptitud}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <TextField
+                      label="Nueva Aptitud"
+                      variant="outlined"
+                      value={nuevaAptitud}
+                      onChange={handleChange}
+                      inputProps={{ maxLength: 15 }}
+                      sx={{ marginRight: "15px" }}
+                    />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      disabled={!nuevaAptitud}
+                    >
+                      Agregar
+                    </Button>
+                  </form>
+                </Paper>
+              </Grid>
           </Paper>
         </Grid>
+
+        
       </Grid>
     </Grid>
   );

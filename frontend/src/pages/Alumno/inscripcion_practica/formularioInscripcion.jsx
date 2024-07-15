@@ -30,6 +30,49 @@ const FormularioInscripcion = () => {
   const [practica, setPractica] = useState('');
   const [fechaRecepcion, setFechaRecepcion] = useState(new Date().toISOString().split("T")[0]); // Fecha actual en formato YYYY-MM-DD
   const [modalidad, setModalidad] = useState('');
+  const [nombreEstudiante, setNombreEstudiante] = useState('');
+  const [run, setRun] = useState('');
+  const [emailEstudiante, setEmailEstudiante] = useState('');
+  const [celular, setCelular] = useState('');
+  const [direccionEstudiante, setDireccionEstudiante] = useState('');
+  const [fonoEmergencia, setFonoEmergencia] = useState('');
+
+  useEffect(() => {
+    // Función para obtener los datos del estudiante
+    const obtenerDatosEstudiante = async () => {
+      try {
+        // Obtener id_alumno del localStorage
+        const id_alumno = localStorage.getItem("id_alumno");
+
+        // Verificar si hay un id_alumno almacenado
+        if (!id_alumno) {
+          console.error("No se encontró el id_alumno en el localStorage.");
+          return;
+        }
+
+        // Realizar la solicitud al servidor con el id_alumno en el body
+        const response = await clienteAxios.post("/alumno/show", {
+          id_alumno: id_alumno,
+        });
+
+        const { alumno } = response.data;
+        // Actualizar los estados con los datos del estudiante
+        setNombreEstudiante(
+          `${alumno.primer_nombre} ${alumno.segundo_nombre} ${alumno.apellido_paterno} ${alumno.apellido_materno}`
+        );
+        setRun(alumno.rut);
+        setEmailEstudiante(alumno.correo_personal);
+        setCelular(alumno.telefono_personal);
+        setDireccionEstudiante(alumno.direccion_particular);
+        setFonoEmergencia(alumno.telefono_familiar); // Aquí asumo que el teléfono familiar es igual al teléfono de emergencia
+      } catch (error) {
+        console.error("Error al obtener los datos del estudiante:", error);
+      }
+    };
+
+    // Llamar a la función para obtener los datos del estudiante al cargar el componente
+    obtenerDatosEstudiante();
+  }, []);
 
   useEffect(() => {
     // Obtener datos del localStorage o inicializar según tu lógica
@@ -88,6 +131,12 @@ const FormularioInscripcion = () => {
             fechaRecepcion={fechaRecepcion}
             modalidad={modalidad}
             setModalidad={setModalidad}
+            nombreEstudiante={nombreEstudiante}
+            run={run}
+            emailEstudiante={emailEstudiante}
+            celular={celular}
+            direccionEstudiante={direccionEstudiante}
+            fonoEmergencia={fonoEmergencia}
             onStepComplete={(completed) => {
               const newStepCompleted = [...stepCompleted];
               newStepCompleted[activeStep] = completed;

@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Grid, Typography, TextField } from '@mui/material';
 
-const DatosEstudiante = () => {
+const DatosEstudiante = ({
+  nombreEstudiante,
+  run,
+  emailEstudiante,
+  celular,
+  direccionEstudiante,
+  fonoEmergencia,
+  onStepComplete
+}) => {
   const { register } = useFormContext();
+
+  useEffect(() => {
+    // Verificar que todos los campos necesarios estén completos
+    const fieldsCompleted = nombreEstudiante && run && emailEstudiante && celular && direccionEstudiante && fonoEmergencia;
+    // Llamar a la función onStepComplete con el estado de completitud
+    onStepComplete(fieldsCompleted);
+  }, [nombreEstudiante, run, emailEstudiante, celular, direccionEstudiante, fonoEmergencia, onStepComplete]);
 
   return (
     <Grid container spacing={2}>
@@ -17,6 +32,7 @@ const DatosEstudiante = () => {
           fullWidth
           label="Nombre del Estudiante"
           {...register('nombreEstudiante')}
+          defaultValue={nombreEstudiante}
           variant="outlined"
           margin="normal"
           disabled
@@ -27,6 +43,7 @@ const DatosEstudiante = () => {
           fullWidth
           label="RUN"
           {...register('run')}
+          defaultValue={run}
           variant="outlined"
           margin="normal"
           disabled
@@ -37,6 +54,7 @@ const DatosEstudiante = () => {
           fullWidth
           label="Email del Estudiante"
           {...register('emailEstudiante')}
+          defaultValue={emailEstudiante}
           variant="outlined"
           margin="normal"
           disabled
@@ -50,6 +68,7 @@ const DatosEstudiante = () => {
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
           {...register('celular')}
+          defaultValue={celular}
           variant="outlined"
           margin="normal"
           disabled
@@ -60,6 +79,7 @@ const DatosEstudiante = () => {
           fullWidth
           label="Dirección del Estudiante"
           {...register('direccionEstudiante')}
+          defaultValue={direccionEstudiante}
           variant="outlined"
           margin="normal"
           disabled
@@ -73,6 +93,7 @@ const DatosEstudiante = () => {
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
           {...register('fonoEmergencia')}
+          defaultValue={fonoEmergencia}
           variant="outlined"
           margin="normal"
           disabled

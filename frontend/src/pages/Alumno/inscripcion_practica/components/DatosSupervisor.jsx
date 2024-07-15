@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, TextField } from '@mui/material';
 
@@ -12,11 +12,18 @@ const DatosSupervisor = ({
   emailSupervisor,
   setEmailSupervisor,
 }) => {
+  const [nombreError, setNombreError] = useState('');
+  const [cargoError, setCargoError] = useState('');
+  const [fonoError, setFonoError] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   const handleNombreSupervisorChange = (e) => {
     const value = e.target.value;
     if (/^[a-zA-Z\s]{0,50}$/.test(value)) {
       setNombreSupervisor(value);
+      setNombreError('');
+    } else {
+      setNombreError('Nombre inválido. Solo letras y máximo 50 caracteres.');
     }
   };
 
@@ -24,6 +31,9 @@ const DatosSupervisor = ({
     const value = e.target.value;
     if (/^[a-zA-Z\s]{0,30}$/.test(value)) {
       setCargoSupervisor(value);
+      setCargoError('');
+    } else {
+      setCargoError('Cargo inválido. Solo letras y máximo 30 caracteres.');
     }
   };
 
@@ -31,6 +41,9 @@ const DatosSupervisor = ({
     const value = e.target.value;
     if (/^\d{0,9}$/.test(value)) {
       setFonoSupervisor(value);
+      setFonoError('');
+    } else {
+      setFonoError('Fono inválido. Solo números y máximo 9 dígitos.');
     }
   };
 
@@ -38,6 +51,9 @@ const DatosSupervisor = ({
     const value = e.target.value;
     if (value.length <= 40) {
       setEmailSupervisor(value);
+      setEmailError('');
+    } else {
+      setEmailError('Email inválido. Máximo 40 caracteres.');
     }
   };
 
@@ -56,6 +72,8 @@ const DatosSupervisor = ({
           onChange={handleNombreSupervisorChange}
           variant="outlined"
           margin="normal"
+          error={!!nombreError}
+          helperText={nombreError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -66,6 +84,8 @@ const DatosSupervisor = ({
           onChange={handleCargoSupervisorChange}
           variant="outlined"
           margin="normal"
+          error={!!cargoError}
+          helperText={cargoError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -79,6 +99,8 @@ const DatosSupervisor = ({
           onChange={handleFonoSupervisorChange}
           variant="outlined"
           margin="normal"
+          error={!!fonoError}
+          helperText={fonoError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -91,6 +113,8 @@ const DatosSupervisor = ({
           onChange={handleEmailSupervisorChange}
           variant="outlined"
           margin="normal"
+          error={!!emailError}
+          helperText={emailError}
         />
       </Grid>
     </Grid>

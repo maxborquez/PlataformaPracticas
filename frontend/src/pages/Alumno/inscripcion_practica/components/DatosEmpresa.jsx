@@ -1,6 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import {
+  Grid,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 const DatosEmpresa = ({
   nombreEmpresa,
@@ -19,11 +27,20 @@ const DatosEmpresa = ({
   handleChangeCiudad,
   ciudades,
 }) => {
+  const [nombreError, setNombreError] = useState("");
+  const [deptoError, setDeptoError] = useState("");
+  const [webError, setWebError] = useState("");
+  const [rubroError, setRubroError] = useState("");
+  const [fonoError, setFonoError] = useState("");
+  const [direccionError, setDireccionError] = useState("");
 
   const handleNombreEmpresaChange = (e) => {
     const value = e.target.value;
     if (/^[a-zA-Z\s]{0,40}$/.test(value)) {
       setNombreEmpresa(value);
+      setNombreError("");
+    } else {
+      setNombreError("Nombre inválido. Solo letras y máximo 40 caracteres.");
     }
   };
 
@@ -31,6 +48,9 @@ const DatosEmpresa = ({
     const value = e.target.value;
     if (/^[a-zA-Z\s]{0,15}$/.test(value)) {
       setDeptoArea(value);
+      setDeptoError("");
+    } else {
+      setDeptoError("Departamento o área inválido. Solo letras y máximo 15 caracteres.");
     }
   };
 
@@ -38,6 +58,9 @@ const DatosEmpresa = ({
     const value = e.target.value;
     if (/^[a-zA-Z.\s]{0,30}$/.test(value)) {
       setPaginaWeb(value);
+      setWebError("");
+    } else {
+      setWebError("Página web inválida. Solo letras, puntos y máximo 30 caracteres.");
     }
   };
 
@@ -45,6 +68,9 @@ const DatosEmpresa = ({
     const value = e.target.value;
     if (/^[a-zA-Z\s]{0,30}$/.test(value)) {
       setRubro(value);
+      setRubroError("");
+    } else {
+      setRubroError("Rubro inválido. Solo letras y máximo 30 caracteres.");
     }
   };
 
@@ -52,6 +78,9 @@ const DatosEmpresa = ({
     const value = e.target.value;
     if (/^\d{0,9}$/.test(value)) {
       setFonoEmpresa(value);
+      setFonoError("");
+    } else {
+      setFonoError("Fono inválido. Solo números y máximo 9 dígitos.");
     }
   };
 
@@ -59,6 +88,9 @@ const DatosEmpresa = ({
     const value = e.target.value;
     if (value.length <= 20) {
       setDireccionEmpresa(value);
+      setDireccionError("");
+    } else {
+      setDireccionError("Dirección inválida. Máximo 20 caracteres.");
     }
   };
 
@@ -77,6 +109,8 @@ const DatosEmpresa = ({
           onChange={handleNombreEmpresaChange}
           variant="outlined"
           margin="normal"
+          error={!!nombreError}
+          helperText={nombreError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -87,6 +121,8 @@ const DatosEmpresa = ({
           onChange={handleDeptoAreaChange}
           variant="outlined"
           margin="normal"
+          error={!!deptoError}
+          helperText={deptoError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -97,6 +133,8 @@ const DatosEmpresa = ({
           onChange={handlePaginaWebChange}
           variant="outlined"
           margin="normal"
+          error={!!webError}
+          helperText={webError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -107,6 +145,8 @@ const DatosEmpresa = ({
           onChange={handleRubroChange}
           variant="outlined"
           margin="normal"
+          error={!!rubroError}
+          helperText={rubroError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -120,6 +160,8 @@ const DatosEmpresa = ({
           onChange={handleFonoEmpresaChange}
           variant="outlined"
           margin="normal"
+          error={!!fonoError}
+          helperText={fonoError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -130,6 +172,8 @@ const DatosEmpresa = ({
           onChange={handleDireccionEmpresaChange}
           variant="outlined"
           margin="normal"
+          error={!!direccionError}
+          helperText={direccionError}
         />
       </Grid>
       <Grid item xs={6}>
@@ -137,10 +181,13 @@ const DatosEmpresa = ({
           <InputLabel id="ciudad-label">Ciudad</InputLabel>
           <Select
             labelId="ciudad-label"
-            value={ciudadSeleccionada}
+            value={ciudadSeleccionada || ""}
             onChange={handleChangeCiudad}
             label="Ciudad"
           >
+            <MenuItem value="" disabled>
+              Seleccione una ciudad
+            </MenuItem>
             {ciudades.map((ciudad) => (
               <MenuItem key={ciudad.id_ciudad} value={ciudad.id_ciudad}>
                 {ciudad.nombre}

@@ -10,28 +10,33 @@ const HorarioPractica = ({
   diasSemana,
   horarioPractica,
   handleTimeChange,
-  errors,
 }) => {
 
   const validateFechaInicio = () => {
-    // Validar que la fecha de inicio no sea anterior a 30 días desde hoy
     if (!fechaInicio) return true;
+
     const today = new Date();
     const start = new Date(fechaInicio);
-    const diffTime = Math.abs(start - today);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays <= 30;
+
+    // Validar que la fecha de inicio sea este año o el próximo
+    const currentYear = today.getFullYear();
+    const nextYear = currentYear + 1;
+
+    return start.getFullYear() >= currentYear && start.getFullYear() <= nextYear;
   };
 
   const validateFechaFin = () => {
-    // Validar que la fecha de fin no sea menor que la fecha de inicio y sea al menos 30 días después de la fecha de inicio
-    if (!fechaInicio || !fechaFin) return true; // Si alguna fecha no está definida, no validar
+    if (!fechaInicio || !fechaFin) return true;
+
     const start = new Date(fechaInicio);
     const end = new Date(fechaFin);
+
+    // Validar que la fecha de fin sea mayor o igual que la fecha de inicio
+    // y que esté dentro de los próximos 30 días después de la fecha de inicio
     const diffTime = Math.abs(end - start);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    return start <= end && diffDays >= 30;
+    return start <= end && diffDays >= 30 && end.getFullYear() >= start.getFullYear() && end.getFullYear() <= start.getFullYear() + 1;
   };
 
   return (
@@ -59,7 +64,7 @@ const HorarioPractica = ({
             error={!validateFechaInicio()}
             helperText={
               !validateFechaInicio()
-                ? "La fecha de inicio debe ser máximo 30 días antes de hoy"
+                ? "La fecha de inicio debe ser este año o el próximo"
                 : ""
             }
             fullWidth
@@ -81,7 +86,7 @@ const HorarioPractica = ({
             error={!validateFechaFin()}
             helperText={
               !validateFechaFin()
-                ? "La fecha de fin debe ser al menos 30 días después de la fecha inicio"
+                ? "La fecha de fin debe ser al menos 30 días después de la fecha inicio y este año o el próximo"
                 : ""
             }
             fullWidth
@@ -181,7 +186,6 @@ HorarioPractica.propTypes = {
   diasSemana: PropTypes.array.isRequired,
   horarioPractica: PropTypes.object.isRequired,
   handleTimeChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 };
 
 export default HorarioPractica;

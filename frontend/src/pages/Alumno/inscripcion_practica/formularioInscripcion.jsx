@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Card,
-  Grid,
-  TextField,
-  Button,
-  Typography,
-} from "@mui/material";
+import { Card, Grid, TextField, Button, Typography } from "@mui/material";
 import clienteAxios from "../../../helpers/clienteaxios";
 import { useNavigate } from "react-router-dom";
 import DatosEmpresa from "./components/DatosEmpresa";
@@ -19,14 +13,21 @@ const FormularioInscripcion = () => {
   const [ciudades, setCiudades] = useState([]);
   const [practica, setPractica] = useState("");
   const [ciudadSeleccionada, setCiudadSeleccionada] = useState("");
+  const [descripcionError, setDescripcionError] = useState("");
+  const [objetivosError, setObjetivosError] = useState("");
+  const [actividadesError, setActividadesError] = useState("");
   const navigate = useNavigate();
-  console.log(ciudadSeleccionada);
 
   useEffect(() => {
     const fetchCiudades = async () => {
       try {
         const response = await clienteAxios.get("/ciudades/getCiudades");
         setCiudades(response.data.ciudad); // Actualiza el estado con el arreglo de ciudades
+
+        // Asigna ciudadSeleccionada al primer elemento si hay ciudades disponibles
+        if (response.data.ciudad.length > 0) {
+          setCiudadSeleccionada("");
+        }
       } catch (error) {
         console.error("Error al obtener las ciudades:", error);
       }
@@ -113,8 +114,7 @@ const FormularioInscripcion = () => {
     }
   };
 
-  const [modalidad, setModalidad] = useState('1');
-  console.log(modalidad);
+  const [modalidad, setModalidad] = useState("");
   const [nombreEstudiante, setNombreEstudiante] = useState("");
   const [run, setRun] = useState("");
   const [emailEstudiante, setEmailEstudiante] = useState("");
@@ -143,15 +143,6 @@ const FormularioInscripcion = () => {
     sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
   });
 
-  const [errors, setErrors] = useState({
-    lunes: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
-    martes: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
-    miercoles: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
-    jueves: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
-    viernes: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
-    sabado: { mañana1: false, mañana2: false, tarde1: false, tarde2: false },
-  });
-
   const diasSemana = [
     "lunes",
     "martes",
@@ -170,81 +161,8 @@ const FormularioInscripcion = () => {
       },
     };
 
-    let updatedErrors = { ...errors };
-    let isValid = true;
-
-    // Validaciones específicas por día y parte del día
-    switch (timePart) {
-      case "mañana1":
-        if (value < "08:00") {
-          updatedErrors[day].mañana1 = true;
-          isValid = false;
-        } else {
-          updatedErrors[day].mañana1 = false;
-        }
-        if (
-          updatedHorario[day].mañana2 &&
-          updatedHorario[day].mañana2 < value
-        ) {
-          updatedErrors[day].mañana2 = true;
-          isValid = false;
-        } else {
-          updatedErrors[day].mañana2 = false;
-        }
-        break;
-      case "mañana2":
-        if (
-          updatedHorario[day].mañana1 &&
-          updatedHorario[day].mañana1 > value
-        ) {
-          updatedErrors[day].mañana1 = true;
-          isValid = false;
-        } else {
-          updatedErrors[day].mañana1 = false;
-        }
-        break;
-      case "tarde1":
-        if (
-          updatedHorario[day].mañana2 &&
-          updatedHorario[day].mañana2 > value
-        ) {
-          updatedErrors[day].mañana2 = true;
-          isValid = false;
-        } else {
-          updatedErrors[day].mañana2 = false;
-        }
-        if (updatedHorario[day].tarde2 && updatedHorario[day].tarde2 < value) {
-          updatedErrors[day].tarde2 = true;
-          isValid = false;
-        } else {
-          updatedErrors[day].tarde2 = false;
-        }
-        break;
-      case "tarde2":
-
-        if (value > "20:00") {
-          updatedErrors[day].tarde2 = true;
-          isValid = false;
-        } else {
-          updatedErrors[day].tarde2 = false;
-        }
-
-        if (updatedHorario[day].tarde1 && updatedHorario[day].tarde1 > value) {
-          updatedErrors[day].tarde1 = true;
-          isValid = false;
-        } else {
-          updatedErrors[day].tarde1 = false;
-        }
-        break;
-      default:
-        break;
-    }
-
     // Aplicar el estado actualizado
     setHorarioPractica(updatedHorario);
-    setErrors(updatedErrors);
-
-    return isValid;
   };
 
   const [idInscribe, setIdInscribe] = useState("");
@@ -276,6 +194,42 @@ const FormularioInscripcion = () => {
     fechaMinimaFin.setDate(fechaMinimaFin.getDate() + 30);
 
     setFechaFin(nuevaFechaFin);
+  };
+
+  const handleDescripcionAreaChange = (e) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
+      setDescripcionArea(value);
+      setDescripcionError("");
+    } else {
+      setDescripcionError(
+        "Descripción inválida. Solo letras, números y máximo 200 caracteres."
+      );
+    }
+  };
+
+  const handleObjetivosPracticaChange = (e) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
+      setObjetivosPractica(value);
+      setObjetivosError("");
+    } else {
+      setObjetivosError(
+        "Objetivos inválidos. Solo letras, números y máximo 200 caracteres."
+      );
+    }
+  };
+
+  const handleActividadesDesarrollarChange = (e) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
+      setActividadesDesarrollar(value);
+      setActividadesError("");
+    } else {
+      setActividadesError(
+        "Actividades inválidas. Solo letras, números y máximo 200 caracteres."
+      );
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -403,13 +357,13 @@ const FormularioInscripcion = () => {
       label: "Datos de la práctica",
       content: (
         <DatosPractica
-          practica={practica}
+          practica={parseInt(practica, 10)}
           setPractica={setPractica}
           fechaRecepcion={fechaRecepcion}
           modalidad={modalidad}
           setModalidad={setModalidad}
         />
-      )
+      ),
     },
     {
       label: "Datos del estudiante",
@@ -428,7 +382,7 @@ const FormularioInscripcion = () => {
           fonoEmergencia={fonoEmergencia}
           setFonoEmergencia={setFonoEmergencia}
         />
-      )
+      ),
     },
     {
       label: "Datos de la empresa",
@@ -446,11 +400,11 @@ const FormularioInscripcion = () => {
           setFonoEmpresa={setFonoEmpresa}
           direccionEmpresa={direccionEmpresa}
           setDireccionEmpresa={setDireccionEmpresa}
-          ciudadSeleccionada={parseInt(ciudadSeleccionada,10)}
+          ciudadSeleccionada={parseInt(ciudadSeleccionada, 10)}
           handleChangeCiudad={handleChangeCiudad}
           ciudades={ciudades}
         />
-      )
+      ),
     },
     {
       label: "Datos del supervisor",
@@ -465,7 +419,7 @@ const FormularioInscripcion = () => {
           emailSupervisor={emailSupervisor}
           setEmailSupervisor={setEmailSupervisor}
         />
-      )
+      ),
     },
     {
       label: "Breve descripción del área de desarrollo",
@@ -483,9 +437,14 @@ const FormularioInscripcion = () => {
               rows={4}
               label="Descripción del Área"
               value={descripcionArea}
-              onChange={(e) => setDescripcionArea(e.target.value)}
+              onChange={handleDescripcionAreaChange}
               variant="outlined"
               margin="normal"
+              error={!!descripcionError}
+              helperText={descripcionError}
+              inputProps={{
+                maxLength: 200,
+              }}
             />
           </Grid>
         </Grid>
@@ -507,9 +466,14 @@ const FormularioInscripcion = () => {
               rows={4}
               label="Objetivos de la Práctica"
               value={objetivosPractica}
-              onChange={(e) => setObjetivosPractica(e.target.value)}
+              onChange={handleObjetivosPracticaChange}
               variant="outlined"
               margin="normal"
+              error={!!objetivosError}
+              helperText={objetivosError}
+              inputProps={{
+                maxLength: 200,
+              }}
             />
           </Grid>
         </Grid>
@@ -531,9 +495,14 @@ const FormularioInscripcion = () => {
               rows={4}
               label="Actividades a Desarrollar"
               value={actividadesDesarrollar}
-              onChange={(e) => setActividadesDesarrollar(e.target.value)}
+              onChange={handleActividadesDesarrollarChange}
               variant="outlined"
               margin="normal"
+              error={!!actividadesError}
+              helperText={actividadesError}
+              inputProps={{
+                maxLength: 200,
+              }}
             />
           </Grid>
         </Grid>
@@ -550,9 +519,8 @@ const FormularioInscripcion = () => {
           diasSemana={diasSemana}
           horarioPractica={horarioPractica}
           handleTimeChange={handleTimeChange}
-          errors={errors}
         />
-      )
+      ),
     },
   ];
 

@@ -35,7 +35,11 @@ model alumno {
 model aptitud {
   id_aptitud     Int            @id @default(autoincrement())
   nombre_aptitud String         @db.VarChar(50)
+  id_estado      Int
+  estado_aptitud estado_aptitud @relation(fields: [id_estado], references: [id_estado], map: "aptitud_ibfk_1")
   conocimiento   conocimiento[]
+
+  @@index([id_estado], map: "id_estado")
 }
 
 model archivo_evaluacion {
@@ -343,4 +347,10 @@ model supervisor {
   empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_supervisor")
 
   @@index([id_empresa], map: "fk_empresa_supervisor")
+}
+
+model estado_aptitud {
+  id_estado     Int       @id @default(autoincrement())
+  nombre_estado String    @db.VarChar(20)
+  aptitud       aptitud[]
 }

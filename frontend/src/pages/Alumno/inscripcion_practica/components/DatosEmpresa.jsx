@@ -1,6 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  Grid,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 const DatosEmpresa = ({
   nombreEmpresa,
@@ -19,7 +27,6 @@ const DatosEmpresa = ({
   handleChangeCiudad,
   ciudades,
 }) => {
-
   const handleNombreEmpresaChange = (e) => {
     const value = e.target.value;
     if (/^[a-zA-Z\s]{0,40}$/.test(value)) {
@@ -137,10 +144,13 @@ const DatosEmpresa = ({
           <InputLabel id="ciudad-label">Ciudad</InputLabel>
           <Select
             labelId="ciudad-label"
-            value={ciudadSeleccionada}
+            value={ciudadSeleccionada || ""} // Usa una cadena vacía como valor inicial
             onChange={handleChangeCiudad}
             label="Ciudad"
           >
+            <MenuItem value="" disabled>
+              Seleccione una ciudad
+            </MenuItem>
             {ciudades.map((ciudad) => (
               <MenuItem key={ciudad.id_ciudad} value={ciudad.id_ciudad}>
                 {ciudad.nombre}

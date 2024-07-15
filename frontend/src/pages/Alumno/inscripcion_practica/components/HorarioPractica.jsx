@@ -10,7 +10,6 @@ const HorarioPractica = ({
   diasSemana,
   horarioPractica,
   handleTimeChange,
-  errors,
 }) => {
 
   const validateFechaInicio = () => {
@@ -181,7 +180,6 @@ HorarioPractica.propTypes = {
   diasSemana: PropTypes.array.isRequired,
   horarioPractica: PropTypes.object.isRequired,
   handleTimeChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 };
 
 export default HorarioPractica;

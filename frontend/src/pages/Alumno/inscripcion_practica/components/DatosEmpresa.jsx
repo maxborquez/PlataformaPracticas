@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import {
   Grid,
   Typography,
@@ -9,89 +9,51 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 const DatosEmpresa = ({
-  nombreEmpresa,
-  setNombreEmpresa,
-  deptoArea,
-  setDeptoArea,
-  paginaWeb,
-  setPaginaWeb,
-  rubro,
-  setRubro,
-  fonoEmpresa,
-  setFonoEmpresa,
-  direccionEmpresa,
-  setDireccionEmpresa,
-  ciudadSeleccionada,
-  handleChangeCiudad,
-  ciudades,
+  regiones,
+  provincias,
+  comunas,
+  onRegionChange,
+  onProvinciaChange,
+  onStepComplete,
 }) => {
-  const [nombreError, setNombreError] = useState("");
-  const [deptoError, setDeptoError] = useState("");
-  const [webError, setWebError] = useState("");
-  const [rubroError, setRubroError] = useState("");
-  const [fonoError, setFonoError] = useState("");
-  const [direccionError, setDireccionError] = useState("");
+  const {
+    register,
+    setValue,
+    formState: { errors },
+    watch,
+  } = useFormContext();
 
-  const handleNombreEmpresaChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z\s]{0,40}$/.test(value)) {
-      setNombreEmpresa(value);
-      setNombreError("");
-    } else {
-      setNombreError("Nombre inválido. Solo letras y máximo 40 caracteres.");
-    }
-  };
+  const regionSeleccionada = watch("regionSeleccionada");
+  const provinciaSeleccionada = watch("provinciaSeleccionada");
+  const comunaSeleccionada = watch("comunaSeleccionada");
 
-  const handleDeptoAreaChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z\s]{0,15}$/.test(value)) {
-      setDeptoArea(value);
-      setDeptoError("");
-    } else {
-      setDeptoError("Departamento o área inválido. Solo letras y máximo 15 caracteres.");
-    }
-  };
+  useEffect(() => {
+    onStepComplete(validateFields());
+  }, [onStepComplete]);
 
-  const handlePaginaWebChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z.\s]{0,30}$/.test(value)) {
-      setPaginaWeb(value);
-      setWebError("");
-    } else {
-      setWebError("Página web inválida. Solo letras, puntos y máximo 30 caracteres.");
-    }
-  };
+  const validateFields = () => {
+    const nombreEmpresa = watch("nombreEmpresa");
+    const deptoArea = watch("deptoArea");
+    const rubro = watch("rubro");
+    const fonoEmpresa = watch("fonoEmpresa");
+    const direccionEmpresa = watch("direccionEmpresa");
+    const region = regionSeleccionada;
+    const provincia = provinciaSeleccionada;
+    const comuna = comunaSeleccionada;
 
-  const handleRubroChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z\s]{0,30}$/.test(value)) {
-      setRubro(value);
-      setRubroError("");
-    } else {
-      setRubroError("Rubro inválido. Solo letras y máximo 30 caracteres.");
-    }
-  };
-
-  const handleFonoEmpresaChange = (e) => {
-    const value = e.target.value;
-    if (/^\d{0,9}$/.test(value)) {
-      setFonoEmpresa(value);
-      setFonoError("");
-    } else {
-      setFonoError("Fono inválido. Solo números y máximo 9 dígitos.");
-    }
-  };
-
-  const handleDireccionEmpresaChange = (e) => {
-    const value = e.target.value;
-    if (value.length <= 20) {
-      setDireccionEmpresa(value);
-      setDireccionError("");
-    } else {
-      setDireccionError("Dirección inválida. Máximo 20 caracteres.");
-    }
+    return (
+      nombreEmpresa &&
+      deptoArea &&
+      rubro &&
+      fonoEmpresa &&
+      direccionEmpresa &&
+      region &&
+      provincia &&
+      comuna
+    );
   };
 
   return (
@@ -105,48 +67,69 @@ const DatosEmpresa = ({
         <TextField
           fullWidth
           label="Nombre de la Empresa"
-          value={nombreEmpresa}
-          onChange={handleNombreEmpresaChange}
+          {...register("nombreEmpresa", {
+            required: "Este campo es obligatorio",
+            pattern: {
+              value: /^[a-zA-Z\s]{0,40}$/,
+              message: "Nombre inválido. Solo letras y máximo 40 caracteres.",
+            },
+          })}
           variant="outlined"
           margin="normal"
-          error={!!nombreError}
-          helperText={nombreError}
+          error={!!errors.nombreEmpresa}
+          helperText={errors.nombreEmpresa?.message}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
           fullWidth
           label="Departamento o Área"
-          value={deptoArea}
-          onChange={handleDeptoAreaChange}
+          {...register("deptoArea", {
+            required: "Este campo es obligatorio",
+            pattern: {
+              value: /^[a-zA-Z\s]{0,15}$/,
+              message:
+                "Departamento o área inválido. Solo letras y máximo 15 caracteres.",
+            },
+          })}
           variant="outlined"
           margin="normal"
-          error={!!deptoError}
-          helperText={deptoError}
+          error={!!errors.deptoArea}
+          helperText={errors.deptoArea?.message}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
           fullWidth
           label="Página Web"
-          value={paginaWeb}
-          onChange={handlePaginaWebChange}
+          {...register("paginaWeb", {
+            pattern: {
+              value: /^[a-zA-Z.\s]{0,30}$/,
+              message:
+                "Página web inválida. Solo letras, puntos y máximo 30 caracteres.",
+            },
+          })}
           variant="outlined"
           margin="normal"
-          error={!!webError}
-          helperText={webError}
+          error={!!errors.paginaWeb}
+          helperText={errors.paginaWeb?.message}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
           fullWidth
           label="Rubro"
-          value={rubro}
-          onChange={handleRubroChange}
+          {...register("rubro", {
+            required: "Este campo es obligatorio",
+            pattern: {
+              value: /^[a-zA-Z\s]{0,30}$/,
+              message: "Rubro inválido. Solo letras y máximo 30 caracteres.",
+            },
+          })}
           variant="outlined"
           margin="normal"
-          error={!!rubroError}
-          helperText={rubroError}
+          error={!!errors.rubro}
+          helperText={errors.rubro?.message}
         />
       </Grid>
       <Grid item xs={6}>
@@ -156,44 +139,128 @@ const DatosEmpresa = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          value={fonoEmpresa}
-          onChange={handleFonoEmpresaChange}
+          {...register("fonoEmpresa", {
+            required: "Este campo es obligatorio",
+            pattern: {
+              value: /^\d{0,9}$/,
+              message: "Fono inválido. Solo números y máximo 9 dígitos.",
+            },
+          })}
           variant="outlined"
           margin="normal"
-          error={!!fonoError}
-          helperText={fonoError}
+          error={!!errors.fonoEmpresa}
+          helperText={errors.fonoEmpresa?.message}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
           fullWidth
           label="Dirección de la Empresa"
-          value={direccionEmpresa}
-          onChange={handleDireccionEmpresaChange}
+          {...register("direccionEmpresa", {
+            required: "Este campo es obligatorio",
+            maxLength: {
+              value: 20,
+              message: "Dirección inválida. Máximo 20 caracteres.",
+            },
+          })}
           variant="outlined"
           margin="normal"
-          error={!!direccionError}
-          helperText={direccionError}
+          error={!!errors.direccionEmpresa}
+          helperText={errors.direccionEmpresa?.message}
         />
       </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="ciudad-label">Ciudad</InputLabel>
+          <InputLabel id="region-label">Región</InputLabel>
           <Select
-            labelId="ciudad-label"
-            value={ciudadSeleccionada || ""}
-            onChange={handleChangeCiudad}
-            label="Ciudad"
+            labelId="region-label"
+            {...register("regionSeleccionada", {
+              required: "Este campo es obligatorio",
+            })}
+            value={regionSeleccionada || ""}
+            label="Región"
+            onChange={(e) => {
+              setValue("regionSeleccionada", e.target.value);
+              onRegionChange(e.target.value); // Llama a la función para actualizar las provincias
+            }}
           >
             <MenuItem value="" disabled>
-              Seleccione una ciudad
+              Seleccione una región
             </MenuItem>
-            {ciudades.map((ciudad) => (
-              <MenuItem key={ciudad.id_ciudad} value={ciudad.id_ciudad}>
-                {ciudad.nombre}
+            {regiones.map((region) => (
+              <MenuItem key={region.id_region} value={region.id_region}>
+                {region.nombre_region}
               </MenuItem>
             ))}
           </Select>
+
+          {errors.regionSeleccionada && (
+            <Typography variant="body2" color="error">
+              {errors.regionSeleccionada.message}
+            </Typography>
+          )}
+        </FormControl>
+      </Grid>
+      <Grid item xs={6}>
+        <FormControl fullWidth variant="outlined" margin="normal">
+          <InputLabel id="provincia-label">Provincia</InputLabel>
+          <Select
+            labelId="provincia-label"
+            {...register("provinciaSeleccionada", {
+              required: "Este campo es obligatorio",
+            })}
+            value={provinciaSeleccionada || ""}
+            label="Provincia"
+            onChange={(e) => {
+              setValue("provinciaSeleccionada", e.target.value);
+              onProvinciaChange(e.target.value); // Llama a la función para actualizar las comunas
+            }}
+          >
+            <MenuItem value="" disabled>
+              Seleccione una provincia
+            </MenuItem>
+            {provincias.map((provincia) => (
+              <MenuItem
+                key={provincia.id_provincia}
+                value={provincia.id_provincia}
+              >
+                {provincia.nombre_provincia}
+              </MenuItem>
+            ))}
+          </Select>
+
+          {errors.provinciaSeleccionada && (
+            <Typography variant="body2" color="error">
+              {errors.provinciaSeleccionada.message}
+            </Typography>
+          )}
+        </FormControl>
+      </Grid>
+      <Grid item xs={6}>
+        <FormControl fullWidth variant="outlined" margin="normal">
+          <InputLabel id="comuna-label">Comuna</InputLabel>
+          <Select
+            labelId="comuna-label"
+            {...register("comunaSeleccionada", {
+              required: "Este campo es obligatorio",
+            })}
+            value={comunaSeleccionada || ""}
+            label="Comuna"
+          >
+            <MenuItem value="" disabled>
+              Seleccione una comuna
+            </MenuItem>
+            {comunas.map((comuna) => (
+              <MenuItem key={comuna.id_comuna} value={comuna.id_comuna}>
+                {comuna.nombre}
+              </MenuItem>
+            ))}
+          </Select>
+          {errors.comunaSeleccionada && (
+            <Typography variant="body2" color="error">
+              {errors.comunaSeleccionada.message}
+            </Typography>
+          )}
         </FormControl>
       </Grid>
     </Grid>
@@ -201,26 +268,12 @@ const DatosEmpresa = ({
 };
 
 DatosEmpresa.propTypes = {
-  nombreEmpresa: PropTypes.string.isRequired,
-  setNombreEmpresa: PropTypes.func.isRequired,
-  deptoArea: PropTypes.string.isRequired,
-  setDeptoArea: PropTypes.func.isRequired,
-  paginaWeb: PropTypes.string.isRequired,
-  setPaginaWeb: PropTypes.func.isRequired,
-  rubro: PropTypes.string.isRequired,
-  setRubro: PropTypes.func.isRequired,
-  fonoEmpresa: PropTypes.string.isRequired,
-  setFonoEmpresa: PropTypes.func.isRequired,
-  direccionEmpresa: PropTypes.string.isRequired,
-  setDireccionEmpresa: PropTypes.func.isRequired,
-  ciudadSeleccionada: PropTypes.number.isRequired,
-  handleChangeCiudad: PropTypes.func.isRequired,
-  ciudades: PropTypes.arrayOf(
-    PropTypes.shape({
-      id_ciudad: PropTypes.number.isRequired,
-      nombre: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  regiones: PropTypes.array.isRequired,
+  provincias: PropTypes.array.isRequired,
+  comunas: PropTypes.array.isRequired,
+  onRegionChange: PropTypes.func.isRequired,
+  onProvinciaChange: PropTypes.func.isRequired,
+  onStepComplete: PropTypes.func.isRequired,
 };
 
 export default DatosEmpresa;

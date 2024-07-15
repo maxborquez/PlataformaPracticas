@@ -138,7 +138,7 @@ const CardOfertas = () => {
                       }}
                     />
                     <Chip
-                      label={oferta.empresa.ciudad.nombre}
+                      label={oferta.empresa.comuna.nombre}
                       sx={{
                         backgroundColor: "#2196f3",
                         color: "white",

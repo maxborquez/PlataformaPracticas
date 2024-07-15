@@ -142,13 +142,13 @@ model empresa {
   rubro                String                 @db.VarChar(50)
   telefono             String                 @db.VarChar(18)
   direccion            String                 @db.VarChar(100)
-  id_ciudad            Int
-  ciudad               ciudad                 @relation(fields: [id_ciudad], references: [id_ciudad], onDelete: Cascade)
+  id_comuna            Int
+  comuna               comuna                 @relation(fields: [id_comuna], references: [id_comuna], onDelete: Cascade)
   inscripcion_practica inscripcion_practica[]
   oferta_practica      oferta_practica[]
   supervisor           supervisor[]
 
-  @@index([id_ciudad], map: "empresa_id_ciudad_fkey")
+  @@index([id_comuna], map: "empresa_id_comuna_fkey")
 }
 
 model estado_bitacora {
@@ -327,12 +327,6 @@ model usuario {
   @@index([id_tipo_usuario], map: "usuario_id_tipo_usuario_fkey")
 }
 
-model ciudad {
-  id_ciudad Int       @id @default(autoincrement())
-  nombre    String    @db.VarChar(50)
-  empresa   empresa[]
-}
-
 model supervisor {
   id_supervisor        Int                    @id @default(autoincrement())
   primer_nombre        String                 @db.VarChar(30)
@@ -353,4 +347,30 @@ model estado_aptitud {
   id_estado     Int       @id @default(autoincrement())
   nombre_estado String    @db.VarChar(20)
   aptitud       aptitud[]
+}
+
+model comuna {
+  id_comuna    Int       @id @default(autoincrement())
+  id_provincia Int
+  nombre       String    @db.VarChar(50)
+  provincia    provincia @relation(fields: [id_provincia], references: [id_provincia], onDelete: Cascade, map: "comuna_ibfk_1")
+  empresa      empresa[]
+
+  @@index([id_provincia], map: "id_provincia")
+}
+
+model provincia {
+  id_provincia     Int      @id @default(autoincrement())
+  id_region        Int
+  nombre_provincia String   @db.VarChar(50)
+  comuna           comuna[]
+  region           region   @relation(fields: [id_region], references: [id_region], onDelete: Cascade, map: "provincia_ibfk_1")
+
+  @@index([id_region], map: "id_region")
+}
+
+model region {
+  id_region     Int         @id @default(autoincrement())
+  nombre_region String      @db.VarChar(50)
+  provincia     provincia[]
 }

@@ -1,61 +1,9 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
 import { Grid, Typography, TextField } from '@mui/material';
 
-const DatosSupervisor = ({
-  nombreSupervisor,
-  setNombreSupervisor,
-  cargoSupervisor,
-  setCargoSupervisor,
-  fonoSupervisor,
-  setFonoSupervisor,
-  emailSupervisor,
-  setEmailSupervisor,
-}) => {
-  const [nombreError, setNombreError] = useState('');
-  const [cargoError, setCargoError] = useState('');
-  const [fonoError, setFonoError] = useState('');
-  const [emailError, setEmailError] = useState('');
-
-  const handleNombreSupervisorChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z\s]{0,50}$/.test(value)) {
-      setNombreSupervisor(value);
-      setNombreError('');
-    } else {
-      setNombreError('Nombre inválido. Solo letras y máximo 50 caracteres.');
-    }
-  };
-
-  const handleCargoSupervisorChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z\s]{0,30}$/.test(value)) {
-      setCargoSupervisor(value);
-      setCargoError('');
-    } else {
-      setCargoError('Cargo inválido. Solo letras y máximo 30 caracteres.');
-    }
-  };
-
-  const handleFonoSupervisorChange = (e) => {
-    const value = e.target.value;
-    if (/^\d{0,9}$/.test(value)) {
-      setFonoSupervisor(value);
-      setFonoError('');
-    } else {
-      setFonoError('Fono inválido. Solo números y máximo 9 dígitos.');
-    }
-  };
-
-  const handleEmailSupervisorChange = (e) => {
-    const value = e.target.value;
-    if (value.length <= 40) {
-      setEmailSupervisor(value);
-      setEmailError('');
-    } else {
-      setEmailError('Email inválido. Máximo 40 caracteres.');
-    }
-  };
+const DatosSupervisor = () => {
+  const { register, formState: { errors } } = useFormContext();
 
   return (
     <Grid container spacing={2}>
@@ -68,24 +16,34 @@ const DatosSupervisor = ({
         <TextField
           fullWidth
           label="Nombre del Supervisor"
-          value={nombreSupervisor}
-          onChange={handleNombreSupervisorChange}
+          {...register('nombreSupervisor', {
+            required: 'Este campo es obligatorio',
+            pattern: {
+              value: /^[a-zA-Z\s]{0,50}$/,
+              message: 'Nombre inválido. Solo letras y máximo 50 caracteres.'
+            }
+          })}
           variant="outlined"
           margin="normal"
-          error={!!nombreError}
-          helperText={nombreError}
+          error={!!errors.nombreSupervisor}
+          helperText={errors.nombreSupervisor?.message}
         />
       </Grid>
       <Grid item xs={6}>
         <TextField
           fullWidth
           label="Cargo del Supervisor"
-          value={cargoSupervisor}
-          onChange={handleCargoSupervisorChange}
+          {...register('cargoSupervisor', {
+            required: 'Este campo es obligatorio',
+            pattern: {
+              value: /^[a-zA-Z\s]{0,30}$/,
+              message: 'Cargo inválido. Solo letras y máximo 30 caracteres.'
+            }
+          })}
           variant="outlined"
           margin="normal"
-          error={!!cargoError}
-          helperText={cargoError}
+          error={!!errors.cargoSupervisor}
+          helperText={errors.cargoSupervisor?.message}
         />
       </Grid>
       <Grid item xs={6}>
@@ -95,12 +53,17 @@ const DatosSupervisor = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          value={fonoSupervisor}
-          onChange={handleFonoSupervisorChange}
+          {...register('fonoSupervisor', {
+            required: 'Este campo es obligatorio',
+            pattern: {
+              value: /^\d{0,9}$/,
+              message: 'Fono inválido. Solo números y máximo 9 dígitos.'
+            }
+          })}
           variant="outlined"
           margin="normal"
-          error={!!fonoError}
-          helperText={fonoError}
+          error={!!errors.fonoSupervisor}
+          helperText={errors.fonoSupervisor?.message}
         />
       </Grid>
       <Grid item xs={6}>
@@ -109,28 +72,25 @@ const DatosSupervisor = ({
           type="email"
           placeholder="correo@dominio.cl"
           label="Email del Supervisor"
-          value={emailSupervisor}
-          onChange={handleEmailSupervisorChange}
+          {...register('emailSupervisor', {
+            required: 'Este campo es obligatorio',
+            maxLength: {
+              value: 40,
+              message: 'Email inválido. Máximo 40 caracteres.'
+            },
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: 'Formato de email inválido.'
+            }
+          })}
           variant="outlined"
           margin="normal"
-          error={!!emailError}
-          helperText={emailError}
+          error={!!errors.emailSupervisor}
+          helperText={errors.emailSupervisor?.message}
         />
       </Grid>
     </Grid>
   );
-};
-
-// Definir PropTypes para validar los props
-DatosSupervisor.propTypes = {
-  nombreSupervisor: PropTypes.string.isRequired,
-  setNombreSupervisor: PropTypes.func.isRequired,
-  cargoSupervisor: PropTypes.string.isRequired,
-  setCargoSupervisor: PropTypes.func.isRequired,
-  fonoSupervisor: PropTypes.string.isRequired,
-  setFonoSupervisor: PropTypes.func.isRequired,
-  emailSupervisor: PropTypes.string.isRequired,
-  setEmailSupervisor: PropTypes.func.isRequired,
 };
 
 export default DatosSupervisor;

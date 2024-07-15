@@ -13,7 +13,7 @@ const crear_empresa = async (req, res) => {
       });
     }
 
-    const { nombre, departamento, web, rubro, telefono, direccion, id_ciudad } =
+    const { nombre, departamento, web, rubro, telefono, direccion, id_comuna } =
       req.body;
 
     const empresa = await prisma.empresa.create({
@@ -24,7 +24,7 @@ const crear_empresa = async (req, res) => {
         rubro,
         telefono,
         direccion,
-        id_ciudad,
+        id_comuna,
       },
     });
 
@@ -50,7 +50,7 @@ const crear_empresa = async (req, res) => {
 const obtener_empresas = async (req, res) => {
   try {
     const empresas = await prisma.empresa.findMany({
-      include: { ciudad: true },
+      include: { comuna: true },
     });
     if (empresas.length == 0) {
       return res.status(200).json({
@@ -123,7 +123,7 @@ const mostrar_empresa = async (req, res) => {
       where: {
         id_empresa: Number(id),
       },
-      include: { ciudad: true },
+      include: { comuna: true },
     });
 
     if (!empresa) {
@@ -154,7 +154,7 @@ const actualizar_empresa = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { nombre, departamento, web, rubro, telefono, direccion, id_ciudad } =
+    const { nombre, departamento, web, rubro, telefono, direccion, id_comuna } =
       req.body;
 
     const empresa = await prisma.empresa.update({
@@ -168,7 +168,7 @@ const actualizar_empresa = async (req, res) => {
         rubro,
         telefono,
         direccion,
-        id_ciudad,
+        id_comuna,
       },
     });
 
@@ -200,7 +200,7 @@ const getEmpresaByNombre = async (req, res) => {
         nombre: nombre
       },
       include: {
-        ciudad: true, // Incluir datos de la ciudad asociada si es necesario
+        comuna: true, // Incluir datos de la comuna asociada si es necesario
         inscripcion_practica: true, // Incluir relaciones según sea necesario
         oferta_practica: true,
         supervisor: true

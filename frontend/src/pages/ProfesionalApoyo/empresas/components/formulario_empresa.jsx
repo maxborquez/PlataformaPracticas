@@ -21,13 +21,13 @@ const FormularioEmpresa = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [ciudad, setCiudad] = useState("");
+  const [comuna, setComuna] = useState("");
   const queryClient = useQueryClient();
   const formRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleCiudad = (event) => {
-    setCiudad(event.target.value);
+  const handleComuna = (event) => {
+    setComuna(event.target.value);
   };
 
   const handleBack = () => {
@@ -55,7 +55,7 @@ const FormularioEmpresa = () => {
           rubro: data.rubro,
           direccion: data.direccion,
           telefono: data.telefono,
-          id_ciudad: ciudad.id_ciudad,
+          id_comuna: comuna.id_comuna,
         };
         console.log(data_oficial);
         const response = await clienteAxios.post(
@@ -83,9 +83,9 @@ const FormularioEmpresa = () => {
     });
   };
 
-  const getciudades = useQuery("ciudades", async () => {
-    const response = await clienteAxios.get("/ciudades/getCiudades");
-    return response.data.ciudad;
+  const getcomunas = useQuery("comunas", async () => {
+    const response = await clienteAxios.get("/comunas/getComunas");
+    return response.data.comuna;
   });
 
   return (
@@ -197,14 +197,14 @@ const FormularioEmpresa = () => {
 
             <Grid item xs={12} md={6}>
               <Autocomplete
-                options={getciudades.data || []}
+                options={getcomunas.data || []}
                 getOptionLabel={(option) => option.nombre || ""}
-                value={ciudad}
+                value={comuna}
                 onChange={(event, newValue) => {
-                  setCiudad(newValue);
+                  setComuna(newValue);
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Ciudad" fullWidth />
+                  <TextField {...params} label="Comuna" fullWidth />
                 )}
                 noOptionsText="Sin coincidencias"
                 sx={{ backgroundColor: "white" }}

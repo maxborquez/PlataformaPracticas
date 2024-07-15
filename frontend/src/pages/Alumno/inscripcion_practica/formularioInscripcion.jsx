@@ -1,44 +1,95 @@
-import { useState, useEffect } from "react";
-import { Card, Grid, TextField, Button, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { Button, Card, Grid } from "@mui/material";
 import clienteAxios from "../../../helpers/clienteaxios";
-import { useNavigate } from "react-router-dom";
+import DatosPractica from "./components/DatosPractica";
+import DatosEstudiante from "./components/DatosEstudiante";
 import DatosEmpresa from "./components/DatosEmpresa";
 import DatosSupervisor from "./components/DatosSupervisor";
-import DatosEstudiante from "./components/DatosEstudiante";
-import DatosPractica from "./components/DatosPractica";
+import Descripcion from "./components/Descripcion";
+import Objetivos from "./components/Objetivos";
+import Actividades from "./components/Actividades";
 import HorarioPractica from "./components/HorarioPractica";
+
+const steps = [
+  { label: "Datos de la práctica", component: DatosPractica },
+  { label: "Datos del estudiante", component: DatosEstudiante },
+  { label: "Datos de la empresa", component: DatosEmpresa },
+  { label: "Datos del supervisor", component: DatosSupervisor },
+  { label: "Breve descripción del área de desarrollo", component: Descripcion },
+  { label: "Objetivo(s) de la práctica", component: Objetivos },
+  { label: "Actividades a desarrollar", component: Actividades },
+  { label: "Horario de la práctica", component: HorarioPractica },
+];
 
 const FormularioInscripcion = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [ciudades, setCiudades] = useState([]);
+  const [stepCompleted, setStepCompleted] = useState(
+    Array(steps.length).fill(false)
+  );
+  const methods = useForm();
+  const { handleSubmit } = methods;
+
   const [practica, setPractica] = useState("");
-  const [ciudadSeleccionada, setCiudadSeleccionada] = useState("");
-  const [descripcionError, setDescripcionError] = useState("");
-  const [objetivosError, setObjetivosError] = useState("");
-  const [actividadesError, setActividadesError] = useState("");
-  const navigate = useNavigate();
+  const [fechaRecepcion, setFechaRecepcion] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [modalidad, setModalidad] = useState("");
+  const [nombreEstudiante, setNombreEstudiante] = useState("");
+  const [run, setRun] = useState("");
+  const [emailEstudiante, setEmailEstudiante] = useState("");
+  const [celular, setCelular] = useState("");
+  const [direccionEstudiante, setDireccionEstudiante] = useState("");
+  const [fonoEmergencia, setFonoEmergencia] = useState("");
+  const [regiones, setRegiones] = useState([]);
+  const [provincias, setProvincias] = useState([]);
+  const [comunas, setComunas] = useState([]);
 
   useEffect(() => {
-    const fetchCiudades = async () => {
-      try {
-        const response = await clienteAxios.get("/ciudades/getCiudades");
-        setCiudades(response.data.ciudad); // Actualiza el estado con el arreglo de ciudades
+    // Obtener datos del localStorage o inicializar según tu lógica
+    const idInscribeLocalStorage = localStorage.getItem("id_inscribe");
+    if (idInscribeLocalStorage) {
+      obtenerDatosInscripcion(idInscribeLocalStorage);
+    } else {
+      console.error("No se encontró id_inscribe en el localStorage.");
+    }
+  }, []);
 
-        // Asigna ciudadSeleccionada al primer elemento si hay ciudades disponibles
-        if (response.data.ciudad.length > 0) {
-          setCiudadSeleccionada("");
-        }
+  useEffect(() => {
+    // Función para obtener las regiones disponibles
+    const obtenerRegiones = async () => {
+      try {
+        const response = await clienteAxios.get("/comuna/regiones");
+        setRegiones(response.data);
       } catch (error) {
-        console.error("Error al obtener las ciudades:", error);
+        console.error("Error al obtener las regiones:", error);
       }
     };
 
-    fetchCiudades();
+    // Llamar a la función para obtener las regiones al cargar el componente
+    obtenerRegiones();
   }, []);
 
-  const handleChangeCiudad = (event) => {
-    const ciudadIdSeleccionada = event.target.value;
-    setCiudadSeleccionada(ciudadIdSeleccionada);
+  const handleRegionChange = async (regionId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getProvinciaByRegion/${regionId}`
+      );
+      setProvincias(response.data); // Ajustar según la estructura de datos recibida
+    } catch (error) {
+      console.error("Error al obtener las provincias por región:", error);
+    }
+  };
+
+  const handleProvinciaChange = async (provinciaId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getComunasByProvincia/${provinciaId}`
+      );
+      setComunas(response.data); // Ajustar según la estructura de datos recibida
+    } catch (error) {
+      console.error("Error al obtener las comunas por provincia:", error);
+    }
   };
 
   useEffect(() => {
@@ -76,481 +127,103 @@ const FormularioInscripcion = () => {
 
     // Llamar a la función para obtener los datos del estudiante al cargar el componente
     obtenerDatosEstudiante();
-  }, []); // El segundo argumento [] indica que useEffect se ejecutará solo una vez, al montar el componente
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  useEffect(() => {
-    // Obtener id_inscribe del localStorage
-    const idInscribeLocalStorage = localStorage.getItem("id_inscribe");
-    if (idInscribeLocalStorage) {
-      obtenerDatosInscripcion(idInscribeLocalStorage);
-    } else {
-      console.error("No se encontró id_inscribe en el localStorage.");
-    }
   }, []);
 
   const obtenerDatosInscripcion = async (idInscribe) => {
     try {
-      // Realizar la solicitud al servidor con el id_inscribe
       const response = await clienteAxios.get(
         `/inscribe/getInscribe/${idInscribe}`
       );
-
-      // Extraer la práctica desde la respuesta
-      const { asignatura } = response.data;
-      const practicaRegistrada = asignatura.id_asignatura; // Nombre de la práctica registrada
-
-      // Actualizar el estado de practica con la práctica registrada
+      const { asignatura } = response.data; // Ajustar según la respuesta real del servidor
+      const practicaRegistrada = asignatura.id_asignatura; // Ajustar según la respuesta real del servidor
       setPractica(practicaRegistrada);
     } catch (error) {
       console.error("Error al obtener los datos de la inscripción:", error);
     }
   };
 
-  const [modalidad, setModalidad] = useState("");
-  const [nombreEstudiante, setNombreEstudiante] = useState("");
-  const [run, setRun] = useState("");
-  const [emailEstudiante, setEmailEstudiante] = useState("");
-  const [celular, setCelular] = useState("");
-  const [direccionEstudiante, setDireccionEstudiante] = useState("");
-  const [fonoEmergencia, setFonoEmergencia] = useState("");
-  const [nombreEmpresa, setNombreEmpresa] = useState("");
-  const [deptoArea, setDeptoArea] = useState("");
-  const [paginaWeb, setPaginaWeb] = useState("");
-  const [rubro, setRubro] = useState("");
-  const [fonoEmpresa, setFonoEmpresa] = useState("");
-  const [direccionEmpresa, setDireccionEmpresa] = useState("");
-  const [nombreSupervisor, setNombreSupervisor] = useState("");
-  const [cargoSupervisor, setCargoSupervisor] = useState("");
-  const [fonoSupervisor, setFonoSupervisor] = useState("");
-  const [emailSupervisor, setEmailSupervisor] = useState("");
-  const [descripcionArea, setDescripcionArea] = useState("");
-  const [objetivosPractica, setObjetivosPractica] = useState("");
-  const [actividadesDesarrollar, setActividadesDesarrollar] = useState("");
-  const [horarioPractica, setHorarioPractica] = useState({
-    lunes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
-    martes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
-    miercoles: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
-    jueves: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
-    viernes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
-    sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
-  });
-
-  const diasSemana = [
-    "lunes",
-    "martes",
-    "miercoles",
-    "jueves",
-    "viernes",
-    "sabado",
-  ];
-
-  const handleTimeChange = (day, timePart, value) => {
-    const updatedHorario = {
-      ...horarioPractica,
-      [day]: {
-        ...horarioPractica[day],
-        [timePart]: value,
-      },
-    };
-
-    // Aplicar el estado actualizado
-    setHorarioPractica(updatedHorario);
-  };
-
-  const [idInscribe, setIdInscribe] = useState("");
-
-  useEffect(() => {
-    const storedIdInscribe = localStorage.getItem("id_inscribe");
-    if (storedIdInscribe) {
-      setIdInscribe(storedIdInscribe);
-    }
-  }, []);
-
-  const [fechaInicio, setFechaInicio] = useState("");
-  const [fechaFin, setFechaFin] = useState("");
-
-  const fechaRecepcion = new Date().toISOString().split("T")[0]; // Fecha actual en formato YYYY-MM-DD
-
-  const handleFechaInicioChange = (e) => {
-    const nuevaFechaInicio = e.target.value;
-    setFechaInicio(nuevaFechaInicio);
-
-    if (fechaFin && new Date(nuevaFechaInicio) > new Date(fechaFin)) {
-      setFechaFin("");
-    }
-  };
-
-  const handleFechaFinChange = (e) => {
-    const nuevaFechaFin = e.target.value;
-    const fechaMinimaFin = new Date(fechaInicio);
-    fechaMinimaFin.setDate(fechaMinimaFin.getDate() + 30);
-
-    setFechaFin(nuevaFechaFin);
-  };
-
-  const handleDescripcionAreaChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
-      setDescripcionArea(value);
-      setDescripcionError("");
+  const handleNext = () => {
+    if (stepCompleted[activeStep]) {
+      setActiveStep((prevStep) => prevStep + 1);
     } else {
-      setDescripcionError(
-        "Descripción inválida. Solo letras, números y máximo 200 caracteres."
-      );
+      console.error(`El paso ${activeStep} no está completo.`);
     }
   };
 
-  const handleObjetivosPracticaChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
-      setObjetivosPractica(value);
-      setObjetivosError("");
-    } else {
-      setObjetivosError(
-        "Objetivos inválidos. Solo letras, números y máximo 200 caracteres."
-      );
-    }
+  const handleBack = () => {
+    setActiveStep((prevStep) => prevStep - 1);
   };
 
-  const handleActividadesDesarrollarChange = (e) => {
-    const value = e.target.value;
-    if (/^[a-zA-Z0-9\s]{0,200}$/.test(value)) {
-      setActividadesDesarrollar(value);
-      setActividadesError("");
-    } else {
-      setActividadesError(
-        "Actividades inválidas. Solo letras, números y máximo 200 caracteres."
-      );
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (data) => {
     try {
-      let id_empresa;
-
-      // Primero, busca si la empresa ya existe por nombre
-      try {
-        const responseBuscarEmpresa = await clienteAxios.post(
-          "/empresa/getByNombre",
-          { nombre: nombreEmpresa }
-        );
-
-        if (
-          responseBuscarEmpresa.data &&
-          responseBuscarEmpresa.data.id_empresa
-        ) {
-          // Si la empresa existe, usa el id_empresa existente
-          id_empresa = responseBuscarEmpresa.data.id_empresa;
-          console.log("Empresa encontrada con id:", id_empresa);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          // Si la empresa no existe (404), crea una nueva empresa
-          const formDataEmpresa = {
-            nombre: nombreEmpresa,
-            departamento: deptoArea,
-            web: paginaWeb,
-            rubro: rubro,
-            telefono: fonoEmpresa,
-            direccion: direccionEmpresa,
-            id_ciudad: ciudadSeleccionada,
-          };
-
-          const responseCrearEmpresa = await clienteAxios.post(
-            "/empresa/create",
-            formDataEmpresa
-          );
-          id_empresa = responseCrearEmpresa.data.id_empresa;
-          console.log("Empresa creada con id:", id_empresa);
-        } else {
-          // Maneja otros errores posibles en la búsqueda de la empresa
-          throw new Error("Error al buscar la empresa");
-        }
-      }
-
-      // Crear el supervisor con id_empresa y obtener id_supervisor
-      const formDataSupervisor = {
-        primer_nombre: nombreSupervisor,
-        segundo_nombre: "a",
-        apellido_paterno: "b",
-        apellido_materno: "c",
-        cargo: cargoSupervisor,
-        telefono: fonoSupervisor,
-        correo: emailSupervisor,
-        id_empresa: id_empresa,
-      };
-
-      const responseSupervisor = await clienteAxios.post(
-        "/supervisor/create",
-        formDataSupervisor
-      );
-      const { id_supervisor } = responseSupervisor.data;
-      console.log("Supervisor creado con id:", id_supervisor);
-
-      const formDataInscripcion = {
-        id_modalidad: parseInt(modalidad, 10),
-        descripcion: descripcionArea,
-        objetivos: objetivosPractica,
-        actividades: actividadesDesarrollar,
-        fecha_inicio: fechaInicio,
-        fecha_fin: fechaFin,
-        fecha_inscripcion_practica: fechaRecepcion,
-        id_empresa: parseInt(id_empresa, 10),
-        id_supervisor: parseInt(id_supervisor, 10),
-        lunes_manana1: horarioPractica.lunes.mañana1,
-        lunes_manana2: horarioPractica.lunes.mañana2,
-        lunes_tarde1: horarioPractica.lunes.tarde1,
-        lunes_tarde2: horarioPractica.lunes.tarde2,
-        martes_manana1: horarioPractica.martes.mañana1,
-        martes_manana2: horarioPractica.martes.mañana2,
-        martes_tarde1: horarioPractica.martes.tarde1,
-        martes_tarde2: horarioPractica.martes.tarde2,
-        miercoles_manana1: horarioPractica.miercoles.mañana1,
-        miercoles_manana2: horarioPractica.miercoles.mañana2,
-        miercoles_tarde1: horarioPractica.miercoles.tarde1,
-        miercoles_tarde2: horarioPractica.miercoles.tarde2,
-        jueves_manana1: horarioPractica.jueves.mañana1,
-        jueves_manana2: horarioPractica.jueves.mañana2,
-        jueves_tarde1: horarioPractica.jueves.tarde1,
-        jueves_tarde2: horarioPractica.jueves.tarde2,
-        viernes_manana1: horarioPractica.viernes.mañana1,
-        viernes_manana2: horarioPractica.viernes.mañana2,
-        viernes_tarde1: horarioPractica.viernes.tarde1,
-        viernes_tarde2: horarioPractica.viernes.tarde2,
-        sabado_manana1: horarioPractica.sabado.mañana1,
-        sabado_manana2: horarioPractica.sabado.mañana2,
-        sabado_tarde1: horarioPractica.sabado.tarde1,
-        sabado_tarde2: horarioPractica.sabado.tarde2,
-        id_estado_inscripcion: 1,
-        id_inscribe: parseInt(idInscribe, 10),
-        observaciones: "",
-      };
-
-      const responseInscripcion = await clienteAxios.post(
-        "/inscripcion/create",
-        formDataInscripcion
-      );
-      console.log("Inscripción creada con éxito:", responseInscripcion.data);
-
-      // Redirige a la página /mi_practica después de la inscripción exitosa
-      navigate("/mi_practica");
+      console.log("Datos a enviar:", data);
+      const response = await clienteAxios.post("/inscribe/enviarDatos", data);
+      console.log("Respuesta del servidor:", response.data);
+      // Manejar la respuesta del servidor, redireccionar, mostrar mensajes, etc.
     } catch (error) {
-      console.error(
-        "Error al crear la empresa, supervisor o inscripción:",
-        error
-      );
+      console.error("Error al enviar los datos:", error);
+      // Manejar errores, mostrar mensajes al usuario, etc.
     }
   };
 
-  const steps = [
-    {
-      label: "Datos de la práctica",
-      content: (
-        <DatosPractica
-          practica={parseInt(practica, 10)}
-          setPractica={setPractica}
-          fechaRecepcion={fechaRecepcion}
-          modalidad={modalidad}
-          setModalidad={setModalidad}
-        />
-      ),
-    },
-    {
-      label: "Datos del estudiante",
-      content: (
-        <DatosEstudiante
-          nombreEstudiante={nombreEstudiante}
-          setNombreEstudiante={setNombreEstudiante}
-          run={run}
-          setRun={setRun}
-          emailEstudiante={emailEstudiante}
-          setEmailEstudiante={setEmailEstudiante}
-          celular={celular}
-          setCelular={setCelular}
-          direccionEstudiante={direccionEstudiante}
-          setDireccionEstudiante={setDireccionEstudiante}
-          fonoEmergencia={fonoEmergencia}
-          setFonoEmergencia={setFonoEmergencia}
-        />
-      ),
-    },
-    {
-      label: "Datos de la empresa",
-      content: (
-        <DatosEmpresa
-          nombreEmpresa={nombreEmpresa}
-          setNombreEmpresa={setNombreEmpresa}
-          deptoArea={deptoArea}
-          setDeptoArea={setDeptoArea}
-          paginaWeb={paginaWeb}
-          setPaginaWeb={setPaginaWeb}
-          rubro={rubro}
-          setRubro={setRubro}
-          fonoEmpresa={fonoEmpresa}
-          setFonoEmpresa={setFonoEmpresa}
-          direccionEmpresa={direccionEmpresa}
-          setDireccionEmpresa={setDireccionEmpresa}
-          ciudadSeleccionada={parseInt(ciudadSeleccionada, 10)}
-          handleChangeCiudad={handleChangeCiudad}
-          ciudades={ciudades}
-        />
-      ),
-    },
-    {
-      label: "Datos del supervisor",
-      content: (
-        <DatosSupervisor
-          nombreSupervisor={nombreSupervisor}
-          setNombreSupervisor={setNombreSupervisor}
-          cargoSupervisor={cargoSupervisor}
-          setCargoSupervisor={setCargoSupervisor}
-          fonoSupervisor={fonoSupervisor}
-          setFonoSupervisor={setFonoSupervisor}
-          emailSupervisor={emailSupervisor}
-          setEmailSupervisor={setEmailSupervisor}
-        />
-      ),
-    },
-    {
-      label: "Breve descripción del área de desarrollo",
-      content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Breve descripción del área de desarrollo
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              label="Descripción del Área"
-              value={descripcionArea}
-              onChange={handleDescripcionAreaChange}
-              variant="outlined"
-              margin="normal"
-              error={!!descripcionError}
-              helperText={descripcionError}
-              inputProps={{
-                maxLength: 200,
-              }}
-            />
-          </Grid>
-        </Grid>
-      ),
-    },
-    {
-      label: "Objetivo(s) de la práctica",
-      content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Objetivo(s) de la práctica
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              label="Objetivos de la Práctica"
-              value={objetivosPractica}
-              onChange={handleObjetivosPracticaChange}
-              variant="outlined"
-              margin="normal"
-              error={!!objetivosError}
-              helperText={objetivosError}
-              inputProps={{
-                maxLength: 200,
-              }}
-            />
-          </Grid>
-        </Grid>
-      ),
-    },
-    {
-      label: "Actividades a desarrollar",
-      content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Actividades a desarrollar
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              label="Actividades a Desarrollar"
-              value={actividadesDesarrollar}
-              onChange={handleActividadesDesarrollarChange}
-              variant="outlined"
-              margin="normal"
-              error={!!actividadesError}
-              helperText={actividadesError}
-              inputProps={{
-                maxLength: 200,
-              }}
-            />
-          </Grid>
-        </Grid>
-      ),
-    },
-    {
-      label: "Horario de la práctica",
-      content: (
-        <HorarioPractica
-          fechaInicio={fechaInicio}
-          handleFechaInicioChange={handleFechaInicioChange}
-          fechaFin={fechaFin}
-          handleFechaFinChange={handleFechaFinChange}
-          diasSemana={diasSemana}
-          horarioPractica={horarioPractica}
-          handleTimeChange={handleTimeChange}
-        />
-      ),
-    },
-  ];
+  const StepComponent = steps[activeStep].component;
 
   return (
-    <Card style={{ padding: "20px", marginBottom: "20px" }}>
-      {steps[activeStep].content}
-      <Grid container spacing={2} style={{ marginTop: "20px" }}>
-        <Grid item>
-          <Button
-            disabled={activeStep === 0}
-            onClick={handleBack}
-            variant="contained"
-            style={{ marginRight: "10px" }}
-          >
-            Atrás
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={
-              activeStep === steps.length - 1 ? handleSubmit : handleNext
-            }
-          >
-            {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
-          </Button>
-        </Grid>
-      </Grid>
-    </Card>
+    <FormProvider {...methods}>
+      <Card style={{ padding: "20px", marginBottom: "20px" }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <StepComponent
+            practica={practica}
+            setPractica={setPractica}
+            fechaRecepcion={fechaRecepcion}
+            modalidad={modalidad}
+            setModalidad={setModalidad}
+            nombreEstudiante={nombreEstudiante}
+            run={run}
+            emailEstudiante={emailEstudiante}
+            celular={celular}
+            direccionEstudiante={direccionEstudiante}
+            fonoEmergencia={fonoEmergencia}
+            regiones={regiones}
+            provincias={provincias}
+            comunas={comunas}
+            onRegionChange={handleRegionChange}
+            onProvinciaChange={handleProvinciaChange}
+            onStepComplete={(completed) => {
+              const newStepCompleted = [...stepCompleted];
+              newStepCompleted[activeStep] = completed;
+              setStepCompleted(newStepCompleted);
+            }}
+          />
+          <Grid container spacing={2} style={{ marginTop: "20px" }}>
+            <Grid item>
+              <Button
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                variant="contained"
+                style={{ marginRight: "10px" }}
+              >
+                Atrás
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={
+                  activeStep === steps.length - 1
+                    ? handleSubmit(onSubmit)
+                    : handleNext
+                }
+                disabled={!stepCompleted[activeStep]}
+              >
+                {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Card>
+    </FormProvider>
   );
 };
 

@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { Grid, Typography, TextField } from '@mui/material';
 
 const DatosEstudiante = ({
   nombreEstudiante,
-  setNombreEstudiante,
   run,
-  setRun,
   emailEstudiante,
-  setEmailEstudiante,
   celular,
-  setCelular,
   direccionEstudiante,
-  setDireccionEstudiante,
   fonoEmergencia,
-  setFonoEmergencia,
+  onStepComplete
 }) => {
+  const { register } = useFormContext();
+
+  useEffect(() => {
+    // Verificar que todos los campos necesarios estén completos
+    const fieldsCompleted = nombreEstudiante && run && emailEstudiante && celular && direccionEstudiante && fonoEmergencia;
+    // Llamar a la función onStepComplete con el estado de completitud
+    onStepComplete(fieldsCompleted);
+  }, [nombreEstudiante, run, emailEstudiante, celular, direccionEstudiante, fonoEmergencia, onStepComplete]);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -26,8 +31,8 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Nombre del Estudiante"
-          value={nombreEstudiante}
-          onChange={(e) => setNombreEstudiante(e.target.value)}
+          {...register('nombreEstudiante')}
+          defaultValue={nombreEstudiante}
           variant="outlined"
           margin="normal"
           disabled
@@ -37,8 +42,8 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="RUN"
-          value={run}
-          onChange={(e) => setRun(e.target.value)}
+          {...register('run')}
+          defaultValue={run}
           variant="outlined"
           margin="normal"
           disabled
@@ -48,8 +53,8 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Email del Estudiante"
-          value={emailEstudiante}
-          onChange={(e) => setEmailEstudiante(e.target.value)}
+          {...register('emailEstudiante')}
+          defaultValue={emailEstudiante}
           variant="outlined"
           margin="normal"
           disabled
@@ -62,8 +67,8 @@ const DatosEstudiante = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          value={celular}
-          onChange={(e) => setCelular(e.target.value)}
+          {...register('celular')}
+          defaultValue={celular}
           variant="outlined"
           margin="normal"
           disabled
@@ -73,8 +78,8 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Dirección del Estudiante"
-          value={direccionEstudiante}
-          onChange={(e) => setDireccionEstudiante(e.target.value)}
+          {...register('direccionEstudiante')}
+          defaultValue={direccionEstudiante}
           variant="outlined"
           margin="normal"
           disabled
@@ -87,8 +92,8 @@ const DatosEstudiante = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          value={fonoEmergencia}
-          onChange={(e) => setFonoEmergencia(e.target.value)}
+          {...register('fonoEmergencia')}
+          defaultValue={fonoEmergencia}
           variant="outlined"
           margin="normal"
           disabled

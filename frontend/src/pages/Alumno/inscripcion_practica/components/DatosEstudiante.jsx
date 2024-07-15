@@ -1,20 +1,10 @@
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 import { Grid, Typography, TextField } from '@mui/material';
 
-const DatosEstudiante = ({
-  nombreEstudiante,
-  setNombreEstudiante,
-  run,
-  setRun,
-  emailEstudiante,
-  setEmailEstudiante,
-  celular,
-  setCelular,
-  direccionEstudiante,
-  setDireccionEstudiante,
-  fonoEmergencia,
-  setFonoEmergencia,
-}) => {
+const DatosEstudiante = () => {
+  const { register } = useFormContext();
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -26,8 +16,7 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Nombre del Estudiante"
-          value={nombreEstudiante}
-          onChange={(e) => setNombreEstudiante(e.target.value)}
+          {...register('nombreEstudiante')}
           variant="outlined"
           margin="normal"
           disabled
@@ -37,8 +26,7 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="RUN"
-          value={run}
-          onChange={(e) => setRun(e.target.value)}
+          {...register('run')}
           variant="outlined"
           margin="normal"
           disabled
@@ -48,8 +36,7 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Email del Estudiante"
-          value={emailEstudiante}
-          onChange={(e) => setEmailEstudiante(e.target.value)}
+          {...register('emailEstudiante')}
           variant="outlined"
           margin="normal"
           disabled
@@ -62,8 +49,7 @@ const DatosEstudiante = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          value={celular}
-          onChange={(e) => setCelular(e.target.value)}
+          {...register('celular')}
           variant="outlined"
           margin="normal"
           disabled
@@ -73,8 +59,7 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Dirección del Estudiante"
-          value={direccionEstudiante}
-          onChange={(e) => setDireccionEstudiante(e.target.value)}
+          {...register('direccionEstudiante')}
           variant="outlined"
           margin="normal"
           disabled
@@ -87,8 +72,7 @@ const DatosEstudiante = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          value={fonoEmergencia}
-          onChange={(e) => setFonoEmergencia(e.target.value)}
+          {...register('fonoEmergencia')}
           variant="outlined"
           margin="normal"
           disabled

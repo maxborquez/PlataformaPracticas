@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
 
@@ -8,7 +8,20 @@ const DatosPractica = ({
   fechaRecepcion,
   modalidad,
   setModalidad,
+  onStepComplete,
 }) => {
+  const [modalidadLocal, setModalidadLocal] = useState('');
+
+  useEffect(() => {
+    setModalidadLocal(modalidad);
+  }, [modalidad]);
+
+  useEffect(() => {
+    // Aquí puedes implementar validaciones para determinar si los campos están completos
+    const completado = practica !== '' && fechaRecepcion !== '' && modalidadLocal !== '';
+    onStepComplete(completado);
+  }, [practica, fechaRecepcion, modalidadLocal, onStepComplete]);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -48,7 +61,7 @@ const DatosPractica = ({
           <Select
             labelId="modalidad-label"
             id="modalidad"
-            value={modalidad}
+            value={modalidadLocal}
             onChange={(e) => setModalidad(e.target.value)}
             label="Modalidad"
           >
@@ -70,6 +83,7 @@ DatosPractica.propTypes = {
   fechaRecepcion: PropTypes.string.isRequired,
   modalidad: PropTypes.string.isRequired,
   setModalidad: PropTypes.func.isRequired,
+  onStepComplete: PropTypes.func.isRequired,
 };
 
 export default DatosPractica;

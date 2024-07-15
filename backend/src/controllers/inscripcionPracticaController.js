@@ -53,6 +53,9 @@ const crear_inscripcion = async (req, res) => {
       sabado_tarde2,
     } = req.body;
 
+    // Función auxiliar para convertir la cadena de hora a Date si no está vacía
+    const parseHora = (fecha, hora) => hora ? new Date(`${fecha}T${hora}:00.000Z`) : null;
+
     const inscripcion = await prisma.inscripcion_practica.create({
       data: {
         fecha_inscripcion_practica: new Date(`${fecha_inscripcion_practica}T00:00:00.000Z`),
@@ -68,50 +71,39 @@ const crear_inscripcion = async (req, res) => {
         id_modalidad,
         id_inscribe,
         observaciones,
-        lunes_manana1: new Date(`${fecha_inscripcion_practica}T${lunes_manana1}:00.000Z`),
-        lunes_manana2: new Date(`${fecha_inscripcion_practica}T${lunes_manana2}:00.000Z`),
-        lunes_tarde1: new Date(`${fecha_inscripcion_practica}T${lunes_tarde1}:00.000Z`),
-        lunes_tarde2: new Date(`${fecha_inscripcion_practica}T${lunes_tarde2}:00.000Z`),
-        martes_manana1: new Date(`${fecha_inscripcion_practica}T${martes_manana1}:00.000Z`),
-        martes_manana2: new Date(`${fecha_inscripcion_practica}T${martes_manana2}:00.000Z`),
-        martes_tarde1: new Date(`${fecha_inscripcion_practica}T${martes_tarde1}:00.000Z`),
-        martes_tarde2: new Date(`${fecha_inscripcion_practica}T${martes_tarde2}:00.000Z`),
-        miercoles_manana1: new Date(`${fecha_inscripcion_practica}T${miercoles_manana1}:00.000Z`),
-        miercoles_manana2: new Date(`${fecha_inscripcion_practica}T${miercoles_manana2}:00.000Z`),
-        miercoles_tarde1: new Date(`${fecha_inscripcion_practica}T${miercoles_tarde1}:00.000Z`),
-        miercoles_tarde2: new Date(`${fecha_inscripcion_practica}T${miercoles_tarde2}:00.000Z`),
-        jueves_manana1: new Date(`${fecha_inscripcion_practica}T${jueves_manana1}:00.000Z`),
-        jueves_manana2: new Date(`${fecha_inscripcion_practica}T${jueves_manana2}:00.000Z`),
-        jueves_tarde1: new Date(`${fecha_inscripcion_practica}T${jueves_tarde1}:00.000Z`),
-        jueves_tarde2: new Date(`${fecha_inscripcion_practica}T${jueves_tarde2}:00.000Z`),
-        viernes_manana1: new Date(`${fecha_inscripcion_practica}T${viernes_manana1}:00.000Z`),
-        viernes_manana2: new Date(`${fecha_inscripcion_practica}T${viernes_manana2}:00.000Z`),
-        viernes_tarde1: new Date(`${fecha_inscripcion_practica}T${viernes_tarde1}:00.000Z`),
-        viernes_tarde2: new Date(`${fecha_inscripcion_practica}T${viernes_tarde2}:00.000Z`),
-        sabado_manana1: new Date(`${fecha_inscripcion_practica}T${sabado_manana1}:00.000Z`),
-        sabado_manana2: new Date(`${fecha_inscripcion_practica}T${sabado_manana2}:00.000Z`),
-        sabado_tarde1: new Date(`${fecha_inscripcion_practica}T${sabado_tarde1}:00.000Z`),
-        sabado_tarde2: new Date(`${fecha_inscripcion_practica}T${sabado_tarde2}:00.000Z`),
+        lunes_manana1: parseHora(fecha_inscripcion_practica, lunes_manana1),
+        lunes_manana2: parseHora(fecha_inscripcion_practica, lunes_manana2),
+        lunes_tarde1: parseHora(fecha_inscripcion_practica, lunes_tarde1),
+        lunes_tarde2: parseHora(fecha_inscripcion_practica, lunes_tarde2),
+        martes_manana1: parseHora(fecha_inscripcion_practica, martes_manana1),
+        martes_manana2: parseHora(fecha_inscripcion_practica, martes_manana2),
+        martes_tarde1: parseHora(fecha_inscripcion_practica, martes_tarde1),
+        martes_tarde2: parseHora(fecha_inscripcion_practica, martes_tarde2),
+        miercoles_manana1: parseHora(fecha_inscripcion_practica, miercoles_manana1),
+        miercoles_manana2: parseHora(fecha_inscripcion_practica, miercoles_manana2),
+        miercoles_tarde1: parseHora(fecha_inscripcion_practica, miercoles_tarde1),
+        miercoles_tarde2: parseHora(fecha_inscripcion_practica, miercoles_tarde2),
+        jueves_manana1: parseHora(fecha_inscripcion_practica, jueves_manana1),
+        jueves_manana2: parseHora(fecha_inscripcion_practica, jueves_manana2),
+        jueves_tarde1: parseHora(fecha_inscripcion_practica, jueves_tarde1),
+        jueves_tarde2: parseHora(fecha_inscripcion_practica, jueves_tarde2),
+        viernes_manana1: parseHora(fecha_inscripcion_practica, viernes_manana1),
+        viernes_manana2: parseHora(fecha_inscripcion_practica, viernes_manana2),
+        viernes_tarde1: parseHora(fecha_inscripcion_practica, viernes_tarde1),
+        viernes_tarde2: parseHora(fecha_inscripcion_practica, viernes_tarde2),
+        sabado_manana1: parseHora(fecha_inscripcion_practica, sabado_manana1),
+        sabado_manana2: parseHora(fecha_inscripcion_practica, sabado_manana2),
+        sabado_tarde1: parseHora(fecha_inscripcion_practica, sabado_tarde1),
+        sabado_tarde2: parseHora(fecha_inscripcion_practica, sabado_tarde2),
       },
     });
 
-    if (!inscripcion) {
-      return res.status(400).json({
-        mensaje: "Error al registrar inscripcion",
-      });
-    }
-
-    return res.status(200).json({
-      mensaje: "Inscripcion registrada correctamente",
-      inscripcion,
-    });
+    res.status(201).json({ mensaje: "Inscripción creada correctamente", inscripcion });
   } catch (error) {
-    return res.status(400).json({
-      error: error.stack,
-    });
+    console.error("Error al crear la inscripción:", error);
+    res.status(500).json({ mensaje: "Error interno del servidor" });
   }
 };
-
 
 const mostrar_inscripciones = async (req, res) => {
   try {

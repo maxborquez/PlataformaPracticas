@@ -3,15 +3,16 @@ import {
   Card,
   Grid,
   TextField,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Button,
   Typography,
 } from "@mui/material";
 import clienteAxios from "../../../helpers/clienteaxios";
 import { useNavigate } from "react-router-dom";
+import DatosEmpresa from "./components/DatosEmpresa";
+import DatosSupervisor from "./components/DatosSupervisor";
+import DatosEstudiante from "./components/DatosEstudiante";
+import DatosPractica from "./components/DatosPractica";
+import HorarioPractica from "./components/HorarioPractica";
 
 const FormularioInscripcion = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -112,7 +113,7 @@ const FormularioInscripcion = () => {
     }
   };
 
-  const [modalidad, setModalidad] = useState("");
+  const [modalidad, setModalidad] = useState('1');
   console.log(modalidad);
   const [nombreEstudiante, setNombreEstudiante] = useState("");
   const [run, setRun] = useState("");
@@ -126,7 +127,6 @@ const FormularioInscripcion = () => {
   const [rubro, setRubro] = useState("");
   const [fonoEmpresa, setFonoEmpresa] = useState("");
   const [direccionEmpresa, setDireccionEmpresa] = useState("");
-  const [ciudad, setCiudad] = useState("");
   const [nombreSupervisor, setNombreSupervisor] = useState("");
   const [cargoSupervisor, setCargoSupervisor] = useState("");
   const [fonoSupervisor, setFonoSupervisor] = useState("");
@@ -258,21 +258,12 @@ const FormularioInscripcion = () => {
 
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
-  const [fechaInicioError, setFechaInicioError] = useState(false);
-  const [fechaFinError, setFechaFinError] = useState(false);
 
   const fechaRecepcion = new Date().toISOString().split("T")[0]; // Fecha actual en formato YYYY-MM-DD
 
   const handleFechaInicioChange = (e) => {
-    const fechaActual = new Date().toISOString().split("T")[0];
     const nuevaFechaInicio = e.target.value;
     setFechaInicio(nuevaFechaInicio);
-
-    if (nuevaFechaInicio < fechaActual) {
-      setFechaInicioError(true);
-    } else {
-      setFechaInicioError(false);
-    }
 
     if (fechaFin && new Date(nuevaFechaInicio) > new Date(fechaFin)) {
       setFechaFin("");
@@ -285,16 +276,7 @@ const FormularioInscripcion = () => {
     fechaMinimaFin.setDate(fechaMinimaFin.getDate() + 30);
 
     setFechaFin(nuevaFechaFin);
-
-    if (new Date(nuevaFechaFin) < fechaMinimaFin) {
-      setFechaFinError(true);
-    } else {
-      setFechaFinError(false);
-    }
   };
-
-  const [idEmpresa, setIdEmpresa] = useState(null);
-  const [idSupervisor, setIdSupervisor] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -418,292 +400,72 @@ const FormularioInscripcion = () => {
 
   const steps = [
     {
-      label: "Datos",
+      label: "Datos de la práctica",
       content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Datos de la práctica
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel id="practica-label">Práctica</InputLabel>
-              <Select
-                labelId="practica-label"
-                id="practica"
-                value={practica}
-                onChange={(e) => setPractica(e.target.value)}
-                label="Práctica"
-                disabled
-              >
-                <MenuItem value="620509">Práctica 1</MenuItem>
-                <MenuItem value="620520">Práctica 2</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Fecha de Recepción"
-              value={fechaRecepcion}
-              disabled
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel id="modalidad-label">Modalidad</InputLabel>
-              <Select
-                labelId="modalidad-label"
-                id="modalidad"
-                value={modalidad}
-                onChange={(e) => setModalidad(e.target.value)}
-                label="Modalidad"
-              >
-                <MenuItem value="1">Presencial</MenuItem>
-                <MenuItem value="2">Online</MenuItem>
-                <MenuItem value="3">Pasantía</MenuItem>
-                <MenuItem value="4">Training</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-      ),
+        <DatosPractica
+          practica={practica}
+          setPractica={setPractica}
+          fechaRecepcion={fechaRecepcion}
+          modalidad={modalidad}
+          setModalidad={setModalidad}
+        />
+      )
     },
     {
       label: "Datos del estudiante",
       content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Datos del estudiante
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Nombre del Estudiante"
-              value={nombreEstudiante}
-              onChange={(e) => setNombreEstudiante(e.target.value)}
-              variant="outlined"
-              margin="normal"
-              disabled
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="RUN"
-              value={run}
-              onChange={(e) => setRun(e.target.value)}
-              variant="outlined"
-              margin="normal"
-              disabled
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Email del Estudiante"
-              value={emailEstudiante}
-              onChange={(e) => setEmailEstudiante(e.target.value)}
-              variant="outlined"
-              margin="normal"
-              disabled
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Celular"
-              type="text"
-              placeholder="9xxxxxxxx"
-              inputProps={{ maxLength: 9 }}
-              value={celular}
-              onChange={(e) => setCelular(e.target.value)}
-              variant="outlined"
-              margin="normal"
-              disabled
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Dirección del Estudiante"
-              value={direccionEstudiante}
-              onChange={(e) => setDireccionEstudiante(e.target.value)}
-              variant="outlined"
-              margin="normal"
-              disabled
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Fono de Emergencia"
-              type="text"
-              placeholder="9xxxxxxxx"
-              inputProps={{ maxLength: 9 }}
-              value={fonoEmergencia}
-              onChange={(e) => setFonoEmergencia(e.target.value)}
-              variant="outlined"
-              margin="normal"
-              disabled
-            />
-          </Grid>
-        </Grid>
-      ),
+        <DatosEstudiante
+          nombreEstudiante={nombreEstudiante}
+          setNombreEstudiante={setNombreEstudiante}
+          run={run}
+          setRun={setRun}
+          emailEstudiante={emailEstudiante}
+          setEmailEstudiante={setEmailEstudiante}
+          celular={celular}
+          setCelular={setCelular}
+          direccionEstudiante={direccionEstudiante}
+          setDireccionEstudiante={setDireccionEstudiante}
+          fonoEmergencia={fonoEmergencia}
+          setFonoEmergencia={setFonoEmergencia}
+        />
+      )
     },
     {
       label: "Datos de la empresa",
       content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Datos de empresa
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Nombre de la Empresa"
-              value={nombreEmpresa}
-              onChange={(e) => setNombreEmpresa(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Departamento o Área"
-              value={deptoArea}
-              onChange={(e) => setDeptoArea(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Página Web"
-              value={paginaWeb}
-              onChange={(e) => setPaginaWeb(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Rubro"
-              value={rubro}
-              onChange={(e) => setRubro(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Fono de la Empresa"
-              type="text"
-              placeholder="9xxxxxxxx"
-              inputProps={{ maxLength: 9 }}
-              value={fonoEmpresa}
-              onChange={(e) => setFonoEmpresa(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Dirección de la Empresa"
-              value={direccionEmpresa}
-              onChange={(e) => setDireccionEmpresa(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined" margin="normal">
-              <InputLabel id="ciudad-label">Ciudad</InputLabel>
-              <Select
-                labelId="ciudad-label"
-                value={ciudadSeleccionada}
-                onChange={handleChangeCiudad}
-                label="Ciudad"
-              >
-                {ciudades.map((ciudad) => (
-                  <MenuItem key={ciudad.id_ciudad} value={ciudad.id_ciudad}>
-                    {ciudad.nombre}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-      ),
+        <DatosEmpresa
+          nombreEmpresa={nombreEmpresa}
+          setNombreEmpresa={setNombreEmpresa}
+          deptoArea={deptoArea}
+          setDeptoArea={setDeptoArea}
+          paginaWeb={paginaWeb}
+          setPaginaWeb={setPaginaWeb}
+          rubro={rubro}
+          setRubro={setRubro}
+          fonoEmpresa={fonoEmpresa}
+          setFonoEmpresa={setFonoEmpresa}
+          direccionEmpresa={direccionEmpresa}
+          setDireccionEmpresa={setDireccionEmpresa}
+          ciudadSeleccionada={parseInt(ciudadSeleccionada,10)}
+          handleChangeCiudad={handleChangeCiudad}
+          ciudades={ciudades}
+        />
+      )
     },
     {
       label: "Datos del supervisor",
       content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Datos del supervisor
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Nombre del Supervisor"
-              value={nombreSupervisor}
-              onChange={(e) => setNombreSupervisor(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Cargo del Supervisor"
-              value={cargoSupervisor}
-              onChange={(e) => setCargoSupervisor(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Fono del Supervisor"
-              type="text"
-              placeholder="9xxxxxxxx"
-              inputProps={{ maxLength: 9 }}
-              value={fonoSupervisor}
-              onChange={(e) => setFonoSupervisor(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="email"
-              placeholder="corre@dominio.cl"
-              label="Email del Supervisor"
-              value={emailSupervisor}
-              onChange={(e) => setEmailSupervisor(e.target.value)}
-              variant="outlined"
-              margin="normal"
-            />
-          </Grid>
-        </Grid>
-      ),
+        <DatosSupervisor
+          nombreSupervisor={nombreSupervisor}
+          setNombreSupervisor={setNombreSupervisor}
+          cargoSupervisor={cargoSupervisor}
+          setCargoSupervisor={setCargoSupervisor}
+          fonoSupervisor={fonoSupervisor}
+          setFonoSupervisor={setFonoSupervisor}
+          emailSupervisor={emailSupervisor}
+          setEmailSupervisor={setEmailSupervisor}
+        />
+      )
     },
     {
       label: "Breve descripción del área de desarrollo",
@@ -780,165 +542,17 @@ const FormularioInscripcion = () => {
     {
       label: "Horario de la práctica",
       content: (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" marginBottom={5}>
-              Horario de la práctica
-            </Typography>
-          </Grid>
-
-          <Grid container spacing={2} marginLeft={0.06}>
-            <Grid item xs={6} md={2}>
-              <Typography variant="subtitle1" gutterBottom>
-                Fecha de inicio de la práctica
-              </Typography>
-              <TextField
-                id="fecha_inicio"
-                label="Fecha de inicio"
-                type="date"
-                value={fechaInicio}
-                onChange={handleFechaInicioChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={fechaInicioError}
-                helperText={
-                  fechaInicioError
-                    ? "La fecha de inicio no puede ser anterior a la fecha actual"
-                    : ""
-                }
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} md={2}>
-              <Typography variant="subtitle1" gutterBottom>
-                Fecha de fin de la práctica
-              </Typography>
-              <TextField
-                id="fecha_fin"
-                label="Fecha de fin"
-                type="date"
-                value={fechaFin}
-                onChange={handleFechaFinChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={fechaFinError}
-                helperText={
-                  fechaFinError
-                    ? "La fecha de fin debe ser al menos 30 días después de la fecha de inicio"
-                    : ""
-                }
-                fullWidth
-                disabled={!fechaInicio}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            {diasSemana.map((dia) => (
-              <Grid item xs={12} key={dia}>
-                <Typography
-                  variant="subtitle1"
-                  style={{ textTransform: "capitalize" }}
-                >
-                  {dia}
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={3}>
-                    <TextField
-                      fullWidth
-                      type="time"
-                      label="Inicio Mañana"
-                      value={horarioPractica[dia].mañana1}
-                      onChange={(e) =>
-                        handleTimeChange(dia, "mañana1", e.target.value)
-                      }
-                      variant="outlined"
-                      margin="normal"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      error={errors[dia].mañana1}
-                      helperText={
-                        errors[dia].mañana1
-                          ? "La hora de inicio mañana no puede ser antes de las 08:00 o mayor que la hora fin mañana"
-                          : ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      fullWidth
-                      type="time"
-                      label="Fin Mañana"
-                      value={horarioPractica[dia].mañana2}
-                      onChange={(e) =>
-                        handleTimeChange(dia, "mañana2", e.target.value)
-                      }
-                      variant="outlined"
-                      margin="normal"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      error={errors[dia].mañana2}
-                      helperText={
-                        errors[dia].mañana2
-                          ? "La hora de fin mañana no puede ser menor que la hora inicio mañana o mayor que la hora inicio tarde"
-                          : ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      fullWidth
-                      type="time"
-                      label="Inicio Tarde"
-                      value={horarioPractica[dia].tarde1}
-                      onChange={(e) =>
-                        handleTimeChange(dia, "tarde1", e.target.value)
-                      }
-                      variant="outlined"
-                      margin="normal"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      error={errors[dia].tarde1}
-                      helperText={
-                        errors[dia].tarde1
-                          ? "La hora de inicio tarde no puede ser menor que la hora fin mañana o mayor que la hora fin tarde"
-                          : ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      fullWidth
-                      type="time"
-                      label="Fin Tarde"
-                      value={horarioPractica[dia].tarde2}
-                      onChange={(e) =>
-                        handleTimeChange(dia, "tarde2", e.target.value)
-                      }
-                      variant="outlined"
-                      margin="normal"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      error={errors[dia].tarde2}
-                      helperText={
-                        errors[dia].tarde2
-                          ? "La hora de fin tarde no puede ser despues de las 20:00 o menor que la hora inicio tarde"
-                          : ""
-                      }
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-      ),
+        <HorarioPractica
+          fechaInicio={fechaInicio}
+          handleFechaInicioChange={handleFechaInicioChange}
+          fechaFin={fechaFin}
+          handleFechaFinChange={handleFechaFinChange}
+          diasSemana={diasSemana}
+          horarioPractica={horarioPractica}
+          handleTimeChange={handleTimeChange}
+          errors={errors}
+        />
+      )
     },
   ];
 

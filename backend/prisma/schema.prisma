@@ -143,12 +143,15 @@ model empresa {
   telefono             String                 @db.VarChar(18)
   direccion            String                 @db.VarChar(100)
   id_comuna            Int
+  id_estado_empresa    Int
   comuna               comuna                 @relation(fields: [id_comuna], references: [id_comuna], onDelete: Cascade)
+  estado_empresa       estado_empresa         @relation(fields: [id_estado_empresa], references: [id_estado_empresa], onDelete: Cascade)
   inscripcion_practica inscripcion_practica[]
   oferta_practica      oferta_practica[]
   supervisor           supervisor[]
 
   @@index([id_comuna], map: "empresa_id_comuna_fkey")
+  @@index([id_estado_empresa], map: "empresa_id_estado_empresa_fkey")
 }
 
 model estado_bitacora {
@@ -337,10 +340,13 @@ model supervisor {
   telefono             String                 @db.VarChar(15)
   correo               String                 @db.VarChar(100)
   id_empresa           Int
+  id_estado_supervisor Int
   inscripcion_practica inscripcion_practica[]
   empresa              empresa                @relation(fields: [id_empresa], references: [id_empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_supervisor")
+  estado_supervisor    estado_supervisor      @relation(fields: [id_estado_supervisor], references: [id_estado_supervisor], onDelete: NoAction, onUpdate: NoAction, map: "fk_estado_supervisor")
 
   @@index([id_empresa], map: "fk_empresa_supervisor")
+  @@index([id_estado_supervisor], map: "fk_estado_supervisor")
 }
 
 model estado_aptitud {
@@ -373,4 +379,16 @@ model region {
   id_region     Int         @id @default(autoincrement())
   nombre_region String      @db.VarChar(50)
   provincia     provincia[]
+}
+
+model estado_empresa {
+  id_estado_empresa     Int       @id @default(autoincrement())
+  nombre_estado_empresa String    @db.VarChar(50)
+  empresa               empresa[]
+}
+
+model estado_supervisor {
+  id_estado_supervisor     Int          @id @default(autoincrement())
+  nombre_estado_supervisor String       @db.VarChar(50)
+  supervisor               supervisor[]
 }

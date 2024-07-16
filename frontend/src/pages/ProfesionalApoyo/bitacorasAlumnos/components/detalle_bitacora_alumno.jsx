@@ -52,7 +52,6 @@ const DetalleBitacoraAlumno = () => {
       const response = await clienteAxios.put(
         `/bitacoras/revisar/${id_bitacora}`
       );
-      console.log(response.data);
     } catch (error) {
       console.error("Error al revisar la bitácora:", error);
     }

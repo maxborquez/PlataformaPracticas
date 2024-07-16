@@ -29,7 +29,6 @@ const SubirArchivo = ({id})=>{
         formData.append("id_inscripcion",Number(id))
         formData.append("archivo",archivo)
 
-        console.log(id);
 
        
 

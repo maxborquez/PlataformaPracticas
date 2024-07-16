@@ -34,6 +34,7 @@ const crear_supervisor = async (req, res) => {
         correo,
         cargo,
         id_empresa,
+        id_estado_supervisor,
       },
     });
 
@@ -172,6 +173,7 @@ const actualizar_supervisor = async (req, res) => {
         telefono,
         correo,
         cargo,
+        id_estado_supervisor,
       },
     });
 

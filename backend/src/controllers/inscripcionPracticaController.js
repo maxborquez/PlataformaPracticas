@@ -180,7 +180,6 @@ const eliminar_inscripcion = async (req, res) => {
       });
     }
     const { id } = req.params;
-    console.log(id);
     const inscripcion = await prisma.inscripcion_practica.findFirst({
       where: {
         id_inscripcion_practica: Number(id),

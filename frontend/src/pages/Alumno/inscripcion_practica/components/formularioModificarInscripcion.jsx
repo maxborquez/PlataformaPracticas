@@ -100,7 +100,6 @@ const FormularioModificarInscripcion = () => {
                 setOferta("")
             } else {
                 setSelectOferta(1)
-                console.log(response.oferta_practica)
                 setOferta(response.oferta_practica)
             }
 
@@ -231,7 +230,6 @@ const FormularioModificarInscripcion = () => {
                     }
 
                     const response_inscripcion = await clienteAxios.put(`/inscripcion/actualizaralumno/${id_inscribe}`, data_inscripcion);
-                    console.log(response_inscripcion.data)
                     if (response_inscripcion.status == 200) {
 
                         Swal.fire({
@@ -249,7 +247,6 @@ const FormularioModificarInscripcion = () => {
             }
             else {
                 const response = await clienteAxios.put(`/supervisor/update/${id_supervisor}`, data_evaluador);
-                console.log(response.data)
                 if (response.status == 200) {
 
                     const data_inscripcion = {
@@ -262,10 +259,8 @@ const FormularioModificarInscripcion = () => {
                         id_estado_inscripcion: 1,
                         id_supervisor: Number(response.data.supervisor.id_supervisor)
                     }
-                    console.log(data_inscripcion)
 
                     const response_inscripcion = await clienteAxios.put(`/inscripcion/actualizaralumno/${id_inscribe}`, data_inscripcion);
-                    console.log(response_inscripcion.data)
                     if (response_inscripcion.status == 200) {
 
                         Swal.fire({
@@ -310,7 +305,6 @@ const FormularioModificarInscripcion = () => {
                     }
 
                     const response_inscripcion = await clienteAxios.put(`/inscripcion/actualizaralumno/${id_inscribe}`, data_actualizada);
-                    console.log(response_inscripcion.data)
                     if (response_inscripcion.status == 200) {
 
                         Swal.fire({
@@ -342,7 +336,6 @@ const FormularioModificarInscripcion = () => {
                     }
 
                     const response_inscripcion = await clienteAxios.put(`/inscripcion/actualizaralumno/${id_inscribe}`, data_actualizada);
-                    console.log(response_inscripcion.data)
                     if (response_inscripcion.status == 200) {
 
                         Swal.fire({

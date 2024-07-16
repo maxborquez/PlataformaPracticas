@@ -65,21 +65,14 @@ const FormEmpresa = ({
         />
       </Grid>
       <Grid item xs={6}>
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Rubro</InputLabel>
-          <Select
-            value={rubro}
-            onChange={(e) => setRubro(e.target.value)}
-          >
-            <MenuItem value="">
-              <em>Seleccione un rubro</em>
-            </MenuItem>
-            <MenuItem value="tecnologia">Tecnología</MenuItem>
-            <MenuItem value="salud">Salud</MenuItem>
-            <MenuItem value="educacion">Educación</MenuItem>
-            {/* Agrega más opciones según sea necesario */}
-          </Select>
-        </FormControl>
+        <TextField
+          fullWidth
+          label="Rubro"
+          variant="outlined"
+          margin="normal"
+          value={rubro}
+          onChange={(e) => setRubro(e.target.value)}
+        />
       </Grid>
       <Grid item xs={6}>
         <TextField
@@ -114,7 +107,6 @@ const FormEmpresa = ({
             <MenuItem value="">
               <em>Seleccione una región</em>
             </MenuItem>
-            {/* Agrega las opciones de regiones */}
           </Select>
         </FormControl>
       </Grid>
@@ -128,7 +120,6 @@ const FormEmpresa = ({
             <MenuItem value="">
               <em>Seleccione una provincia</em>
             </MenuItem>
-            {/* Agrega las opciones de provincias */}
           </Select>
         </FormControl>
       </Grid>
@@ -142,7 +133,6 @@ const FormEmpresa = ({
             <MenuItem value="">
               <em>Seleccione una comuna</em>
             </MenuItem>
-            {/* Agrega las opciones de comunas */}
           </Select>
         </FormControl>
       </Grid>

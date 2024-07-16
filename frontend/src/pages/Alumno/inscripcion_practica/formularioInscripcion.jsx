@@ -70,6 +70,12 @@ const FormularioInscripcion = () => {
           celular={celular}
           direccionEstudiante={direccionEstudiante}
           fonoEmergencia={fonoEmergencia}
+          setNombreEstudiante={setNombreEstudiante}
+          setRun={setRun}
+          setEmailEstudiante={setEmailEstudiante}
+          setCelular={setCelular}
+          setDireccionEstudiante={setDireccionEstudiante}
+          setFonoEmergencia={setFonoEmergencia}
         />
       </Grid>
       <Grid item xs={12}>

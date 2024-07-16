@@ -40,7 +40,7 @@ const Bitacoras = () => {
   useEffect(() => {
     const fetchBitacoras = async () => {
       try {
-        if (id_alumno && id_inscripcion_practica) {
+        if (id_alumno && id_inscripcion_practica && id_inscripcion_practica !== "undefined") {
           const response = await clienteAxios.get(
             `/bitacoras/getall/${id_inscripcion_practica}/${id_alumno}`
           );
@@ -51,7 +51,7 @@ const Bitacoras = () => {
           }
         } else {
           console.error("id_alumno or id_inscripcion_practica is missing");
-          setMensaje("Faltan id_alumno o id_inscripcion_practica");
+          setMensaje("No tiene una práctica inscrita aún");
         }
       } catch (error) {
         console.error("Error fetching bitacoras:", error);
@@ -123,22 +123,14 @@ const Bitacoras = () => {
               borderRadius: "8px",
               boxSizing: "border-box",
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              flexGrow: 1, // Para que el Paper crezca y ocupe toda la altura disponible
+              flexGrow: 1,
             }}
           >
             {mensaje ? (
               <Box sx={{ textAlign: "center", marginTop: "20px" }}>
-                <Typography variant="h6" sx={{ color: "gray" }}>
+                <Typography variant="h5">
                   {mensaje}
                 </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleAgregarBitacora}
-                  sx={{ marginTop: "20px" }}
-                >
-                  Agregar bitácora
-                </Button>
               </Box>
             ) : (
               <Box>
@@ -152,6 +144,17 @@ const Bitacoras = () => {
                     <CardAddBitacora onClick={handleAgregarBitacora} />
                   </Grid>
                 </Grid>
+              </Box>
+            )}
+            {(id_inscripcion_practica && id_inscripcion_practica !== "undefined") && (
+              <Box sx={{ textAlign: "center", marginTop: "20px" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAgregarBitacora}
+                >
+                  Agregar bitácora
+                </Button>
               </Box>
             )}
           </Paper>

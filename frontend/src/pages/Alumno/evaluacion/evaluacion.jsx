@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Typography, Card } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
@@ -33,23 +33,90 @@ const EvaluacionPractica = () => {
     };
   }, []);
 
+  // Verificar si id es inválido (puede ser "undefined" o no un número válido)
+  if (!id || isNaN(Number(id))) {
+    return (
+      <Grid
+        container
+        direction="column"
+        sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
+      >
+        <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}>
+          <Header
+            toggleSidebar={toggleSidebar}
+            isWideScreen={isWideScreen}
+            showSidebarButton={true}
+          />
+        </Grid>
+        <Grid container item>
+          {sidebarOpen && (
+            <Grid
+              item
+              sx={{
+                position: "fixed",
+                top: "80px",
+                left: 0,
+                width: "250px",
+                zIndex: 1200,
+                backgroundColor: "#36465d",
+              }}
+            >
+              <SidebarAlumno />
+            </Grid>
+          )}
+          <Grid
+            item
+            xs
+            sx={{
+              marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
+              transition: "margin-left 0.3s",
+              overflowY: "auto",
+              paddingRight: "16px",
+              overflowX: "auto",
+              marginTop: "16px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Card
+              sx={{
+                padding: "20px",
+                backgroundColor: "white",
+                width: "100%",
+                marginBottom: "15px",
+                marginLeft: "16px",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  textAlign: "center",
+                  marginBottom: "20px",
+                }}
+              >
+                No tiene una práctica inscrita aún.
+              </Typography>
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  }
+
+  // Si id es válido, renderizar el contenido normalmente
   return (
     <Grid
       container
       direction="column"
       sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
     >
-      <Grid
-        item
-        sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}
-      >
+      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}>
         <Header
           toggleSidebar={toggleSidebar}
           isWideScreen={isWideScreen}
           showSidebarButton={true}
         />
       </Grid>
-
       <Grid container item>
         {sidebarOpen && (
           <Grid
@@ -66,7 +133,6 @@ const EvaluacionPractica = () => {
             <SidebarAlumno />
           </Grid>
         )}
-
         <Grid
           item
           xs

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import clienteAxios from '../../../../helpers/clienteaxios';
 
 const FormEstudiante = ({
   nombreEstudiante,
@@ -9,8 +10,43 @@ const FormEstudiante = ({
   emailEstudiante,
   celular,
   direccionEstudiante,
-  fonoEmergencia
+  fonoEmergencia,
+  setNombreEstudiante,
+  setRun,
+  setEmailEstudiante,
+  setCelular,
+  setDireccionEstudiante,
+  setFonoEmergencia
 }) => {
+  const obtenerDatosEstudiante = async () => {
+    try {
+      const id_alumno = localStorage.getItem('id_alumno');
+      if (!id_alumno) {
+        console.error('No se encontró el id_alumno en el localStorage.');
+        return;
+      }
+
+      const response = await clienteAxios.post('/alumno/show', { id_alumno });
+      const { alumno } = response.data;
+
+      setNombreEstudiante(
+        `${alumno.primer_nombre} ${alumno.segundo_nombre} ${alumno.apellido_paterno} ${alumno.apellido_materno}`
+      );
+      setRun(alumno.rut);
+      setEmailEstudiante(alumno.correo_personal);
+      setCelular(alumno.telefono_personal);
+      setDireccionEstudiante(alumno.direccion_particular);
+      setFonoEmergencia(alumno.telefono_familiar);
+    } catch (error) {
+      console.error('Error al obtener los datos del estudiante:', error);
+    }
+  };
+
+  // Llamar a obtenerDatosEstudiante al cargar el componente
+  React.useEffect(() => {
+    obtenerDatosEstudiante();
+  }, []);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>

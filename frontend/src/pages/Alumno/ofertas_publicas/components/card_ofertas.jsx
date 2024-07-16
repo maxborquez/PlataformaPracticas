@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Alert,
   Grid,
@@ -24,6 +25,9 @@ const CardOfertas = () => {
       throw new Error("Error fetching data");
     }
   });
+
+  // Obtener el año actual
+  const currentYear = new Date().getFullYear();
 
   if (status === "loading") {
     return (
@@ -63,9 +67,30 @@ const CardOfertas = () => {
   }
 
   if (status === "success" && data && data.ofertas && data.ofertas.length > 0) {
+    // Filtrar las ofertas por el año actual
+    const ofertasDelAnioActual = data.ofertas.filter(
+      (oferta) => oferta.periodo_academico.anio === currentYear
+    );
+
+    if (ofertasDelAnioActual.length === 0) {
+      return (
+        <Grid
+          sx={{
+            width: "40%",
+            margin: "0px auto",
+            marginTop: "20px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Alert severity="info">No hay ofertas publicadas para este año.</Alert>
+        </Grid>
+      );
+    }
+
     return (
       <Grid container spacing={2} sx={{ padding: "20px" }}>
-        {data.ofertas.map((oferta) => (
+        {ofertasDelAnioActual.map((oferta) => (
           <Grid item key={oferta.id_oferta_practica} xs={12} sm={6} md={4}>
             <Card
               sx={{
@@ -195,7 +220,7 @@ const CardOfertas = () => {
         flexDirection: "column",
       }}
     >
-      <Alert severity="error">No hay ofertas publicadas</Alert>
+      <Alert severity="info">No hay ofertas publicadas para este año.</Alert>
     </Grid>
   );
 };

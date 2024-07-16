@@ -14,10 +14,7 @@ const crear_supervisor = async (req, res) => {
     }
 
     const {
-      primer_nombre,
-      segundo_nombre,
-      apellido_paterno,
-      apellido_materno,
+      nombre,
       telefono,
       correo,
       cargo,

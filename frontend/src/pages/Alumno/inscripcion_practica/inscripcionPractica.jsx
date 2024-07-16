@@ -109,7 +109,7 @@ const InscripcionPractica = () => {
                 marginBottom: "15px",
               }}
             >
-              Inscripción Práctica Profesional{" "}
+              Formulario de Inscripción{" "}
               <School style={{ marginLeft: "5px" }} />
             </Typography>
             {status === "success" && data.inscrito_sistema && (

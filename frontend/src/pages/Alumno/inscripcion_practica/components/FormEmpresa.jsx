@@ -31,7 +31,12 @@ const FormEmpresa = ({
   const [regiones, setRegiones] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [comunas, setComunas] = useState([]);
-
+  const [nombreEmpresaError, setNombreEmpresaError] = useState(false);
+  const [departamentoError, setDepartamentoError] = useState(false);
+  const [paginaWebError, setPaginaWebError] = useState(false);
+  const [rubroError, setRubroError] = useState(false);
+  const [fonoEmpresaError, setFonoEmpresaError] = useState(false);
+  const [direccionEmpresaError, setDireccionEmpresaError] = useState(false);
 
   useEffect(() => {
     // Función para obtener las regiones disponibles
@@ -75,6 +80,72 @@ const FormEmpresa = ({
     }
   };
 
+  const validateNombreEmpresa = (value) => {
+    // Filtrar caracteres no permitidos
+    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    setNombreEmpresa(filteredValue);
+    if (filteredValue.length > 30) {
+      setNombreEmpresaError(true);
+    } else {
+      setNombreEmpresaError(false);
+    }
+  };
+
+  const validateDepartamento = (value) => {
+    // Filtrar caracteres no permitidos
+    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    setDepartamento(filteredValue);
+    if (filteredValue.length > 30) {
+      setDepartamentoError(true);
+    } else {
+      setDepartamentoError(false);
+    }
+  };
+
+  const validatePaginaWeb = (value) => {
+    // Filtrar caracteres no permitidos
+    const filteredValue = value.replace(/[^a-zA-Z0-9.]/g, '');
+    setPaginaWeb(filteredValue);
+    if (filteredValue.length > 0 && !/^[a-zA-Z0-9.]*$/.test(filteredValue)) {
+      setPaginaWebError(true);
+    } else {
+      setPaginaWebError(false);
+    }
+  };
+
+  const validateRubro = (value) => {
+    // Filtrar caracteres no permitidos
+    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    setRubro(filteredValue);
+    if (filteredValue.length > 30) {
+      setRubroError(true);
+    } else {
+      setRubroError(false);
+    }
+  };
+
+  const validateFonoEmpresa = (value) => {
+    // Filtrar caracteres no permitidos
+    const filteredValue = value.replace(/\D/g, '');
+    setFonoEmpresa(filteredValue);
+    if (filteredValue.length > 9) {
+      setFonoEmpresaError(true);
+    } else {
+      setFonoEmpresaError(false);
+    }
+  };
+
+  const validateDireccion = (value) => {
+    // Filtrar caracteres no permitidos
+    const filteredValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
+    setDireccionEmpresa(filteredValue);
+    if (filteredValue.length > 30) {
+      setDireccionEmpresaError(true);
+    } else {
+      setDireccionEmpresaError(false);
+    }
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -88,8 +159,11 @@ const FormEmpresa = ({
           label="Nombre de Empresa"
           variant="outlined"
           margin="normal"
+          inputProps={{ maxLength: 30 }}
           value={nombreEmpresa}
-          onChange={(e) => setNombreEmpresa(e.target.value)}
+          onChange={(e) => validateNombreEmpresa(e.target.value)}
+          error={nombreEmpresaError}
+          helperText={nombreEmpresaError ? 'Nombre inválido' : ''}
         />
       </Grid>
       <Grid item xs={6}>
@@ -98,8 +172,11 @@ const FormEmpresa = ({
           label="Departamento o Área"
           variant="outlined"
           margin="normal"
+          inputProps={{ maxLength: 30 }}
           value={departamento}
-          onChange={(e) => setDepartamento(e.target.value)}
+          onChange={(e) => validateDepartamento(e.target.value)}
+          error={departamentoError}
+          helperText={departamentoError ? 'Departamento inválido' : ''}
         />
       </Grid>
       <Grid item xs={6}>
@@ -108,8 +185,11 @@ const FormEmpresa = ({
           label="Página Web"
           variant="outlined"
           margin="normal"
+          inputProps={{ maxLength: 30 }}
           value={paginaWeb}
-          onChange={(e) => setPaginaWeb(e.target.value)}
+          onChange={(e) => validatePaginaWeb(e.target.value)}
+          error={paginaWebError}
+          helperText={paginaWebError ? 'Página web inválida' : ''}
         />
       </Grid>
       <Grid item xs={6}>
@@ -119,7 +199,10 @@ const FormEmpresa = ({
           variant="outlined"
           margin="normal"
           value={rubro}
-          onChange={(e) => setRubro(e.target.value)}
+          inputProps={{ maxLength: 30 }}
+          onChange={(e) => validateRubro(e.target.value)}
+          error={rubroError}
+          helperText={rubroError ? 'Rubro inválido' : ''}
         />
       </Grid>
       <Grid item xs={6}>
@@ -132,7 +215,9 @@ const FormEmpresa = ({
           variant="outlined"
           margin="normal"
           value={fonoEmpresa}
-          onChange={(e) => setFonoEmpresa(e.target.value)}
+          onChange={(e) => validateFonoEmpresa(e.target.value)}
+          error={fonoEmpresaError}
+          helperText={fonoEmpresaError ? 'Fono inválido' : ''}
         />
       </Grid>
       <Grid item xs={6}>
@@ -141,8 +226,9 @@ const FormEmpresa = ({
           label="Dirección de la Empresa"
           variant="outlined"
           margin="normal"
+          inputProps={{ maxLength: 30 }}
           value={direccionEmpresa}
-          onChange={(e) => setDireccionEmpresa(e.target.value)}
+          onChange={(e) => validateDireccion(e.target.value)}
         />
       </Grid>
       <Grid item xs={6}>

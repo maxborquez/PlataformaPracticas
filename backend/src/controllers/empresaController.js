@@ -13,7 +13,7 @@ const crear_empresa = async (req, res) => {
       });
     }
 
-    const { nombre, departamento, web, rubro, telefono, direccion, id_comuna } =
+    const { nombre, departamento, web, rubro, telefono, direccion, id_comuna, id_estado_empresa } =
       req.body;
 
     const empresa = await prisma.empresa.create({
@@ -25,6 +25,7 @@ const crear_empresa = async (req, res) => {
         telefono,
         direccion,
         id_comuna,
+        id_estado_empresa
       },
     });
 
@@ -169,6 +170,7 @@ const actualizar_empresa = async (req, res) => {
         telefono,
         direccion,
         id_comuna,
+        id_estado_empresa
       },
     });
 

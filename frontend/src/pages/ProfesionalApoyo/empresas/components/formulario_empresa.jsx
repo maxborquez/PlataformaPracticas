@@ -56,6 +56,7 @@ const FormularioEmpresa = () => {
           direccion: data.direccion,
           telefono: data.telefono,
           id_comuna: comuna.id_comuna,
+          id_estado_empresa: 2,
         };
         console.log(data_oficial);
         const response = await clienteAxios.post(

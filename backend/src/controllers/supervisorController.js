@@ -19,6 +19,7 @@ const crear_supervisor = async (req, res) => {
       correo,
       cargo,
       id_empresa,
+      id_estado_supervisor,
     } = req.body;
 
     const supervisor = await prisma.supervisor.create({

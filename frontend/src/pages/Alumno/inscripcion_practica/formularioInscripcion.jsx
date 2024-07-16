@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import clienteAxios from "../../../helpers/clienteaxios";
+
 import FormPractica from "./components/FormPractica";
 import FormEstudiante from "./components/FormEstudiante";
 import FormEmpresa from "./components/FormEmpresa";
@@ -46,6 +48,96 @@ const FormularioInscripcion = () => {
     viernes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
     sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
   });
+
+  const [idInscribe, setIdInscribe] = useState("");
+
+  useEffect(() => {
+    const storedIdInscribe = localStorage.getItem("id_inscribe");
+    if (storedIdInscribe) {
+      setIdInscribe(storedIdInscribe);
+    }
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      // 1. Crear la empresa
+      const empresaResponse = await clienteAxios.post("/empresa/create", {
+        nombre: nombreEmpresa,
+        departamento: departamento,
+        web: paginaWeb,
+        rubro: rubro,
+        telefono: fonoEmpresa,
+        direccion: direccionEmpresa,
+        id_comuna: parseInt(comuna, 10), // Asegúrate de parsear a entero si es necesario
+        id_estado_empresa: 1, // Puedes ajustar el estado según sea necesario
+      });
+
+      // Obtén el ID de empresa creado
+      const id_empresa = empresaResponse.data.id_empresa;
+      console.log("ID de empresa:", id_empresa);
+
+      // 2. Crear el supervisor
+      const supervisorResponse = await clienteAxios.post("/supervisor/create", {
+        nombre: nombreSupervisor,
+        telefono: fonoSupervisor,
+        correo: emailSupervisor,
+        cargo: cargoSupervisor,
+        id_empresa: parseInt(id_empresa,10), // Utiliza el ID de empresa recibido
+        id_estado_supervisor: 1, // Puedes ajustar el estado según sea necesario
+      });
+
+      // Obtén el ID de supervisor creado
+      const id_supervisor = supervisorResponse.data.id_supervisor;
+      console.log("ID de supervisor:", id_supervisor);
+
+      // 3. Crear la inscripción
+      const inscripcionResponse = await clienteAxios.post("/inscripcion/create", {
+        id_modalidad: parseInt(modalidad, 10),
+        descripcion: areaDesarrollo,
+        objetivos: objetivosPractica,
+        actividades: actividadesDesarrollar,
+        fecha_inicio: fechaInicio,
+        fecha_fin: fechaTermino,
+        fecha_inscripcion_practica: fechaRecepcion,
+        id_empresa: parseInt(id_empresa, 10),
+        id_supervisor: parseInt(id_supervisor, 10),
+        lunes_manana1: horarioPractica.lunes.mañana1,
+        lunes_manana2: horarioPractica.lunes.mañana2,
+        lunes_tarde1: horarioPractica.lunes.tarde1,
+        lunes_tarde2: horarioPractica.lunes.tarde2,
+        martes_manana1: horarioPractica.martes.mañana1,
+        martes_manana2: horarioPractica.martes.mañana2,
+        martes_tarde1: horarioPractica.martes.tarde1,
+        martes_tarde2: horarioPractica.martes.tarde2,
+        miercoles_manana1: horarioPractica.miercoles.mañana1,
+        miercoles_manana2: horarioPractica.miercoles.mañana2,
+        miercoles_tarde1: horarioPractica.miercoles.tarde1,
+        miercoles_tarde2: horarioPractica.miercoles.tarde2,
+        jueves_manana1: horarioPractica.jueves.mañana1,
+        jueves_manana2: horarioPractica.jueves.mañana2,
+        jueves_tarde1: horarioPractica.jueves.tarde1,
+        jueves_tarde2: horarioPractica.jueves.tarde2,
+        viernes_manana1: horarioPractica.viernes.mañana1,
+        viernes_manana2: horarioPractica.viernes.mañana2,
+        viernes_tarde1: horarioPractica.viernes.tarde1,
+        viernes_tarde2: horarioPractica.viernes.tarde2,
+        sabado_manana1: horarioPractica.sabado.mañana1,
+        sabado_manana2: horarioPractica.sabado.mañana2,
+        sabado_tarde1: horarioPractica.sabado.tarde1,
+        sabado_tarde2: horarioPractica.sabado.tarde2,
+        id_estado_inscripcion: 4,
+        id_inscribe: parseInt(idInscribe, 10),
+        observaciones: "", // Puedes agregar observaciones si es necesario
+      });
+
+      console.log("Respuesta de inscripción:", inscripcionResponse.data);
+
+
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      // Puedes manejar errores aquí, por ejemplo, mostrando un mensaje al usuario
+    }
+  };
 
   return (
     <Grid container spacing={2}>
@@ -131,7 +223,12 @@ const FormularioInscripcion = () => {
           setHorarioPractica={setHorarioPractica}
         />
       </Grid>
-      {/* Puedes agregar más secciones aquí */}
+
+      <Grid item xs={12}>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Enviar inscripción
+        </Button>
+      </Grid>
     </Grid>
   );
 };

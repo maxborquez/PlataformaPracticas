@@ -53,7 +53,6 @@ const CrearBitacora = () => {
         id_inscripcion_practica: parseInt(id_inscripcion_practica, 10),
         id_alumno: id_alumno,
       };
-      console.log(nuevaBitacora);
 
       const response = await clienteAxios.post("/bitacoras/create", nuevaBitacora);
       if (response.status === 201) {

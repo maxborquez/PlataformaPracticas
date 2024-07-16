@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import {
   Grid,
@@ -6,8 +7,11 @@ import {
   Typography,
   Alert,
   Card,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import { useRef, useState } from "react";
 import { Business } from "@mui/icons-material";
 import { useQuery, useQueryClient } from "react-query";
 import Swal from "sweetalert2";
@@ -22,12 +26,53 @@ const FormularioEmpresa = () => {
     formState: { errors },
   } = useForm();
   const [comuna, setComuna] = useState("");
+  const [regiones, setRegiones] = useState([]);
+  const [provincias, setProvincias] = useState([]);
+  const [comunas, setComunas] = useState([]);
+  const [region, setRegion] = useState("");
+  const [provincia, setProvincia] = useState("");
   const queryClient = useQueryClient();
   const formRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleComuna = (event) => {
-    setComuna(event.target.value);
+  useEffect(() => {
+    const obtenerRegiones = async () => {
+      try {
+        const response = await clienteAxios.get("/comuna/regiones");
+        setRegiones(response.data);
+      } catch (error) {
+        console.error("Error al obtener las regiones:", error);
+      }
+    };
+
+    obtenerRegiones();
+  }, []);
+
+  const handleRegionChange = async (regionId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getProvinciaByRegion/${regionId}`
+      );
+      setProvincias(response.data);
+      setRegion(regionId);
+      setProvincia("");
+      setComuna("");
+    } catch (error) {
+      console.error("Error al obtener las provincias por región:", error);
+    }
+  };
+
+  const handleProvinciaChange = async (provinciaId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getComunasByProvincia/${provinciaId}`
+      );
+      setComunas(response.data);
+      setProvincia(provinciaId);
+      setComuna("");
+    } catch (error) {
+      console.error("Error al obtener las comunas por provincia:", error);
+    }
   };
 
   const handleBack = () => {
@@ -55,10 +100,9 @@ const FormularioEmpresa = () => {
           rubro: data.rubro,
           direccion: data.direccion,
           telefono: data.telefono,
-          id_comuna: comuna.id_comuna,
+          id_comuna: parseInt(comuna,10),
           id_estado_empresa: 2,
         };
-        console.log(data_oficial);
         const response = await clienteAxios.post(
           "/empresa/create",
           data_oficial
@@ -83,11 +127,6 @@ const FormularioEmpresa = () => {
       }
     });
   };
-
-  const getcomunas = useQuery("comunas", async () => {
-    const response = await clienteAxios.get("/comunas/getComunas");
-    return response.data.comuna;
-  });
 
   return (
     <Grid container justifyContent="center" sx={{ width: "100%" }}>
@@ -196,21 +235,67 @@ const FormularioEmpresa = () => {
               )}
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Autocomplete
-                options={getcomunas.data || []}
-                getOptionLabel={(option) => option.nombre || ""}
-                value={comuna}
-                onChange={(event, newValue) => {
-                  setComuna(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Comuna" fullWidth />
-                )}
-                noOptionsText="Sin coincidencias"
-                sx={{ backgroundColor: "white" }}
-              />
+            <Grid item xs={6}>
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Región</InputLabel>
+                <Select
+                  value={region}
+                  onChange={(e) => handleRegionChange(e.target.value)}
+                >
+                  <MenuItem value="">
+                    <em>Seleccione una región</em>
+                  </MenuItem>
+                  {regiones.map((region) => (
+                    <MenuItem
+                      key={region.id_region}
+                      value={region.id_region}
+                    >
+                      {region.nombre_region}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Provincia</InputLabel>
+                <Select
+                  value={provincia}
+                  onChange={(e) => handleProvinciaChange(e.target.value)}
+                >
+                  <MenuItem value="">
+                    <em>Seleccione una provincia</em>
+                  </MenuItem>
+                  {provincias.map((provincia) => (
+                    <MenuItem
+                      key={provincia.id_provincia}
+                      value={provincia.id_provincia}
+                    >
+                      {provincia.nombre_provincia}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Comuna</InputLabel>
+                <Select
+                  value={comuna}
+                  onChange={(e) => setComuna(e.target.value)}
+                >
+                  <MenuItem value="">
+                    <em>Seleccione una comuna</em>
+                  </MenuItem>
+                  {comunas.map((comuna) => (
+                    <MenuItem key={comuna.id_comuna} value={comuna.id_comuna}>
+                      {comuna.nombre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
             <Grid
               item
               xs={12}

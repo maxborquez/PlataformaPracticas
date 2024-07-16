@@ -32,7 +32,6 @@ const FormEmpresa = ({
   const [provincias, setProvincias] = useState([]);
   const [comunas, setComunas] = useState([]);
 
-  console.log(regiones)
 
   useEffect(() => {
     // Función para obtener las regiones disponibles

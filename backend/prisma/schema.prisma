@@ -138,7 +138,7 @@ model empresa {
   id_empresa           Int                    @id @default(autoincrement())
   nombre               String                 @db.VarChar(50)
   departamento         String                 @db.VarChar(50)
-  web                  String                 @db.VarChar(50)
+  web                  String?                @db.VarChar(50)
   rubro                String                 @db.VarChar(50)
   telefono             String                 @db.VarChar(18)
   direccion            String                 @db.VarChar(100)
@@ -332,10 +332,7 @@ model usuario {
 
 model supervisor {
   id_supervisor        Int                    @id @default(autoincrement())
-  primer_nombre        String                 @db.VarChar(30)
-  segundo_nombre       String                 @db.VarChar(30)
-  apellido_paterno     String                 @db.VarChar(30)
-  apellido_materno     String                 @db.VarChar(30)
+  nombre               String                 @db.VarChar(30)
   cargo                String                 @db.VarChar(50)
   telefono             String                 @db.VarChar(15)
   correo               String                 @db.VarChar(100)

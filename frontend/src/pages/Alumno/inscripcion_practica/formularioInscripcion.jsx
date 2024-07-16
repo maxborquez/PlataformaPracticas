@@ -50,9 +50,6 @@ const FormularioInscripcion = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h4" component="h1">
-          Formulario de Inscripción
-        </Typography>
       </Grid>
       <Grid item xs={12}>
         <FormPractica

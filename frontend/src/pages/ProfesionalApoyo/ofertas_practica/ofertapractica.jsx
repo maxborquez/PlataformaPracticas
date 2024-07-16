@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Button,
@@ -5,15 +6,14 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import Header from "../../../components/headers/header";
-import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import { Edit, Delete, Work } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import clienteAxios from "../../../helpers/clienteaxios";
 import MUIDataTable from "mui-datatables";
+import Header from "../../../components/headers/header";
+import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 
 const OfertaPractica = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,7 +31,6 @@ const OfertaPractica = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
     handleResize();
 
     return () => {
@@ -48,7 +47,6 @@ const OfertaPractica = () => {
       throw new Error("Error al obtener ofertas");
     }
   });
-
 
   const navigate = useNavigate();
 
@@ -88,10 +86,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "150px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -103,10 +101,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "150px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -117,10 +115,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "100px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -130,10 +128,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "50px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -144,10 +142,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "100px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -158,10 +156,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "150px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -173,10 +171,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "200px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -200,7 +198,9 @@ const OfertaPractica = () => {
               <Button
                 variant="contained"
                 size="small"
-                onClick={() => navigate(`/detalleOfertas/${oferta.id_oferta_practica}`)}
+                onClick={() =>
+                  navigate(`/detalleOfertas/${oferta.id_oferta_practica}`)
+                }
               >
                 Ver más
               </Button>
@@ -210,10 +210,10 @@ const OfertaPractica = () => {
         setCellProps: () => ({ style: { width: "150px" } }),
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
   ];
@@ -229,6 +229,36 @@ const OfertaPractica = () => {
     selectableRows: "none",
     sort: false,
   };
+
+  if (getOfertas.isLoading) {
+    return (
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: "100vh" }}
+      >
+        <CircularProgress />
+      </Grid>
+    );
+  }
+
+  const today = new Date();
+  const currentYear = today.getFullYear();
+
+  // Filtrar ofertas actuales solo si hay datos disponibles
+  const ofertasActuales = getOfertas.data?.ofertas
+    ? getOfertas.data.ofertas.filter(
+        (oferta) => oferta.periodo_academico.anio >= currentYear
+      )
+    : [];
+
+  // Filtrar ofertas pasadas solo si hay datos disponibles
+  const ofertasPasadas = getOfertas.data?.ofertas
+    ? getOfertas.data.ofertas.filter(
+        (oferta) => oferta.periodo_academico.anio < currentYear
+      )
+    : [];
 
   return (
     <Grid
@@ -262,7 +292,6 @@ const OfertaPractica = () => {
             transition: "margin-left 0.3s",
             overflowY: "auto",
             paddingRight: "16px",
-            overflowX: "auto",
             marginTop: "16px",
           }}
         >
@@ -271,86 +300,83 @@ const OfertaPractica = () => {
             sx={{
               padding: "16px",
               backgroundColor: "#fff",
-    
               marginLeft: "16px",
-              marginBottom:"16px"
+              marginBottom: "16px",
+              overflowX: "auto", // Scroll horizontal cuando sea necesario
+              maxWidth: "100%", // Asegurar que se adapte al ancho del contenedor
             }}
           >
-            {getOfertas.status === "success" && getOfertas.data.ofertas ? (
-              <Grid
-                container
-                spacing={2}
-                sx={{ flexDirection: "column", alignItems: "center" }}
-              >
-                <Grid item>
-                  <Typography
-                    variant="h5"
+            <Grid
+              container
+              spacing={2}
+              sx={{ flexDirection: "column", alignItems: "center" }}
+            >
+              <Grid item>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    textAlign: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Ofertas de Prácticas <Work sx={{ marginLeft: "5px" }} />
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Button
+                  sx={{ marginLeft: "10px", bgcolor: "#326fa6" }}
+                  variant="contained"
+                  onClick={() => navigate("/crearoferta")}
+                >
+                  Añadir oferta
+                </Button>
+              </Grid>
+              <Grid item sx={{ width: "100%" }}>
+                {ofertasActuales.length > 0 && (
+                  <MUIDataTable
+                    data={ofertasActuales}
+                    columns={columns}
+                    options={options}
+                  />
+                )}
+                <Typography variant="h5" sx={{ textAlign: "center", marginTop: "15px" }}>
+                  Ofertas de Prácticas Pasadas
+                </Typography>
+                {ofertasPasadas.length > 0 && (
+                  <Grid
+                    container
+                    spacing={2}
                     sx={{
-                      textAlign: "center",
-                      display: "flex",
+                      flexDirection: "column",
                       alignItems: "center",
+                      marginTop: "20px",
+                      marginLeft: "5px",
+                      overflowX: "auto", // Scroll horizontal cuando sea necesario
+                      maxWidth: "100%", // Asegurar que se adapte al contenedor
                     }}
                   >
-                    Ofertas de Prácticas <Work style={{ marginLeft: "5px" }} />
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Button
-                    sx={{ marginLeft: "10px", bgcolor: "#326fa6" }}
-                    variant="contained"
-                    onClick={() => navigate("/crearoferta")}
-                  >
-                    Añadir oferta
-                  </Button>
-                </Grid>
-                <Grid item sx={{ width: "100%" }}>
-                  <MUIDataTable
-                    data={getOfertas.data.ofertas}
-                    columns={columns}
-                    options={options}
-                  />
-                </Grid>
+                    <MUIDataTable
+                      data={ofertasPasadas}
+                      columns={columns}
+                      options={{
+                        ...options,
+                        responsive: "standard", // Mantener responsive
+                        tableBodyMaxHeight: "calc(100vh - 300px)", // Limitar altura
+                      }}
+                      sx={{ width: "100%" }} // Añadir estilo para tabla pasada
+                    />
+                  </Grid>
+                )}
+                {ofertasActuales.length === 0 &&
+                  ofertasPasadas.length === 0 && (
+                    <Typography variant="h5" sx={{ textAlign: "center" }}>
+                      No hay ofertas disponibles.
+                    </Typography>
+                  )}
               </Grid>
-            ) : getOfertas.status === "success" && !getOfertas.data.ofertas ? (
-              <Grid
-                container
-                spacing={2}
-                sx={{ flexDirection: "column", alignItems: "center" }}
-              >
-                <Grid item>
-                  <Typography variant="h5" sx={{ textAlign: "center" }}>
-                    Ofertas de prácticas profesionales
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Button
-                    sx={{ marginLeft: "10px" }}
-                    variant="contained"
-                    onClick={() => navigate("/crearoferta")}
-                  >
-                    Añadir oferta
-                  </Button>
-                </Grid>
-                <Grid item sx={{ width: "100%" }}>
-                  <MUIDataTable
-                    data={[]}
-                    columns={columns}
-                    options={options}
-                  />
-                </Grid>
-              </Grid>
-            ) : getOfertas.status === "loading" ? (
-              <Grid
-                container
-                spacing={2}
-                sx={{ flexDirection: "column", alignItems: "center" }}
-              >
-                <Grid item>Cargando datos.........</Grid>
-                <Grid item>
-                  <CircularProgress />
-                </Grid>
-              </Grid>
-            ) : null}
+            </Grid>
           </Paper>
         </Grid>
       </Grid>

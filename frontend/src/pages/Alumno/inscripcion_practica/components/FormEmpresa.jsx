@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -6,6 +6,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import clienteAxios from '../../../../helpers/clienteaxios'; // Ajusta la importación según corresponda
 
 const FormEmpresa = ({
   nombreEmpresa,
@@ -27,6 +28,54 @@ const FormEmpresa = ({
   setProvincia,
   setComuna
 }) => {
+  const [regiones, setRegiones] = useState([]);
+  const [provincias, setProvincias] = useState([]);
+  const [comunas, setComunas] = useState([]);
+
+  console.log(regiones)
+
+  useEffect(() => {
+    // Función para obtener las regiones disponibles
+    const obtenerRegiones = async () => {
+      try {
+        const response = await clienteAxios.get("/comuna/regiones");
+        setRegiones(response.data);
+      } catch (error) {
+        console.error("Error al obtener las regiones:", error);
+      }
+    };
+
+    // Llamar a la función para obtener las regiones al cargar el componente
+    obtenerRegiones();
+  }, []);
+
+  const handleRegionChange = async (regionId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getProvinciaByRegion/${regionId}`
+      );
+      setProvincias(response.data); // Ajustar según la estructura de datos recibida
+      setRegion(regionId); // Actualizar el estado de la región seleccionada
+      setProvincia(''); // Reiniciar la selección de provincia al cambiar la región
+      setComuna(''); // Reiniciar la selección de comuna al cambiar la región
+    } catch (error) {
+      console.error("Error al obtener las provincias por región:", error);
+    }
+  };
+
+  const handleProvinciaChange = async (provinciaId) => {
+    try {
+      const response = await clienteAxios.get(
+        `/comuna/getComunasByProvincia/${provinciaId}`
+      );
+      setComunas(response.data); // Ajustar según la estructura de datos recibida
+      setProvincia(provinciaId); // Actualizar el estado de la provincia seleccionada
+      setComuna(''); // Reiniciar la selección de comuna al cambiar la provincia
+    } catch (error) {
+      console.error("Error al obtener las comunas por provincia:", error);
+    }
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -102,11 +151,16 @@ const FormEmpresa = ({
           <InputLabel>Región</InputLabel>
           <Select
             value={region}
-            onChange={(e) => setRegion(e.target.value)}
+            onChange={(e) => handleRegionChange(e.target.value)}
           >
             <MenuItem value="">
               <em>Seleccione una región</em>
             </MenuItem>
+            {regiones.map((region) => (
+              <MenuItem key={region.id_region} value={region.id_region}>
+                {region.nombre_region}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
@@ -115,11 +169,16 @@ const FormEmpresa = ({
           <InputLabel>Provincia</InputLabel>
           <Select
             value={provincia}
-            onChange={(e) => setProvincia(e.target.value)}
+            onChange={(e) => handleProvinciaChange(e.target.value)}
           >
             <MenuItem value="">
               <em>Seleccione una provincia</em>
             </MenuItem>
+            {provincias.map((provincia) => (
+              <MenuItem key={provincia.id_provincia} value={provincia.id_provincia}>
+                {provincia.nombre_provincia}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
@@ -133,6 +192,11 @@ const FormEmpresa = ({
             <MenuItem value="">
               <em>Seleccione una comuna</em>
             </MenuItem>
+            {comunas.map((comuna) => (
+              <MenuItem key={comuna.id_comuna} value={comuna.id_comuna}>
+                {comuna.nombre}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>

@@ -14,27 +14,11 @@ routerSupervisor.post(
   "/create",
   [
     AutenticacionAlumno,
-    body("primer_nombre")
+    body("nombre")
       .notEmpty()
-      .withMessage("El campo primer_nombre es requerido")
+      .withMessage("El campo nombre es requerido")
       .isString()
-      .withMessage("El campo primer_nombre debe ser un string")
-      .isLength({ max: 30 }),
-    body("segundo_nombre")
-      .optional()
-      .isString()
-      .withMessage("El campo segundo_nombre debe ser un string")
-      .isLength({ max: 30 }),
-    body("apellido_paterno")
-      .notEmpty()
-      .withMessage("El campo apellido_paterno es requerido")
-      .isString()
-      .withMessage("El campo apellido_paterno debe ser un string")
-      .isLength({ max: 30 }),
-    body("apellido_materno")
-      .optional()
-      .isString()
-      .withMessage("El campo apellido_materno debe ser un string")
+      .withMessage("El campo nombre debe ser un string")
       .isLength({ max: 30 }),
     body("correo")
       .notEmpty()
@@ -80,25 +64,10 @@ routerSupervisor.put(
   "/update/:id",
   [
     AutenticacionAlumno,
-    body("primer_nombre")
+    body("nombre")
       .optional()
       .isString()
-      .withMessage("El campo primer_nombre debe ser un string")
-      .isLength({ max: 30 }),
-    body("segundo_nombre")
-      .optional()
-      .isString()
-      .withMessage("El campo segundo_nombre debe ser un string")
-      .isLength({ max: 30 }),
-    body("apellido_paterno")
-      .optional()
-      .isString()
-      .withMessage("El campo apellido_paterno debe ser un string")
-      .isLength({ max: 30 }),
-    body("apellido_materno")
-      .optional()
-      .isString()
-      .withMessage("El campo apellido_materno debe ser un string")
+      .withMessage("El campo nombre debe ser un string")
       .isLength({ max: 30 }),
     body("correo")
       .optional()

@@ -141,7 +141,7 @@ const Detalle = ({ id }) => {
           name: "supervisor",
           label: "Supervisor práctica",
           options: {
-            customBodyRender: (value) => value === null ? "No registrado" : `${value.nombre} ${value.apellido}`,
+            customBodyRender: (value) => value === null ? "No registrado" : `${value.nombre}`,
             setCellHeaderProps: () => ({
               style: {
                 backgroundColor: '#326fa6',

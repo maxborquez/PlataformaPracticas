@@ -1,25 +1,16 @@
-import React, { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Grid, Typography, TextField } from '@mui/material';
+import React from 'react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 
-const DatosEstudiante = ({
+const FormEstudiante = ({
   nombreEstudiante,
   run,
   emailEstudiante,
   celular,
   direccionEstudiante,
-  fonoEmergencia,
-  onStepComplete
+  fonoEmergencia
 }) => {
-  const { register } = useFormContext();
-
-  useEffect(() => {
-    // Verificar que todos los campos necesarios estén completos
-    const fieldsCompleted = nombreEstudiante && run && emailEstudiante && celular && direccionEstudiante && fonoEmergencia;
-    // Llamar a la función onStepComplete con el estado de completitud
-    onStepComplete(fieldsCompleted);
-  }, [nombreEstudiante, run, emailEstudiante, celular, direccionEstudiante, fonoEmergencia, onStepComplete]);
-
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -31,10 +22,9 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Nombre del Estudiante"
-          {...register('nombreEstudiante')}
-          defaultValue={nombreEstudiante}
           variant="outlined"
           margin="normal"
+          value={nombreEstudiante}
           disabled
         />
       </Grid>
@@ -42,10 +32,9 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="RUN"
-          {...register('run')}
-          defaultValue={run}
           variant="outlined"
           margin="normal"
+          value={run}
           disabled
         />
       </Grid>
@@ -53,10 +42,9 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Email del Estudiante"
-          {...register('emailEstudiante')}
-          defaultValue={emailEstudiante}
           variant="outlined"
           margin="normal"
+          value={emailEstudiante}
           disabled
         />
       </Grid>
@@ -67,10 +55,9 @@ const DatosEstudiante = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          {...register('celular')}
-          defaultValue={celular}
           variant="outlined"
           margin="normal"
+          value={celular}
           disabled
         />
       </Grid>
@@ -78,10 +65,9 @@ const DatosEstudiante = ({
         <TextField
           fullWidth
           label="Dirección del Estudiante"
-          {...register('direccionEstudiante')}
-          defaultValue={direccionEstudiante}
           variant="outlined"
           margin="normal"
+          value={direccionEstudiante}
           disabled
         />
       </Grid>
@@ -92,10 +78,9 @@ const DatosEstudiante = ({
           type="text"
           placeholder="9xxxxxxxx"
           inputProps={{ maxLength: 9 }}
-          {...register('fonoEmergencia')}
-          defaultValue={fonoEmergencia}
           variant="outlined"
           margin="normal"
+          value={fonoEmergencia}
           disabled
         />
       </Grid>
@@ -103,4 +88,4 @@ const DatosEstudiante = ({
   );
 };
 
-export default DatosEstudiante;
+export default FormEstudiante;

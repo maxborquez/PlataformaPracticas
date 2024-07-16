@@ -1,229 +1,133 @@
-import React, { useState, useEffect } from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { Button, Card, Grid } from "@mui/material";
-import clienteAxios from "../../../helpers/clienteaxios";
-import DatosPractica from "./components/DatosPractica";
-import DatosEstudiante from "./components/DatosEstudiante";
-import DatosEmpresa from "./components/DatosEmpresa";
-import DatosSupervisor from "./components/DatosSupervisor";
-import Descripcion from "./components/Descripcion";
-import Objetivos from "./components/Objetivos";
-import Actividades from "./components/Actividades";
-import HorarioPractica from "./components/HorarioPractica";
-
-const steps = [
-  { label: "Datos de la práctica", component: DatosPractica },
-  { label: "Datos del estudiante", component: DatosEstudiante },
-  { label: "Datos de la empresa", component: DatosEmpresa },
-  { label: "Datos del supervisor", component: DatosSupervisor },
-  { label: "Breve descripción del área de desarrollo", component: Descripcion },
-  { label: "Objetivo(s) de la práctica", component: Objetivos },
-  { label: "Actividades a desarrollar", component: Actividades },
-  { label: "Horario de la práctica", component: HorarioPractica },
-];
+import React, { useState } from 'react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import FormPractica from './components/FormPractica';
+import FormEstudiante from './components/FormEstudiante';
+import FormEmpresa from './components/FormEmpresa';
+import FormSupervisor from './components/FormSupervisor';
+import FormDescripcion from './components/FormDescripcion';
+import FormHorarios from './components/FormHorarios';
 
 const FormularioInscripcion = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [stepCompleted, setStepCompleted] = useState(
-    Array(steps.length).fill(false)
-  );
-  const methods = useForm();
-  const { handleSubmit } = methods;
-
-  const [practica, setPractica] = useState("");
-  const [fechaRecepcion, setFechaRecepcion] = useState(
-    new Date().toISOString().split("T")[0]
-  );
-  const [modalidad, setModalidad] = useState("");
-  const [nombreEstudiante, setNombreEstudiante] = useState("");
-  const [run, setRun] = useState("");
-  const [emailEstudiante, setEmailEstudiante] = useState("");
-  const [celular, setCelular] = useState("");
-  const [direccionEstudiante, setDireccionEstudiante] = useState("");
-  const [fonoEmergencia, setFonoEmergencia] = useState("");
-  const [regiones, setRegiones] = useState([]);
-  const [provincias, setProvincias] = useState([]);
-  const [comunas, setComunas] = useState([]);
-
-  useEffect(() => {
-    // Obtener datos del localStorage o inicializar según tu lógica
-    const idInscribeLocalStorage = localStorage.getItem("id_inscribe");
-    if (idInscribeLocalStorage) {
-      obtenerDatosInscripcion(idInscribeLocalStorage);
-    } else {
-      console.error("No se encontró id_inscribe en el localStorage.");
-    }
-  }, []);
-
-  useEffect(() => {
-    // Función para obtener las regiones disponibles
-    const obtenerRegiones = async () => {
-      try {
-        const response = await clienteAxios.get("/comuna/regiones");
-        setRegiones(response.data);
-      } catch (error) {
-        console.error("Error al obtener las regiones:", error);
-      }
-    };
-
-    // Llamar a la función para obtener las regiones al cargar el componente
-    obtenerRegiones();
-  }, []);
-
-  const handleRegionChange = async (regionId) => {
-    try {
-      const response = await clienteAxios.get(
-        `/comuna/getProvinciaByRegion/${regionId}`
-      );
-      setProvincias(response.data); // Ajustar según la estructura de datos recibida
-    } catch (error) {
-      console.error("Error al obtener las provincias por región:", error);
-    }
-  };
-
-  const handleProvinciaChange = async (provinciaId) => {
-    try {
-      const response = await clienteAxios.get(
-        `/comuna/getComunasByProvincia/${provinciaId}`
-      );
-      setComunas(response.data); // Ajustar según la estructura de datos recibida
-    } catch (error) {
-      console.error("Error al obtener las comunas por provincia:", error);
-    }
-  };
-
-  useEffect(() => {
-    // Función para obtener los datos del estudiante
-    const obtenerDatosEstudiante = async () => {
-      try {
-        // Obtener id_alumno del localStorage
-        const id_alumno = localStorage.getItem("id_alumno");
-
-        // Verificar si hay un id_alumno almacenado
-        if (!id_alumno) {
-          console.error("No se encontró el id_alumno en el localStorage.");
-          return;
-        }
-
-        // Realizar la solicitud al servidor con el id_alumno en el body
-        const response = await clienteAxios.post("/alumno/show", {
-          id_alumno: id_alumno,
-        });
-
-        const { alumno } = response.data;
-        // Actualizar los estados con los datos del estudiante
-        setNombreEstudiante(
-          `${alumno.primer_nombre} ${alumno.segundo_nombre} ${alumno.apellido_paterno} ${alumno.apellido_materno}`
-        );
-        setRun(alumno.rut);
-        setEmailEstudiante(alumno.correo_personal);
-        setCelular(alumno.telefono_personal);
-        setDireccionEstudiante(alumno.direccion_particular);
-        setFonoEmergencia(alumno.telefono_familiar); // Aquí asumo que el teléfono familiar es igual al teléfono de emergencia
-      } catch (error) {
-        console.error("Error al obtener los datos del estudiante:", error);
-      }
-    };
-
-    // Llamar a la función para obtener los datos del estudiante al cargar el componente
-    obtenerDatosEstudiante();
-  }, []);
-
-  const obtenerDatosInscripcion = async (idInscribe) => {
-    try {
-      const response = await clienteAxios.get(
-        `/inscribe/getInscribe/${idInscribe}`
-      );
-      const { asignatura } = response.data; // Ajustar según la respuesta real del servidor
-      const practicaRegistrada = asignatura.id_asignatura; // Ajustar según la respuesta real del servidor
-      setPractica(practicaRegistrada);
-    } catch (error) {
-      console.error("Error al obtener los datos de la inscripción:", error);
-    }
-  };
-
-  const handleNext = () => {
-    if (stepCompleted[activeStep]) {
-      setActiveStep((prevStep) => prevStep + 1);
-    } else {
-      console.error(`El paso ${activeStep} no está completo.`);
-    }
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
-
-  const onSubmit = async (data) => {
-    try {
-      console.log("Datos a enviar:", data);
-      const response = await clienteAxios.post("/inscribe/enviarDatos", data);
-      console.log("Respuesta del servidor:", response.data);
-      // Manejar la respuesta del servidor, redireccionar, mostrar mensajes, etc.
-    } catch (error) {
-      console.error("Error al enviar los datos:", error);
-      // Manejar errores, mostrar mensajes al usuario, etc.
-    }
-  };
-
-  const StepComponent = steps[activeStep].component;
+  const [practica, setPractica] = useState('');
+  const [fechaRecepcion, setFechaRecepcion] = useState('');
+  const [modalidad, setModalidad] = useState('');
+  const [nombreEstudiante, setNombreEstudiante] = useState('');
+  const [run, setRun] = useState('');
+  const [emailEstudiante, setEmailEstudiante] = useState('');
+  const [celular, setCelular] = useState('');
+  const [direccionEstudiante, setDireccionEstudiante] = useState('');
+  const [fonoEmergencia, setFonoEmergencia] = useState('');
+  const [nombreEmpresa, setNombreEmpresa] = useState('');
+  const [departamento, setDepartamento] = useState('');
+  const [paginaWeb, setPaginaWeb] = useState('');
+  const [rubro, setRubro] = useState('');
+  const [fonoEmpresa, setFonoEmpresa] = useState('');
+  const [direccionEmpresa, setDireccionEmpresa] = useState('');
+  const [region, setRegion] = useState('');
+  const [provincia, setProvincia] = useState('');
+  const [comuna, setComuna] = useState('');
+  const [nombreSupervisor, setNombreSupervisor] = useState('');
+  const [cargoSupervisor, setCargoSupervisor] = useState('');
+  const [fonoSupervisor, setFonoSupervisor] = useState('');
+  const [emailSupervisor, setEmailSupervisor] = useState('');
+  const [areaDesarrollo, setAreaDesarrollo] = useState('');
+  const [objetivosPractica, setObjetivosPractica] = useState('');
+  const [actividadesDesarrollar, setActividadesDesarrollar] = useState('');
+  const [fechaInicio, setFechaInicio] = useState(null);
+  const [fechaTermino, setFechaTermino] = useState(null);
+  const [horarioPractica, setHorarioPractica] = useState({
+    lunes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    martes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    miercoles: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    jueves: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    viernes: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+    sabado: { mañana1: "", mañana2: "", tarde1: "", tarde2: "" },
+  });
 
   return (
-    <FormProvider {...methods}>
-      <Card style={{ padding: "20px", marginBottom: "20px" }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <StepComponent
-            practica={practica}
-            setPractica={setPractica}
-            fechaRecepcion={fechaRecepcion}
-            modalidad={modalidad}
-            setModalidad={setModalidad}
-            nombreEstudiante={nombreEstudiante}
-            run={run}
-            emailEstudiante={emailEstudiante}
-            celular={celular}
-            direccionEstudiante={direccionEstudiante}
-            fonoEmergencia={fonoEmergencia}
-            regiones={regiones}
-            provincias={provincias}
-            comunas={comunas}
-            onRegionChange={handleRegionChange}
-            onProvinciaChange={handleProvinciaChange}
-            onStepComplete={(completed) => {
-              const newStepCompleted = [...stepCompleted];
-              newStepCompleted[activeStep] = completed;
-              setStepCompleted(newStepCompleted);
-            }}
-          />
-          <Grid container spacing={2} style={{ marginTop: "20px" }}>
-            <Grid item>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                variant="contained"
-                style={{ marginRight: "10px" }}
-              >
-                Atrás
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={
-                  activeStep === steps.length - 1
-                    ? handleSubmit(onSubmit)
-                    : handleNext
-                }
-                disabled={!stepCompleted[activeStep]}
-              >
-                {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Card>
-    </FormProvider>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h4" component="h1">
+          Formulario de Inscripción
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <FormPractica
+          practica={practica}
+          fechaRecepcion={fechaRecepcion}
+          modalidad={modalidad}
+          setPractica={setPractica}
+          setFechaRecepcion={setFechaRecepcion}
+          setModalidad={setModalidad}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <FormEstudiante
+          nombreEstudiante={nombreEstudiante}
+          run={run}
+          emailEstudiante={emailEstudiante}
+          celular={celular}
+          direccionEstudiante={direccionEstudiante}
+          fonoEmergencia={fonoEmergencia}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <FormEmpresa
+          nombreEmpresa={nombreEmpresa}
+          departamento={departamento}
+          paginaWeb={paginaWeb}
+          rubro={rubro}
+          fonoEmpresa={fonoEmpresa}
+          direccionEmpresa={direccionEmpresa}
+          region={region}
+          provincia={provincia}
+          comuna={comuna}
+          setNombreEmpresa={setNombreEmpresa}
+          setDepartamento={setDepartamento}
+          setPaginaWeb={setPaginaWeb}
+          setRubro={setRubro}
+          setFonoEmpresa={setFonoEmpresa}
+          setDireccionEmpresa={setDireccionEmpresa}
+          setRegion={setRegion}
+          setProvincia={setProvincia}
+          setComuna={setComuna}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <FormSupervisor
+          nombreSupervisor={nombreSupervisor}
+          cargoSupervisor={cargoSupervisor}
+          fonoSupervisor={fonoSupervisor}
+          emailSupervisor={emailSupervisor}
+          setNombreSupervisor={setNombreSupervisor}
+          setCargoSupervisor={setCargoSupervisor}
+          setFonoSupervisor={setFonoSupervisor}
+          setEmailSupervisor={setEmailSupervisor}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <FormDescripcion
+          areaDesarrollo={areaDesarrollo}
+          objetivosPractica={objetivosPractica}
+          actividadesDesarrollar={actividadesDesarrollar}
+          setAreaDesarrollo={setAreaDesarrollo}
+          setObjetivosPractica={setObjetivosPractica}
+          setActividadesDesarrollar={setActividadesDesarrollar}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <FormHorarios
+          fechaInicio={fechaInicio}
+          fechaTermino={fechaTermino}
+          setFechaInicio={setFechaInicio}
+          setFechaTermino={setFechaTermino}
+          horarioPractica={horarioPractica}
+          setHorarioPractica={setHorarioPractica}
+        />
+      </Grid>
+      {/* Puedes agregar más secciones aquí */}
+    </Grid>
   );
 };
 

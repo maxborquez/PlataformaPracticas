@@ -248,7 +248,6 @@ routerInscripcion.get(
 routerInscripcion.get(
   "/show/:id",
   [
-    AutenticacionToken,
     param("id")
       .notEmpty()
       .withMessage("El parámetro id es requerido")

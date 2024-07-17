@@ -143,13 +143,19 @@ const mostrar_inscripcion = async (req, res) => {
     const { id } = req.params;
     const inscripcion = await prisma.inscripcion_practica.findFirst({
       where: {
-        id_inscribe: Number(id),
+        id_inscripcion_practica: Number(id),
       },
       include: {
+        empresa: true,
         estado_inscripcion: true,
         supervisor: true,
         modalidad: true,
         oferta_practica: true,
+        inscribe: {
+          include: {
+            alumno: true,
+          },
+        },
       },
     });
     if (!inscripcion) {

@@ -221,6 +221,34 @@ const getEmpresaByNombre = async (req, res) => {
   }
 }
 
+const getEmpresaById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const empresa = await prisma.empresa.findUnique({
+      where: {
+        id_empresa: parseInt(id, 10),
+      },
+      include: {
+        comuna: true,
+        estado_empresa: true,
+        inscripcion_practica: true,
+        oferta_practica: true,
+        supervisor: true,
+      },
+    });
+
+    if (!empresa) {
+      return res.status(404).json({ message: 'Empresa not found' });
+    }
+
+    res.json(empresa);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   crear_empresa,
   obtener_empresas,
@@ -228,4 +256,5 @@ module.exports = {
   mostrar_empresa,
   actualizar_empresa,
   getEmpresaByNombre,
+  getEmpresaById
 };

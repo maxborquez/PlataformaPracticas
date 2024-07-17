@@ -7,13 +7,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const TableEmpresa = () => {
   const navigate = useNavigate();
   const { data, status, refetch } = useQuery("empresas", async () => {
     const response = await clienteAxios.get("/empresa/getall");
     if (response.data && Array.isArray(response.data.empresas)) {
-      return response.data;
+      // Filtrar empresas con estado_empresa: 2
+      const empresasFiltradas = response.data.empresas.filter(
+        (empresa) => empresa.id_estado_empresa === 2
+      );
+      return { empresas: empresasFiltradas };
     } else {
       return { empresas: [] };
     }
@@ -56,89 +61,89 @@ const TableEmpresa = () => {
   };
 
   const columns = [
-    { 
-      name: "id_empresa", 
-      label: "ID Empresa", 
+    {
+      name: "id_empresa",
+      label: "ID Empresa",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+      },
     },
-    { 
-      name: "nombre", 
-      label: "Nombre", 
+    {
+      name: "nombre",
+      label: "Nombre",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+      },
     },
-    { 
-      name: "departamento", 
-      label: "Departamento", 
+    {
+      name: "departamento",
+      label: "Departamento",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+      },
     },
-    { 
-      name: "web", 
-      label: "Sitio Web", 
+    {
+      name: "web",
+      label: "Sitio Web",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+      },
     },
-    { 
-      name: "rubro", 
-      label: "Rubro", 
+    {
+      name: "rubro",
+      label: "Rubro",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+      },
     },
-    { 
-      name: "direccion", 
-      label: "Dirección", 
+    {
+      name: "direccion",
+      label: "Dirección",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+      },
     },
-    { 
-      name: "telefono", 
-      label: "Teléfono", 
+    {
+      name: "telefono",
+      label: "Teléfono",
       options: {
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
-      }
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+      },
     },
     {
       name: "comuna",
@@ -147,10 +152,10 @@ const TableEmpresa = () => {
         customBodyRender: (value) => value.nombre,
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
     {
@@ -161,6 +166,10 @@ const TableEmpresa = () => {
           const id = tableMeta.rowData[0];
           return (
             <>
+              <VisibilityIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate(`/detalleCentroPractica/${id}`)}
+              />
               <EditIcon
                 style={{ cursor: "pointer" }}
                 onClick={() => navigate(`/modificarEmpresa/${id}`)}
@@ -174,10 +183,10 @@ const TableEmpresa = () => {
         },
         setCellHeaderProps: () => ({
           style: {
-            backgroundColor: '#326fa6',
-            color: '#fff'
-          }
-        })
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
       },
     },
   ];
@@ -207,7 +216,12 @@ const TableEmpresa = () => {
     );
   }
 
-  if (status === "success" && data && data.empresas && data.empresas.length === 0) {
+  if (
+    status === "success" &&
+    data &&
+    data.empresas &&
+    data.empresas.length === 0
+  ) {
     return (
       <Grid
         container
@@ -220,13 +234,14 @@ const TableEmpresa = () => {
     );
   }
 
-  if (status === "success" && data && data.empresas && data.empresas.length > 0) {
+  if (
+    status === "success" &&
+    data &&
+    data.empresas &&
+    data.empresas.length > 0
+  ) {
     return (
-      <MUIDataTable
-        data={data.empresas}
-        columns={columns}
-        options={options}
-      />
+      <MUIDataTable data={data.empresas} columns={columns} options={options} />
     );
   }
 

@@ -127,5 +127,6 @@ routerEmpresa.put(
 
 routerEmpresa.post('/getByNombre', empresaController.getEmpresaByNombre);
 
+routerEmpresa.get('/getById/:id', empresaController.getEmpresaById);
 
 module.exports = routerEmpresa;

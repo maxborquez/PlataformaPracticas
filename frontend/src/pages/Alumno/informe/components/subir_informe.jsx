@@ -111,7 +111,7 @@ const SubirInforme = ({ id, hasExistingFile }) => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            disabled={hasExistingFile}
+            disabled={isPdf || hasExistingFile}
           >
             Subir Archivo
           </Button>

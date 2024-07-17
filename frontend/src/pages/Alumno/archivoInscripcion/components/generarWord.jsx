@@ -4,6 +4,7 @@ import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import clienteAxios from "../../../../helpers/clienteaxios";
+import { Grid, Button } from "@mui/material";
 
 const GenerarWord = ({ id }) => {
   const [data, setData] = useState(null);
@@ -20,6 +21,14 @@ const GenerarWord = ({ id }) => {
     };
     fetchData();
   }, [id]);
+
+  function formatUTCTime(dateString) {
+    const date = new Date(dateString);
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    //const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  }
 
   const generateDocument = () => {
     if (!data) return;
@@ -89,78 +98,30 @@ const GenerarWord = ({ id }) => {
         actividades: data.actividades,
         fecha_inicio: new Date(data.fecha_inicio).toLocaleDateString(),
         fecha_termino: new Date(data.fecha_fin).toLocaleDateString(),
-        L_inicio_m: data.lunes_manana1
-          ? new Date(data.lunes_manana1).toLocaleTimeString()
-          : "",
-        L_fin_m: data.lunes_manana2
-          ? new Date(data.lunes_manana2).toLocaleTimeString()
-          : "",
-        L_inicio_t: data.lunes_tarde1
-          ? new Date(data.lunes_tarde1).toLocaleTimeString()
-          : "",
-        L_fin_t: data.lunes_tarde2
-          ? new Date(data.lunes_tarde2).toLocaleTimeString()
-          : "",
-        M_inicio_m: data.martes_manana1
-          ? new Date(data.martes_manana1).toLocaleTimeString()
-          : "",
-        M_fin_m: data.martes_manana2
-          ? new Date(data.martes_manana2).toLocaleTimeString()
-          : "",
-        M_inicio_t: data.martes_tarde1
-          ? new Date(data.martes_tarde1).toLocaleTimeString()
-          : "",
-        M_fin_t: data.martes_tarde2
-          ? new Date(data.martes_tarde2).toLocaleTimeString()
-          : "",
-        MM_inicio_m: data.miercoles_manana1
-          ? new Date(data.miercoles_manana1).toLocaleTimeString()
-          : "",
-        MM_fin_m: data.miercoles_manana2
-          ? new Date(data.miercoles_manana2).toLocaleTimeString()
-          : "",
-        MM_inicio_t: data.miercoles_tarde1
-          ? new Date(data.miercoles_tarde1).toLocaleTimeString()
-          : "",
-        MM_fin_t: data.miercoles_tarde2
-          ? new Date(data.miercoles_tarde2).toLocaleTimeString()
-          : "",
-        J_inicio_m: data.jueves_manana1
-          ? new Date(data.jueves_manana1).toLocaleTimeString()
-          : "",
-        J_fin_m: data.jueves_manana2
-          ? new Date(data.jueves_manana2).toLocaleTimeString()
-          : "",
-        J_inicio_t: data.jueves_tarde1
-          ? new Date(data.jueves_tarde1).toLocaleTimeString()
-          : "",
-        J_fin_t: data.jueves_tarde2
-          ? new Date(data.jueves_tarde2).toLocaleTimeString()
-          : "",
-        V_inicio_m: data.viernes_manana1
-          ? new Date(data.viernes_manana1).toLocaleTimeString()
-          : "",
-        V_fin_m: data.viernes_manana2
-          ? new Date(data.viernes_manana2).toLocaleTimeString()
-          : "",
-        V_inicio_t: data.viernes_tarde1
-          ? new Date(data.viernes_tarde1).toLocaleTimeString()
-          : "",
-        V_fin_t: data.viernes_tarde2
-          ? new Date(data.viernes_tarde2).toLocaleTimeString()
-          : "",
-        S_inicio_m: data.sabado_manana1
-          ? new Date(data.sabado_manana1).toLocaleTimeString()
-          : "",
-        S_fin_m: data.sabado_manana2
-          ? new Date(data.sabado_manana2).toLocaleTimeString()
-          : "",
-        S_inicio_t: data.sabado_tarde1
-          ? new Date(data.sabado_tarde1).toLocaleTimeString()
-          : "",
-        S_fin_t: data.sabado_tarde2
-          ? new Date(data.sabado_tarde2).toLocaleTimeString()
-          : "",
+        L_inicio_m: data.lunes_manana1 ? formatUTCTime(data.lunes_manana1) : "",
+        L_fin_m: data.lunes_manana2 ? formatUTCTime(data.lunes_manana2) : "",
+        L_inicio_t: data.lunes_tarde1 ? formatUTCTime(data.lunes_tarde1) : "",
+        L_fin_t: data.lunes_tarde2 ? formatUTCTime(data.lunes_tarde2) : "",
+        M_inicio_m: data.martes_manana1 ? formatUTCTime(data.martes_manana1) : "",
+        M_fin_m: data.martes_manana2 ? formatUTCTime(data.martes_manana2) : "",
+        M_inicio_t: data.martes_tarde1 ? formatUTCTime(data.martes_tarde1) : "",
+        M_fin_t: data.martes_tarde2 ? formatUTCTime(data.martes_tarde2) : "",
+        MM_inicio_m: data.miercoles_manana1 ? formatUTCTime(data.miercoles_manana1) : "",
+        MM_fin_m: data.miercoles_manana2 ? formatUTCTime(data.miercoles_manana2) : "",
+        MM_inicio_t: data.miercoles_tarde1 ? formatUTCTime(data.miercoles_tarde1) : "",
+        MM_fin_t: data.miercoles_tarde2 ? formatUTCTime(data.miercoles_tarde2) : "",
+        J_inicio_m: data.jueves_manana1 ? formatUTCTime(data.jueves_manana1) : "",
+        J_fin_m: data.jueves_manana2 ? formatUTCTime(data.jueves_manana2) : "",
+        J_inicio_t: data.jueves_tarde1 ? formatUTCTime(data.jueves_tarde1) : "",
+        J_fin_t: data.jueves_tarde2 ? formatUTCTime(data.jueves_tarde2) : "",
+        V_inicio_m: data.viernes_manana1 ? formatUTCTime(data.viernes_manana1) : "",
+        V_fin_m: data.viernes_manana2 ? formatUTCTime(data.viernes_manana2) : "",
+        V_inicio_t: data.viernes_tarde1 ? formatUTCTime(data.viernes_tarde1) : "",
+        V_fin_t: data.viernes_tarde2 ? formatUTCTime(data.viernes_tarde2) : "",
+        S_inicio_m: data.sabado_manana1 ? formatUTCTime(data.sabado_manana1) : "",
+        S_fin_m: data.sabado_manana2 ? formatUTCTime(data.sabado_manana2) : "",
+        S_inicio_t: data.sabado_tarde1 ? formatUTCTime(data.sabado_tarde1) : "",
+        S_fin_t: data.sabado_tarde2 ? formatUTCTime(data.sabado_tarde2) : ""
       };
 
       doc.setData(templateData);
@@ -189,9 +150,9 @@ const GenerarWord = ({ id }) => {
   };
 
   return (
-    <div>
-      <button onClick={generateDocument}>Generar Documento</button>
-    </div>
+    <Button onClick={generateDocument} variant="contained" color="primary">
+      Generar Documento
+    </Button>
   );
 };
 

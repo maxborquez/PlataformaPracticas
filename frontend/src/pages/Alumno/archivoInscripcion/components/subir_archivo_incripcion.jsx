@@ -1,4 +1,12 @@
-import { Alert, Box, Button, Card, Grid, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import Swal from "sweetalert2";
@@ -42,6 +50,7 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!archivo) {
+      // Manejo del error si no se seleccionó ningún archivo
       Swal.fire({
         title: "Error",
         text: "No se ha seleccionado ningún archivo",
@@ -59,13 +68,24 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
     formData.append("archivo", archivo);
 
     try {
-      const response = await clienteAxios.post("/archivoinscripcion/create", formData);
+      // Subir el archivo al servidor
+      const response = await clienteAxios.post(
+        "/archivoinscripcion/create",
+        formData
+      );
       Swal.fire({
         title: "Éxito",
         text: "Archivo subido correctamente",
         icon: "success",
         confirmButtonText: "Aceptar",
       });
+
+      // Llamar a la función para actualizar el estado de la inscripción
+      await clienteAxios.post("/inscripcion/updatestado", {
+        id_estado_inscripcion: 1, // El nuevo estado de la inscripción
+        id_inscripcion: Number(id),
+      });
+
       queryClient.invalidateQueries("archivos");
       window.location.reload();
     } catch (error) {
@@ -77,9 +97,12 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
       });
     }
   };
-
   return (
-    <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+    <Grid
+      container
+      spacing={2}
+      sx={{ flexDirection: "column", alignItems: "center" }}
+    >
       <Grid item>
         <Button
           variant="contained"
@@ -98,12 +121,17 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
       </Grid>
       {!isPdf && (
         <Grid item>
-          <Alert severity="success">Archivo PDF seleccionado: {archivo?.name}</Alert>
+          <Alert severity="success">
+            Archivo PDF seleccionado: {archivo?.name}
+          </Alert>
         </Grid>
       )}
       {hasExistingFile ? (
         <Grid item>
-          <Alert severity="info">Ya existe un archivo de inscripcion subido. Si desea subir uno nuevo debe borrar el actual.</Alert>
+          <Alert severity="info">
+            Ya existe un archivo de inscripcion subido. Si desea subir uno nuevo
+            debe borrar el actual.
+          </Alert>
         </Grid>
       ) : (
         <Grid item>

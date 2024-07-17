@@ -168,8 +168,7 @@ const DetalleOfertas = () => {
                               transition: "all 1000ms",
                             }}
                           >
-                            Detalle Oferta{" "}
-                            <Business style={{ marginLeft: "5px" }} />
+                            Detalle Oferta <Business style={{ marginLeft: "5px" }} />
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -177,8 +176,7 @@ const DetalleOfertas = () => {
                     <TableBody>
                       <TableRow>
                         <TableCell>
-                          <strong>Título:</strong>{" "}
-                          {getOferta.data.oferta.titulo}
+                          <strong>Título:</strong> {getOferta.data.oferta.titulo}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -195,8 +193,38 @@ const DetalleOfertas = () => {
                       </TableRow>
                       <TableRow>
                         <TableCell>
+                          <strong>Departamento:</strong>{" "}
+                          {getOferta.data.oferta.empresa.departamento}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Página Web:</strong>{" "}
+                          <a
+                            href={`http://${getOferta.data.oferta.empresa.web}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {getOferta.data.oferta.empresa.web}
+                          </a>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Rubro:</strong>{" "}
+                          {getOferta.data.oferta.empresa.rubro}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
                           <strong>Teléfono:</strong>{" "}
                           {getOferta.data.oferta.empresa.telefono}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Dirección:</strong>{" "}
+                          {getOferta.data.oferta.empresa.direccion}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -211,6 +239,19 @@ const DetalleOfertas = () => {
                           {getOferta.data.oferta.experiencia_laboral
                             ? "Sí"
                             : "No"}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Período:</strong>{" "}
+                          {getOferta.data.oferta.periodo_academico.anio} -{" "}
+                          {getOferta.data.oferta.periodo_academico.periodo}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Comuna:</strong>{" "}
+                          {getOferta.data.oferta.empresa.comuna.nombre}
                         </TableCell>
                       </TableRow>
                     </TableBody>

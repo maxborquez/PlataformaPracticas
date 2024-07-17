@@ -26,7 +26,6 @@ const DetalleOfertaPractica = () => {
   const [isWideScreen, setIsWideScreen] = useState(false);
   const navigate = useNavigate();
 
-
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -135,23 +134,24 @@ const DetalleOfertaPractica = () => {
             }}
           >
             <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <Typography variant="h4" sx={{ textAlign: "center" }}>
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate(-1)}
-                  >
-                    Volver
-                  </Button>
-                </Box>
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <Typography variant="h4" sx={{ textAlign: "center" }}>
+                Detalle Oferta <Business style={{ marginLeft: "5px" }} />
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate(-1)}
+              >
+                Volver
+              </Button>
+            </Box>
             {getOferta.status === "success" && getOferta.data.oferta && (
               <>
                 <TableContainer component={Paper}>
@@ -176,40 +176,94 @@ const DetalleOfertaPractica = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                    <TableRow>
+                      <TableRow>
                         <TableCell>
                           <strong>Título:</strong> {getOferta.data.oferta.titulo}
                         </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
-                          <strong>Descripción:</strong> {getOferta.data.oferta.descripcion}
+                          <strong>Descripción:</strong>{" "}
+                          {getOferta.data.oferta.descripcion}
                         </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
-                          <strong>Empresa:</strong> {getOferta.data.oferta.empresa.nombre}
+                          <strong>Empresa:</strong>{" "}
+                          {getOferta.data.oferta.empresa.nombre}
                         </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
-                          <strong>Teléfono:</strong> {getOferta.data.oferta.empresa.telefono}
+                          <strong>Departamento:</strong>{" "}
+                          {getOferta.data.oferta.empresa.departamento}
                         </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
-                          <strong>Modalidad:</strong> {getOferta.data.oferta.modalidad.nombre_modalidad}
+                          <strong>Página Web:</strong>{" "}
+                          <a
+                            href={`http://${getOferta.data.oferta.empresa.web}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {getOferta.data.oferta.empresa.web}
+                          </a>
                         </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>
-                          <strong>Experiencia laboral:</strong> {getOferta.data.oferta.experiencia_laboral ? "Sí" : "No"}
+                          <strong>Rubro:</strong>{" "}
+                          {getOferta.data.oferta.empresa.rubro}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Teléfono:</strong>{" "}
+                          {getOferta.data.oferta.empresa.telefono}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Dirección:</strong>{" "}
+                          {getOferta.data.oferta.empresa.direccion}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Modalidad:</strong>{" "}
+                          {getOferta.data.oferta.modalidad.nombre_modalidad}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Experiencia laboral:</strong>{" "}
+                          {getOferta.data.oferta.experiencia_laboral
+                            ? "Sí"
+                            : "No"}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Período:</strong>{" "}
+                          {getOferta.data.oferta.periodo_academico.anio} -{" "}
+                          {getOferta.data.oferta.periodo_academico.periodo}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Comuna:</strong>{" "}
+                          {getOferta.data.oferta.empresa.comuna.nombre}
                         </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <Grid container justifyContent="flex-end" sx={{ marginTop: "16px" }}>
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  sx={{ marginTop: "16px" }}
+                >
                   <Button variant="contained" color="primary">
                     Inscribir esta práctica
                   </Button>

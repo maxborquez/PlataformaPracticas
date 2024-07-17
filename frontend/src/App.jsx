@@ -45,6 +45,7 @@ import VisualizadorInformes from "./pages/ProfesionalApoyo/informesPendientes/vi
 import VisualizadorEvaluaciones from "./pages/ProfesionalApoyo/evaluacionesPendientes/visualizadorEvaluaciones";
 import AptitudesPendientes from "./pages/ProfesionalApoyo/aptitudesPendientes/aptitudesPendientes";
 import DetalleCentroPractica from "./pages/ProfesionalApoyo/empresas/detalleCentroPractica";
+import ArchivoInscripcionPractica from "./pages/Alumno/archivoInscripcion/archivoInscripcion";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ function App() {
               <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica />}/>
               <Route path="/inscripcionpractica/:id" element={<InscripcionPractica />}/>
               <Route path="/modificarinscripcion/:id" element={<ModificarDatos />}/>
+              <Route path="/archivo_inscripcion/:id" element={<ArchivoInscripcionPractica />} />
               <Route path="/informe/:id" element={<InformePractica />} />
               <Route path="/evaluacion/:id" element={<EvaluacionPractica />} />
               <Route path="/documentosinscripcion/:id" element={<DocumentosInscripcion />}/>

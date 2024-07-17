@@ -73,15 +73,18 @@ model archivo_informe {
 }
 
 model archivo_inscripcion {
-  id_archivo           Int                  @id @default(autoincrement())
-  nombre               String               @db.VarChar(200)
-  tipo_archivo         String               @db.VarChar(100)
-  archivo              Bytes
-  id_inscripcion       Int
-  tipo_documento       String               @db.VarChar(50)
-  inscripcion_practica inscripcion_practica @relation(fields: [id_inscripcion], references: [id_inscripcion_practica], onDelete: Cascade)
+  id_archivo                    Int                        @id @default(autoincrement())
+  nombre                        String                     @db.VarChar(200)
+  tipo_archivo                  String                     @db.VarChar(100)
+  archivo                       Bytes
+  id_inscripcion                Int
+  tipo_documento                String                     @db.VarChar(50)
+  id_estado_archivo_inscripcion Int
+  estado_archivo_inscripcion    estado_archivo_inscripcion @relation(fields: [id_estado_archivo_inscripcion], references: [id_estado_archivo_inscripcion], onDelete: Cascade)
+  inscripcion_practica          inscripcion_practica       @relation(fields: [id_inscripcion], references: [id_inscripcion_practica], onDelete: Cascade)
 
   @@index([id_inscripcion], map: "archivo_inscripcion_id_inscripcion_fkey")
+  @@index([id_estado_archivo_inscripcion], map: "archivo_inscripcion_id_estado_archivo_inscripcion_fkey")
 }
 
 model asignatura {
@@ -388,4 +391,10 @@ model estado_supervisor {
   id_estado_supervisor     Int          @id @default(autoincrement())
   nombre_estado_supervisor String       @db.VarChar(50)
   supervisor               supervisor[]
+}
+
+model estado_archivo_inscripcion {
+  id_estado_archivo_inscripcion     Int                   @id @default(autoincrement())
+  nombre_estado_archivo_inscripcion String
+  archivo_inscripcion               archivo_inscripcion[]
 }

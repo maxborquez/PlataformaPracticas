@@ -5,9 +5,12 @@ import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import MUIDataTable from "mui-datatables";
 import Swal from "sweetalert2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useNavigate } from "react-router-dom";
 import clienteAxios from "../../../helpers/clienteaxios"; // Ajusta el path según tu estructura de proyecto
 
 const InscripcionesPendientes = () => {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const [data, setData] = useState([]); // Estado para almacenar los datos de la API
@@ -134,6 +137,39 @@ const InscripcionesPendientes = () => {
     }
   };
 
+  const handleReprobarInscripcion = async (id_inscripcion_practica) => {
+    try {
+      // Primero, aprueba la inscripción
+      const responseAprobar = await clienteAxios.post(
+        "/inscripcion/updatestado",
+        {
+          id_inscripcion: id_inscripcion_practica,
+          id_estado_inscripcion: 3,
+        }
+      );
+
+      if (responseAprobar.status !== 200) {
+        Swal.fire(
+          "Error",
+          "Hubo un problema al reprobar la inscripción",
+          "error"
+        );
+        return;
+      }
+    } catch (error) {
+      console.error("Error handling inscripcion:", error);
+      Swal.fire(
+        "Error",
+        "Hubo un problema al procesar la inscripción",
+        "error"
+      );
+    }
+  };
+
+  const handleView = (id) => {
+    window.open(`/visualizadorInscripciones/${id}`, '_blank');
+  };
+
   const columns = [
     {
       name: "id_inscripcion",
@@ -234,6 +270,10 @@ const InscripcionesPendientes = () => {
           const id_inscripcion_practica = tableMeta.rowData[0]; // Usar la primera columna oculta como ID
           return (
             <>
+              <VisibilityIcon
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleView(tableMeta.rowData[0])}
+                />
               <IconButton
                 onClick={() =>
                   handleAprobarInscripcion(id_inscripcion_practica)
@@ -244,7 +284,7 @@ const InscripcionesPendientes = () => {
               </IconButton>
               <IconButton
                 onClick={() =>
-                  updateEstadoInscripcion(id_inscripcion_practica, 3)
+                  handleReprobarInscripcion(id_inscripcion_practica)
                 }
                 style={{ color: "red" }}
               >

@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
 import BookIcon from "@mui/icons-material/Book";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
@@ -112,6 +113,10 @@ const Detalle = ({ id }) => {
     }
 
     const inscripcion = data.inscripcion;
+    const handleView = (id) => {
+      window.open(`/visualizadorInscripciones/${id}`, '_blank');
+    };
+  
 
     if (inscripcion.fecha_inicio && inscripcion.fecha_fin) {
       let fecha_inicio = inscripcion.fecha_inicio.split("T")[0];
@@ -232,10 +237,18 @@ const Detalle = ({ id }) => {
           options: {
             customBodyRender: () => (
               <>
-               <VisibilityIcon
-                style={{ cursor: "pointer" }}
-                onClick={() => navigate(`/detalleCentroPractica/${id}`)}
-              />
+                <Tooltip title="Archivo Inscrpcion">
+                  <LibraryBooksIcon
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleView(inscripcion.id_inscripcion_practica)}
+                  />
+                </Tooltip>
+                <Tooltip title="Detalles">
+                  <VisibilityIcon
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/detalleCentroPractica/${id}`)}
+                  />
+                </Tooltip>
                 <Tooltip title="Bitácoras">
                   <BookIcon
                     sx={{ cursor: "pointer" }}

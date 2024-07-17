@@ -47,10 +47,10 @@ const DetalleCentroPractica = () => {
 
     // Filtrar inscripciones y supervisores con estado 2
     empresaData.inscripcion_practica = empresaData.inscripcion_practica.filter(
-      (inscripcion) => inscripcion.estado === 2
+      (inscripcion) => inscripcion.id_estado_inscripcion === 2
     );
     empresaData.supervisor = empresaData.supervisor.filter(
-      (supervisor) => supervisor.estado === 2
+      (supervisor) => supervisor.id_estado_supervisor === 2
     );
 
     return empresaData;
@@ -85,6 +85,7 @@ const DetalleCentroPractica = () => {
 
   const supervisorColumns = [
     { name: "nombre", label: "Nombre" },
+    { name: "profesion", label: "Profesion" },
     { name: "cargo", label: "Cargo" },
     { name: "telefono", label: "Teléfono" },
     { name: "correo", label: "Correo" },

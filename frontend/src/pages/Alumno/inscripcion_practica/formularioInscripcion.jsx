@@ -32,6 +32,7 @@ const FormularioInscripcion = () => {
   const [provincia, setProvincia] = useState("");
   const [comuna, setComuna] = useState("");
   const [nombreSupervisor, setNombreSupervisor] = useState("");
+  const [profesionSupervisor, setProfesionSupervisor] = useState("");
   const [cargoSupervisor, setCargoSupervisor] = useState("");
   const [fonoSupervisor, setFonoSupervisor] = useState("");
   const [emailSupervisor, setEmailSupervisor] = useState("");
@@ -79,6 +80,7 @@ const FormularioInscripcion = () => {
       // 2. Crear el supervisor
       const supervisorResponse = await clienteAxios.post("/supervisor/create", {
         nombre: nombreSupervisor,
+        profesion: profesionSupervisor,
         telefono: fonoSupervisor,
         correo: emailSupervisor,
         cargo: cargoSupervisor,
@@ -194,10 +196,12 @@ const FormularioInscripcion = () => {
       <Grid item xs={12}>
         <FormSupervisor
           nombreSupervisor={nombreSupervisor}
+          profesionSupervisor={profesionSupervisor}
           cargoSupervisor={cargoSupervisor}
           fonoSupervisor={fonoSupervisor}
           emailSupervisor={emailSupervisor}
           setNombreSupervisor={setNombreSupervisor}
+          setProfesionSupervisor={setProfesionSupervisor}
           setCargoSupervisor={setCargoSupervisor}
           setFonoSupervisor={setFonoSupervisor}
           setEmailSupervisor={setEmailSupervisor}

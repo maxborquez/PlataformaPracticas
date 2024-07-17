@@ -15,6 +15,7 @@ const crear_supervisor = async (req, res) => {
 
     const {
       nombre,
+      profesion,
       telefono,
       correo,
       cargo,
@@ -25,6 +26,7 @@ const crear_supervisor = async (req, res) => {
     const supervisor = await prisma.supervisor.create({
       data: {
         nombre,
+        profesion,
         telefono,
         correo,
         cargo,
@@ -138,6 +140,7 @@ const actualizar_supervisor = async (req, res) => {
     const { id } = req.params;
     const {
       nombre,
+      profesion,
       correo,
       telefono,
       cargo,
@@ -159,6 +162,7 @@ const actualizar_supervisor = async (req, res) => {
       where: { id_supervisor: Number(id) },
       data: {
         nombre,
+        profesion,
         telefono,
         correo,
         cargo,

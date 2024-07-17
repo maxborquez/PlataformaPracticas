@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
 import BookIcon from "@mui/icons-material/Book";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
@@ -111,6 +113,10 @@ const Detalle = ({ id }) => {
     }
 
     const inscripcion = data.inscripcion;
+    const handleView = (id) => {
+      window.open(`/visualizadorInscripciones/${id}`, '_blank');
+    };
+  
 
     if (inscripcion.fecha_inicio && inscripcion.fecha_fin) {
       let fecha_inicio = inscripcion.fecha_inicio.split("T")[0];
@@ -146,10 +152,10 @@ const Detalle = ({ id }) => {
           },
         },
         {
-          name: "observaciones",
-          label: "Observaciones",
+          name: "modalidad",
+          label: "Modalidad",
           options: {
-            customBodyRender: (value) => (value === "" ? "----------" : value),
+            customBodyRender: (value) => value.nombre_modalidad,
             setCellHeaderProps: () => ({
               style: {
                 backgroundColor: "#326fa6",
@@ -159,10 +165,11 @@ const Detalle = ({ id }) => {
           },
         },
         {
-          name: "modalidad",
-          label: "Modalidad",
+          name: "empresa",
+          label: "Empresa",
           options: {
-            customBodyRender: (value) => value.nombre_modalidad,
+            customBodyRender: (value) =>
+              value === null ? "No registrado" : `${value.nombre}`,
             setCellHeaderProps: () => ({
               style: {
                 backgroundColor: "#326fa6",
@@ -212,11 +219,36 @@ const Detalle = ({ id }) => {
           },
         },
         {
+          name: "observaciones",
+          label: "Observaciones",
+          options: {
+            customBodyRender: (value) => (value === "" ? "----------" : value),
+            setCellHeaderProps: () => ({
+              style: {
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
+        },
+        {
           name: "acciones",
           label: "Acciones",
           options: {
             customBodyRender: () => (
               <>
+                <Tooltip title="Archivo Inscrpcion">
+                  <LibraryBooksIcon
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleView(inscripcion.id_inscripcion_practica)}
+                  />
+                </Tooltip>
+                <Tooltip title="Detalles">
+                  <VisibilityIcon
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/detalleCentroPractica/${id}`)}
+                  />
+                </Tooltip>
                 <Tooltip title="Bitácoras">
                   <BookIcon
                     sx={{ cursor: "pointer" }}

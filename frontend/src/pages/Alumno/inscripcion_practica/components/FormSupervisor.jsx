@@ -5,15 +5,18 @@ import TextField from "@mui/material/TextField";
 
 const FormSupervisor = ({
   nombreSupervisor,
+  profesionSupervisor,
   cargoSupervisor,
   fonoSupervisor,
   emailSupervisor,
   setNombreSupervisor,
+  setProfesionSupervisor,
   setCargoSupervisor,
   setFonoSupervisor,
   setEmailSupervisor,
 }) => {
   const [nombreSupervisorError, setNombreSupervisorError] = useState(false);
+  const [profesionSupervisorError, setProfesionSupervisorError] = useState(false);
   const [cargoSupervisorError, setCargoSupervisorError] = useState(false);
   const [fonoSupervisorError, setFonoSupervisorError] = useState(false);
   const [emailSupervisorError, setEmailSupervisorError] = useState(false);
@@ -22,6 +25,12 @@ const FormSupervisor = ({
     const filteredValue = value.replace(/[^a-zA-Z\s]/g, "");
     setNombreSupervisor(filteredValue);
     setNombreSupervisorError(filteredValue.length > 50);
+  };
+
+  const validateProfesionSupervisor = (value) => {
+    const filteredValue = value.replace(/[^a-zA-Z\s]/g, "");
+    setProfesionSupervisor(filteredValue);
+    setProfesionSupervisorError(filteredValue.length > 50);
   };
 
   const validateCargoSupervisor = (value) => {
@@ -60,6 +69,19 @@ const FormSupervisor = ({
           onChange={(e) => validateNombreSupervisor(e.target.value)}
           error={nombreSupervisorError}
           helperText={nombreSupervisorError ? "Nombre inválido" : ""}
+        />
+      </Grid>
+      <Grid item xs={6}>
+      <TextField
+          fullWidth
+          label="Profesion del Supervisor"
+          variant="outlined"
+          margin="normal"
+          inputProps={{ maxLength: 50 }}
+          value={profesionSupervisor}
+          onChange={(e) => validateProfesionSupervisor(e.target.value)}
+          error={profesionSupervisorError}
+          helperText={profesionSupervisorError ? "Profesión inválida" : ""}
         />
       </Grid>
       <Grid item xs={6}>

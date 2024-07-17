@@ -41,6 +41,7 @@ import InformesPendientes from "./pages/ProfesionalApoyo/informesPendientes/info
 import EvaluacionesPendientes from "./pages/ProfesionalApoyo/evaluacionesPendientes/evaluaciones_pendientes";
 import BitacorasAlumnos from "./pages/ProfesionalApoyo/bitacorasAlumnos/bitacoras_alumnos";
 import DetalleBitacoraAlumno from "./pages/ProfesionalApoyo/bitacorasAlumnos/components/detalle_bitacora_alumno";
+import VisualizadorInscripciones from "./pages/ProfesionalApoyo/inscripciones_pendientes/visualizadorInscripciones";
 import VisualizadorInformes from "./pages/ProfesionalApoyo/informesPendientes/visualizadorInformes";
 import VisualizadorEvaluaciones from "./pages/ProfesionalApoyo/evaluacionesPendientes/visualizadorEvaluaciones";
 import AptitudesPendientes from "./pages/ProfesionalApoyo/aptitudesPendientes/aptitudesPendientes";
@@ -91,6 +92,7 @@ function App() {
               <Route path="/evaluaciones_pendientes" element={<EvaluacionesPendientes />}/>
               <Route path="/bitacoras_alumnos/:id_inscripcion" element={<BitacorasAlumnos />}/>
               <Route path="/detalle_bitacora_alumno/:id_bitacora" element={<DetalleBitacoraAlumno />}/>
+              <Route path="/visualizadorInscripciones/:id" element={<VisualizadorInscripciones />}/>
               <Route path="/visualizadorInformes/:id" element={<VisualizadorInformes />}/>
               <Route path="/visualizadorEvaluaciones/:id" element={<VisualizadorEvaluaciones />}/>
               <Route path="/aptitudes_pendientes" element={<AptitudesPendientes />}/>

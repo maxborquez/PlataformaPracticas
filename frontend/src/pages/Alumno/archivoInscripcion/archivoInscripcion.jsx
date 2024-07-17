@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography, Card } from "@mui/material";
+import { Grid, Typography, Card, Box } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
@@ -42,7 +42,10 @@ const ArchivoInscripcionPractica = () => {
         direction="column"
         sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
       >
-        <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}>
+        <Grid
+          item
+          sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}
+        >
           <Header
             toggleSidebar={toggleSidebar}
             isWideScreen={isWideScreen}
@@ -111,7 +114,10 @@ const ArchivoInscripcionPractica = () => {
       direction="column"
       sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
     >
-      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}>
+      <Grid
+        item
+        sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}
+      >
         <Header
           toggleSidebar={toggleSidebar}
           isWideScreen={isWideScreen}
@@ -157,7 +163,11 @@ const ArchivoInscripcionPractica = () => {
               marginLeft: "16px",
             }}
           >
-            <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+            <Grid
+              container
+              spacing={2}
+              sx={{ flexDirection: "column", alignItems: "center" }}
+            >
               <Grid item>
                 <Typography
                   variant="h5"
@@ -172,14 +182,24 @@ const ArchivoInscripcionPractica = () => {
                   <Construction style={{ marginLeft: "5px" }} />
                 </Typography>
               </Grid>
-              <Grid item>
-                <SubirArchivoInscripcion id={id} hasExistingFile={hasExistingFile} />
-              </Grid>
-              <Grid item sx={{ width: "100%", marginTop: "20px" }}>
-                <MostrarArchivoArchivoInscripcion id={id} setHasExistingFile={setHasExistingFile} />
-              </Grid>
-              <Grid item sx={{ width: "100%", marginTop: "20px" }}>
-                <GenerarWord id={id} />
+              <Grid container spacing={2} sx={{ marginTop: "20px" }}>
+                <Grid item xs={12} marginRight={10}>
+                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                    <GenerarWord id={id} />
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <SubirArchivoInscripcion
+                    id={id}
+                    hasExistingFile={hasExistingFile}
+                  />
+                </Grid>
+                <Grid item xs={12} sx={{ marginTop: "20px" }}>
+                  <MostrarArchivoArchivoInscripcion
+                    id={id}
+                    setHasExistingFile={setHasExistingFile}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Card>

@@ -5,6 +5,7 @@ import SidebarAlumno from "../../../components/sidebars/sidebarAlumno";
 import { Construction } from "@mui/icons-material";
 import SubirArchivoInscripcion from "./components/subir_archivo_incripcion";
 import MostrarArchivoArchivoInscripcion from "./components/mostrar_archivo_inscripcion";
+import GenerarWord from "./components/generarWord";
 import { useParams } from "react-router-dom";
 
 const ArchivoInscripcionPractica = () => {
@@ -176,6 +177,9 @@ const ArchivoInscripcionPractica = () => {
               </Grid>
               <Grid item sx={{ width: "100%", marginTop: "20px" }}>
                 <MostrarArchivoArchivoInscripcion id={id} setHasExistingFile={setHasExistingFile} />
+              </Grid>
+              <Grid item sx={{ width: "100%", marginTop: "20px" }}>
+                <GenerarWord id={id} />
               </Grid>
             </Grid>
           </Card>

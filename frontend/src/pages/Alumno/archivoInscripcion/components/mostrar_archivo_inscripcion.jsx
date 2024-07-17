@@ -31,53 +31,6 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
     fetchArchivos();
   }, [id, setHasExistingFile]);
 
-  const handleDelete = async (archivoId) => {
-    try {
-      const archivo = archivos.find((archivo) => archivo.id_archivo === archivoId);
-      const estadoArchivoInscripcion = archivo.estado_archivo_inscripcion?.nombre_estado_archivo_inscripcion;
-
-      if (estadoArchivoInscripcion === "Aprobado") {
-        Swal.fire({
-          title: "Error",
-          text: "El archivo no puede ser eliminado porque ya ha sido aprobado",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-
-      const result = await Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, bórralo',
-        cancelButtonText: 'No, cancelar',
-        reverseButtons: true
-      });
-
-      if (result.isConfirmed) {
-        await clienteAxios.delete(`/archivoinscripcion/delete/${archivoId}`);
-        setArchivos(archivos.filter(archivo => archivo.id_archivo !== archivoId));
-        setHasExistingFile(archivos.length > 1);
-        Swal.fire(
-          'Eliminado!',
-          'El archivo ha sido eliminado.',
-          'success'
-        ).then(() => {
-          window.location.reload();
-        });
-      }
-    } catch (error) {
-      console.error("Error al eliminar archivo:", error);
-      Swal.fire(
-        'Error',
-        'Hubo un problema al eliminar el archivo.',
-        'error'
-      );
-    }
-  };
-
   if (loading) {
     return <CircularProgress />;
   }
@@ -110,23 +63,7 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
           return value?.nombre_estado_archivo_inscripcion || "Desconocido";
         },
       },
-    },
-    {
-      name: "acciones",
-      label: "Acciones",
-      options: {
-        filter: false,
-        sort: false,
-        customBodyRender: (value, tableMeta) => {
-          const archivoId = archivos[tableMeta.rowIndex].id_archivo;
-          return (
-            <IconButton onClick={() => handleDelete(archivoId)}>
-              <DeleteIcon />
-            </IconButton>
-          );
-        },
-      },
-    },
+    }
   ];
 
   const options = {

@@ -7,7 +7,7 @@ const updateEstadoPractica = async (req, res) => {
   try {
     const inscribe = await prisma.inscribe.update({
       where: {
-        id_inscripcion: parseInt(id_inscribe),
+        id_inscripcion: parseInt(id_inscripcion),
       },
       data: {
         id_estado_practica: parseInt(id_estado),

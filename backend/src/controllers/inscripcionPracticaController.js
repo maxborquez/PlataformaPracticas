@@ -143,13 +143,19 @@ const mostrar_inscripcion = async (req, res) => {
     const { id } = req.params;
     const inscripcion = await prisma.inscripcion_practica.findFirst({
       where: {
-        id_inscribe: Number(id),
+        id_inscripcion_practica: Number(id),
       },
       include: {
+        empresa: true,
         estado_inscripcion: true,
         supervisor: true,
         modalidad: true,
         oferta_practica: true,
+        inscribe: {
+          include: {
+            alumno: true,
+          },
+        },
       },
     });
     if (!inscripcion) {
@@ -798,6 +804,50 @@ const getPracticasByAlumno = async (req, res) => {
   }
 };
 
+const getByInscribe = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        mensaje: "Se han encontrado errores",
+        errors: errors.array(),
+      });
+    }
+    const { id } = req.params;
+    const inscripcion = await prisma.inscripcion_practica.findFirst({
+      where: {
+        id_inscribe: Number(id),
+      },
+      include: {
+        empresa: true,
+        estado_inscripcion: true,
+        supervisor: true,
+        modalidad: true,
+        oferta_practica: true,
+        inscribe: {
+          include: {
+            alumno: true,
+          },
+        },
+      },
+    });
+    if (!inscripcion) {
+      return res.status(200).json({
+        mensaje: "No se ha encontrado la inscripcion",
+      });
+    }
+
+    return res.status(200).json({
+      mensaje: "Se ha encontrado la inscripcion",
+      inscripcion: inscripcion,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      error: error.stack,
+    });
+  }
+};
+
 
 module.exports = {
   crear_inscripcion,
@@ -815,5 +865,6 @@ module.exports = {
   getInscripcionesEnProceso,
   getInscriptionsByCareerAndPractica,
   getEstudiantesPorParametros,
-  getPracticasByAlumno
+  getPracticasByAlumno,
+  getByInscribe
 };

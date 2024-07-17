@@ -104,6 +104,20 @@ const SidebarAlumno = () => {
           </ListItem>
           <ListItem
             button
+            onClick={() => navigate(`/archivo_inscripcion/${comprobar.data.id_inscripcion}`)}
+            sx={{
+              textAlign: "center",
+              backgroundColor: "#495970", // Cambiar color de fondo a gris claro
+              color: "white", // Cambiar color de texto a negro
+              "&:hover": {
+                backgroundColor: "#425063", // Mantener el color de fondo constante en hover
+              },
+            }}
+          >
+            <ListItemText primary="Archivo de inscripcion" />
+          </ListItem>
+          <ListItem
+            button
             onClick={() => navigate(`/informe/${comprobar.data.id_inscripcion}`)}
             sx={{
               textAlign: "center",

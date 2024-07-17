@@ -20,22 +20,22 @@ routerArchivoInscripcion.post("/create",
     body("tipo_archivo").notEmpty().withMessage("El campo tipo_archivo es requerido"),
     body("id_inscripcion").notEmpty().withMessage("El campo id_inscripcion es requerido").isInt().withMessage("El campo id_inscripcion debe ser entero")   
 ],
-archivoInscripcionController.subirArchivo)
+archivoInscripcionController.subirArchivoInscripcion)
 
 routerArchivoInscripcion.post("/getall",
 [
     AutenticacionToken
 ]
-,archivoInscripcionController.mostrar_archivos)
+,archivoInscripcionController.mostrarArchivosInscripcion)
 
 routerArchivoInscripcion.delete("/delete/:id",
 [
     AutenticacionAlumno,
     param("id").notEmpty().withMessage("El campo id es requerido").isInt().withMessage("El campo id debe ser entero")  
 ]
-,archivoInscripcionController.eliminar_archivo);
+,archivoInscripcionController.eliminarArchivoInscripcion);
 
-routerArchivoInscripcion.get("/show/:id",[AutenticacionToken],archivoInscripcionController.mostrar_archivo);
+routerArchivoInscripcion.get("/show/:id",[AutenticacionToken],archivoInscripcionController.mostrarArchivoInscripcion);
 
 
 module.exports = routerArchivoInscripcion;

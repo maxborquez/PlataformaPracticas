@@ -33,8 +33,8 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
 
   const handleDelete = async (archivoId) => {
     try {
-      const archivo = archivos.find((archivo) => archivo.id_archivo_inscripcion === archivoId);
-      const estadoArchivoInscripcion = archivo.estado_archivo_inscripcion?.nombre_estado_archivo_estado_archivo_inscripcion;
+      const archivo = archivos.find((archivo) => archivo.id_archivo === archivoId);
+      const estadoArchivoInscripcion = archivo.estado_archivo_inscripcion?.nombre_estado_archivo_inscripcion;
 
       if (estadoArchivoInscripcion === "Aprobado") {
         Swal.fire({
@@ -58,7 +58,7 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
 
       if (result.isConfirmed) {
         await clienteAxios.delete(`/archivoinscripcion/delete/${archivoId}`);
-        setArchivos(archivos.filter(archivo => archivo.id_archivo_estado_archivo_inscripcion !== archivoId));
+        setArchivos(archivos.filter(archivo => archivo.id_archivo !== archivoId));
         setHasExistingFile(archivos.length > 1);
         Swal.fire(
           'Eliminado!',
@@ -118,7 +118,7 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta) => {
-          const archivoId = archivos[tableMeta.rowIndex].id_archivo_estado_archivo_inscripcion;
+          const archivoId = archivos[tableMeta.rowIndex].id_archivo;
           return (
             <IconButton onClick={() => handleDelete(archivoId)}>
               <DeleteIcon />

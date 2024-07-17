@@ -140,23 +140,19 @@ const Bitacoras = () => {
                       <CardBitacora bitacora={bitacora} />
                     </Grid>
                   ))}
+                  {(id_alumno && id_inscripcion_practica !== "undefined") && (
                   <Grid item xs={12} sm={6} md={3}>
                     <CardAddBitacora onClick={handleAgregarBitacora} />
                   </Grid>
+                  )}
                 </Grid>
               </Box>
             )}
-            {(id_inscripcion_practica && id_inscripcion_practica !== "undefined") && (
-              <Box sx={{ textAlign: "center", marginTop: "20px" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleAgregarBitacora}
-                >
-                  Agregar bitácora
-                </Button>
-              </Box>
-            )}
+            {(id_alumno && id_inscripcion_practica !== "undefined" && bitacoras.length == 0) && (
+                  <Grid item xs={12} sm={6} md={3}>
+                    <CardAddBitacora onClick={handleAgregarBitacora} />
+                  </Grid>
+                  )}
           </Paper>
         </Grid>
       </Grid>

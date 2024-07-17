@@ -1,10 +1,24 @@
-import { Grid, CircularProgress, Tooltip, Typography, Alert } from "@mui/material";
+import {
+  Grid,
+  CircularProgress,
+  Tooltip,
+  Typography,
+  Alert,
+} from "@mui/material";
 import { useQuery, useQueryClient } from "react-query";
 import clienteAxios from "../../../helpers/clienteaxios";
-import { CheckCircleOutline, Delete, DoNotDisturb, Edit, FileCopy, TimerOutlined } from "@mui/icons-material";
+import {
+  CheckCircleOutline,
+  Delete,
+  DoNotDisturb,
+  Edit,
+  FileCopy,
+  TimerOutlined,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
+import BookIcon from "@mui/icons-material/Book";
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
@@ -14,21 +28,21 @@ const Detalle = ({ id }) => {
   });
 
   const formato = (texto) => {
-    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
+    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, "$3/$2/$1");
   };
 
   const queryClient = useQueryClient();
 
   const eliminar_inscripcion = async (id) => {
     Swal.fire({
-      title: '¿Estás seguro?',
-      text: '¡No podrás revertir esto!',
-      icon: 'warning',
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, bórralo!',
-      cancelButtonText: "Cancelar"
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, bórralo!",
+      cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
         const response = await clienteAxios.delete(`/inscripcion/delete/${id}`);
@@ -37,7 +51,7 @@ const Detalle = ({ id }) => {
             title: "Eliminado",
             text: "La Inscripción ha sido eliminada correctamente",
             icon: "success",
-            confirmButtonText: "Aceptar"
+            confirmButtonText: "Aceptar",
           });
           setTimeout(() => {
             Swal.close();
@@ -49,7 +63,7 @@ const Detalle = ({ id }) => {
             title: "Error",
             text: "Ha ocurrido un error al eliminar la Inscripción",
             icon: "error",
-            confirmButtonText: "Aceptar"
+            confirmButtonText: "Aceptar",
           });
         }
       }
@@ -58,7 +72,17 @@ const Detalle = ({ id }) => {
 
   if (status === "loading") {
     return (
-      <Grid sx={{ width: "35%", margin: "0px auto", marginTop: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <Grid
+        sx={{
+          width: "35%",
+          margin: "0px auto",
+          marginTop: "20px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         Cargando datos.........
         <CircularProgress />
       </Grid>
@@ -68,7 +92,17 @@ const Detalle = ({ id }) => {
   if (status === "success") {
     if (data.mensaje === "No se ha encontrado la inscripcion") {
       return (
-        <Grid sx={{ width: "100%", margin: "0px auto", marginTop: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <Grid
+          sx={{
+            width: "100%",
+            margin: "0px auto",
+            marginTop: "20px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Alert severity="warning">
             Asignatura inscrita en sistema pero aún falta inscribir una práctica
           </Alert>
@@ -92,11 +126,11 @@ const Detalle = ({ id }) => {
             customBodyRender: () => fecha_inicio,
             setCellHeaderProps: () => ({
               style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
         },
         {
           name: "fecha_fin",
@@ -105,24 +139,24 @@ const Detalle = ({ id }) => {
             customBodyRender: () => fecha_fin,
             setCellHeaderProps: () => ({
               style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
         },
         {
           name: "observaciones",
           label: "Observaciones",
           options: {
-            customBodyRender: (value) => value === "" ? "----------" : value,
+            customBodyRender: (value) => (value === "" ? "----------" : value),
             setCellHeaderProps: () => ({
               style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
         },
         {
           name: "modalidad",
@@ -131,24 +165,25 @@ const Detalle = ({ id }) => {
             customBodyRender: (value) => value.nombre_modalidad,
             setCellHeaderProps: () => ({
               style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
         },
         {
           name: "supervisor",
           label: "Supervisor práctica",
           options: {
-            customBodyRender: (value) => value === null ? "No registrado" : `${value.nombre}`,
+            customBodyRender: (value) =>
+              value === null ? "No registrado" : `${value.nombre}`,
             setCellHeaderProps: () => ({
               style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
         },
         {
           name: "estado_inscripcion",
@@ -156,19 +191,25 @@ const Detalle = ({ id }) => {
           options: {
             customBodyRender: (value) => (
               <>
-                {value.id_estado_inscripcion === 1 && <TimerOutlined style={{ marginRight: "5px" }} />}
-                {value.id_estado_inscripcion === 2 && <CheckCircleOutline style={{ marginRight: "5px" }} />}
-                {value.id_estado_inscripcion === 3 && <DoNotDisturb style={{ marginRight: "5px" }} />}
+                {value.id_estado_inscripcion === 1 && (
+                  <TimerOutlined style={{ marginRight: "5px" }} />
+                )}
+                {value.id_estado_inscripcion === 2 && (
+                  <CheckCircleOutline style={{ marginRight: "5px" }} />
+                )}
+                {value.id_estado_inscripcion === 3 && (
+                  <DoNotDisturb style={{ marginRight: "5px" }} />
+                )}
                 {value.nombre_estado_inscripcion}
               </>
             ),
             setCellHeaderProps: () => ({
               style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
         },
         {
           name: "acciones",
@@ -176,29 +217,42 @@ const Detalle = ({ id }) => {
           options: {
             customBodyRender: () => (
               <>
-                {inscripcion.estado_inscripcion.id_estado_inscripcion !== 2 && (
-                  <>
-                    <Tooltip title="Modificar inscripción">
-                      <Edit sx={{ cursor: "pointer" }} onClick={() => { navigate(`/modificarinscripcion/${id}`) }} />
-                    </Tooltip>
-                    <Tooltip title="Documentos">
-                      <FileCopy sx={{ cursor: "pointer" }} onClick={() => { navigate(`/documentosinscripcion/${inscripcion.id_inscripcion_practica}`) }} />
-                    </Tooltip>
-                    <Tooltip title="Eliminar Inscripción">
-                      <Delete sx={{ cursor: "pointer" }} onClick={() => eliminar_inscripcion(inscripcion.id_inscripcion_practica)} />
-                    </Tooltip>
-                  </>
+                <Tooltip title="Bitácoras">
+                  <BookIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() =>
+                      navigate(
+                        `/bitacoras/${inscripcion.id_inscripcion_practica}`
+                      )
+                    }
+                  />
+                </Tooltip>
+                {inscripcion.estado_inscripcion.id_estado_inscripcion === 3 ? (
+                  <Tooltip title="Eliminar Inscripción">
+                    <Delete
+                      sx={{ cursor: "pointer" }}
+                      onClick={() =>
+                        eliminar_inscripcion(
+                          inscripcion.id_inscripcion_practica
+                        )
+                      }
+                    />
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Eliminar Inscripción">
+                    <Delete sx={{ opacity: 0.5 }} />
+                  </Tooltip>
                 )}
               </>
             ),
             setCellHeaderProps: () => ({
               style: {
-                backgroundColor: '#326fa6',
-                color: '#fff'
-              }
-            })
-          }
-        }
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
+        },
       ];
 
       const options = {
@@ -217,13 +271,13 @@ const Detalle = ({ id }) => {
 
       return (
         <Grid sx={{ marginTop: "15px" }}>
-            <div>
-              <MUIDataTable
-                data={[inscripcion]}
-                columns={columns}
-                options={options}
-              />
-            </div>
+          <div>
+            <MUIDataTable
+              data={[inscripcion]}
+              columns={columns}
+              options={options}
+            />
+          </div>
         </Grid>
       );
     }

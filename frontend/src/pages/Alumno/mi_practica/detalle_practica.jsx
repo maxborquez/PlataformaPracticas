@@ -23,7 +23,7 @@ import BookIcon from "@mui/icons-material/Book";
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
   const { data, status } = useQuery(["detalleinscripcion", id], async () => {
-    const response = await clienteAxios.get(`/inscripcion/show/${id}`);
+    const response = await clienteAxios.get(`/inscripcion/inscribe/${id}`);
     return response.data;
   });
 

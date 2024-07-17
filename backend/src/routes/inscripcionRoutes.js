@@ -257,6 +257,18 @@ routerInscripcion.get(
   inscripcionPracticaController.mostrar_inscripcion
 );
 
+routerInscripcion.get(
+  "/inscribe/:id",
+  [
+    param("id")
+      .notEmpty()
+      .withMessage("El parámetro id es requerido")
+      .isInt()
+      .withMessage("El parámetro debe ser un entero"),
+  ],
+  inscripcionPracticaController.getByInscribe
+);
+
 routerInscripcion.delete(
   "/delete/:id",
   [

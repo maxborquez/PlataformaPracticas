@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
 import BookIcon from "@mui/icons-material/Book";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
@@ -238,7 +238,8 @@ const Detalle = ({ id }) => {
             customBodyRender: () => (
               <>
                 <Tooltip title="Archivo Inscrpcion">
-                  <LibraryBooksIcon
+                  <PictureAsPdfIcon
+                  title="Archivo Inscripción"
                     style={{ cursor: "pointer" }}
                     onClick={() => handleView(inscripcion.id_inscripcion_practica)}
                   />
@@ -259,7 +260,7 @@ const Detalle = ({ id }) => {
                     }
                   />
                 </Tooltip>
-                {inscripcion.estado_inscripcion.id_estado_inscripcion === 3 ? (
+                {inscripcion.estado_inscripcion.id_estado_inscripcion === 3 || inscripcion.estado_inscripcion.id_estado_inscripcion === 4 ? (
                   <Tooltip title="Eliminar Inscripción">
                     <Delete
                       sx={{ cursor: "pointer" }}

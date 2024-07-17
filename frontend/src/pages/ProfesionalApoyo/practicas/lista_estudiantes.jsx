@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, Grid, Typography, Button, Box } from "@mui/material";
+import { Card, Grid, Typography, Button, Box, IconButton } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import MUIDataTable from "mui-datatables";
 import clienteAxios from "../../../helpers/clienteaxios";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 const ListaEstudiantes = () => {
   const { careerId, asignaturaId, anio, periodo } = useParams();
@@ -26,7 +27,8 @@ const ListaEstudiantes = () => {
   };
 
   const nombreCarrera = carreraMap[careerId] || "Carrera Desconocida";
-  const nombreAsignatura = asignaturaMap[asignaturaId] || "Asignatura Desconocida";
+  const nombreAsignatura =
+    asignaturaMap[asignaturaId] || "Asignatura Desconocida";
 
   useEffect(() => {
     const handleResize = () => {
@@ -48,8 +50,11 @@ const ListaEstudiantes = () => {
         );
         const transformedData = response.data.map((estudiante) => ({
           ...estudiante,
-          estado_practica: estudiante.inscribe[0]?.estado_practica?.nombre_estado_practica || "No disponible",
-          id_inscripcion: estudiante.inscribe[0]?.id_inscripcion || "No disponible",
+          estado_practica:
+            estudiante.inscribe[0]?.estado_practica?.nombre_estado_practica ||
+            "No disponible",
+          id_inscripcion:
+            estudiante.inscribe[0]?.id_inscripcion || "No disponible",
         }));
         setData(transformedData);
       } catch (error) {
@@ -59,6 +64,18 @@ const ListaEstudiantes = () => {
 
     fetchData();
   }, [careerId, asignaturaId, anio, periodo]);
+
+  const handleViewInscripcion = (id) => {
+    window.open(`/visualizadorInscripciones/${id}`, "_blank");
+  };
+
+  const handleViewInforme = (id) => {
+    window.open(`/visualizadorInformes/${id}`, "_blank");
+  };
+
+  const handleViewEvaluacion = (id) => {
+    window.open(`/visualizadorEvaluaciones/${id}`, "_blank");
+  };
 
   const columns = [
     {
@@ -137,18 +154,86 @@ const ListaEstudiantes = () => {
       name: "perfil",
       label: "Perfil",
       options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
-          const idInscripcion = data[tableMeta.rowIndex]?.id_inscripcion || "No disponible";
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+        customBodyRender: (value, tableMeta) => {
           return (
             <Box>
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ marginRight: "10px"}}
-                onClick={() => navigate(`/perfilEstudiante/${tableMeta.rowData[0]}`)}
+                sx={{ marginRight: "10px" }}
+                onClick={() =>
+                  navigate(`/perfilEstudiante/${tableMeta.rowData[0]}`)
+                }
               >
                 Perfil
               </Button>
+            </Box>
+          );
+        },
+      },
+    },
+    {
+      name: "documentos",
+      label: "Documentos",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+        customBodyRender: (value, tableMeta) => {
+          const idInscripcion =
+            data[tableMeta.rowIndex]?.id_inscripcion || "No disponible";
+          return (
+            <Box>
+              <IconButton
+                title="Ver PDF Inscripción"
+                color="primary"
+                onClick={() => handleViewInscripcion(idInscripcion)}
+              >
+                <PictureAsPdfIcon />
+              </IconButton>
+              <IconButton
+              title="Ver PDF Evaluacion"
+                color="primary"
+                onClick={() => handleViewEvaluacion(idInscripcion)}
+              >
+                <PictureAsPdfIcon />
+              </IconButton>
+              <IconButton
+              title="Ver PDF Informe"
+                color="primary"
+                onClick={() => handleViewInforme(idInscripcion)}
+              >
+                <PictureAsPdfIcon />
+              </IconButton>
+            </Box>
+          );
+        },
+      },
+    },
+    {
+      name: "bitacoras",
+      label: "Bitácoras",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+        customBodyRender: (value, tableMeta) => {
+          const idInscripcion =
+            data[tableMeta.rowIndex]?.id_inscripcion || "No disponible";
+          return (
+            <Box>
               <Button
                 variant="contained"
                 color="primary"
@@ -159,12 +244,6 @@ const ListaEstudiantes = () => {
             </Box>
           );
         },
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: "#326fa6",
-            color: "#fff",
-          },
-        }),
       },
     },
   ];

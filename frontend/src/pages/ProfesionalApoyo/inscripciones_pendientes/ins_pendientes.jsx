@@ -137,10 +137,10 @@ const InscripcionesPendientes = () => {
     }
   };
 
-  const handleReprobarInscripcion = async (id_inscripcion_practica) => {
+  const handleRechazarInscripcion = async (id_inscripcion_practica) => {
     try {
-      // Primero, aprueba la inscripción
-      const responseAprobar = await clienteAxios.post(
+      // Primero, rechaza la inscripción
+      const responseRechazar = await clienteAxios.post(
         "/inscripcion/updatestado",
         {
           id_inscripcion: id_inscripcion_practica,
@@ -148,14 +148,20 @@ const InscripcionesPendientes = () => {
         }
       );
 
-      if (responseAprobar.status !== 200) {
+      if (responseRechazar.status !== 200) {
         Swal.fire(
           "Error",
-          "Hubo un problema al reprobar la inscripción",
+          "Hubo un problema al rechazar la inscripción",
           "error"
         );
         return;
       }
+
+      // Actualizar la tabla después del rechazo
+      const updatedResponse = await clienteAxios.get("/inscripcion/estado/1");
+      setData(updatedResponse.data);
+
+      Swal.fire("Éxito", "Inscripción rechazada correctamente", "success");
     } catch (error) {
       console.error("Error handling inscripcion:", error);
       Swal.fire(
@@ -167,7 +173,7 @@ const InscripcionesPendientes = () => {
   };
 
   const handleView = (id) => {
-    window.open(`/visualizadorInscripciones/${id}`, '_blank');
+    window.open(`/visualizadorInscripciones/${id}`, "_blank");
   };
 
   const columns = [
@@ -271,9 +277,9 @@ const InscripcionesPendientes = () => {
           return (
             <>
               <VisibilityIcon
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleView(tableMeta.rowData[0])}
-                />
+                style={{ cursor: "pointer" }}
+                onClick={() => handleView(tableMeta.rowData[0])}
+              />
               <IconButton
                 onClick={() =>
                   handleAprobarInscripcion(id_inscripcion_practica)
@@ -284,7 +290,7 @@ const InscripcionesPendientes = () => {
               </IconButton>
               <IconButton
                 onClick={() =>
-                  handleReprobarInscripcion(id_inscripcion_practica)
+                  handleRechazarInscripcion(id_inscripcion_practica)
                 }
                 style={{ color: "red" }}
               >

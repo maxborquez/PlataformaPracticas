@@ -145,7 +145,7 @@ const GenerarWord = ({ id }) => {
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       });
 
-      saveAs(out, "output.docx");
+      saveAs(out, "nombre_apellido_practica.docx");
     });
   };
 

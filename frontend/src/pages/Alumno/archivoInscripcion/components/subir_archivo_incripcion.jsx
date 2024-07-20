@@ -15,7 +15,7 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile, setUpdateFiles }) => {
   const [nombre, setNombre] = useState("");
   const [extension, setExtension] = useState(null);
   const [archivo, setArchivo] = useState(null);
-  const [isWord, setWord] = useState(true);
+  const [isPdf, setPdf] = useState(true);
   const inputFileRef = useRef(null);
 
   const navigate = useNavigate();
@@ -30,18 +30,18 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile, setUpdateFiles }) => {
 
   const handleArchivoSeleccionado = (e) => {
     const file = e.target.files[0];
-    const validExtensions = [".doc", ".docx"];
+    const validExtensions = [".pdf"];
     if (file) {
       const fileExtension = file.name.split('.').pop().toLowerCase();
       if (validExtensions.includes(`.${fileExtension}`)) {
-        setWord(false);
+        setPdf(false);
         setArchivo(file);
       } else {
-        setWord(true);
+        setPdf(true);
         setArchivo(null);
         Swal.fire({
           title: "Error",
-          text: "El tipo de archivo no es .docx o .doc",
+          text: "El tipo de archivo no es .pdf",
           icon: "error",
           confirmButtonText: "Aceptar",
         });

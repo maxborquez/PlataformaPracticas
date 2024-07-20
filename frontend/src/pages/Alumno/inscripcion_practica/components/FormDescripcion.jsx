@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -11,10 +11,12 @@ const FormDescripcion = ({
   setObjetivosPractica,
   setActividadesDesarrollar
 }) => {
+  const [areaDesarrolloLength, setAreaDesarrolloLength] = useState(areaDesarrollo.length);
+  const [objetivosPracticaLength, setObjetivosPracticaLength] = useState(objetivosPractica.length);
+  const [actividadesDesarrollarLength, setActividadesDesarrollarLength] = useState(actividadesDesarrollar.length);
+
   const validateInput = (value) => {
-    // Filtrar caracteres no permitidos (letras, números, comas, puntos y espacio)
-    const filteredValue = value.replace(/[^a-zA-Z0-9,. ]/g, '');
-    // Limitar la longitud a 200 caracteres
+    const filteredValue = value.replace(/[^a-zA-ZñÑ0-9,.\s]/g, '');
     return filteredValue.slice(0, 200);
   };
 
@@ -22,8 +24,25 @@ const FormDescripcion = ({
     e.preventDefault();
     const text = e.clipboardData.getData('text/plain');
     const filteredText = validateInput(text);
-    // Insertar el texto filtrado (recortado a 200 caracteres) en el campo de texto
     document.execCommand('insertText', false, filteredText.slice(0, 200));
+  };
+
+  const handleAreaDesarrolloChange = (e) => {
+    const value = validateInput(e.target.value);
+    setAreaDesarrollo(value);
+    setAreaDesarrolloLength(value.length);
+  };
+
+  const handleObjetivosPracticaChange = (e) => {
+    const value = validateInput(e.target.value);
+    setObjetivosPractica(value);
+    setObjetivosPracticaLength(value.length);
+  };
+
+  const handleActividadesDesarrollarChange = (e) => {
+    const value = validateInput(e.target.value);
+    setActividadesDesarrollar(value);
+    setActividadesDesarrollarLength(value.length);
   };
 
   return (
@@ -42,10 +61,13 @@ const FormDescripcion = ({
           multiline
           rows={4}
           value={areaDesarrollo}
-          onChange={(e) => setAreaDesarrollo(validateInput(e.target.value))}
-          onPaste={handlePaste} // Manejar el evento de pegado
-          inputProps={{ maxLength: 200 }} // Limitar el número máximo de caracteres
+          onChange={handleAreaDesarrolloChange}
+          onPaste={handlePaste}
+          inputProps={{ maxLength: 200 }}
         />
+        <Typography variant="body2" color="textSecondary">
+          {200 - areaDesarrolloLength} caracteres restantes
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h5" gutterBottom>
@@ -61,10 +83,13 @@ const FormDescripcion = ({
           multiline
           rows={4}
           value={objetivosPractica}
-          onChange={(e) => setObjetivosPractica(validateInput(e.target.value))}
-          onPaste={handlePaste} // Manejar el evento de pegado
-          inputProps={{ maxLength: 200 }} // Limitar el número máximo de caracteres
+          onChange={handleObjetivosPracticaChange}
+          onPaste={handlePaste}
+          inputProps={{ maxLength: 200 }}
         />
+        <Typography variant="body2" color="textSecondary">
+          {200 - objetivosPracticaLength} caracteres restantes
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h5" gutterBottom>
@@ -80,10 +105,13 @@ const FormDescripcion = ({
           multiline
           rows={4}
           value={actividadesDesarrollar}
-          onChange={(e) => setActividadesDesarrollar(validateInput(e.target.value))}
-          onPaste={handlePaste} // Manejar el evento de pegado
-          inputProps={{ maxLength: 200 }} // Limitar el número máximo de caracteres
+          onChange={handleActividadesDesarrollarChange}
+          onPaste={handlePaste}
+          inputProps={{ maxLength: 200 }}
         />
+        <Typography variant="body2" color="textSecondary">
+          {200 - actividadesDesarrollarLength} caracteres restantes
+        </Typography>
       </Grid>
     </Grid>
   );

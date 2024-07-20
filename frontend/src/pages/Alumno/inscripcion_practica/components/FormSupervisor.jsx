@@ -22,19 +22,19 @@ const FormSupervisor = ({
   const [emailSupervisorError, setEmailSupervisorError] = useState(false);
 
   const validateNombreSupervisor = (value) => {
-    const filteredValue = value.replace(/[^a-zA-Z\s]/g, "");
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, "");
     setNombreSupervisor(filteredValue);
     setNombreSupervisorError(filteredValue.length > 50);
   };
 
   const validateProfesionSupervisor = (value) => {
-    const filteredValue = value.replace(/[^a-zA-Z\s]/g, "");
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, "");
     setProfesionSupervisor(filteredValue);
     setProfesionSupervisorError(filteredValue.length > 50);
   };
 
   const validateCargoSupervisor = (value) => {
-    const filteredValue = value.replace(/[^a-zA-Z\s]/g, "");
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, "");
     setCargoSupervisor(filteredValue);
     setCargoSupervisorError(filteredValue.length > 30);
   };
@@ -45,9 +45,9 @@ const FormSupervisor = ({
     setFonoSupervisorError(filteredValue.length > 9);
   };
   const validateEmailSupervisor = (value) => {
-    const filteredValue = value.replace(/[^a-zA-Z0-9._@-]/g, "");
+    const filteredValue = value.replace(/[^a-zA-ZñÑ0-9._@-]/g, "");
     setEmailSupervisor(filteredValue);
-    const emailPattern = /^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailPattern = /^[a-zA-ZñÑ0-9._]+@[a-zA-ZñÑ0-9.-]+\.[a-zA-Z]{2,}$/;
     setEmailSupervisorError(!emailPattern.test(filteredValue));
   };
 

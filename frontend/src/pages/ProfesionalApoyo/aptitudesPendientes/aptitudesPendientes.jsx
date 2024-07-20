@@ -34,29 +34,18 @@ const AptitudesPendientes = () => {
   }, []);
 
   useEffect(() => {
-    const fetchAptitudesPendientes = async () => {
+    const fetchAptitudes = async () => {
       try {
-        const response = await clienteAxios.get("/aptitud/getPendientes");
-        setAptitudesPendientes(response.data.aptitudes);
+        const responsePendientes = await clienteAxios.get("/aptitud/getPendientes");
+        setAptitudesPendientes(responsePendientes.data.aptitudes);
+        const responseAprobadas = await clienteAxios.get("/aptitud/getAprobadas");
+        setAptitudesAprobadas(responseAprobadas.data.aptitudes);
       } catch (error) {
-        console.error("Error al obtener aptitudes pendientes:", error);
+        console.error("Error al obtener aptitudes:", error);
       }
     };
 
-    fetchAptitudesPendientes();
-  }, []);
-
-  useEffect(() => {
-    const fetchAptitudesAprobadas = async () => {
-      try {
-        const response = await clienteAxios.get("/aptitud/getAprobadas");
-        setAptitudesAprobadas(response.data.aptitudes);
-      } catch (error) {
-        console.error("Error al obtener aptitudes aprobadas:", error);
-      }
-    };
-
-    fetchAptitudesAprobadas();
+    fetchAptitudes();
   }, []);
 
   const handleAprobarAptitud = async (idAptitud) => {
@@ -67,7 +56,10 @@ const AptitudesPendientes = () => {
         "La aptitud ha sido aprobada correctamente",
         "success"
       ).then(() => {
-        window.location.reload();
+        // Actualizar el estado después de aprobar una aptitud
+        setAptitudesPendientes(aptitudesPendientes.filter(aptitud => aptitud.id_aptitud !== idAptitud));
+        // Obtener nuevamente las aptitudes aprobadas
+        clienteAxios.get("/aptitud/getAprobadas").then(response => setAptitudesAprobadas(response.data.aptitudes));
       });
     } catch (error) {
       console.error("Error al aprobar aptitud:", error);
@@ -83,7 +75,8 @@ const AptitudesPendientes = () => {
         "La aptitud ha sido eliminada correctamente",
         "success"
       ).then(() => {
-        window.location.reload();
+        // Actualizar el estado después de eliminar una aptitud
+        setAptitudesPendientes(aptitudesPendientes.filter(aptitud => aptitud.id_aptitud !== idAptitud));
       });
     } catch (error) {
       console.error("Error al eliminar aptitud:", error);
@@ -104,7 +97,8 @@ const AptitudesPendientes = () => {
         "success"
       ).then(() => {
         setNuevaAptitud(""); // Limpiar el campo después de agregar
-        window.location.reload();
+        // Obtener nuevamente las aptitudes pendientes
+        clienteAxios.get("/aptitud/getPendientes").then(response => setAptitudesPendientes(response.data.aptitudes));
       });
     } catch (error) {
       console.error("Error al agregar aptitud:", error);
@@ -135,7 +129,6 @@ const AptitudesPendientes = () => {
         customBodyRenderLite: (index) => {
           return (
             <Box display="flex" gap={1.2}>
-              {" "}
               <Button
                 variant="contained"
                 color="primary"
@@ -152,7 +145,7 @@ const AptitudesPendientes = () => {
                   handleEliminarAptitud(aptitudesPendientes[index].id_aptitud)
                 }
               >
-                Eliminar
+                Rechazar
               </Button>
             </Box>
           );

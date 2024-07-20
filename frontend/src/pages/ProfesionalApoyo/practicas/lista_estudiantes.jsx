@@ -13,6 +13,7 @@ const ListaEstudiantes = () => {
   const [data, setData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [inscripcionId, setInscripcionId] = useState(null);
 
   const carreraMap = {
     29037: "IECI",
@@ -23,7 +24,6 @@ const ListaEstudiantes = () => {
   const asignaturaMap = {
     620520: "Práctica 2",
     620509: "Práctica 1",
-    // Añadir más mapeos aquí si es necesario
   };
 
   const nombreCarrera = carreraMap[careerId] || "Carrera Desconocida";
@@ -64,6 +64,18 @@ const ListaEstudiantes = () => {
 
     fetchData();
   }, [careerId, asignaturaId, anio, periodo]);
+
+  const fetchInscripcion = async (idInscribe) => {
+    try {
+      const response = await clienteAxios.get(
+        `/inscripcion/inscribe/${idInscribe}`
+      );
+      return response.data.inscripcion.id_inscripcion_practica;
+    } catch (error) {
+      console.error("Error fetching inscripcion:", error);
+      return null;
+    }
+  };
 
   const handleViewInscripcion = (id) => {
     window.open(`/visualizadorInscripciones/${id}`, "_blank");
@@ -179,8 +191,8 @@ const ListaEstudiantes = () => {
       },
     },
     {
-      name: "documentos",
-      label: "Documentos",
+      name: "PDF Inscripción",
+      label: "PDF Inscripción",
       options: {
         setCellHeaderProps: () => ({
           style: {
@@ -189,28 +201,86 @@ const ListaEstudiantes = () => {
           },
         }),
         customBodyRender: (value, tableMeta) => {
-          const idInscripcion =
-            data[tableMeta.rowIndex]?.id_inscripcion || "No disponible";
+          const handleButtonClick = async (action) => {
+            const idInscribe = data[tableMeta.rowIndex]?.id_inscripcion;
+            if (idInscribe) {
+              const idInscripcionPractica = await fetchInscripcion(idInscribe);
+              action(idInscripcionPractica);
+            }
+          };
+
           return (
             <Box>
               <IconButton
                 title="Ver PDF Inscripción"
                 color="primary"
-                onClick={() => handleViewInscripcion(idInscripcion)}
+                onClick={() => handleButtonClick(handleViewInscripcion)}
               >
                 <PictureAsPdfIcon />
               </IconButton>
+            </Box>
+          );
+        },
+      },
+    },
+    {
+      name: "PDF Evaluación",
+      label: "PDF Evaluación",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+        customBodyRender: (value, tableMeta) => {
+          const handleButtonClick = async (action) => {
+            const idInscribe = data[tableMeta.rowIndex]?.id_inscripcion;
+            if (idInscribe) {
+              const idInscripcionPractica = await fetchInscripcion(idInscribe);
+              action(idInscripcionPractica);
+            }
+          };
+
+          return (
+            <Box>
               <IconButton
-              title="Ver PDF Evaluacion"
+                title="Ver PDF Evaluacion"
                 color="primary"
-                onClick={() => handleViewEvaluacion(idInscripcion)}
+                onClick={() => handleButtonClick(handleViewEvaluacion)}
               >
                 <PictureAsPdfIcon />
               </IconButton>
+            </Box>
+          );
+        },
+      },
+    },
+    {
+      name: "PDF Informe",
+      label: "PDF Informe",
+      options: {
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "#fff",
+          },
+        }),
+        customBodyRender: (value, tableMeta) => {
+          const handleButtonClick = async (action) => {
+            const idInscribe = data[tableMeta.rowIndex]?.id_inscripcion;
+            if (idInscribe) {
+              const idInscripcionPractica = await fetchInscripcion(idInscribe);
+              action(idInscripcionPractica);
+            }
+          };
+
+          return (
+            <Box>
               <IconButton
-              title="Ver PDF Informe"
+                title="Ver PDF Informe"
                 color="primary"
-                onClick={() => handleViewInforme(idInscripcion)}
+                onClick={() => handleButtonClick(handleViewInforme)}
               >
                 <PictureAsPdfIcon />
               </IconButton>
@@ -230,14 +300,27 @@ const ListaEstudiantes = () => {
           },
         }),
         customBodyRender: (value, tableMeta) => {
-          const idInscripcion =
-            data[tableMeta.rowIndex]?.id_inscripcion || "No disponible";
+          const idInscribe = data[tableMeta.rowIndex]?.id_inscripcion;
+
+          const handleNavigate = async () => {
+            if (idInscribe) {
+              try {
+                const idInscripcionPractica = await fetchInscripcion(
+                  idInscribe
+                );
+                navigate(`/bitacoras_alumnos/${idInscripcionPractica}`);
+              } catch (error) {
+                console.error("Error fetching inscripcion:", error);
+              }
+            }
+          };
+
           return (
             <Box>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => navigate(`/bitacoras_alumnos/${idInscripcion}`)}
+                onClick={handleNavigate}
               >
                 Bitácoras
               </Button>
@@ -260,7 +343,7 @@ const ListaEstudiantes = () => {
     sort: false,
     textLabels: {
       body: {
-        noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+        noMatch: "No hay datos disponibles", // Mensaje en español cuando no hay datos
       },
     },
   };

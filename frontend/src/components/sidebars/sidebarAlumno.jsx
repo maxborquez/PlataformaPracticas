@@ -59,7 +59,7 @@ const SidebarAlumno = () => {
       <ListItem button onClick={() => navigate("/ofertas_publicas")}>
         <ListItemText
           sx={{ textAlign: "center" }}
-          primary="Ofertas de practica"
+          primary="Ofertas de práctica"
         />
       </ListItem>
 
@@ -114,7 +114,7 @@ const SidebarAlumno = () => {
               },
             }}
           >
-            <ListItemText primary="Archivo de inscripcion" />
+            <ListItemText primary="Archivo de inscripción" />
           </ListItem>
           <ListItem
             button
@@ -128,7 +128,7 @@ const SidebarAlumno = () => {
               },
             }}
           >
-            <ListItemText primary="Informe de practica" />
+            <ListItemText primary="Informe de práctica" />
           </ListItem>
           <ListItem
             button
@@ -142,7 +142,7 @@ const SidebarAlumno = () => {
               },
             }}
           >
-            <ListItemText primary="Evaluación de Empresa" />
+            <ListItemText primary="Evaluación de empresa" />
           </ListItem>
         </List>
       </Collapse>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import clienteAxios from "../../../helpers/clienteaxios";
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 import FormPractica from "./components/FormPractica";
 import FormEstudiante from "./components/FormEstudiante";
@@ -11,6 +13,8 @@ import FormDescripcion from "./components/FormDescripcion";
 import FormHorarios from "./components/FormHorarios";
 
 const FormularioInscripcion = () => {
+  const navigate = useNavigate();
+
   const [practica, setPractica] = useState("");
   const [fechaRecepcion, setFechaRecepcion] = useState(
     new Date().toISOString().split("T")[0]
@@ -132,12 +136,30 @@ const FormularioInscripcion = () => {
         observaciones: "", // Puedes agregar observaciones si es necesario
       });
 
-      console.log("Respuesta de inscripción:", inscripcionResponse.data);
+      Swal.fire({
+        title: "Éxito",
+        text: "Inscripción creada correctamente.\nNo olvide subir su documento de inscripción.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        didOpen: () => {
+          Swal.getHtmlContainer().style.whiteSpace = 'pre-line';
+      }
+      }).then(() => {
+        navigate(`/mi_practica`);
+      });
 
 
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
-      // Puedes manejar errores aquí, por ejemplo, mostrando un mensaje al usuario
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un error al crear la inscripción.\n Es posible que uno o mas campos sean incorrectos.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+        didOpen: () => {
+          Swal.getHtmlContainer().style.whiteSpace = 'pre-line';
+      }
+      });
     }
   };
 

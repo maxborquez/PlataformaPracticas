@@ -73,6 +73,11 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile, updateFiles 
     pagination: false,
     selectableRows: "none",
     sort: false,
+    textLabels: {
+      body: {
+        noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+      },
+    },
   };
 
   return (

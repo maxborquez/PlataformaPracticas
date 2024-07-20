@@ -318,6 +318,11 @@ const InscripcionesPendientes = () => {
     viewColumns: false,
     filter: false,
     sort: false,
+    textLabels: {
+      body: {
+        noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+      },
+    },
   };
 
   return (

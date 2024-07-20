@@ -300,6 +300,11 @@ const Detalle = ({ id }) => {
         sort: false,
         tableBodyHeight: "auto",
         tableBodyMaxHeight: "500px", // Para asegurar que la tabla no crezca demasiado
+        textLabels: {
+          body: {
+            noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+          },
+        },
       };
 
       return (

@@ -71,7 +71,9 @@ const GenerarWord = ({ id }) => {
         p2: asignatura === 620520 ? "x" : "",
         fecha_recepcion: new Date(
           data.fecha_inscripcion_practica
-        ).toLocaleDateString(),
+        ).toLocaleDateString("es-ES", {
+          timeZone: "UTC",
+        }),
         presencial: modality === "Presencial" ? "x" : "",
         online: modality === "Online" ? "x" : "",
         pasantia: modality === "Pasantia" ? "x" : "",
@@ -96,32 +98,56 @@ const GenerarWord = ({ id }) => {
         descripcion: data.descripcion,
         objetivos: data.objetivos,
         actividades: data.actividades,
-        fecha_inicio: new Date(data.fecha_inicio).toLocaleDateString(),
-        fecha_termino: new Date(data.fecha_fin).toLocaleDateString(),
+        fecha_inicio: new Date(data.fecha_inicio).toLocaleDateString("es-ES", {
+          timeZone: "UTC",
+        }),
+        fecha_termino: new Date(data.fecha_fin).toLocaleDateString("es-ES", {
+          timeZone: "UTC",
+        }),
         L_inicio_m: data.lunes_manana1 ? formatUTCTime(data.lunes_manana1) : "",
         L_fin_m: data.lunes_manana2 ? formatUTCTime(data.lunes_manana2) : "",
         L_inicio_t: data.lunes_tarde1 ? formatUTCTime(data.lunes_tarde1) : "",
         L_fin_t: data.lunes_tarde2 ? formatUTCTime(data.lunes_tarde2) : "",
-        M_inicio_m: data.martes_manana1 ? formatUTCTime(data.martes_manana1) : "",
+        M_inicio_m: data.martes_manana1
+          ? formatUTCTime(data.martes_manana1)
+          : "",
         M_fin_m: data.martes_manana2 ? formatUTCTime(data.martes_manana2) : "",
         M_inicio_t: data.martes_tarde1 ? formatUTCTime(data.martes_tarde1) : "",
         M_fin_t: data.martes_tarde2 ? formatUTCTime(data.martes_tarde2) : "",
-        MM_inicio_m: data.miercoles_manana1 ? formatUTCTime(data.miercoles_manana1) : "",
-        MM_fin_m: data.miercoles_manana2 ? formatUTCTime(data.miercoles_manana2) : "",
-        MM_inicio_t: data.miercoles_tarde1 ? formatUTCTime(data.miercoles_tarde1) : "",
-        MM_fin_t: data.miercoles_tarde2 ? formatUTCTime(data.miercoles_tarde2) : "",
-        J_inicio_m: data.jueves_manana1 ? formatUTCTime(data.jueves_manana1) : "",
+        MM_inicio_m: data.miercoles_manana1
+          ? formatUTCTime(data.miercoles_manana1)
+          : "",
+        MM_fin_m: data.miercoles_manana2
+          ? formatUTCTime(data.miercoles_manana2)
+          : "",
+        MM_inicio_t: data.miercoles_tarde1
+          ? formatUTCTime(data.miercoles_tarde1)
+          : "",
+        MM_fin_t: data.miercoles_tarde2
+          ? formatUTCTime(data.miercoles_tarde2)
+          : "",
+        J_inicio_m: data.jueves_manana1
+          ? formatUTCTime(data.jueves_manana1)
+          : "",
         J_fin_m: data.jueves_manana2 ? formatUTCTime(data.jueves_manana2) : "",
         J_inicio_t: data.jueves_tarde1 ? formatUTCTime(data.jueves_tarde1) : "",
         J_fin_t: data.jueves_tarde2 ? formatUTCTime(data.jueves_tarde2) : "",
-        V_inicio_m: data.viernes_manana1 ? formatUTCTime(data.viernes_manana1) : "",
-        V_fin_m: data.viernes_manana2 ? formatUTCTime(data.viernes_manana2) : "",
-        V_inicio_t: data.viernes_tarde1 ? formatUTCTime(data.viernes_tarde1) : "",
+        V_inicio_m: data.viernes_manana1
+          ? formatUTCTime(data.viernes_manana1)
+          : "",
+        V_fin_m: data.viernes_manana2
+          ? formatUTCTime(data.viernes_manana2)
+          : "",
+        V_inicio_t: data.viernes_tarde1
+          ? formatUTCTime(data.viernes_tarde1)
+          : "",
         V_fin_t: data.viernes_tarde2 ? formatUTCTime(data.viernes_tarde2) : "",
-        S_inicio_m: data.sabado_manana1 ? formatUTCTime(data.sabado_manana1) : "",
+        S_inicio_m: data.sabado_manana1
+          ? formatUTCTime(data.sabado_manana1)
+          : "",
         S_fin_m: data.sabado_manana2 ? formatUTCTime(data.sabado_manana2) : "",
         S_inicio_t: data.sabado_tarde1 ? formatUTCTime(data.sabado_tarde1) : "",
-        S_fin_t: data.sabado_tarde2 ? formatUTCTime(data.sabado_tarde2) : ""
+        S_fin_t: data.sabado_tarde2 ? formatUTCTime(data.sabado_tarde2) : "",
       };
 
       doc.setData(templateData);

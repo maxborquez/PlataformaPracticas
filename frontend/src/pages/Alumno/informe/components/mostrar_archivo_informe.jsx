@@ -139,6 +139,11 @@ const MostrarArchivoInforme = ({ id, setHasExistingFile }) => {
     pagination: false,
     selectableRows: "none",
     sort: false,
+    textLabels: {
+      body: {
+        noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+      },
+    },
   };
 
   return (

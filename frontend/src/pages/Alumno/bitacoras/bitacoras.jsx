@@ -40,7 +40,11 @@ const Bitacoras = () => {
   useEffect(() => {
     const fetchBitacoras = async () => {
       try {
-        if (id_alumno && id_inscripcion_practica && id_inscripcion_practica !== "undefined") {
+        if (
+          id_alumno &&
+          id_inscripcion_practica &&
+          id_inscripcion_practica !== "undefined"
+        ) {
           const response = await clienteAxios.get(
             `/bitacoras/getall/${id_inscripcion_practica}/${id_alumno}`
           );
@@ -65,7 +69,9 @@ const Bitacoras = () => {
   const handleAgregarBitacora = () => {
     navigate(`/crear_bitacora/${id_inscripcion_practica}`);
   };
-
+  const handleBackClick = () => {
+    navigate(-1); // Navega a la página anterior
+  };
   return (
     <Grid
       container
@@ -127,32 +133,53 @@ const Bitacoras = () => {
             }}
           >
             {mensaje ? (
-              <Box sx={{ textAlign: "center", marginTop: "20px" }}>
-                <Typography variant="h5">
-                  {mensaje}
-                </Typography>
+              <Box
+              >
+                <Box sx={{ textAlign: "center" }}>
+                  <Typography variant="h5">{mensaje}</Typography>
+                </Box>
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    onClick={handleBackClick}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Volver
+                  </Button>
+                </Box>
               </Box>
             ) : (
               <Box>
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    onClick={handleBackClick}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Volver
+                  </Button>
+                </Box>
                 <Grid container spacing={2}>
                   {bitacoras.map((bitacora) => (
                     <Grid item key={bitacora.id_bitacora} xs={12} sm={6} md={3}>
                       <CardBitacora bitacora={bitacora} />
                     </Grid>
                   ))}
-                  {(id_alumno && id_inscripcion_practica !== "undefined") && (
-                  <Grid item xs={12} sm={6} md={3}>
-                    <CardAddBitacora onClick={handleAgregarBitacora} />
-                  </Grid>
+                  {id_alumno && id_inscripcion_practica !== "undefined" && (
+                    <Grid item xs={12} sm={6} md={3}>
+                      <CardAddBitacora onClick={handleAgregarBitacora} />
+                    </Grid>
                   )}
                 </Grid>
               </Box>
             )}
-            {(id_alumno && id_inscripcion_practica !== "undefined" && bitacoras.length == 0) && (
-                  <Grid item xs={12} sm={6} md={3}>
-                    <CardAddBitacora onClick={handleAgregarBitacora} />
-                  </Grid>
-                  )}
+            {id_alumno &&
+              id_inscripcion_practica !== "undefined" &&
+              bitacoras.length == 0 && (
+                <Grid item xs={12} sm={6} md={3}>
+                  <CardAddBitacora onClick={handleAgregarBitacora} />
+                </Grid>
+              )}
           </Paper>
         </Grid>
       </Grid>

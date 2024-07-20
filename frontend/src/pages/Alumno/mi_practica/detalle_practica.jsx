@@ -116,6 +116,12 @@ const Detalle = ({ id }) => {
     const handleView = (id) => {
       window.open(`/visualizadorInscripciones/${id}`, '_blank');
     };
+    const handleViewInforme = (id) => {
+      window.open(`/visualizadorInformes/${id}`, '_blank');
+    };
+    const handleViewEvaluacion = (id) => {
+      window.open(`/visualizadorEvaluaciones/${id}`, '_blank');
+    };
   
 
     if (inscripcion.fecha_inicio && inscripcion.fecha_fin) {
@@ -237,11 +243,25 @@ const Detalle = ({ id }) => {
           options: {
             customBodyRender: () => (
               <>
-                <Tooltip title="Archivo Inscrpcion">
+                <Tooltip title="Archivo Inscrpción">
                   <PictureAsPdfIcon
                   title="Archivo Inscripción"
                     style={{ cursor: "pointer" }}
                     onClick={() => handleView(inscripcion.id_inscripcion_practica)}
+                  />
+                </Tooltip>
+                <Tooltip title="Archivo Informe">
+                  <PictureAsPdfIcon
+                  title="Archivo Informe"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleViewInforme(inscripcion.id_inscripcion_practica)}
+                  />
+                </Tooltip>
+                <Tooltip title="Archivo Evaluación">
+                  <PictureAsPdfIcon
+                  title="Archivo Evaluación"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleViewEvaluacion(inscripcion.id_inscripcion_practica)}
                   />
                 </Tooltip>
                 <Tooltip title="Detalles">

@@ -47,6 +47,8 @@ import VisualizadorEvaluaciones from "./pages/ProfesionalApoyo/evaluacionesPendi
 import AptitudesPendientes from "./pages/ProfesionalApoyo/aptitudesPendientes/aptitudesPendientes";
 import DetalleCentroPractica from "./pages/ProfesionalApoyo/empresas/detalleCentroPractica";
 import ArchivoInscripcionPractica from "./pages/Alumno/archivoInscripcion/archivoInscripcion";
+import DetalleInscripcion from "./pages/Alumno/mi_practica/detalleInscripcion";
+import DetalleInscripcionAlumno from "./pages/ProfesionalApoyo/inscripciones_pendientes/detalleInscripcionAlumno";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +67,7 @@ function App() {
               <Route path="/mi_practica" element={<MiPractica />} />
               <Route path="/bitacoras/:id_inscripcion_practica" element={<Bitacoras />} />
               <Route path="/detalle_bitacora/:id_bitacora" element={<DetalleBitacora />} />
+              <Route path="/detalle_inscripcion/:id_inscripcion" element={<DetalleInscripcion />} />
               <Route path="/editar_bitacora/:id_bitacora" element={<EditarBitacora />} />
               <Route path="/crear_bitacora/:id_inscripcion_practica" element={<CrearBitacora />} />
               <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica />}/>
@@ -97,6 +100,7 @@ function App() {
               <Route path="/visualizadorEvaluaciones/:id" element={<VisualizadorEvaluaciones />}/>
               <Route path="/aptitudes_pendientes" element={<AptitudesPendientes />}/>
               <Route path="/detalleCentroPractica/:id" element={<DetalleCentroPractica />}/>
+              <Route path="/detalle_inscripcion_alumno/:id_inscripcion" element={<DetalleInscripcionAlumno />} />
             </Route>
           </Routes>
         </AuthProvider>

@@ -82,7 +82,7 @@ const FormEmpresa = ({
 
   const validateNombreEmpresa = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, '');
     setNombreEmpresa(filteredValue);
     if (filteredValue.length > 30) {
       setNombreEmpresaError(true);
@@ -93,7 +93,7 @@ const FormEmpresa = ({
 
   const validateDepartamento = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, '');
     setDepartamento(filteredValue);
     if (filteredValue.length > 30) {
       setDepartamentoError(true);
@@ -104,9 +104,9 @@ const FormEmpresa = ({
 
   const validatePaginaWeb = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-Z0-9.]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ0-9.]/g, '');
     setPaginaWeb(filteredValue);
-    if (filteredValue.length > 0 && !/^[a-zA-Z0-9.]*$/.test(filteredValue)) {
+    if (filteredValue.length > 0 && !/^[a-zA-ZñÑ0-9.]*$/.test(filteredValue)) {
       setPaginaWebError(true);
     } else {
       setPaginaWebError(false);
@@ -115,7 +115,7 @@ const FormEmpresa = ({
 
   const validateRubro = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, '');
     setRubro(filteredValue);
     if (filteredValue.length > 30) {
       setRubroError(true);
@@ -137,7 +137,7 @@ const FormEmpresa = ({
 
   const validateDireccion = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ09,\s]/g, '');
     setDireccionEmpresa(filteredValue);
     if (filteredValue.length > 30) {
       setDireccionEmpresaError(true);

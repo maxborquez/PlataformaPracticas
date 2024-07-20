@@ -1,10 +1,7 @@
 import {
-  Alert,
   Box,
   Button,
-  Card,
   Grid,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
@@ -14,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { CopyAllOutlined } from "@mui/icons-material";
 
-const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
+const SubirArchivoInscripcion = ({ id, hasExistingFile, setUpdateFiles }) => {
   const [nombre, setNombre] = useState("");
   const [extension, setExtension] = useState(null);
   const [archivo, setArchivo] = useState(null);
@@ -32,18 +29,23 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
   }, [archivo]);
 
   const handleArchivoSeleccionado = (e) => {
-    if (e.target.files[0]?.name.includes(".pdf")) {
-      setPdf(false);
-      setArchivo(e.target.files[0]);
-    } else {
-      setPdf(true);
-      setArchivo(null);
-      Swal.fire({
-        title: "Error",
-        text: "El tipo de archivo no es pdf",
-        icon: "error",
-        confirmButtonText: "Aceptar",
-      });
+    const file = e.target.files[0];
+    const validExtensions = [".pdf"];
+    if (file) {
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      if (validExtensions.includes(`.${fileExtension}`)) {
+        setPdf(false);
+        setArchivo(file);
+      } else {
+        setPdf(true);
+        setArchivo(null);
+        Swal.fire({
+          title: "Error",
+          text: "El tipo de archivo no es .pdf",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
     }
   };
 
@@ -63,22 +65,12 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
     const formData = new FormData();
     formData.append("nombre", nombre);
     formData.append("tipo_archivo", extension);
-    formData.append("id_inscripcion", Number(id));
-    formData.append("tipo_documento", "ArchivoInscripcion");
     formData.append("archivo", archivo);
+    formData.append("id_inscripcion", id);
+    formData.append("tipo_documento", "Inscripcion");
 
     try {
-      // Subir el archivo al servidor
-      const response = await clienteAxios.post(
-        "/archivoinscripcion/create",
-        formData
-      );
-      Swal.fire({
-        title: "Éxito",
-        text: "Archivo subido correctamente",
-        icon: "success",
-        confirmButtonText: "Aceptar",
-      });
+      await clienteAxios.post("/archivoinscripcion/create", formData);
 
       // Llamar a la función para actualizar el estado de la inscripción
       await clienteAxios.post("/inscripcion/updatestado", {
@@ -86,8 +78,13 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
         id_inscripcion: Number(id),
       });
 
-      queryClient.invalidateQueries("archivos");
-      window.location.reload();
+      Swal.fire({
+        title: "Éxito",
+        text: "Archivo subido correctamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+      });
+      setUpdateFiles((prev) => !prev); // Actualizar el estado para desencadenar la actualización de archivos
     } catch (error) {
       Swal.fire({
         title: "Error",
@@ -95,57 +92,59 @@ const SubirArchivoInscripcion = ({ id, hasExistingFile }) => {
         icon: "error",
         confirmButtonText: "Aceptar",
       });
+      console.error("Error al subir el archivo:", error);
+    }
+
+    setArchivo(null);
+    setNombre("");
+    if (inputFileRef.current) {
+      inputFileRef.current.value = null; // Limpia el valor del input file
     }
   };
+
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{ flexDirection: "column", alignItems: "center" }}
-    >
-      <Grid item>
-        <Button
-          variant="contained"
-          component="label"
-          startIcon={<CopyAllOutlined />}
-          disabled={hasExistingFile}
-        >
-          Seleccionar Archivo
-          <input
-            type="file"
-            hidden
-            ref={inputFileRef}
-            onChange={handleArchivoSeleccionado}
-          />
-        </Button>
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+        <Grid item xs={12}>
+          <Box display="flex" justifyContent="center">
+            <input
+              type="file"
+              ref={inputFileRef}
+              onChange={handleArchivoSeleccionado}
+              style={{ display: "none" }}
+              id="archivo"
+            />
+            <label htmlFor="archivo">
+              <Button
+                variant="contained"
+                component="span"
+                startIcon={<CopyAllOutlined />}
+                disabled={hasExistingFile}
+              >
+                {hasExistingFile ? "Ya existe un archivo" : "Seleccionar archivo"}
+              </Button>
+            </label>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1" align="center">
+            {archivo ? archivo.name : "Ningún archivo seleccionado"}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Box display="flex" justifyContent="center">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={!archivo || hasExistingFile}
+            >
+              Subir archivo
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
-      {!isPdf && (
-        <Grid item>
-          <Alert severity="success">
-            Archivo PDF seleccionado: {archivo?.name}
-          </Alert>
-        </Grid>
-      )}
-      {hasExistingFile ? (
-        <Grid item>
-          <Alert severity="info">
-            Ya existe un archivo de inscripcion subido. Si desea subir uno nuevo
-            debe borrar el actual.
-          </Alert>
-        </Grid>
-      ) : (
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            disabled={isPdf || hasExistingFile}
-          >
-            Subir Archivo
-          </Button>
-        </Grid>
-      )}
-    </Grid>
+    </form>
   );
 };
 

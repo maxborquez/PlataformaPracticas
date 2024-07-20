@@ -7,7 +7,8 @@ import MUIDataTable from "mui-datatables";
 import Swal from "sweetalert2";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
-import clienteAxios from "../../../helpers/clienteaxios"; // Ajusta el path según tu estructura de proyecto
+import clienteAxios from "../../../helpers/clienteaxios";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 const InscripcionesPendientes = () => {
   const navigate = useNavigate();
@@ -137,10 +138,10 @@ const InscripcionesPendientes = () => {
     }
   };
 
-  const handleReprobarInscripcion = async (id_inscripcion_practica) => {
+  const handleRechazarInscripcion = async (id_inscripcion_practica) => {
     try {
-      // Primero, aprueba la inscripción
-      const responseAprobar = await clienteAxios.post(
+      // Primero, rechaza la inscripción
+      const responseRechazar = await clienteAxios.post(
         "/inscripcion/updatestado",
         {
           id_inscripcion: id_inscripcion_practica,
@@ -148,14 +149,20 @@ const InscripcionesPendientes = () => {
         }
       );
 
-      if (responseAprobar.status !== 200) {
+      if (responseRechazar.status !== 200) {
         Swal.fire(
           "Error",
-          "Hubo un problema al reprobar la inscripción",
+          "Hubo un problema al rechazar la inscripción",
           "error"
         );
         return;
       }
+
+      // Actualizar la tabla después del rechazo
+      const updatedResponse = await clienteAxios.get("/inscripcion/estado/1");
+      setData(updatedResponse.data);
+
+      Swal.fire("Éxito", "Inscripción rechazada correctamente", "success");
     } catch (error) {
       console.error("Error handling inscripcion:", error);
       Swal.fire(
@@ -167,7 +174,7 @@ const InscripcionesPendientes = () => {
   };
 
   const handleView = (id) => {
-    window.open(`/visualizadorInscripciones/${id}`, '_blank');
+    window.open(`/visualizadorInscripciones/${id}`, "_blank");
   };
 
   const columns = [
@@ -263,17 +270,64 @@ const InscripcionesPendientes = () => {
       },
     },
     {
-      name: "accion",
-      label: "Acción",
+      name: "Ver Incripción",
+      label: "Ver Incripción",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          const id_inscripcion_practica = tableMeta.rowData[0]; // Usar la primera columna oculta como ID
+          return (
+            <>
+              <VisibilityIcon
+                title="Ver detalle inscripción"
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                  navigate(
+                    `/detalle_inscripcion_alumno/${id_inscripcion_practica}`
+                  )
+                }
+              />
+            </>
+          );
+        },
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
+    },
+    {
+      name: "Ver PDF",
+      label: "Ver PDF",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          const id_inscripcion_practica = tableMeta.rowData[0]; // Usar la primera columna oculta como ID
+          return (
+            <>
+              <PictureAsPdfIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => handleView(id_inscripcion_practica)}
+              />
+            </>
+          );
+        },
+        setCellHeaderProps: () => ({
+          style: {
+            backgroundColor: "#326fa6",
+            color: "white",
+          },
+        }),
+      },
+    },
+    {
+      name: "Aprobar/Rechazar",
+      label: "Aprobar/Rechazar",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
           const id_inscripcion_practica = tableMeta.rowData[0]; // Usar la primera columna oculta como ID
           return (
             <>
-              <VisibilityIcon
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleView(tableMeta.rowData[0])}
-                />
               <IconButton
                 onClick={() =>
                   handleAprobarInscripcion(id_inscripcion_practica)
@@ -284,7 +338,7 @@ const InscripcionesPendientes = () => {
               </IconButton>
               <IconButton
                 onClick={() =>
-                  handleReprobarInscripcion(id_inscripcion_practica)
+                  handleRechazarInscripcion(id_inscripcion_practica)
                 }
                 style={{ color: "red" }}
               >
@@ -312,6 +366,11 @@ const InscripcionesPendientes = () => {
     viewColumns: false,
     filter: false,
     sort: false,
+    textLabels: {
+      body: {
+        noMatch: "No hay datos disponibles", // Mensaje en español cuando no hay datos
+      },
+    },
   };
 
   return (

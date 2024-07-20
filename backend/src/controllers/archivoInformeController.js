@@ -97,7 +97,7 @@ const mostrar_archivo = async (req, res) => {
     const { id } = req.params;
     const archivo = await prisma.archivo_informe.findFirst({
       where: {
-        id_archivo_informe: Number(id),
+        id_inscripcion: Number(id),
       },
     });
 

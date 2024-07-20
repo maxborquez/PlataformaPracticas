@@ -50,11 +50,15 @@ const PerfilAlumno = () => {
         nombre_aptitud: nuevaAptitud,
         id_estado: 1,
       });
-      Swal.fire(
-        "Agregada",
-        "Nueva aptitud agregada correctamente",
-        "success"
-      ).then(() => {
+      Swal.fire({
+        title: "Recomendada",
+        text: "Aptitud recomendada correctamente\nUna vez que sea aprobado podrá inscribirlo.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        didOpen: () => {
+          Swal.getHtmlContainer().style.whiteSpace = "pre-line";
+        },
+      }).then(() => {
         setNuevaAptitud(""); // Limpiar el campo después de agregar
         window.location.reload();
       });
@@ -98,9 +102,12 @@ const PerfilAlumno = () => {
     if (response.status == 200) {
       Swal.fire({
         title: "Registrado",
-        text: "Conocimiento registrado correctamente",
+        text: "Conocimiento recomendado correctamente.",
         icon: "success",
         confirmButtonText: "Aceptar",
+        didOpen: () => {
+          Swal.getHtmlContainer().style.whiteSpace = "pre-line";
+        },
       });
       setTimeout(() => {
         Swal.close();
@@ -224,7 +231,7 @@ const PerfilAlumno = () => {
                     type="submit"
                     disabled={data && data.length === 0}
                   >
-                    Agregar
+                    Recomendar
                   </Button>
                 </form>
               </Grid>
@@ -233,47 +240,51 @@ const PerfilAlumno = () => {
               </Grid>
             </Grid>
 
-            <Grid item width={"100%"} display="flex" justifyContent="center" mt={"50px"}>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    padding: "16px",
-                    backgroundColor: "white",
-                    width: "100%",
-                    maxWidth: "600px",
-                    marginBottom: "30px",
-                  }}
+            <Grid
+              item
+              width={"100%"}
+              display="flex"
+              justifyContent="center"
+              mt={"50px"}
+            >
+              <Paper
+                elevation={3}
+                sx={{
+                  padding: "16px",
+                  backgroundColor: "white",
+                  width: "100%",
+                  maxWidth: "600px",
+                  marginBottom: "30px",
+                }}
+              >
+                <Typography variant="h5" marginBottom={"15px"}>
+                  Recomendar una nueva aptitud
+                </Typography>
+                <form
+                  onSubmit={handleSubmitNuevaAptitud}
+                  style={{ display: "flex", alignItems: "center" }}
                 >
-                  <Typography variant="h5" marginBottom={"15px"}>
-                    Recomendar una nueva aptitud
-                  </Typography>
-                  <form
-                    onSubmit={handleSubmitNuevaAptitud}
-                    style={{ display: "flex", alignItems: "center" }}
+                  <TextField
+                    label="Nueva Aptitud"
+                    variant="outlined"
+                    value={nuevaAptitud}
+                    onChange={handleChange}
+                    inputProps={{ maxLength: 15 }}
+                    sx={{ marginRight: "15px" }}
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={!nuevaAptitud}
                   >
-                    <TextField
-                      label="Nueva Aptitud"
-                      variant="outlined"
-                      value={nuevaAptitud}
-                      onChange={handleChange}
-                      inputProps={{ maxLength: 15 }}
-                      sx={{ marginRight: "15px" }}
-                    />
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      disabled={!nuevaAptitud}
-                    >
-                      Agregar
-                    </Button>
-                  </form>
-                </Paper>
-              </Grid>
+                    Agregar
+                  </Button>
+                </form>
+              </Paper>
+            </Grid>
           </Paper>
         </Grid>
-
-        
       </Grid>
     </Grid>
   );

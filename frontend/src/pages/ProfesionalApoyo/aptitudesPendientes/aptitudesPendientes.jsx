@@ -96,9 +96,8 @@ const AptitudesPendientes = () => {
         "Nueva aptitud agregada correctamente",
         "success"
       ).then(() => {
-        setNuevaAptitud(""); // Limpiar el campo después de agregar
-        // Obtener nuevamente las aptitudes pendientes
-        clienteAxios.get("/aptitud/getPendientes").then(response => setAptitudesPendientes(response.data.aptitudes));
+        setNuevaAptitud("");
+        window.location.reload();
       });
     } catch (error) {
       console.error("Error al agregar aptitud:", error);

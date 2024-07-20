@@ -21,6 +21,7 @@ import MUIDataTable from "mui-datatables";
 import BookIcon from "@mui/icons-material/Book";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import BusinessIcon from '@mui/icons-material/Business';
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
@@ -114,15 +115,14 @@ const Detalle = ({ id }) => {
 
     const inscripcion = data.inscripcion;
     const handleView = (id) => {
-      window.open(`/visualizadorInscripciones/${id}`, '_blank');
+      window.open(`/visualizadorInscripciones/${id}`, "_blank");
     };
     const handleViewInforme = (id) => {
-      window.open(`/visualizadorInformes/${id}`, '_blank');
+      window.open(`/visualizadorInformes/${id}`, "_blank");
     };
     const handleViewEvaluacion = (id) => {
-      window.open(`/visualizadorEvaluaciones/${id}`, '_blank');
+      window.open(`/visualizadorEvaluaciones/${id}`, "_blank");
     };
-  
 
     if (inscripcion.fecha_inicio && inscripcion.fecha_fin) {
       let fecha_inicio = inscripcion.fecha_inicio.split("T")[0];
@@ -238,38 +238,87 @@ const Detalle = ({ id }) => {
           },
         },
         {
-          name: "acciones",
-          label: "Acciones",
+          name: "Ver Inscripción/Centro Práctica",
+          label: "Ver Inscripción/Centro Práctica",
+          options: {
+            customBodyRender: () => (
+              <>
+                <Tooltip title="Detalle Inscripción">
+                  <VisibilityIcon
+                    title="Ver detalle inscripción"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() =>
+                      navigate(
+                        `/detalle_inscripcion/${inscripcion.id_inscripcion_practica}`
+                      )
+                    }
+                  />
+                </Tooltip>
+                <Tooltip title="Centro de práctica">
+                  <BusinessIcon
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/detalleCentroPractica/${id}`)}
+                  />
+                </Tooltip>
+              </>
+            ),
+            setCellHeaderProps: () => ({
+              style: {
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
+        },
+        {
+          name: "Ver PDF",
+          label: "Ver PDF",
           options: {
             customBodyRender: () => (
               <>
                 <Tooltip title="Archivo Inscrpción">
                   <PictureAsPdfIcon
-                  title="Archivo Inscripción"
+                    title="Archivo Inscripción"
                     style={{ cursor: "pointer" }}
-                    onClick={() => handleView(inscripcion.id_inscripcion_practica)}
+                    onClick={() =>
+                      handleView(inscripcion.id_inscripcion_practica)
+                    }
                   />
                 </Tooltip>
                 <Tooltip title="Archivo Informe">
                   <PictureAsPdfIcon
-                  title="Archivo Informe"
+                    title="Archivo Informe"
                     style={{ cursor: "pointer" }}
-                    onClick={() => handleViewInforme(inscripcion.id_inscripcion_practica)}
+                    onClick={() =>
+                      handleViewInforme(inscripcion.id_inscripcion_practica)
+                    }
                   />
                 </Tooltip>
                 <Tooltip title="Archivo Evaluación">
                   <PictureAsPdfIcon
-                  title="Archivo Evaluación"
+                    title="Archivo Evaluación"
                     style={{ cursor: "pointer" }}
-                    onClick={() => handleViewEvaluacion(inscripcion.id_inscripcion_practica)}
+                    onClick={() =>
+                      handleViewEvaluacion(inscripcion.id_inscripcion_practica)
+                    }
                   />
                 </Tooltip>
-                <Tooltip title="Detalles">
-                  <VisibilityIcon
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/detalleCentroPractica/${id}`)}
-                  />
-                </Tooltip>
+              </>
+            ),
+            setCellHeaderProps: () => ({
+              style: {
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
+        },
+        {
+          name: "Ver Bitacora",
+          label: "Ver Bitacora",
+          options: {
+            customBodyRender: () => (
+              <>
                 <Tooltip title="Bitácoras">
                   <BookIcon
                     sx={{ cursor: "pointer" }}
@@ -280,7 +329,24 @@ const Detalle = ({ id }) => {
                     }
                   />
                 </Tooltip>
-                {inscripcion.estado_inscripcion.id_estado_inscripcion === 3 || inscripcion.estado_inscripcion.id_estado_inscripcion === 4 ? (
+              </>
+            ),
+            setCellHeaderProps: () => ({
+              style: {
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
+        },
+        {
+          name: "Eliminar",
+          label: "Eliminar",
+          options: {
+            customBodyRender: () => (
+              <>
+                {inscripcion.estado_inscripcion.id_estado_inscripcion === 3 ||
+                inscripcion.estado_inscripcion.id_estado_inscripcion === 4 ? (
                   <Tooltip title="Eliminar Inscripción">
                     <Delete
                       sx={{ cursor: "pointer" }}
@@ -322,7 +388,7 @@ const Detalle = ({ id }) => {
         tableBodyMaxHeight: "500px", // Para asegurar que la tabla no crezca demasiado
         textLabels: {
           body: {
-            noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+            noMatch: "No hay datos disponibles", // Mensaje en español cuando no hay datos
           },
         },
       };

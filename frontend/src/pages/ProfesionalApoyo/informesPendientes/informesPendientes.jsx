@@ -3,8 +3,8 @@ import { Grid, Card, IconButton } from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import MUIDataTable from "mui-datatables";
-import clienteAxios from '../../../helpers/clienteaxios';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import clienteAxios from "../../../helpers/clienteaxios";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const InformesPendientes = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -33,8 +33,15 @@ const InformesPendientes = () => {
   useEffect(() => {
     const fetchInformes = async () => {
       try {
-        const response = await clienteAxios.get("/archivoinforme/getPendientes");
-        setInformes(response.data);
+        const response = await clienteAxios.get(
+          "/archivoinforme/getPendientes"
+        );
+        // Asegúrate de que la respuesta tenga la estructura correcta
+        const informesData = response.data.map((informe) => ({
+          ...informe,
+          id_inscripcion: informe.id_inscripcion, // Asegúrate de que id_inscripcion esté presente
+        }));
+        setInformes(informesData);
       } catch (error) {
         console.error("Error fetching pending reports:", error);
       }
@@ -44,23 +51,23 @@ const InformesPendientes = () => {
   }, []);
 
   const handleView = (id) => {
-    window.open(`/visualizadorInformes/${id}`, '_blank');
+    window.open(`/visualizadorInformes/${id}`, "_blank");
   };
 
   const columns = [
-    { name: "id_archivo_informe", label: "ID" },
     { name: "nombre", label: "Nombre" },
     { name: "tipo_archivo", label: "Tipo de Archivo" },
     { name: "tipo_documento", label: "Tipo de Documento" },
-    { name: "id_inscripcion", label: "ID Inscripción" },
-    { name: "id_estado_informe", label: "Estado del Informe" },
     {
       name: "ver",
       label: "Ver",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
+          // Accede al objeto completo de la fila utilizando tableMeta.rowData
+          const { id_inscripcion } = informes[tableMeta.rowIndex]; // Usamos el índice para acceder al array
+
           return (
-            <IconButton onClick={() => handleView(tableMeta.rowData[0])}>
+            <IconButton onClick={() => handleView(id_inscripcion)}>
               <VisibilityIcon />
             </IconButton>
           );
@@ -81,7 +88,7 @@ const InformesPendientes = () => {
     sort: false,
     textLabels: {
       body: {
-        noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+        noMatch: "No hay datos disponibles", // Mensaje en español cuando no hay datos
       },
     },
   };

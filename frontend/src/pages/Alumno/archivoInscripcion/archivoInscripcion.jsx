@@ -12,6 +12,7 @@ const ArchivoInscripcionPractica = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const [hasExistingFile, setHasExistingFile] = useState(false);
+  const [updateFiles, setUpdateFiles] = useState(false); // Nuevo estado para controlar la actualización de archivos
   const { id } = useParams();
 
   const toggleSidebar = () => {
@@ -192,12 +193,14 @@ const ArchivoInscripcionPractica = () => {
                   <SubirArchivoInscripcion
                     id={id}
                     hasExistingFile={hasExistingFile}
+                    setUpdateFiles={setUpdateFiles} // Pasar el setter al componente SubirArchivoInscripcion
                   />
                 </Grid>
                 <Grid item xs={12} sx={{ marginTop: "20px" }}>
                   <MostrarArchivoArchivoInscripcion
                     id={id}
                     setHasExistingFile={setHasExistingFile}
+                    updateFiles={updateFiles} // Pasar el estado al componente MostrarArchivoArchivoInscripcion
                   />
                 </Grid>
               </Grid>

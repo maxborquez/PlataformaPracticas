@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import { Card, CircularProgress, IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { CircularProgress } from "@mui/material";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import MUIDataTable from "mui-datatables";
-import Swal from "sweetalert2";
 
-const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
+const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile, updateFiles }) => {
   const [archivos, setArchivos] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,7 +27,7 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
     };
 
     fetchArchivos();
-  }, [id, setHasExistingFile]);
+  }, [id, setHasExistingFile, updateFiles]); // Agregar updateFiles a la lista de dependencias
 
   if (loading) {
     return <CircularProgress />;
@@ -52,7 +50,6 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
         sort: true,
       },
     },
-    
     {
       name: "estado_archivo_inscripcion",
       label: "Estado del Archivo Inscripcion",
@@ -63,7 +60,7 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile }) => {
           return value?.nombre_estado_archivo_inscripcion || "Desconocido";
         },
       },
-    }
+    },
   ];
 
   const options = {

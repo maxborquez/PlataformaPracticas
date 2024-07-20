@@ -35,8 +35,15 @@ const EvaluacionesPendientes = () => {
   useEffect(() => {
     const fetchEvaluaciones = async () => {
       try {
-        const response = await clienteAxios.get("/archivoevaluacion/getPendientes");
-        setInformes(response.data);
+        const response = await clienteAxios.get(
+          "/archivoevaluacion/getPendientes"
+        );
+        // Asegúrate de que la respuesta tenga la estructura correcta
+        const evaluacionesData = response.data.map((evaluacion) => ({
+          ...evaluacion,
+          id_inscripcion: evaluacion.id_inscripcion, // Asegúrate de que id_inscripcion esté presente
+        }));
+        setInformes(evaluacionesData);
       } catch (error) {
         console.error("Error fetching pending reports:", error);
       }
@@ -50,19 +57,17 @@ const EvaluacionesPendientes = () => {
   };
 
   const columns = [
-    { name: "id_archivo_evaluacion", label: "ID" },
     { name: "nombre", label: "Nombre" },
     { name: "tipo_archivo", label: "Tipo de Archivo" },
     { name: "tipo_documento", label: "Tipo de Documento" },
-    { name: "id_inscripcion", label: "ID Inscripción" },
-    { name: "id_estado_evaluacion", label: "Estado de la evaluación" },
     {
       name: "ver",
       label: "Ver",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
+          const { id_inscripcion } = informes[tableMeta.rowIndex];
           return (
-            <IconButton onClick={() => handleView(tableMeta.rowData[0])}>
+            <IconButton onClick={() => handleView(id_inscripcion)}>
               <VisibilityIcon />
             </IconButton>
           );

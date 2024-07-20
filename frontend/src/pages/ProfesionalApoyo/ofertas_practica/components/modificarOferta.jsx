@@ -363,7 +363,7 @@ const ModificarOferta = () => {
                         variant="contained"
                         disabled={remainingChars === -1}
                       >
-                        Enviar datos
+                        Actualizar
                       </Button>
                     </Grid>
                   </Grid>

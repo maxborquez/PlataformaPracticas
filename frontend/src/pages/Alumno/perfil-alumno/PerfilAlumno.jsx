@@ -231,7 +231,7 @@ const PerfilAlumno = () => {
                     type="submit"
                     disabled={data && data.length === 0}
                   >
-                    Recomendar
+                    Agregar
                   </Button>
                 </form>
               </Grid>
@@ -278,7 +278,7 @@ const PerfilAlumno = () => {
                     color="primary"
                     disabled={!nuevaAptitud}
                   >
-                    Agregar
+                    Recomendar
                   </Button>
                 </form>
               </Paper>

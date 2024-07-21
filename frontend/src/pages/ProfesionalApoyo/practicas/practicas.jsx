@@ -53,13 +53,13 @@ const Practicas = () => {
       ]);
 
       setDataIECI([
-        { practica: 'Practica 1', count: ieciPractica1.data.count, carrera: carreraIECI, asignatura: practica1 },
-        { practica: 'Practica 2', count: ieciPractica2.data.count, carrera: carreraIECI, asignatura: practica2 },
+        { practica: 'Práctica 1', count: ieciPractica1.data.count, carrera: carreraIECI, asignatura: practica1 },
+        { practica: 'Práctica 2', count: ieciPractica2.data.count, carrera: carreraIECI, asignatura: practica2 },
       ]);
 
       setDataICINF([
-        { practica: 'Practica 1', count: icinfPractica1.data.count, carrera: carreraICINF, asignatura: practica1 },
-        { practica: 'Practica 2', count: icinfPractica2.data.count, carrera: carreraICINF, asignatura: practica2 },
+        { practica: 'Práctica 1', count: icinfPractica1.data.count, carrera: carreraICINF, asignatura: practica1 },
+        { practica: 'Práctica 2', count: icinfPractica2.data.count, carrera: carreraICINF, asignatura: practica2 },
       ]);
     } catch (error) {
       console.error(error);
@@ -259,7 +259,7 @@ const Practicas = () => {
                 </Grid>
                 <Grid item xs={12} sm={4} sx={{ bgcolor: "white", borderRadius: "5px", marginTop: "10px", padding: "10px" }}>
                   <FormControl fullWidth>
-                    <InputLabel>Seleccione Período</InputLabel>
+                    <InputLabel>Seleccione Periodo</InputLabel>
                     <Select
                       sx={{ backgroundColor: "white" }}
                       onChange={(e) => setPeriodoAcademico(e.target.value)}
@@ -301,3 +301,5 @@ const Practicas = () => {
 };
 
 export default Practicas;
+
+

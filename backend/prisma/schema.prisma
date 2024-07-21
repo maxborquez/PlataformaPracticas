@@ -399,3 +399,8 @@ model estado_archivo_inscripcion {
   nombre_estado_archivo_inscripcion String
   archivo_inscripcion               archivo_inscripcion[]
 }
+
+model rubro {
+  id_rubro     Int    @id @default(autoincrement())
+  nombre_rubro String @db.VarChar(50)
+}

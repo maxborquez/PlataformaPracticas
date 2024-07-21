@@ -26,11 +26,11 @@ routerEmpresa.post(
       .withMessage("El campo web es requerido")
       .isString()
       .withMessage("El campo web debe ser un string"),
-    body("rubro")
+    body("id_rubro")
       .notEmpty()
       .withMessage("El campo rubro es requerido")
-      .isString()
-      .withMessage("El campo rubro debe ser un string"),
+      .isInt()
+      .withMessage("El campo rubro debe ser un Int"),
     body("direccion")
       .notEmpty()
       .withMessage("El campo direccion es requerido")
@@ -101,11 +101,11 @@ routerEmpresa.put(
       .withMessage("El campo web es requerido")
       .isString()
       .withMessage("El campo web debe ser un string"),
-    body("rubro")
+    body("id_rubro")
       .notEmpty()
       .withMessage("El campo rubro es requerido")
-      .isString()
-      .withMessage("El campo rubro debe ser un string"),
+      .isInt()
+      .withMessage("El campo rubro debe ser un Int"),
     body("direccion")
       .notEmpty()
       .withMessage("El campo direccion es requerido")

@@ -87,7 +87,7 @@ const GenerarWord = ({ id }) => {
         nombre_empresa: data.empresa.nombre,
         dpto: data.empresa.departamento,
         web: data.empresa.web,
-        rubro: data.empresa.rubro,
+        rubro: data.empresa.rubro.nombre_rubro,
         fono_empresa: data.empresa.telefono,
         direccion_empresa: data.empresa.direccion,
         nombre_supervisor: data.supervisor.nombre,

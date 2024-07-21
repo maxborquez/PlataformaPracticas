@@ -13,7 +13,7 @@ const crear_empresa = async (req, res) => {
       });
     }
 
-    const { nombre, departamento, web, rubro, telefono, direccion, id_comuna, id_estado_empresa } =
+    const { nombre, departamento, web, id_rubro, telefono, direccion, id_comuna, id_estado_empresa } =
       req.body;
 
     const empresa = await prisma.empresa.create({
@@ -21,7 +21,7 @@ const crear_empresa = async (req, res) => {
         nombre,
         departamento,
         web,
-        rubro,
+        id_rubro,
         telefono,
         direccion,
         id_comuna,
@@ -124,7 +124,7 @@ const mostrar_empresa = async (req, res) => {
       where: {
         id_empresa: Number(id),
       },
-      include: { comuna: true },
+      include: { comuna: true, rubro: true },
     });
 
     if (!empresa) {
@@ -155,7 +155,7 @@ const actualizar_empresa = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { nombre, departamento, web, rubro, telefono, direccion, id_comuna } =
+    const { nombre, departamento, web, id_rubro, telefono, direccion, id_comuna } =
       req.body;
 
     const empresa = await prisma.empresa.update({
@@ -166,7 +166,7 @@ const actualizar_empresa = async (req, res) => {
         nombre,
         departamento,
         web,
-        rubro,
+        id_rubro,
         telefono,
         direccion,
         id_comuna,
@@ -205,7 +205,8 @@ const getEmpresaByNombre = async (req, res) => {
         comuna: true, // Incluir datos de la comuna asociada si es necesario
         inscripcion_practica: true, // Incluir relaciones según sea necesario
         oferta_practica: true,
-        supervisor: true
+        supervisor: true,
+        rubro: true,
       }
     });
 
@@ -235,6 +236,7 @@ const getEmpresaById = async (req, res) => {
         inscripcion_practica: true,
         oferta_practica: true,
         supervisor: true,
+        rubro: true,
       },
     });
 

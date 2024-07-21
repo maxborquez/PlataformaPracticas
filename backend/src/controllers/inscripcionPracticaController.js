@@ -146,7 +146,11 @@ const mostrar_inscripcion = async (req, res) => {
         id_inscripcion_practica: Number(id),
       },
       include: {
-        empresa: true,
+        empresa: {
+          include: {
+            rubro: true,
+          },
+        },
         estado_inscripcion: true,
         supervisor: true,
         modalidad: true,

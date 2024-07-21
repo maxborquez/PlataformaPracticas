@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import clienteAxios from '../../../../helpers/clienteaxios'; // Ajusta la importación según corresponda
+import React, { useState, useEffect } from "react";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText"; // Add this line
+import clienteAxios from "../../../../helpers/clienteaxios"; // Ajusta la importación según corresponda
 
 const FormEmpresa = ({
   nombreEmpresa,
@@ -26,9 +27,10 @@ const FormEmpresa = ({
   setDireccionEmpresa,
   setRegion,
   setProvincia,
-  setComuna
+  setComuna,
 }) => {
   const [regiones, setRegiones] = useState([]);
+  const [rubros, setRubros] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [comunas, setComunas] = useState([]);
   const [nombreEmpresaError, setNombreEmpresaError] = useState(false);
@@ -53,6 +55,28 @@ const FormEmpresa = ({
     obtenerRegiones();
   }, []);
 
+  useEffect(() => {
+    // Función para obtener las regiones disponibles
+    const obtenerRubros = async () => {
+      try {
+        const response = await clienteAxios.get("/rubro/getAll");
+        setRubros(response.data);
+      } catch (error) {
+        console.error("Error al obtener los rubros:", error);
+      }
+    };
+
+    // Llamar a la función para obtener las regiones al cargar el componente
+    obtenerRubros();
+  }, []);
+
+  const handleRubroChange = (event) => {
+    const { value } = event.target;
+    setRubro(value);
+    // Aquí puedes agregar validación si es necesario
+    setRubroError(false); // Asume que es válido si se selecciona un valor
+  };
+
   const handleRegionChange = async (regionId) => {
     try {
       const response = await clienteAxios.get(
@@ -60,8 +84,8 @@ const FormEmpresa = ({
       );
       setProvincias(response.data); // Ajustar según la estructura de datos recibida
       setRegion(regionId); // Actualizar el estado de la región seleccionada
-      setProvincia(''); // Reiniciar la selección de provincia al cambiar la región
-      setComuna(''); // Reiniciar la selección de comuna al cambiar la región
+      setProvincia(""); // Reiniciar la selección de provincia al cambiar la región
+      setComuna(""); // Reiniciar la selección de comuna al cambiar la región
     } catch (error) {
       console.error("Error al obtener las provincias por región:", error);
     }
@@ -74,7 +98,7 @@ const FormEmpresa = ({
       );
       setComunas(response.data); // Ajustar según la estructura de datos recibida
       setProvincia(provinciaId); // Actualizar el estado de la provincia seleccionada
-      setComuna(''); // Reiniciar la selección de comuna al cambiar la provincia
+      setComuna(""); // Reiniciar la selección de comuna al cambiar la provincia
     } catch (error) {
       console.error("Error al obtener las comunas por provincia:", error);
     }
@@ -82,7 +106,7 @@ const FormEmpresa = ({
 
   const validateNombreEmpresa = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, "");
     setNombreEmpresa(filteredValue);
     if (filteredValue.length > 30) {
       setNombreEmpresaError(true);
@@ -93,7 +117,7 @@ const FormEmpresa = ({
 
   const validateDepartamento = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, "");
     setDepartamento(filteredValue);
     if (filteredValue.length > 30) {
       setDepartamentoError(true);
@@ -104,7 +128,7 @@ const FormEmpresa = ({
 
   const validatePaginaWeb = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-ZñÑ0-9.]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ0-9.]/g, "");
     setPaginaWeb(filteredValue);
     if (filteredValue.length > 0 && !/^[a-zA-ZñÑ0-9.]*$/.test(filteredValue)) {
       setPaginaWebError(true);
@@ -113,20 +137,9 @@ const FormEmpresa = ({
     }
   };
 
-  const validateRubro = (value) => {
-    // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-ZñÑ\s]/g, '');
-    setRubro(filteredValue);
-    if (filteredValue.length > 30) {
-      setRubroError(true);
-    } else {
-      setRubroError(false);
-    }
-  };
-
   const validateFonoEmpresa = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/\D/g, '');
+    const filteredValue = value.replace(/\D/g, "");
     setFonoEmpresa(filteredValue);
     if (filteredValue.length > 9) {
       setFonoEmpresaError(true);
@@ -137,7 +150,7 @@ const FormEmpresa = ({
 
   const validateDireccion = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-ZñÑ09,\s]/g, '');
+    const filteredValue = value.replace(/[^a-zA-ZñÑ09,\s]/g, "");
     setDireccionEmpresa(filteredValue);
     if (filteredValue.length > 30) {
       setDireccionEmpresaError(true);
@@ -163,7 +176,7 @@ const FormEmpresa = ({
           value={nombreEmpresa}
           onChange={(e) => validateNombreEmpresa(e.target.value)}
           error={nombreEmpresaError}
-          helperText={nombreEmpresaError ? 'Nombre inválido' : ''}
+          helperText={nombreEmpresaError ? "Nombre inválido" : ""}
         />
       </Grid>
       <Grid item xs={6}>
@@ -176,7 +189,7 @@ const FormEmpresa = ({
           value={departamento}
           onChange={(e) => validateDepartamento(e.target.value)}
           error={departamentoError}
-          helperText={departamentoError ? 'Departamento inválido' : ''}
+          helperText={departamentoError ? "Departamento inválido" : ""}
         />
       </Grid>
       <Grid item xs={6}>
@@ -189,21 +202,33 @@ const FormEmpresa = ({
           value={paginaWeb}
           onChange={(e) => validatePaginaWeb(e.target.value)}
           error={paginaWebError}
-          helperText={paginaWebError ? 'Página web inválida' : ''}
+          helperText={paginaWebError ? "Página web inválida" : ""}
         />
       </Grid>
       <Grid item xs={6}>
-        <TextField
+        <FormControl
           fullWidth
-          label="Rubro"
           variant="outlined"
           margin="normal"
-          value={rubro}
-          inputProps={{ maxLength: 30 }}
-          onChange={(e) => validateRubro(e.target.value)}
           error={rubroError}
-          helperText={rubroError ? 'Rubro inválido' : ''}
-        />
+        >
+          <InputLabel>Rubro</InputLabel>
+          <Select
+            value={rubro}
+            onChange={handleRubroChange}
+            label="Rubro"
+          >
+            <MenuItem value="">
+              <em>Seleccione un rubro</em>
+            </MenuItem>
+            {rubros.map((rubro) => (
+              <MenuItem key={rubro.id_rubro} value={rubro.id_rubro}>
+                {rubro.nombre_rubro}
+              </MenuItem>
+            ))}
+          </Select>
+          {rubroError && <FormHelperText>Rubro inválido</FormHelperText>}
+        </FormControl>
       </Grid>
       <Grid item xs={6}>
         <TextField
@@ -217,7 +242,7 @@ const FormEmpresa = ({
           value={fonoEmpresa}
           onChange={(e) => validateFonoEmpresa(e.target.value)}
           error={fonoEmpresaError}
-          helperText={fonoEmpresaError ? 'Fono inválido' : ''}
+          helperText={fonoEmpresaError ? "Fono inválido" : ""}
         />
       </Grid>
       <Grid item xs={6}>
@@ -260,7 +285,10 @@ const FormEmpresa = ({
               <em>Seleccione una provincia</em>
             </MenuItem>
             {provincias.map((provincia) => (
-              <MenuItem key={provincia.id_provincia} value={provincia.id_provincia}>
+              <MenuItem
+                key={provincia.id_provincia}
+                value={provincia.id_provincia}
+              >
                 {provincia.nombre_provincia}
               </MenuItem>
             ))}
@@ -270,10 +298,7 @@ const FormEmpresa = ({
       <Grid item xs={6}>
         <FormControl fullWidth margin="normal">
           <InputLabel>Comuna</InputLabel>
-          <Select
-            value={comuna}
-            onChange={(e) => setComuna(e.target.value)}
-          >
+          <Select value={comuna} onChange={(e) => setComuna(e.target.value)}>
             <MenuItem value="">
               <em>Seleccione una comuna</em>
             </MenuItem>

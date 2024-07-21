@@ -116,7 +116,7 @@ const DetalleInscripcionAlumno = () => {
       dato: data.inscripcion.empresa.departamento,
     },
     { Info: "Web Empresa", dato: data.inscripcion.empresa.web },
-    { Info: "Rubro Empresa", dato: data.inscripcion.empresa.rubro },
+    { Info: "Rubro Empresa", dato: data.inscripcion.empresa.rubro.nombre_rubro },
     { Info: "Teléfono Empresa", dato: data.inscripcion.empresa.telefono },
     { Info: "Dirección Empresa", dato: data.inscripcion.empresa.direccion },
     {

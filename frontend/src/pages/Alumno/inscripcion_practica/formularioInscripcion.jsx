@@ -15,10 +15,15 @@ import FormHorarios from "./components/FormHorarios";
 const FormularioInscripcion = () => {
   const navigate = useNavigate();
 
+  const getLocalDate = () => {
+    const today = new Date();
+    const offset = today.getTimezoneOffset(); // Obtiene la diferencia en minutos entre UTC y la zona horaria local
+    const localDate = new Date(today.getTime() - offset * 60 * 1000); // Ajusta la fecha a la zona horaria local
+    return localDate.toISOString().split("T")[0];
+  };
+
   const [practica, setPractica] = useState("");
-  const [fechaRecepcion, setFechaRecepcion] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [fechaRecepcion, setFechaRecepcion] = useState(getLocalDate());
   const [modalidad, setModalidad] = useState("");
   const [nombreEstudiante, setNombreEstudiante] = useState("");
   const [run, setRun] = useState("");
@@ -70,11 +75,11 @@ const FormularioInscripcion = () => {
         nombre: nombreEmpresa,
         departamento: departamento,
         web: paginaWeb,
-        rubro: rubro,
+        id_rubro: parseInt(rubro, 10),
         telefono: fonoEmpresa,
         direccion: direccionEmpresa,
-        id_comuna: parseInt(comuna, 10), // Asegúrate de parsear a entero si es necesario
-        id_estado_empresa: 1, // Puedes ajustar el estado según sea necesario
+        id_comuna: parseInt(comuna, 10),
+        id_estado_empresa: 1,
       });
 
       // Obtén el ID de empresa creado
@@ -88,8 +93,8 @@ const FormularioInscripcion = () => {
         telefono: fonoSupervisor,
         correo: emailSupervisor,
         cargo: cargoSupervisor,
-        id_empresa: parseInt(id_empresa, 10), // Utiliza el ID de empresa recibido
-        id_estado_supervisor: 1, // Puedes ajustar el estado según sea necesario
+        id_empresa: parseInt(id_empresa, 10),
+        id_estado_supervisor: 1,
       });
 
       // Obtén el ID de supervisor creado

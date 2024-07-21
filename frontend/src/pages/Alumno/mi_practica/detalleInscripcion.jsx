@@ -39,6 +39,7 @@ const DetalleInscripcion = () => {
     const response = await clienteAxios.get(
       `/inscripcion/show/${parseInt(id_inscripcion, 10)}`
     );
+    console.log(response.data);
     return response.data;
   });
 
@@ -116,7 +117,10 @@ const DetalleInscripcion = () => {
       dato: data.inscripcion.empresa.departamento,
     },
     { Info: "Web Empresa", dato: data.inscripcion.empresa.web },
-    { Info: "Rubro Empresa", dato: data.inscripcion.empresa.rubro },
+    {
+      Info: "Rubro Empresa",
+      dato: data.inscripcion.empresa.rubro.nombre_rubro,
+    },
     { Info: "Teléfono Empresa", dato: data.inscripcion.empresa.telefono },
     { Info: "Dirección Empresa", dato: data.inscripcion.empresa.direccion },
     {
@@ -136,7 +140,6 @@ const DetalleInscripcion = () => {
     { Info: "Correo Supervisor", dato: data.inscripcion.supervisor.correo },
     { Info: "Modalidad", dato: data.inscripcion.modalidad.nombre_modalidad },
   ];
-
 
   const options = {
     responsive: "standard",

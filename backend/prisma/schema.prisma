@@ -142,19 +142,21 @@ model empresa {
   nombre               String                 @db.VarChar(50)
   departamento         String                 @db.VarChar(50)
   web                  String?                @db.VarChar(50)
-  rubro                String                 @db.VarChar(50)
+  id_rubro             Int
   telefono             String                 @db.VarChar(18)
   direccion            String                 @db.VarChar(100)
   id_comuna            Int
   id_estado_empresa    Int
   comuna               comuna                 @relation(fields: [id_comuna], references: [id_comuna], onDelete: Cascade)
   estado_empresa       estado_empresa         @relation(fields: [id_estado_empresa], references: [id_estado_empresa], onDelete: Cascade)
+  rubro                rubro                  @relation(fields: [id_rubro], references: [id_rubro], onDelete: Cascade)
   inscripcion_practica inscripcion_practica[]
   oferta_practica      oferta_practica[]
   supervisor           supervisor[]
 
   @@index([id_comuna], map: "empresa_id_comuna_fkey")
   @@index([id_estado_empresa], map: "empresa_id_estado_empresa_fkey")
+  @@index([id_rubro], map: "empresa_id_rubro_fkey")
 }
 
 model estado_bitacora {
@@ -398,4 +400,10 @@ model estado_archivo_inscripcion {
   id_estado_archivo_inscripcion     Int                   @id @default(autoincrement())
   nombre_estado_archivo_inscripcion String
   archivo_inscripcion               archivo_inscripcion[]
+}
+
+model rubro {
+  id_rubro     Int       @id @default(autoincrement())
+  nombre_rubro String    @db.VarChar(50)
+  empresa      empresa[]
 }

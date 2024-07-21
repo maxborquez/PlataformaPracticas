@@ -13,7 +13,6 @@ const ListaEstudiantes = () => {
   const [data, setData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
-  const [inscripcionId, setInscripcionId] = useState(null);
 
   const carreraMap = {
     29037: "IECI",
@@ -332,18 +331,42 @@ const ListaEstudiantes = () => {
   ];
 
   const options = {
+    selectableRows: "none",
     responsive: "standard",
-    search: false,
+    tableBodyHeight: "auto",
+    tableBodyMaxHeight: "600px", // Ajusta esta altura según sea necesario
+    search: true, // Activa la opción de búsqueda
     download: false,
     print: false,
     viewColumns: false,
     filter: false,
-    pagination: false,
-    selectableRows: "none",
-    sort: false,
     textLabels: {
       body: {
-        noMatch: "No hay datos disponibles", // Mensaje en español cuando no hay datos
+        noMatch: "No se encontraron datos",
+        toolTip: "Ordenar",
+      },
+      pagination: {
+        next: "Siguiente Página",
+        previous: "Página Anterior",
+        rowsPerPage: "Filas por página:",
+        displayRows: "de",
+      },
+      toolbar: {
+        search: "Buscar",
+      },
+      filter: {
+        all: "Todos",
+        title: "FILTROS",
+        reset: "REINICIAR",
+      },
+      viewColumns: {
+        title: "Mostrar Columnas",
+        titleAria: "Mostrar/Ocultar Columnas",
+      },
+      selectedRows: {
+        text: "fila(s) seleccionada(s)",
+        delete: "Borrar",
+        deleteAria: "Borrar filas seleccionadas",
       },
     },
   };
@@ -354,33 +377,46 @@ const ListaEstudiantes = () => {
       direction="column"
       sx={{ backgroundColor: "#e8e9eb", minHeight: "100vh" }}
     >
-      <Grid item sx={{ position: "sticky", top: 0, zIndex: 1000 }}>
+      <Grid
+        item
+        sx={{ position: "sticky", top: 0, zIndex: 1000, width: "100%" }}
+      >
         <Header
           toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           isWideScreen={isWideScreen}
           showSidebarButton={true}
         />
       </Grid>
-      <Grid container>
+
+      <Grid container item>
         {sidebarOpen && (
           <Grid
             item
-            xs={3}
-            sx={{ position: "fixed", top: "80px", zIndex: 1200 }}
+            sx={{
+              position: "fixed",
+              top: "80px",
+              left: 0,
+              width: "250px",
+              zIndex: 1200,
+              backgroundColor: "#36465d",
+            }}
           >
             <SidebarProfesional />
           </Grid>
         )}
+
         <Grid
           item
-          xs={12}
+          xs
           sx={{
             marginLeft: sidebarOpen && isWideScreen ? "250px" : "0px",
             transition: "margin-left 0.3s",
-            padding: "20px",
+            overflowY: "auto",
+            paddingRight: "16px",
+            overflowX: "auto",
+            marginTop: "16px",
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
           }}
         >
           <Card
@@ -388,22 +424,32 @@ const ListaEstudiantes = () => {
               padding: "20px",
               backgroundColor: "white",
               width: "100%",
-              marginTop: "10px",
               marginBottom: "15px",
+              marginLeft: "16px",
             }}
           >
-            <Typography
-              variant="h5"
-              sx={{
-                marginTop: "10px",
-                marginBottom: "10px",
-                fontSize: { xs: "1.3rem", sm: "1.4rem" },
-                textAlign: "center",
-              }}
+            <Grid
+              container
+              spacing={2}
+              sx={{ flexDirection: "column", alignItems: "center" }}
             >
-              Lista de estudiantes {nombreAsignatura} - {nombreCarrera}
-            </Typography>
-            <MUIDataTable data={data} columns={columns} options={options} />
+              <Grid item>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    fontSize: { xs: "1.3rem", sm: "1.4rem" },
+                    textAlign: "center",
+                  }}
+                >
+                  Lista de estudiantes {nombreAsignatura} - {nombreCarrera}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <MUIDataTable data={data} columns={columns} options={options} />
+              </Grid>
+            </Grid>
           </Card>
         </Grid>
       </Grid>

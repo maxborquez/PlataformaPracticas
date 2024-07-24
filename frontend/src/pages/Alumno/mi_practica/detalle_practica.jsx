@@ -21,7 +21,7 @@ import MUIDataTable from "mui-datatables";
 import BookIcon from "@mui/icons-material/Book";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import BusinessIcon from '@mui/icons-material/Business';
+import BusinessIcon from "@mui/icons-material/Business";
 
 const Detalle = ({ id }) => {
   const navigate = useNavigate();
@@ -271,8 +271,8 @@ const Detalle = ({ id }) => {
           },
         },
         {
-          name: "Ver PDF",
-          label: "Ver PDF",
+          name: "PDF Inscripción",
+          label: "PDF Inscripción",
           options: {
             customBodyRender: () => (
               <>
@@ -285,6 +285,22 @@ const Detalle = ({ id }) => {
                     }
                   />
                 </Tooltip>
+              </>
+            ),
+            setCellHeaderProps: () => ({
+              style: {
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
+        },
+        {
+          name: "PDF Informe",
+          label: "PDF Informe",
+          options: {
+            customBodyRender: () => (
+              <>
                 <Tooltip title="Archivo Informe">
                   <PictureAsPdfIcon
                     title="Archivo Informe"
@@ -294,6 +310,22 @@ const Detalle = ({ id }) => {
                     }
                   />
                 </Tooltip>
+              </>
+            ),
+            setCellHeaderProps: () => ({
+              style: {
+                backgroundColor: "#326fa6",
+                color: "#fff",
+              },
+            }),
+          },
+        },
+        {
+          name: "PDF Evaluación",
+          label: "PDF Evaluación",
+          options: {
+            customBodyRender: () => (
+              <>
                 <Tooltip title="Archivo Evaluación">
                   <PictureAsPdfIcon
                     title="Archivo Evaluación"

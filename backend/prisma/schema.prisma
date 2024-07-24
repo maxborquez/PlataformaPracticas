@@ -407,3 +407,11 @@ model rubro {
   nombre_rubro String    @db.VarChar(50)
   empresa      empresa[]
 }
+
+model rango_inscripcion {
+  id_rango Int      @id @default(autoincrement())
+  inicio1  DateTime @db.Date
+  termino1 DateTime @db.Date
+  inicio2  DateTime @db.Date
+  termino2 DateTime @db.Date
+}

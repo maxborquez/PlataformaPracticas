@@ -49,18 +49,7 @@ const MostrarArchivoArchivoInscripcion = ({ id, setHasExistingFile, updateFiles 
         filter: true,
         sort: true,
       },
-    },
-    {
-      name: "estado_archivo_inscripcion",
-      label: "Estado del Archivo Inscripcion",
-      options: {
-        filter: true,
-        sort: true,
-        customBodyRender: (value) => {
-          return value?.nombre_estado_archivo_inscripcion || "Desconocido";
-        },
-      },
-    },
+    }
   ];
 
   const options = {

@@ -51,7 +51,7 @@ const crear_empresa = async (req, res) => {
 const obtener_empresas = async (req, res) => {
   try {
     const empresas = await prisma.empresa.findMany({
-      include: { comuna: true },
+      include: { comuna: true, rubro: true },
     });
     if (empresas.length == 0) {
       return res.status(200).json({

@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Grid, Typography } from "@mui/material";
+import { Alert, Button, Grid } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 import clienteAxios from "../../../../helpers/clienteaxios";
 import Swal from "sweetalert2";
@@ -11,10 +11,31 @@ const SubirEvaluacion = ({ id, hasExistingFile }) => {
   const [extension, setExtension] = useState(null);
   const [archivo, setArchivo] = useState(null);
   const [isPdf, setPdf] = useState(true);
+  const [idEstadoInscripcion, setIdEstadoInscripcion] = useState(null);
   const inputFileRef = useRef(null);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const obtenerDatosInscripcion = async () => {
+      try {
+        const response = await clienteAxios.get(`/inscripcion/show/${id}`);
+        setIdEstadoInscripcion(
+          response.data.inscripcion.estado_inscripcion.id_estado_inscripcion
+        );
+      } catch (error) {
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un problema al obtener los datos de inscripción",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    };
+
+    obtenerDatosInscripcion();
+  }, [id]);
 
   useEffect(() => {
     if (archivo) {
@@ -59,7 +80,10 @@ const SubirEvaluacion = ({ id, hasExistingFile }) => {
     formData.append("archivo", archivo);
 
     try {
-      const response = await clienteAxios.post("/archivoevaluacion/create", formData);
+      const response = await clienteAxios.post(
+        "/archivoevaluacion/create",
+        formData
+      );
       Swal.fire({
         title: "Éxito",
         text: "Archivo subido correctamente",
@@ -79,13 +103,17 @@ const SubirEvaluacion = ({ id, hasExistingFile }) => {
   };
 
   return (
-    <Grid container spacing={2} sx={{ flexDirection: "column", alignItems: "center" }}>
+    <Grid
+      container
+      spacing={2}
+      sx={{ flexDirection: "column", alignItems: "center" }}
+    >
       <Grid item>
         <Button
           variant="contained"
           component="label"
           startIcon={<CopyAllOutlined />}
-          disabled={hasExistingFile}
+          disabled={hasExistingFile || idEstadoInscripcion !== 2}
         >
           Seleccionar Archivo
           <input
@@ -93,18 +121,23 @@ const SubirEvaluacion = ({ id, hasExistingFile }) => {
             hidden
             ref={inputFileRef}
             onChange={handleArchivoSeleccionado}
-            disabled={hasExistingFile}
+            disabled={hasExistingFile || idEstadoInscripcion !== 2}
           />
         </Button>
       </Grid>
       {!isPdf && (
         <Grid item>
-          <Alert severity="success">Archivo PDF seleccionado: {archivo?.name}</Alert>
+          <Alert severity="success">
+            Archivo PDF seleccionado: {archivo?.name}
+          </Alert>
         </Grid>
       )}
       {hasExistingFile ? (
         <Grid item>
-          <Alert severity="info">Ya existe un archivo subido. Si desea subir uno nuevo debe borrar el actual.</Alert>
+          <Alert severity="info">
+            Ya existe un archivo subido. Si desea subir uno nuevo debe borrar el
+            actual.
+          </Alert>
         </Grid>
       ) : (
         <Grid item>
@@ -112,7 +145,7 @@ const SubirEvaluacion = ({ id, hasExistingFile }) => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            disabled={isPdf || hasExistingFile}
+            disabled={isPdf || hasExistingFile || idEstadoInscripcion !== 2}
           >
             Subir Archivo
           </Button>

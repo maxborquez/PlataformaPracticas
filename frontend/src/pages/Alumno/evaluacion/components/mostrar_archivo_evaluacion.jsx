@@ -101,7 +101,7 @@ const MostrarArchivoEvaluacion = ({ id, setHasExistingFile }) => {
     },
     {
       name: "estado_evaluacion",
-      label: "Estado del Informe",
+      label: "Estado de evaluacion",
       options: {
         filter: true,
         sort: true,

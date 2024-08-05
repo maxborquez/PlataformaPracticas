@@ -4,13 +4,11 @@ import { Person } from "@mui/icons-material";
 import clienteAxios from "../../../../helpers/clienteaxios";
 
 const DataAlumno = () => {
-    const rut = localStorage.getItem("rut");
+    const idAlumno = localStorage.getItem("id_alumno"); // Cambia esto si necesitas obtener el ID de otra manera
 
-    const { data, status } = useQuery("datospersonales", async () => {
-        const response = await clienteAxios.post("/alumno/show", {
-            rut: rut
-        });
-        return response.data.alumno;
+    const { data, status } = useQuery("datosAlumno", async () => {
+        const response = await clienteAxios.get(`/sp/datosAlumno/${idAlumno}`);
+        return response.data[0]; // Asumiendo que el endpoint devuelve un array y solo necesitas el primer elemento
     });
 
     if (status === "loading") {
@@ -39,47 +37,58 @@ const DataAlumno = () => {
                         <TableBody>
                             <TableRow>
                                 <TableCell>
-                                    <strong>Primer Nombre:</strong> {data.primer_nombre}
+                                    <strong>Nombre Completo:</strong>
                                 </TableCell>
                                 <TableCell>
-                                    <strong>Segundo Nombre:</strong> {data.segundo_nombre}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <strong>Apellido Paterno:</strong> {data.apellido_paterno}
-                                </TableCell>
-                                <TableCell>
-                                    <strong>Apellido Materno:</strong> {data.apellido_materno}
+                                    {data.nombre}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
-                                    <strong>Correo Institucional:</strong> {data.correo_institucional}
+                                    <strong>Correo Institucional:</strong>
                                 </TableCell>
                                 <TableCell>
-                                    <strong>Correo Personal:</strong> {data.correo_personal}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <strong>Dirección Académica:</strong> {data.direccion_academica}
-                                </TableCell>
-                                <TableCell>
-                                    <strong>Dirección Particular:</strong> {data.direccion_particular}
+                                    {data.alu_email}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
-                                    <strong>Teléfono Personal:</strong> {data.telefono_personal}
+                                    <strong>Teléfono Personal:</strong>
                                 </TableCell>
                                 <TableCell>
-                                    <strong>Teléfono Familiar:</strong> {data.telefono_familiar}
+                                    {data.alu_celular}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
-                                    <strong>Carrera:</strong> {data.carrera.nombre_carrera}
+                                    <strong>Teléfono Familiar:</strong>
+                                </TableCell>
+                                <TableCell>
+                                    {data.alu_fono}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <strong>Dirección Particular:</strong>
+                                </TableCell>
+                                <TableCell>
+                                    {data.dir_domicilio}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <strong>Ciudad:</strong>
+                                </TableCell>
+                                <TableCell>
+                                    {data.ciudad}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <strong>Carrera:</strong>
+                                </TableCell>
+                                <TableCell>
+                                    {data.crr_nombre}
                                 </TableCell>
                             </TableRow>
                         </TableBody>

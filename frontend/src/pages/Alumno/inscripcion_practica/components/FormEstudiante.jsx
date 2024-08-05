@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -26,24 +26,27 @@ const FormEstudiante = ({
         return;
       }
 
-      const response = await clienteAxios.post('/alumno/show', { id_alumno });
-      const { alumno } = response.data;
+      const response = await clienteAxios.get(`/sp/datosAlumno/${id_alumno}`);
+      const alumno = response.data[0]; // Asumiendo que la respuesta es una lista y solo necesitas el primer elemento
 
-      setNombreEstudiante(
-        `${alumno.primer_nombre} ${alumno.segundo_nombre} ${alumno.apellido_paterno} ${alumno.apellido_materno}`
-      );
-      setRun(alumno.rut);
-      setEmailEstudiante(alumno.correo_personal);
-      setCelular(alumno.telefono_personal);
-      setDireccionEstudiante(alumno.direccion_particular);
-      setFonoEmergencia(alumno.telefono_familiar);
+      setNombreEstudiante(alumno.nombre);
+      setRun(formatearRun(alumno.alu_rut, alumno.alu_dv));
+      setEmailEstudiante(alumno.alu_email);
+      setCelular(alumno.alu_celular);
+      setDireccionEstudiante(alumno.dir_domicilio);
+      setFonoEmergencia(alumno.alu_fono);
     } catch (error) {
       console.error('Error al obtener los datos del estudiante:', error);
     }
   };
 
+  const formatearRun = (rut, dv) => {
+    const rutFormateado = rut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${rutFormateado}-${dv}`;
+  };
+
   // Llamar a obtenerDatosEstudiante al cargar el componente
-  React.useEffect(() => {
+  useEffect(() => {
     obtenerDatosEstudiante();
   }, []);
 

@@ -42,9 +42,16 @@ const InscripcionesPendientes = () => {
         const response = await clienteAxios.get("/inscripcion/estado/1");
         const inscripciones = response.data;
 
-        // Hacer una solicitud adicional para obtener el id_inscribe y el nombre de la asignatura por cada inscripción
-        const inscripcionesConAsignatura = await Promise.all(
+        // Realizar todas las solicitudes adicionales y formatear RUT
+        const inscripcionesConDatos = await Promise.all(
           inscripciones.map(async (inscripcion) => {
+            // Formatear RUT
+            const rutFormateado = inscripcion.rut.replace(/\./g, "").replace(/-/g, "").slice(0, -1);
+
+            // Obtener datos del alumno
+            const datosAlumnoResponse = await clienteAxios.get(`/sp/datosAlumno/${rutFormateado}`);
+            const datosAlumno = datosAlumnoResponse.data[0];
+
             // Obtener id_inscribe
             const responseObtenerInscribe = await clienteAxios.get(
               `/inscribe/obtener_inscribe/${inscripcion.id_inscripcion}`
@@ -55,14 +62,17 @@ const InscripcionesPendientes = () => {
             const asignaturaResponse = await clienteAxios.get(
               `/inscribe/asignatura/${id_inscribe}`
             );
+            const asignatura = asignaturaResponse.data.nombre_asignatura;
+
             return {
               ...inscripcion,
-              asignatura: asignaturaResponse.data.nombre_asignatura,
+              nombre: datosAlumno ? datosAlumno.nombre : "No disponible",
+              asignatura: asignatura || "No disponible",
             };
           })
         );
 
-        setData(inscripcionesConAsignatura);
+        setData(inscripcionesConDatos);
       } catch (error) {
         console.error("Error fetching inscripciones:", error);
       }
@@ -186,20 +196,8 @@ const InscripcionesPendientes = () => {
       },
     },
     {
-      name: "primer_nombre",
+      name: "nombre",
       label: "Nombre",
-      options: {
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: "#326fa6",
-            color: "white",
-          },
-        }),
-      },
-    },
-    {
-      name: "primer_apellido",
-      label: "Apellido",
       options: {
         setCellHeaderProps: () => ({
           style: {

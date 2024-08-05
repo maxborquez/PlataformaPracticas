@@ -149,6 +149,7 @@ const mostrar_inscripcion = async (req, res) => {
         empresa: {
           include: {
             rubro: true,
+            comuna: true,
           },
         },
         estado_inscripcion: true,

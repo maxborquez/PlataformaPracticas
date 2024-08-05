@@ -12,6 +12,7 @@ const DetalleInscripcionAlumno = () => {
   const { id_inscripcion } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [alumnoData, setAlumnoData] = useState(null);
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -36,13 +37,26 @@ const DetalleInscripcionAlumno = () => {
   }, []);
 
   const { data, status } = useQuery("detalleInscripcion", async () => {
-    const response = await clienteAxios.get(
-      `/inscripcion/show/${parseInt(id_inscripcion, 10)}`
-    );
+    const response = await clienteAxios.get(`/inscripcion/show/${parseInt(id_inscripcion, 10)}`);
     return response.data;
   });
 
-  if (status === "loading") {
+  useEffect(() => {
+    if (data) {
+      const fetchAlumnoData = async () => {
+        try {
+          const response = await clienteAxios.get(`/sp/datosAlumno/${data.inscripcion.inscribe.alumno.id_alumno}`);
+          setAlumnoData(response.data[0]);
+        } catch (error) {
+          console.error("Error fetching alumno data:", error);
+        }
+      };
+
+      fetchAlumnoData();
+    }
+  }, [data]);
+
+  if (status === "loading" || !alumnoData) {
     return (
       <Grid
         sx={{
@@ -69,20 +83,15 @@ const DetalleInscripcionAlumno = () => {
   const dataTableData = [
     {
       Info: "Fecha Inscripción",
-      dato: new Date(
-        data.inscripcion.fecha_inscripcion_practica
-      ).toLocaleDateString("es-ES", {
+      dato: new Date(data.inscripcion.fecha_inscripcion_practica).toLocaleDateString("es-ES", {
         timeZone: "UTC",
       }),
     },
     {
       Info: "Fecha Inicio",
-      dato: new Date(data.inscripcion.fecha_inicio).toLocaleDateString(
-        "es-ES",
-        {
-          timeZone: "UTC",
-        }
-      ),
+      dato: new Date(data.inscripcion.fecha_inicio).toLocaleDateString("es-ES", {
+        timeZone: "UTC",
+      }),
     },
     {
       Info: "Fecha Fin",
@@ -92,20 +101,19 @@ const DetalleInscripcionAlumno = () => {
     },
     {
       Info: "Nombre Alumno",
-      dato: `${data.inscripcion.inscribe.alumno.primer_nombre} ${data.inscripcion.inscribe.alumno.segundo_nombre} ${data.inscripcion.inscribe.alumno.apellido_paterno} ${data.inscripcion.inscribe.alumno.apellido_materno}`,
+      dato: alumnoData.nombre,
     },
-    { Info: "RUT Alumno", dato: data.inscripcion.inscribe.alumno.rut },
+    { 
+      Info: "RUT Alumno", 
+      dato: `${alumnoData.alu_rut}-${alumnoData.alu_dv}` 
+    },
     {
       Info: "Correo Institucional Alumno",
-      dato: data.inscripcion.inscribe.alumno.correo_institucional,
-    },
-    {
-      Info: "Correo Personal Alumno",
-      dato: data.inscripcion.inscribe.alumno.correo_personal,
+      dato: alumnoData.alu_email,
     },
     {
       Info: "Teléfono Personal Alumno",
-      dato: data.inscripcion.inscribe.alumno.telefono_personal,
+      dato: alumnoData.alu_celular,
     },
     { Info: "Descripción", dato: data.inscripcion.descripcion },
     { Info: "Objetivos", dato: data.inscripcion.objetivos },
@@ -136,7 +144,6 @@ const DetalleInscripcionAlumno = () => {
     { Info: "Correo Supervisor", dato: data.inscripcion.supervisor.correo },
     { Info: "Modalidad", dato: data.inscripcion.modalidad.nombre_modalidad },
   ];
-
 
   const options = {
     responsive: "standard",

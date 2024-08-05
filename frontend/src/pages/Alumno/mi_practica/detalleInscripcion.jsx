@@ -12,6 +12,8 @@ const DetalleInscripcion = () => {
   const { id_inscripcion } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [alumnoData, setAlumnoData] = useState(null);
+  console.log(alumnoData)
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -43,7 +45,24 @@ const DetalleInscripcion = () => {
     return response.data;
   });
 
-  if (status === "loading") {
+  console.log(data);
+
+  useEffect(() => {
+    if (data) {
+      const fetchAlumnoData = async () => {
+        try {
+          const response = await clienteAxios.get(`/sp/datosAlumno/${data.inscripcion.inscribe.alumno.id_alumno}`);
+          setAlumnoData(response.data[0]);
+        } catch (error) {
+          console.error("Error fetching alumno data:", error);
+        }
+      };
+
+      fetchAlumnoData();
+    }
+  }, [data]);
+
+  if (status === "loading" || !alumnoData) {
     return (
       <Grid
         sx={{
@@ -93,20 +112,19 @@ const DetalleInscripcion = () => {
     },
     {
       Info: "Nombre Alumno",
-      dato: `${data.inscripcion.inscribe.alumno.primer_nombre} ${data.inscripcion.inscribe.alumno.segundo_nombre} ${data.inscripcion.inscribe.alumno.apellido_paterno} ${data.inscripcion.inscribe.alumno.apellido_materno}`,
+      dato: alumnoData.nombre,
     },
-    { Info: "RUT Alumno", dato: data.inscripcion.inscribe.alumno.rut },
+    { 
+      Info: "RUT Alumno", 
+      dato: `${alumnoData.alu_rut}-${alumnoData.alu_dv}` 
+    },
     {
       Info: "Correo Institucional Alumno",
-      dato: data.inscripcion.inscribe.alumno.correo_institucional,
-    },
-    {
-      Info: "Correo Personal Alumno",
-      dato: data.inscripcion.inscribe.alumno.correo_personal,
+      dato: alumnoData.alu_email,
     },
     {
       Info: "Teléfono Personal Alumno",
-      dato: data.inscripcion.inscribe.alumno.telefono_personal,
+      dato: alumnoData.alu_celular,
     },
     { Info: "Descripción", dato: data.inscripcion.descripcion },
     { Info: "Objetivos", dato: data.inscripcion.objetivos },

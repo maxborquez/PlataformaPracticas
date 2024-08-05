@@ -8,12 +8,17 @@ import { Grid, Button } from "@mui/material";
 
 const GenerarWord = ({ id }) => {
   const [data, setData] = useState(null);
+  const [nombreEstudiante, setNombreEstudiante] = useState("");
+  const [run, setRun] = useState("");
+  const [email, setEmail] = useState("");
+  const [celular, setCelular] = useState("");
+  const [direccionEstudiante, setDireccionEstudiante] = useState("");
+  const [fonoEmergencia, setFonoEmergencia] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await clienteAxios.get(`/inscripcion/show/${id}`);
-        console.log(response);
         setData(response.data.inscripcion);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -21,6 +26,49 @@ const GenerarWord = ({ id }) => {
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Llamar a la función para obtener los datos del alumno
+        await ObtenerDatosAlumno();
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  const ObtenerDatosAlumno = async () => {
+    try {
+      // Obtener el id_alumno del localStorage
+      const idAlumno = localStorage.getItem("id_alumno");
+
+      if (!idAlumno) {
+        console.error("id_alumno no encontrado en localStorage");
+        return;
+      }
+
+      // Hacer la solicitud a la ruta /sp/datosAlumno/id_alumno
+      const response = await clienteAxios.get(`/sp/datosAlumno/${idAlumno}`);
+      const alumnoData = response.data[0]; // Suponiendo que la respuesta es un array y tomamos el primer elemento
+      // Almacenar los datos en las variables locales
+      setNombreEstudiante(alumnoData.nombre.trim());
+      setRun(formatearRun(alumnoData.alu_rut, alumnoData.alu_dv));
+      setEmail(alumnoData.alu_email);
+      setCelular(alumnoData.alu_celular);
+      setDireccionEstudiante(alumnoData.dir_domicilio.trim());
+      setFonoEmergencia(alumnoData.alu_fono.trim());
+
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  };
+
+  const formatearRun = (rut, dv) => {
+    const rutFormateado = rut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${rutFormateado}-${dv}`;
+  };
 
   function formatUTCTime(dateString) {
     const date = new Date(dateString);
@@ -62,7 +110,6 @@ const GenerarWord = ({ id }) => {
         linebreaks: true,
       });
 
-      // Map API data to template variables
       const asignatura = data.inscribe.id_asignatura;
       const modality = data.modalidad.nombre_modalidad;
 
@@ -74,22 +121,23 @@ const GenerarWord = ({ id }) => {
         ).toLocaleDateString("es-ES", {
           timeZone: "UTC",
         }),
-        presencial: modality === "Presencial" ? "x" : "",
-        online: modality === "Online" ? "x" : "",
-        pasantia: modality === "Pasantia" ? "x" : "",
-        training: modality === "Training" ? "x" : "",
-        nombre_estudiante: `${data.inscribe.alumno.primer_nombre} ${data.inscribe.alumno.segundo_nombre} ${data.inscribe.alumno.apellido_paterno} ${data.inscribe.alumno.apellido_materno}`,
-        run: data.inscribe.alumno.rut,
-        email: data.inscribe.alumno.correo_institucional,
-        celular: data.inscribe.alumno.telefono_personal,
-        direccion_estudiante: data.inscribe.alumno.direccion_particular,
-        fono_emergencia: data.inscribe.alumno.telefono_familiar,
+        presencial: modality === "PRESENCIAL" ? "x" : "",
+        online: modality === "ONLINE" ? "x" : "",
+        pasantia: modality === "PASANTÍA" ? "x" : "",
+        training: modality === "TRAINING" ? "x" : "",
+        nombre_estudiante: nombreEstudiante,
+        run: run,
+        email: email,
+        celular: celular,
+        direccion_estudiante: direccionEstudiante,
+        fono_emergencia: fonoEmergencia,
         nombre_empresa: data.empresa.nombre,
         dpto: data.empresa.departamento,
         web: data.empresa.web,
         rubro: data.empresa.rubro.nombre_rubro,
         fono_empresa: data.empresa.telefono,
         direccion_empresa: data.empresa.direccion,
+        ciudad: data.empresa.comuna.nombre,
         nombre_supervisor: data.supervisor.nombre,
         profesion: data.supervisor.profesion,
         cargo: data.supervisor.cargo,

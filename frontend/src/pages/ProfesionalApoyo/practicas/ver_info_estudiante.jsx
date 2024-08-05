@@ -9,15 +9,21 @@ import {
   Paper,
   CircularProgress,
   Button,
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from "@mui/material";
 import { useQuery } from "react-query";
 import clienteAxios from "../../../helpers/clienteaxios";
 import Header from "../../../components/headers/header";
-import MisAptitudes from "../../Alumno/perfil-alumno/components/misApitudes";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
+import MisAptitudes from "../../Alumno/perfil-alumno/components/misApitudes"; // Asegúrate de que la ruta sea correcta
 
 const PerfilEstudiante = () => {
-  const { rut } = useParams();
+  const { rut } = useParams(); // Aquí obtienes el 'rut' que usas como identificador
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
@@ -34,7 +40,6 @@ const PerfilEstudiante = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
     handleResize();
 
     return () => {
@@ -42,11 +47,9 @@ const PerfilEstudiante = () => {
     };
   }, []);
 
-  const { data, status } = useQuery(["perfilEstudiante", rut], async () => {
-    const response = await clienteAxios.post("/alumno/show", {
-      rut: rut,
-    });
-    return response.data;
+  const { data, status } = useQuery(["datosAlumno", rut], async () => {
+    const response = await clienteAxios.get(`/sp/datosAlumno/${rut}`);
+    return response.data[0]; // Asumiendo que el endpoint devuelve un array y solo necesitas el primer elemento
   });
 
   if (status === "loading") {
@@ -63,7 +66,7 @@ const PerfilEstudiante = () => {
   }
 
   if (status === "success") {
-    const { alumno } = data;
+    const { nombre, alu_email, alu_celular, alu_fono, dir_domicilio, ciudad, crr_nombre } = data;
 
     return (
       <Grid
@@ -111,7 +114,7 @@ const PerfilEstudiante = () => {
               marginTop: "5px",
               display: "flex",
               justifyContent: "center",
-              marginBottom:"16px"
+              marginBottom: "16px"
             }}
           >
             <Card
@@ -143,77 +146,77 @@ const PerfilEstudiante = () => {
                     Volver
                   </Button>
                 </Box>
-                <Paper
-                  elevation={3}
-                  sx={{ padding: "16px", backgroundColor: "#fff" }}
-                >
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Primer Nombre:</strong> {alumno.primer_nombre}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Segundo Nombre:</strong> {alumno.segundo_nombre}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Apellido Paterno:</strong>{" "}
-                        {alumno.apellido_paterno}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Apellido Materno:</strong>{" "}
-                        {alumno.apellido_materno}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Correo Institucional:</strong>{" "}
-                        {alumno.correo_institucional}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Correo Personal:</strong>{" "}
-                        {alumno.correo_personal}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Dirección Académica:</strong>{" "}
-                        {alumno.direccion_academica}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Dirección Particular:</strong>{" "}
-                        {alumno.direccion_particular}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Teléfono Personal:</strong>{" "}
-                        {alumno.telefono_personal}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="subtitle1">
-                        <strong>Teléfono Familiar:</strong>{" "}
-                        {alumno.telefono_familiar}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="subtitle1">
-                        <strong>Carrera:</strong>{" "}
-                        {alumno.carrera.nombre_carrera}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Paper>
+                <TableContainer component={Paper} sx={{ maxWidth: '100%', marginTop: "15px", boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)' }}>
+                  <Table>
+                    <TableHead sx={{ backgroundColor:"#326fa6" }}>
+                      <TableRow>
+                        <TableCell colSpan={2}>
+                          <Typography variant="subtitle1" sx={{ textAlign: "center", color: "white", padding: "10px 0" }}>
+                            Datos Personales
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Nombre Completo:</strong>
+                        </TableCell>
+                        <TableCell>
+                          {nombre}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Correo Institucional:</strong>
+                        </TableCell>
+                        <TableCell>
+                          {alu_email}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Teléfono Personal:</strong>
+                        </TableCell>
+                        <TableCell>
+                          {alu_celular}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Teléfono Familiar:</strong>
+                        </TableCell>
+                        <TableCell>
+                          {alu_fono}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Dirección Particular:</strong>
+                        </TableCell>
+                        <TableCell>
+                          {dir_domicilio}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Ciudad:</strong>
+                        </TableCell>
+                        <TableCell>
+                          {ciudad}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <strong>Carrera:</strong>
+                        </TableCell>
+                        <TableCell>
+                          {crr_nombre}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
                 <Typography
                   variant="h5"
                   sx={{ textAlign: "center", marginTop: "20px" }}
@@ -221,7 +224,7 @@ const PerfilEstudiante = () => {
                   Conocimientos
                 </Typography>
                 <MisAptitudes
-                  id_alumno={alumno.id_alumno}
+                  id_alumno={rut}
                   showDeleteButton={false}
                 />
               </CardContent>

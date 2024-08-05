@@ -13,6 +13,8 @@ const ListaEstudiantes = () => {
   const [data, setData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [alumnoData, setAlumnoData] = useState({ nombre: '', correo: '' });
+
 
   const carreraMap = {
     29037: "IECI",
@@ -47,22 +49,35 @@ const ListaEstudiantes = () => {
         const response = await clienteAxios.get(
           `/inscripcion/listaestudiantes/${careerId}/${asignaturaId}/${anio}/${periodo}`
         );
-        const transformedData = response.data.map((estudiante) => ({
-          ...estudiante,
-          estado_practica:
-            estudiante.inscribe[0]?.estado_practica?.nombre_estado_practica ||
-            "No disponible",
-          id_inscripcion:
-            estudiante.inscribe[0]?.id_inscripcion || "No disponible",
+  
+        const transformedData = await Promise.all(response.data.map(async (estudiante) => {
+          // Obtener el id_alumno desde la respuesta inscribe
+          const idAlumno = estudiante.inscribe[0]?.id_alumno;
+  
+          // Obtener datos del alumno
+          const alumnoData = idAlumno ? await fetchAlumnoData(idAlumno) : { nombre: "No disponible", correo: "No disponible" };
+  
+          return {
+            ...estudiante,
+            nombre: alumnoData.nombre,
+            correo_institucional: alumnoData.correo,
+            estado_practica:
+              estudiante.inscribe[0]?.estado_practica?.nombre_estado_practica ||
+              "No disponible",
+            id_inscripcion:
+              estudiante.inscribe[0]?.id_inscripcion || "No disponible",
+          };
         }));
+  
         setData(transformedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, [careerId, asignaturaId, anio, periodo]);
+  
 
   const fetchInscripcion = async (idInscribe) => {
     try {
@@ -75,6 +90,20 @@ const ListaEstudiantes = () => {
       return null;
     }
   };
+
+  const fetchAlumnoData = async (idAlumno) => {
+    try {
+      const response = await clienteAxios.get(`/sp/datosAlumno/${idAlumno}`);
+      if (response.data && response.data.length > 0) {
+        const { nombre, alu_email } = response.data[0];
+        return { nombre, correo: alu_email };
+      }
+    } catch (error) {
+      console.error("Error fetching alumno data:", error);
+    }
+    return { nombre: "No disponible", correo: "No disponible" };
+  };
+
 
   const handleViewInscripcion = (id) => {
     window.open(`/visualizadorInscripciones/${id}`, "_blank");
@@ -90,7 +119,7 @@ const ListaEstudiantes = () => {
 
   const columns = [
     {
-      name: "rut",
+      name: "id_alumno",
       label: "RUT",
       options: {
         setCellHeaderProps: () => ({
@@ -102,32 +131,8 @@ const ListaEstudiantes = () => {
       },
     },
     {
-      name: "primer_nombre",
-      label: "Primer Nombre",
-      options: {
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: "#326fa6",
-            color: "#fff",
-          },
-        }),
-      },
-    },
-    {
-      name: "apellido_paterno",
-      label: "Apellido Paterno",
-      options: {
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: "#326fa6",
-            color: "#fff",
-          },
-        }),
-      },
-    },
-    {
-      name: "apellido_materno",
-      label: "Apellido Materno",
+      name: "nombre",
+      label: "Nombre",
       options: {
         setCellHeaderProps: () => ({
           style: {

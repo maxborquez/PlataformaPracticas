@@ -8,25 +8,15 @@ datasource db {
 }
 
 model alumno {
-  id_alumno            Int               @id @default(autoincrement())
-  rut                  String            @unique(map: "uk_rut") @db.VarChar(15)
-  primer_nombre        String            @db.VarChar(50)
-  segundo_nombre       String            @db.VarChar(50)
-  apellido_paterno     String            @db.VarChar(50)
-  apellido_materno     String            @db.VarChar(50)
-  direccion_academica  String            @db.VarChar(120)
-  direccion_particular String            @db.VarChar(120)
-  telefono_personal    String            @db.VarChar(15)
-  telefono_familiar    String            @db.VarChar(15)
-  correo_institucional String            @unique(map: "uk_correo_institucional") @db.VarChar(100)
-  correo_personal      String            @db.VarChar(100)
-  id_carrera           Int
-  id_usuario           Int
-  usuario              usuario           @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "alumno_ibfk_1")
-  carrera              carrera           @relation(fields: [id_carrera], references: [id_carrera], onDelete: Cascade)
-  bitacora_alumno      bitacora_alumno[]
-  conocimiento         conocimiento[]
-  inscribe             inscribe[]
+  id_alumno       Int               @id @default(autoincrement())
+  rut             String            @unique(map: "rut") @db.VarChar(15)
+  id_carrera      Int
+  id_usuario      Int
+  usuario         usuario           @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "alumno_ibfk_1")
+  carrera         carrera           @relation(fields: [id_carrera], references: [id_carrera], onDelete: Cascade)
+  bitacora_alumno bitacora_alumno[]
+  conocimiento    conocimiento[]
+  inscribe        inscribe[]
 
   @@index([id_carrera], map: "alumno_id_carrera_fkey")
   @@index([id_usuario], map: "id_usuario")
@@ -297,16 +287,10 @@ model periodo_academico {
 }
 
 model profesional {
-  id_profesional       Int     @id @default(autoincrement())
-  rut                  String  @unique(map: "uk_rut") @db.VarChar(15)
-  primer_nombre        String  @db.VarChar(50)
-  segundo_nombre       String? @db.VarChar(50)
-  primer_apellido      String  @db.VarChar(50)
-  segundo_apellido     String? @db.VarChar(50)
-  telefono             String  @db.VarChar(20)
-  correo_institucional String  @unique(map: "uk_correo_institucional") @db.VarChar(100)
-  id_usuario           Int
-  usuario              usuario @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "profesional_ibfk_1")
+  id_profesional Int     @id @default(autoincrement())
+  rut            String  @unique(map: "uk_rut") @db.VarChar(15)
+  id_usuario     Int
+  usuario        usuario @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "profesional_ibfk_1")
 
   @@index([id_usuario], map: "id_usuario")
 }

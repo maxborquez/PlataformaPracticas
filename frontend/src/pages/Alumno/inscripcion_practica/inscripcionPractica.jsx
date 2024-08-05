@@ -11,17 +11,37 @@ const InscripcionPractica = () => {
   const id_alumno = localStorage.getItem("id_alumno");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const [isWithinRange, setIsWithinRange] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const { data, status } = useQuery("estado_inscripcion", async () => {
+  const { data: inscripcionData, status: inscripcionStatus } = useQuery("estado_inscripcion", async () => {
     const response = await clienteAxios.post("/inscripcion/comprobar", {
       id_alumno: id_alumno,
     });
     return response.data;
   });
+
+  const { data: rangoData, status: rangoStatus } = useQuery("rango_fechas", async () => {
+    const response = await clienteAxios.get("/rango/getAll");
+    return response.data;
+  });
+
+  useEffect(() => {
+    if (rangoStatus === "success" && rangoData.length > 0) {
+      const now = new Date();
+      const inRange = rangoData.some((rango) => {
+        const inicio1 = new Date(rango.inicio1);
+        const termino1 = new Date(rango.termino1);
+        const inicio2 = new Date(rango.inicio2);
+        const termino2 = new Date(rango.termino2);
+        return (now >= inicio1 && now <= termino1) || (now >= inicio2 && now <= termino2);
+      });
+      setIsWithinRange(inRange);
+    }
+  }, [rangoStatus, rangoData]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -90,7 +110,7 @@ const InscripcionPractica = () => {
           }}
         >
           <Paper
-          elevation={3}
+            elevation={3}
             sx={{
               padding: "20px",
               backgroundColor: "white",
@@ -112,21 +132,28 @@ const InscripcionPractica = () => {
               Formulario de Inscripción{" "}
               <School style={{ marginLeft: "5px" }} />
             </Typography>
-            {status === "success" && data.inscrito_sistema && (
+            {inscripcionStatus === "success" && inscripcionData.inscrito_sistema && (
               <Grid item>
                 {localStorage.setItem(
                   "id_inscripcion_practica",
-                  data.id_inscripcion_practica
+                  inscripcionData.id_inscripcion_practica
                 )}
                 <Alert severity="warning">
                   Ya tienes una practica inscrita actualmente
                 </Alert>
               </Grid>
             )}
-            {status === "success" && data.inscrito_sistema === false && (
+            {inscripcionStatus === "success" && !inscripcionData.inscrito_sistema && isWithinRange && (
               <Grid item>
                 {localStorage.setItem("id_inscripcion_practica", "undefined")}
                 <FormularioInscripcion />
+              </Grid>
+            )}
+            {inscripcionStatus === "success" && !inscripcionData.inscrito_sistema && !isWithinRange && (
+              <Grid item>
+                <Alert severity="info">
+                  No estás dentro de los rangos de fechas permitidos para inscribirte en una práctica.
+                </Alert>
               </Grid>
             )}
           </Paper>

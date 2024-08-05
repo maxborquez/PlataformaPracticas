@@ -49,6 +49,7 @@ import DetalleCentroPractica from "./pages/ProfesionalApoyo/empresas/detalleCent
 import ArchivoInscripcionPractica from "./pages/Alumno/archivoInscripcion/archivoInscripcion";
 import DetalleInscripcion from "./pages/Alumno/mi_practica/detalleInscripcion";
 import DetalleInscripcionAlumno from "./pages/ProfesionalApoyo/inscripciones_pendientes/detalleInscripcionAlumno";
+import RangoInscripcion from "./pages/ProfesionalApoyo/rangoInscripcion/rangoInscripcion";
 
 const queryClient = new QueryClient();
 
@@ -101,6 +102,7 @@ function App() {
               <Route path="/aptitudes_pendientes" element={<AptitudesPendientes />}/>
               <Route path="/detalleCentroPractica/:id" element={<DetalleCentroPractica />}/>
               <Route path="/detalle_inscripcion_alumno/:id_inscripcion" element={<DetalleInscripcionAlumno />} />
+              <Route path="/rangoInscripcion" element={<RangoInscripcion />} />
             </Route>
           </Routes>
         </AuthProvider>

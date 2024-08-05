@@ -150,7 +150,7 @@ const FormEmpresa = ({
 
   const validateDireccion = (value) => {
     // Filtrar caracteres no permitidos
-    const filteredValue = value.replace(/[^a-zA-ZñÑ09,\s]/g, "");
+    const filteredValue = value.replace(/[^a-zA-ZñÑ0-9,\s]/g, "");
     setDireccionEmpresa(filteredValue);
     if (filteredValue.length > 30) {
       setDireccionEmpresaError(true);

@@ -114,7 +114,11 @@ const SidebarProfesional = () => {
       </Collapse>
 
       <ListItem button onClick={() => navigate("/aptitudes_pendientes")}>
-        <ListItemText sx={{ textAlign: "center" }} primary="Aptitudes" />
+        <ListItemText sx={{ textAlign: "center" }} primary="Aptitudes pendientes" />
+      </ListItem>
+
+      <ListItem button onClick={() => navigate("/rangoInscripcion")}>
+        <ListItemText sx={{ textAlign: "center" }} primary="Rango de inscripcion" />
       </ListItem>
 
       <ListItem button onClick={logout}>

@@ -113,6 +113,7 @@ const TableEmpresa = () => {
       name: "rubro",
       label: "Rubro",
       options: {
+        customBodyRender: (value) => value.nombre_rubro,
         setCellHeaderProps: () => ({
           style: {
             backgroundColor: "#326fa6",
@@ -203,7 +204,7 @@ const TableEmpresa = () => {
     sort: false,
     textLabels: {
       body: {
-        noMatch: 'No hay datos disponibles', // Mensaje en español cuando no hay datos
+        noMatch: "No hay datos disponibles", // Mensaje en español cuando no hay datos
       },
     },
   };

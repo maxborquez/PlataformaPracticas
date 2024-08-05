@@ -212,7 +212,7 @@ const DetalleOfertas = () => {
                       <TableRow>
                         <TableCell>
                           <strong>Rubro:</strong>{" "}
-                          {getOferta.data.oferta.empresa.rubro}
+                          {getOferta.data.oferta.empresa.rubro.nombre_rubro}
                         </TableCell>
                       </TableRow>
                       <TableRow>

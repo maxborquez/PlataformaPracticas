@@ -44,6 +44,7 @@ const DetalleCentroPractica = () => {
   const { data, status } = useQuery(["empresa", id], async () => {
     const response = await clienteAxios.get(`/empresa/getById/${id}`);
     const empresaData = response.data;
+    console.log(empresaData);
 
     // Filtrar inscripciones y supervisores con estado 2
     empresaData.inscripcion_practica = empresaData.inscripcion_practica.filter(
@@ -60,7 +61,15 @@ const DetalleCentroPractica = () => {
     { name: "nombre", label: "Nombre" },
     { name: "departamento", label: "Departamento" },
     { name: "web", label: "Página Web" },
-    { name: "rubro", label: "Rubro" },
+    {
+      name: "rubro",
+      label: "Rubro",
+      options: {
+        customBodyRender: (rubro) => {
+          return rubro && rubro.nombre_rubro ? rubro.nombre_rubro : "N/A";
+        },
+      },
+    },
     { name: "telefono", label: "Teléfono" },
     { name: "direccion", label: "Dirección" },
     {
@@ -73,6 +82,7 @@ const DetalleCentroPractica = () => {
       },
     },
   ];
+  
 
   const inscripcionColumns = [
     { name: "fecha_inscripcion_practica", label: "Fecha Inscripción" },

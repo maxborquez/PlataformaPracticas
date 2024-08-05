@@ -6,6 +6,7 @@ import clienteAxios from "../../../helpers/clienteaxios";
 import { useParams, useNavigate } from "react-router-dom";
 import CardBitacora from "./components/card_bitacora";
 import CardAddBitacora from "./components/card_add_bitacora";
+import Swal from "sweetalert2";
 
 const Bitacoras = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,6 +14,7 @@ const Bitacoras = () => {
   const [bitacoras, setBitacoras] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const { id_inscripcion_practica } = useParams();
+  const [idEstadoInscripcion, setIdEstadoInscripcion] = useState(null);
   const navigate = useNavigate();
 
   const id_alumno = localStorage.getItem("id_alumno");
@@ -20,6 +22,21 @@ const Bitacoras = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  useEffect(() => {
+    const obtenerDatosInscripcion = async () => {
+      try {
+        const response = await clienteAxios.get(`/inscripcion/show/${id_inscripcion_practica}`);
+        setIdEstadoInscripcion(
+          response.data.inscripcion.estado_inscripcion.id_estado_inscripcion
+        );
+      } catch (error) {
+        console.log("Error al obtener los datos de la inscripción", error);
+      }
+    };
+
+    obtenerDatosInscripcion();
+  }, [id_inscripcion_practica]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -165,7 +182,7 @@ const Bitacoras = () => {
                       <CardBitacora bitacora={bitacora} />
                     </Grid>
                   ))}
-                  {id_alumno && id_inscripcion_practica !== "undefined" && (
+                  {id_alumno && id_inscripcion_practica !== "undefined" && idEstadoInscripcion != 2 && (
                     <Grid item xs={12} sm={6} md={3}>
                       <CardAddBitacora onClick={handleAgregarBitacora} />
                     </Grid>
@@ -175,7 +192,7 @@ const Bitacoras = () => {
             )}
             {id_alumno &&
               id_inscripcion_practica !== "undefined" &&
-              bitacoras.length == 0 && (
+              bitacoras.length == 0 && idEstadoInscripcion === 2 &&  (
                 <Grid item xs={12} sm={6} md={3}>
                   <CardAddBitacora onClick={handleAgregarBitacora} />
                 </Grid>

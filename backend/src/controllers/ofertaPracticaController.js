@@ -103,6 +103,7 @@ const mostrar_oferta = async (req, res) => {
         empresa: {
           include: {
             comuna: true,
+            rubro: true,
           },
         },
       },

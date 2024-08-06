@@ -22,9 +22,14 @@ import { Business } from "@mui/icons-material";
 
 const DetalleOfertaPractica = () => {
   const { id } = useParams();
+  const id_inscribe = localStorage.getItem("id_inscribe");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/inscripcionpractica/${id_inscribe}/${id}`);
+  };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -128,7 +133,7 @@ const DetalleOfertaPractica = () => {
               backgroundColor: "white",
               width: "100%",
               marginTop: "16px",
-              boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)',
+              boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.3)",
               borderRadius: "8px",
               boxSizing: "border-box",
             }}
@@ -170,7 +175,8 @@ const DetalleOfertaPractica = () => {
                               transition: "all 1000ms",
                             }}
                           >
-                            Detalle Oferta <Business style={{ marginLeft: "5px" }} />
+                            Detalle Oferta{" "}
+                            <Business style={{ marginLeft: "5px" }} />
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -178,7 +184,8 @@ const DetalleOfertaPractica = () => {
                     <TableBody>
                       <TableRow>
                         <TableCell>
-                          <strong>Título:</strong> {getOferta.data.oferta.titulo}
+                          <strong>Título:</strong>{" "}
+                          {getOferta.data.oferta.titulo}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -264,7 +271,11 @@ const DetalleOfertaPractica = () => {
                   justifyContent="flex-end"
                   sx={{ marginTop: "16px" }}
                 >
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClick}
+                  >
                     Inscribir esta práctica
                   </Button>
                 </Grid>

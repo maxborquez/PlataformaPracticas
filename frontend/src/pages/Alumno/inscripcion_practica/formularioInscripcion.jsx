@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import clienteAxios from "../../../helpers/clienteaxios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import FormPractica from "./components/FormPractica";
@@ -14,6 +14,7 @@ import FormHorarios from "./components/FormHorarios";
 
 const FormularioInscripcion = () => {
   const navigate = useNavigate();
+  const { id_oferta } = useParams();
 
   const getLocalDate = () => {
     const today = new Date();
@@ -67,6 +68,34 @@ const FormularioInscripcion = () => {
       setIdInscribe(storedIdInscribe);
     }
   }, []);
+
+  useEffect(() => {
+    // Realiza la petición a la API cuando el id_oferta esté disponible
+    if (id_oferta) {
+      clienteAxios
+        .get(`/oferta/show/${id_oferta}`)
+        .then((response) => {
+          if (response.data.oferta) {
+            const oferta = response.data.oferta;
+            console.log("Oferta:", oferta);
+            const empresa = oferta.empresa;
+            setNombreEmpresa(empresa.nombre);
+            setDepartamento(empresa.departamento);
+            setPaginaWeb(empresa.web);
+            setRubro(empresa.rubro.id_rubro);
+            setFonoEmpresa(empresa.telefono);
+            setDireccionEmpresa(empresa.direccion);
+
+            // Asignar otras variables si es necesario
+            setModalidad(oferta.modalidad.id_modalidad);
+          }
+        })
+        .catch((error) => {
+          console.error("Error al obtener la oferta:", error);
+          // Maneja el error si es necesario
+        });
+    }
+  }, [id_oferta]);
 
   const handleSubmit = async () => {
     try {

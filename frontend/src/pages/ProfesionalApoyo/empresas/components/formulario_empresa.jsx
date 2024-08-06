@@ -13,10 +13,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Business } from "@mui/icons-material";
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../../helpers/clienteaxios";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useNavigate } from "react-router-dom";
 
 const FormularioEmpresa = () => {
@@ -31,6 +30,8 @@ const FormularioEmpresa = () => {
   const [comunas, setComunas] = useState([]);
   const [region, setRegion] = useState("");
   const [provincia, setProvincia] = useState("");
+  const [rubro, setRubro] = useState(""); // Estado para el rubro
+  const [rubros, setRubros] = useState([]); // Estado para los rubros
   const queryClient = useQueryClient();
   const formRef = useRef(null);
   const navigate = useNavigate();
@@ -46,6 +47,19 @@ const FormularioEmpresa = () => {
     };
 
     obtenerRegiones();
+  }, []);
+
+  useEffect(() => {
+    const obtenerRubros = async () => {
+      try {
+        const response = await clienteAxios.get("/rubro/getAll");
+        setRubros(response.data);
+      } catch (error) {
+        console.error("Error al obtener los rubros:", error);
+      }
+    };
+
+    obtenerRubros();
   }, []);
 
   const handleRegionChange = async (regionId) => {
@@ -75,10 +89,6 @@ const FormularioEmpresa = () => {
     }
   };
 
-  const handleBack = () => {
-    navigate("/centros_practicas");
-  };
-
   const onSubmit = async (data) => {
     Swal.fire({
       title: "¿Estás seguro de los datos?",
@@ -97,10 +107,10 @@ const FormularioEmpresa = () => {
           nombre: data.nombre,
           departamento: data.departamento,
           web: data.web,
-          rubro: data.rubro,
+          id_rubro: parseInt(rubro, 10), // Usar el id_rubro seleccionado
           direccion: data.direccion,
           telefono: data.telefono,
-          id_comuna: parseInt(comuna,10),
+          id_comuna: parseInt(comuna, 10),
           id_estado_empresa: 2,
         };
         const response = await clienteAxios.post(
@@ -190,11 +200,22 @@ const FormularioEmpresa = () => {
               )}
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                label="Rubro"
-                {...register("rubro", { required: true })}
-                fullWidth
-              />
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Rubro</InputLabel>
+                <Select
+                  value={rubro}
+                  onChange={(e) => setRubro(e.target.value)}
+                >
+                  <MenuItem value="">
+                    <em>Seleccione un rubro</em>
+                  </MenuItem>
+                  {rubros.map((rubro) => (
+                    <MenuItem key={rubro.id_rubro} value={rubro.id_rubro}>
+                      {rubro.nombre_rubro}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               {errors.rubro && (
                 <Alert sx={{ marginTop: "5px" }} severity="error">
                   Este campo es requerido
@@ -246,10 +267,7 @@ const FormularioEmpresa = () => {
                     <em>Seleccione una región</em>
                   </MenuItem>
                   {regiones.map((region) => (
-                    <MenuItem
-                      key={region.id_region}
-                      value={region.id_region}
-                    >
+                    <MenuItem key={region.id_region} value={region.id_region}>
                       {region.nombre_region}
                     </MenuItem>
                   ))}
@@ -296,21 +314,9 @@ const FormularioEmpresa = () => {
               </FormControl>
             </Grid>
 
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{ width: "200px", margin: "0px auto" }}
-              >
-                Registrar Empresa
+            <Grid item xs={12} md={12} sx={{ marginTop: "20px" }}>
+              <Button type="submit" variant="contained">
+                Crear Empresa
               </Button>
             </Grid>
           </Grid>

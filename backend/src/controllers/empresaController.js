@@ -251,6 +251,28 @@ const getEmpresaById = async (req, res) => {
   }
 };
 
+const aprobarEmpresa = async (req, res) => {
+  const { id_empresa } = req.params;
+
+  try {
+    const empresaActualizada = await prisma.empresa.update({
+      where: { id_empresa: parseInt(id_empresa, 10) },
+      data: { id_estado_empresa: 2 },
+    });
+
+    res.json({
+      message: 'Estado de la empresa actualizado correctamente',
+      empresa: empresaActualizada,
+    });
+  } catch (error) {
+    console.error('Error al actualizar el estado de la empresa:', error);
+    res.status(500).json({
+      message: 'Error al actualizar el estado de la empresa',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   crear_empresa,
   obtener_empresas,
@@ -258,5 +280,6 @@ module.exports = {
   mostrar_empresa,
   actualizar_empresa,
   getEmpresaByNombre,
-  getEmpresaById
+  getEmpresaById,
+  aprobarEmpresa
 };

@@ -16,6 +16,12 @@ const RangoInscripcion = () => {
     inicio2: "",
     termino2: "",
   });
+  const [errorMessages, setErrorMessages] = useState({
+    inicio1: "",
+    termino1: "",
+    inicio2: "",
+    termino2: "",
+  });
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -49,14 +55,65 @@ const RangoInscripcion = () => {
   }, []);
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    const currentYear = new Date().getFullYear();
+    const inputYear = new Date(value).getFullYear();
+    
+    let errorMessage = "";
+    if (inputYear !== currentYear) {
+      errorMessage = "La fecha debe ser del año actual.";
+    }
+
     setRango({
       ...rango,
-      [e.target.name]: e.target.value,
+      [name]: value,
+    });
+    setErrorMessages({
+      ...errorMessages,
+      [name]: errorMessage,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isError = Object.values(errorMessages).some(
+      (message) => message !== ""
+    );
+
+    const inicio1Date = new Date(rango.inicio1);
+    const termino1Date = new Date(rango.termino1);
+    const inicio2Date = new Date(rango.inicio2);
+    const termino2Date = new Date(rango.termino2);
+
+    if (termino1Date <= inicio1Date) {
+      setErrorMessages((prev) => ({
+        ...prev,
+        termino1: "El término del semestre 1 debe ser mayor que el inicio del semestre 1.",
+      }));
+    } else if (inicio2Date <= termino1Date) {
+      setErrorMessages((prev) => ({
+        ...prev,
+        inicio2: "El inicio del semestre 2 debe ser mayor que el término del semestre 1.",
+      }));
+    } else if (termino2Date <= inicio2Date) {
+      setErrorMessages((prev) => ({
+        ...prev,
+        termino2: "El término del semestre 2 debe ser mayor que el inicio del semestre 2.",
+      }));
+    } else {
+      setErrorMessages({
+        inicio1: "",
+        termino1: "",
+        inicio2: "",
+        termino2: "",
+      });
+    }
+
+    if (isError) {
+      Swal.fire("Error", "Corrige los errores antes de enviar el formulario", "error");
+      return;
+    }
+
     try {
       await clienteAxios.put(`/rango/update/${rango.id_rango}`, rango);
       Swal.fire("Éxito", "Fechas actualizadas correctamente", "success");
@@ -122,7 +179,7 @@ const RangoInscripcion = () => {
               marginLeft: "16px",
             }}
           >
-            <Typography variant="h5">Rangos permitidos para inscipcion de práctica</Typography>
+            <Typography variant="h5">Rangos permitidos para inscipción de práctica</Typography>
             <form onSubmit={handleSubmit}>
               <TextField
                 label="Inicio semestre 1"
@@ -133,6 +190,8 @@ const RangoInscripcion = () => {
                 fullWidth
                 margin="normal"
                 InputLabelProps={{ shrink: true }}
+                error={!!errorMessages.inicio1}
+                helperText={errorMessages.inicio1}
               />
               <TextField
                 label="Término semestre 1"
@@ -143,6 +202,8 @@ const RangoInscripcion = () => {
                 fullWidth
                 margin="normal"
                 InputLabelProps={{ shrink: true }}
+                error={!!errorMessages.termino1}
+                helperText={errorMessages.termino1}
               />
               <TextField
                 label="Inicio semestre 2"
@@ -153,6 +214,8 @@ const RangoInscripcion = () => {
                 fullWidth
                 margin="normal"
                 InputLabelProps={{ shrink: true }}
+                error={!!errorMessages.inicio2}
+                helperText={errorMessages.inicio2}
               />
               <TextField
                 label="Término semestre 2"
@@ -163,6 +226,8 @@ const RangoInscripcion = () => {
                 fullWidth
                 margin="normal"
                 InputLabelProps={{ shrink: true }}
+                error={!!errorMessages.termino2}
+                helperText={errorMessages.termino2}
               />
               <Button
                 type="submit"

@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
-import { Grid, Button, Typography, Card, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import {
+  Grid,
+  Button,
+  Typography,
+  Card,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import Header from "../../../components/headers/header";
 import SidebarProfesional from "../../../components/sidebars/sidebarProfesional";
 import { useNavigate } from "react-router-dom";
@@ -51,7 +60,7 @@ const Convenios = () => {
 
   useEffect(() => {
     // Filter convenios based on the con_nombre field
-    const filtered = convenios.filter(convenio =>
+    const filtered = convenios.filter((convenio) =>
       convenio.con_nombre.toLowerCase().includes("práctica".toLowerCase())
     );
     setFilteredConvenios(filtered);
@@ -62,12 +71,18 @@ const Convenios = () => {
   };
 
   const columns = [
-    { name: "con_codigo", label: "Código" },
+    {
+      name: "con_codigo",
+      label: "Código",
+      options: {
+        display: "excluded",
+      },
+    },
     { name: "tic_nombre", label: "Tipo" },
     { name: "con_nombre", label: "Nombre" },
     { name: "con_fecha_inicio", label: "Fecha Inicio" },
     { name: "con_fecha_termino", label: "Fecha Término" },
-    { name: "con_descripcion", label: "Descripción" }
+    { name: "con_descripcion", label: "Descripción" },
   ];
 
   // Function to generate a list of years from 2000 to the current year
@@ -176,7 +191,8 @@ const Convenios = () => {
                   title={"Convenios"}
                   data={filteredConvenios}
                   columns={columns}
-                  options={{ responsive: "standard",
+                  options={{
+                    responsive: "standard",
                     search: false,
                     download: false,
                     print: false,
@@ -187,9 +203,11 @@ const Convenios = () => {
                     sort: false,
                     textLabels: {
                       body: {
-                        noMatch: 'No hay datos disponibles, seleccione otro año', // Mensaje en español cuando no hay datos
+                        noMatch:
+                          "No hay datos disponibles, seleccione otro año", // Mensaje en español cuando no hay datos
                       },
-                    }, }}
+                    },
+                  }}
                 />
               </Grid>
             </Grid>

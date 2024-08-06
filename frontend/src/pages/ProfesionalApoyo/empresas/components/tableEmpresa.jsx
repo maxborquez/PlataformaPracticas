@@ -65,12 +65,7 @@ const TableEmpresa = () => {
       name: "id_empresa",
       label: "ID Empresa",
       options: {
-        setCellHeaderProps: () => ({
-          style: {
-            backgroundColor: "#326fa6",
-            color: "#fff",
-          },
-        }),
+        display: "excluded",
       },
     },
     {

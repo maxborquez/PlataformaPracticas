@@ -99,21 +99,37 @@ const FormularioInscripcion = () => {
 
   const handleSubmit = async () => {
     try {
-      // 1. Crear la empresa
-      const empresaResponse = await clienteAxios.post("/empresa/create", {
-        nombre: nombreEmpresa,
-        departamento: departamento,
-        web: paginaWeb,
-        id_rubro: parseInt(rubro, 10),
-        telefono: fonoEmpresa,
-        direccion: direccionEmpresa,
-        id_comuna: parseInt(comuna, 10),
-        id_estado_empresa: 1,
-      });
+      // 1. Verificar si la empresa ya existe
+      const empresasResponse = await clienteAxios.get("/empresa/getAll");
+      const empresas = empresasResponse.data.empresas;
+      const empresaExistente = empresas.find(
+        (empresa) =>
+          empresa.nombre.toLowerCase() === nombreEmpresa.toLowerCase()
+      );
 
-      // Obtén el ID de empresa creado
-      const id_empresa = empresaResponse.data.id_empresa;
-      console.log("ID de empresa:", id_empresa);
+      let id_empresa;
+
+      if (empresaExistente) {
+        // Empresa ya existe, usa el ID existente
+        id_empresa = empresaExistente.id_empresa;
+        console.log("ID de empresa existente:", id_empresa);
+      } else {
+        // Empresa no existe, crearla
+        const empresaResponse = await clienteAxios.post("/empresa/create", {
+          nombre: nombreEmpresa,
+          departamento: departamento,
+          web: paginaWeb,
+          id_rubro: parseInt(rubro, 10),
+          telefono: fonoEmpresa,
+          direccion: direccionEmpresa,
+          id_comuna: parseInt(comuna, 10),
+          id_estado_empresa: 1,
+        });
+
+        // Obtén el ID de empresa creado
+        id_empresa = empresaResponse.data.id_empresa;
+        console.log("ID de empresa creada:", id_empresa);
+      }
 
       // 2. Crear el supervisor
       const supervisorResponse = await clienteAxios.post("/supervisor/create", {
@@ -131,47 +147,44 @@ const FormularioInscripcion = () => {
       console.log("ID de supervisor:", id_supervisor);
 
       // 3. Crear la inscripción
-      const inscripcionResponse = await clienteAxios.post(
-        "/inscripcion/create",
-        {
-          id_modalidad: parseInt(modalidad, 10),
-          descripcion: areaDesarrollo,
-          objetivos: objetivosPractica,
-          actividades: actividadesDesarrollar,
-          fecha_inicio: fechaInicio,
-          fecha_fin: fechaTermino,
-          fecha_inscripcion_practica: fechaRecepcion,
-          id_empresa: parseInt(id_empresa, 10),
-          id_supervisor: parseInt(id_supervisor, 10),
-          lunes_manana1: horarioPractica.lunes.mañana1,
-          lunes_manana2: horarioPractica.lunes.mañana2,
-          lunes_tarde1: horarioPractica.lunes.tarde1,
-          lunes_tarde2: horarioPractica.lunes.tarde2,
-          martes_manana1: horarioPractica.martes.mañana1,
-          martes_manana2: horarioPractica.martes.mañana2,
-          martes_tarde1: horarioPractica.martes.tarde1,
-          martes_tarde2: horarioPractica.martes.tarde2,
-          miercoles_manana1: horarioPractica.miercoles.mañana1,
-          miercoles_manana2: horarioPractica.miercoles.mañana2,
-          miercoles_tarde1: horarioPractica.miercoles.tarde1,
-          miercoles_tarde2: horarioPractica.miercoles.tarde2,
-          jueves_manana1: horarioPractica.jueves.mañana1,
-          jueves_manana2: horarioPractica.jueves.mañana2,
-          jueves_tarde1: horarioPractica.jueves.tarde1,
-          jueves_tarde2: horarioPractica.jueves.tarde2,
-          viernes_manana1: horarioPractica.viernes.mañana1,
-          viernes_manana2: horarioPractica.viernes.mañana2,
-          viernes_tarde1: horarioPractica.viernes.tarde1,
-          viernes_tarde2: horarioPractica.viernes.tarde2,
-          sabado_manana1: horarioPractica.sabado.mañana1,
-          sabado_manana2: horarioPractica.sabado.mañana2,
-          sabado_tarde1: horarioPractica.sabado.tarde1,
-          sabado_tarde2: horarioPractica.sabado.tarde2,
-          id_estado_inscripcion: 4,
-          id_inscribe: parseInt(idInscribe, 10),
-          observaciones: "", // Puedes agregar observaciones si es necesario
-        }
-      );
+      await clienteAxios.post("/inscripcion/create", {
+        id_modalidad: parseInt(modalidad, 10),
+        descripcion: areaDesarrollo,
+        objetivos: objetivosPractica,
+        actividades: actividadesDesarrollar,
+        fecha_inicio: fechaInicio,
+        fecha_fin: fechaTermino,
+        fecha_inscripcion_practica: fechaRecepcion,
+        id_empresa: parseInt(id_empresa, 10),
+        id_supervisor: parseInt(id_supervisor, 10),
+        lunes_manana1: horarioPractica.lunes.mañana1,
+        lunes_manana2: horarioPractica.lunes.mañana2,
+        lunes_tarde1: horarioPractica.lunes.tarde1,
+        lunes_tarde2: horarioPractica.lunes.tarde2,
+        martes_manana1: horarioPractica.martes.mañana1,
+        martes_manana2: horarioPractica.martes.mañana2,
+        martes_tarde1: horarioPractica.martes.tarde1,
+        martes_tarde2: horarioPractica.martes.tarde2,
+        miercoles_manana1: horarioPractica.miercoles.mañana1,
+        miercoles_manana2: horarioPractica.miercoles.mañana2,
+        miercoles_tarde1: horarioPractica.miercoles.tarde1,
+        miercoles_tarde2: horarioPractica.miercoles.tarde2,
+        jueves_manana1: horarioPractica.jueves.mañana1,
+        jueves_manana2: horarioPractica.jueves.mañana2,
+        jueves_tarde1: horarioPractica.jueves.tarde1,
+        jueves_tarde2: horarioPractica.jueves.tarde2,
+        viernes_manana1: horarioPractica.viernes.mañana1,
+        viernes_manana2: horarioPractica.viernes.mañana2,
+        viernes_tarde1: horarioPractica.viernes.tarde1,
+        viernes_tarde2: horarioPractica.viernes.tarde2,
+        sabado_manana1: horarioPractica.sabado.mañana1,
+        sabado_manana2: horarioPractica.sabado.mañana2,
+        sabado_tarde1: horarioPractica.sabado.tarde1,
+        sabado_tarde2: horarioPractica.sabado.tarde2,
+        id_estado_inscripcion: 4,
+        id_inscribe: parseInt(idInscribe, 10),
+        observaciones: "", // Puedes agregar observaciones si es necesario
+      });
 
       Swal.fire({
         title: "Éxito",
@@ -188,7 +201,7 @@ const FormularioInscripcion = () => {
       console.error("Error al enviar el formulario:", error);
       Swal.fire({
         title: "Error",
-        text: "Ocurrió un error al crear la inscripción.\n Es posible que uno o mas campos sean incorrectos.",
+        text: "Ocurrió un error al crear la inscripción.\n Es posible que uno o más campos sean incorrectos.",
         icon: "error",
         confirmButtonText: "Aceptar",
         didOpen: () => {

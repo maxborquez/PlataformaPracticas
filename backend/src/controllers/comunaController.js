@@ -4,7 +4,15 @@ const prisma = new PrismaClient();
 
 const obtener_comunas = async (req, res) => {
   try {
-    const comuna = await prisma.comuna.findMany({});
+    const comuna = await prisma.comuna.findMany({
+      include: {
+        provincia: {
+          include: {
+            region: true,
+          },
+        },
+      },
+    });
 
     if (comuna.length == 0) {
       return res.status(200).json({
@@ -63,4 +71,10 @@ const getComunasByProvincia = async (req, res) => {
   }
 };
 
-module.exports = { obtener_comunas,getAllRegiones,getProvinciaByRegion,getComunasByProvincia };
+
+module.exports = {
+  obtener_comunas,
+  getAllRegiones,
+  getProvinciaByRegion,
+  getComunasByProvincia,
+};

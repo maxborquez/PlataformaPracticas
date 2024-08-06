@@ -129,4 +129,6 @@ routerEmpresa.post('/getByNombre', empresaController.getEmpresaByNombre);
 
 routerEmpresa.get('/getById/:id', empresaController.getEmpresaById);
 
+routerEmpresa.put('/aprobar/:id_empresa', empresaController.aprobarEmpresa);
+
 module.exports = routerEmpresa;

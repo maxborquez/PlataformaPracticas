@@ -105,4 +105,6 @@ routerSupervisor.delete(
   supervisorControllers.eliminar_supervisor
 );
 
+routerSupervisor.put('/aprobar/:id_supervisor', supervisorControllers.aprobarSupervisor);
+
 module.exports = routerSupervisor;

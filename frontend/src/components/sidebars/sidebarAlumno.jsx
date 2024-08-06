@@ -63,7 +63,7 @@ const SidebarAlumno = () => {
         />
       </ListItem>
 
-      <ListItem button onClick={() => navigate("/inscripcionpractica/${id_inscribe}")}>
+      <ListItem button onClick={() => navigate("/inscripcionpractica/${id_inscribe}/null")}>
         <ListItemText
           sx={{ textAlign: "center" }}
           primary="Inscribir práctica"

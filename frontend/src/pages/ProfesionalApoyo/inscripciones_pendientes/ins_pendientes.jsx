@@ -84,69 +84,71 @@ const InscripcionesPendientes = () => {
   const handleAprobarInscripcion = async (id_inscripcion_practica) => {
     try {
       // Primero, aprueba la inscripción
-      const responseAprobar = await clienteAxios.post(
-        "/inscripcion/updatestado",
-        {
-          id_inscripcion: id_inscripcion_practica,
-          id_estado_inscripcion: 2,
-        }
-      );
-
+      const responseAprobar = await clienteAxios.post("/inscripcion/updatestado", {
+        id_inscripcion: id_inscripcion_practica,
+        id_estado_inscripcion: 2,
+      });
+  
       if (responseAprobar.status !== 200) {
-        Swal.fire(
-          "Error",
-          "Hubo un problema al aprobar la inscripción",
-          "error"
-        );
+        Swal.fire("Error", "Hubo un problema al aprobar la inscripción", "error");
         return;
       }
-
+  
       // Luego, obtiene el id_inscribe
-      const responseObtenerInscribe = await clienteAxios.get(
-        `inscribe/obtener_inscribe/${id_inscripcion_practica}`
-      );
-
+      const responseObtenerInscribe = await clienteAxios.get(`inscribe/obtener_inscribe/${id_inscripcion_practica}`);
+  
       if (responseObtenerInscribe.status !== 200) {
-        Swal.fire(
-          "Error",
-          "Hubo un problema al obtener la inscripción asociada",
-          "error"
-        );
+        Swal.fire("Error", "Hubo un problema al obtener la inscripción asociada", "error");
         return;
       }
-
+  
       const id_inscribe = responseObtenerInscribe.data.inscribeId;
-
+  
       // Finalmente, actualiza el estado de práctica
-      const responseActualizarEstado = await clienteAxios.put(
-        `/inscribe/${id_inscribe}/2`
-      );
-
+      const responseActualizarEstado = await clienteAxios.put(`/inscribe/${id_inscribe}/2`);
+  
       if (responseActualizarEstado.status === 200) {
-        Swal.fire(
-          "Éxito",
-          "Inscripción aprobada y estado de práctica actualizado",
-          "success"
-        );
+        Swal.fire("Éxito", "Inscripción aprobada y estado de práctica actualizado", "success");
+  
+        // Llama a la ruta /inscripcion/show/:id_inscripcion
+        const responseShowInscripcion = await clienteAxios.get(`/inscripcion/show/${id_inscripcion_practica}`);
+  
+        if (responseShowInscripcion.status !== 200) {
+          Swal.fire("Error", "Hubo un problema al obtener la información de la inscripción", "error");
+          return;
+        }
+  
+        const { id_empresa, id_supervisor } = responseShowInscripcion.data.inscripcion;
+  
+        // Llama a la ruta /empresa/aprobar/:id_empresa
+        const responseAprobarEmpresa = await clienteAxios.put(`/empresa/aprobar/${id_empresa}`);
+  
+        if (responseAprobarEmpresa.status !== 200) {
+          Swal.fire("Error", "Hubo un problema al aprobar la empresa", "error");
+          return;
+        }
+  
+        // Llama a la ruta /supervisor/aprobar/:id_supervisor
+        const responseAprobarSupervisor = await clienteAxios.put(`/supervisor/aprobar/${id_supervisor}`);
+  
+        if (responseAprobarSupervisor.status !== 200) {
+          Swal.fire("Error", "Hubo un problema al aprobar el supervisor", "error");
+          return;
+        }
+  
         // Actualizar la tabla después del cambio
         const updatedResponse = await clienteAxios.get("/inscripcion/estado/1");
         setData(updatedResponse.data);
+  
       } else {
-        Swal.fire(
-          "Error",
-          "Hubo un problema al actualizar el estado de práctica",
-          "error"
-        );
+        Swal.fire("Error", "Hubo un problema al actualizar el estado de práctica", "error");
       }
     } catch (error) {
       console.error("Error handling inscripcion:", error);
-      Swal.fire(
-        "Error",
-        "Hubo un problema al procesar la inscripción",
-        "error"
-      );
+      Swal.fire("Error", "Hubo un problema al procesar la inscripción", "error");
     }
   };
+  
 
   const handleRechazarInscripcion = async (id_inscripcion_practica) => {
     try {

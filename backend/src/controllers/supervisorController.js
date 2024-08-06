@@ -188,10 +188,33 @@ const actualizar_supervisor = async (req, res) => {
   }
 };
 
+const aprobarSupervisor = async (req, res) => {
+  const { id_supervisor } = req.params;
+
+  try {
+    const supervisorActualizado = await prisma.supervisor.update({
+      where: { id_supervisor: parseInt(id_supervisor, 10) },
+      data: { id_estado_supervisor: 2 },
+    });
+
+    res.json({
+      message: 'Estado del supervisor actualizado correctamente',
+      supervisor: supervisorActualizado,
+    });
+  } catch (error) {
+    console.error('Error al actualizar el estado del supervisor:', error);
+    res.status(500).json({
+      message: 'Error al actualizar el estado del supervisor',
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   obtener_supervisor,
   obtener_supervisores,
   crear_supervisor,
   eliminar_supervisor,
   actualizar_supervisor,
+  aprobarSupervisor
 };

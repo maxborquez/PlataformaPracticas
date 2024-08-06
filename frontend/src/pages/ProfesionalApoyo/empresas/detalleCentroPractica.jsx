@@ -186,7 +186,7 @@ const DetalleCentroPractica = () => {
               }}
             >
               <Typography variant="h4" sx={{ textAlign: "center" }}>
-                Detalle Centro Practica{" "}
+                Detalle Centro Práctica{" "}
                 <Business style={{ marginLeft: "5px" }} />
               </Typography>
               <Button

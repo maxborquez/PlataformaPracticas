@@ -257,7 +257,7 @@ const Detalle = ({ id }) => {
                 <Tooltip title="Centro de práctica">
                   <BusinessIcon
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/detalleCentroPractica/${id}`)}
+                    onClick={() => navigate(`/detalleCentroPractica/${inscripcion.id_empresa}`)}
                   />
                 </Tooltip>
               </>

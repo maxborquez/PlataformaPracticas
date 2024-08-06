@@ -73,7 +73,7 @@ function App() {
               <Route path="/editar_bitacora/:id_bitacora" element={<EditarBitacora />} />
               <Route path="/crear_bitacora/:id_inscripcion_practica" element={<CrearBitacora />} />
               <Route path="/detalleoferta/:id" element={<DetalleOfertaPractica />}/>
-              <Route path="/inscripcionpractica/:id" element={<InscripcionPractica />}/>
+              <Route path="/inscripcionpractica/:id/:id_oferta" element={<InscripcionPractica />}/>
               <Route path="/modificarinscripcion/:id" element={<ModificarDatos />}/>
               <Route path="/archivo_inscripcion/:id" element={<ArchivoInscripcionPractica />} />
               <Route path="/informe/:id" element={<InformePractica />} />
